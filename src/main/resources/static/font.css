@@ -1,0 +1,36 @@
+/* 2020.03.27 kwb FontAwesome icon 적용 */
+
+@font-face
+{
+	font-family:'FontAwesome-Solid';
+	src:url('/webjars/font-awesome/5.12.0/webfonts/fa-solid-900.eot'); 
+	src:url('/webjars/font-awesome/5.12.0/webfonts/fa-solid-900.woff') format('woff'),
+		url('/webjars/font-awesome/5.12.0/webfonts/fa-solid-900.ttf') format('truetype'),
+		url('/webjars/font-awesome/5.12.0/webfonts/fa-solid-900.svg') format('svg');
+}
+/* @font-face
+{
+	font-family:'FontAwesome-Brand';
+	src:url('/webjars/font-awesome/5.12.0/webfonts/fa-brands-400.eot'); 
+	src:url('/webjars/font-awesome/5.12.0/webfonts/fa-brands-400.woff') format('woff'),
+		url('/webjars/font-awesome/5.12.0/webfonts/fa-brands-400.ttf') format('truetype'),
+		url('/webjars/font-awesome/5.12.0/webfonts/fa-brands-400.svg') format('svg');
+} */
+
+.fas{
+	font-family: "FontAwesome-Solid";
+	font-weight: 900;
+	margin-right: 6px;
+}
+
+.far{
+	font-family: "FontAwesome-Solid";
+	font-weight: 900;
+	margin-right: 6px;
+}
+
+/* .fab{
+	font-family: "FontAwesome-Brand";
+	font-weight: 400;
+	margin-right: 6px;
+} */

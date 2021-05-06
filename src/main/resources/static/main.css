@@ -1,0 +1,76 @@
+[role="main"] {
+  padding-top: 133px; /* Space for fixed navbar */
+}
+@media (min-width: 768px) {
+  [role="main"] {
+    padding-top: 48px; /* Space for fixed navbar */
+  }
+}
+
+
+.form-control-dark {
+  color: #fff;
+  background-color: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .1);
+}
+.form-control-dark:focus {
+  border-color: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+
+/* 로딩 화면 */
+
+.backgroundLoading{ /* 배경화면 전체를 어둡게 처리 */
+	display: none;
+	position: fixed;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background: rgba(0,0,0,0.2); /*not in ie */
+	filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000');    /* ie */
+	z-index: 101;	/* 2020.04.02 kwb 로딩화면이 사이드바를 가리도록 처리 (navigation: 1030 , sidebar: 100) */
+}
+.iconLoading{ /* 로딩 이미지 위치 세팅 */
+	position: fixed;
+	top:50%;
+	left:50%;
+	z-index: 102;	/* 2020.04.02 kwb 로딩화면이 사이드바를 가리도록 처리 (navigation: 1030 , sidebar: 100) */
+}
+
+
+/* 2020.04.01 kwb 파일선택  */
+
+.btnSelectFile input[type="file"]{	/* 선택된 파일명이 붙는 input창이 보이지 않도록 처리 */
+	position: absolute; 
+	overflow: hidden; 
+	width: 1px; 
+	height: 1px; 
+	padding: 0; 
+	margin: -1px; 
+	clip:rect(0,0,0,0); 
+	border: 0;
+}
+.btnSelectFile label {	/* 파일선택 버튼 */
+	display: inline-block; 
+	width: 90px;
+	height: calc(1.5em + 0.75rem + 2px);
+	padding: .5em .75em; 
+	border-radius: .25em;
+	background-color: #ff9b37; 
+	color: #ffffff;
+	font-size: inherit;
+	text-align: center;
+	vertical-align: middle; 
+	line-height: normal;
+	cursor: pointer;
+}
+
+
+/* 2020.04.10 kwb 경고 문구  */
+.alertText {
+	display: none;
+	color: red; 
+	font-size: 0.65rem;
+}

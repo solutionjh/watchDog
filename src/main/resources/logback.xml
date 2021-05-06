@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+    <property name="LOG_HOME" value="logs" />
+
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.sss} [%-5level] [%logger:%method:%line] %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/server.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Daily rollover  -->
+            <fileNamePattern>${LOG_HOME}/server.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!-- keep 30 days' worth of history capped at 10GB total size  --> 
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.sss} [%thread] %logger [%method:%line] [%-5level] %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- To override the debug log level from the command line, use the VM option "-Dlogback.level=trace" -->
+    <logger name="com.nice.datafileanomalydetection" level="${logback.level.com.nice:-info}">
+      <!-- <appender-ref ref="consoleAppender"/>  -->
+    </logger>
+
+    <logger name="org.springframework" level="INFO">
+      <!-- <appender-ref ref="consoleAppender"/>  -->
+    </logger>
+
+    <root level="${logback.level:-INFO}">
+        <appender-ref ref="consoleAppender"/>
+        <appender-ref ref="fileAppender"/>
+    </root>
+
+</configuration>
