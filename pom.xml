@@ -65,7 +65,51 @@
             <artifactId>bootstrap-table</artifactId>
             <version>1.14.2</version>
         </dependency>
-
+		
+		<!-- Falcon -->
+		<dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>5.0.0</version>
+        </dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>anchor-js</artifactId>
+		    <version>4.0.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>is_js</artifactId>
+		    <version>0.9.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>echarts</artifactId>
+		    <version>4.8.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>progressbar.js</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>lodash</artifactId>
+		    <version>4.17.21</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>list.js</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>overlayscrollbars</artifactId>
+		    <version>1.13.1</version>
+		</dependency>
+		<!-- falcon-end -->
+		
+		
         <!-- Bootstrap에서 제공하는 dropbox를 사용하기 위한 js -->
         <!-- https://mvnrepository.com/artifact/org.webjars/popper.js -->
         <dependency>
