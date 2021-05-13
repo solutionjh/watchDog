@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	    <nav th:fragment="navFragment" class="navbar navbar-light navbar-vertical navbar-expand-xl">
+          <script>
+            var navbarStyle = localStorage.getItem("navbarStyle");
+            if (navbarStyle && navbarStyle !== 'transparent') {
+              document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
+            }
+          </script>
+          <div class="d-flex align-items-center">
+            <div class="toggle-icon-wrapper">
+
+              <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-bs-original-title="Toggle Navigation" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+
+            </div><a class="navbar-brand" href="../index.html">
+              <div class="d-flex align-items-center py-3">
+              	<span class="font-sans-serif">WatchDog</span>
+              </div>
+            </a>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
+            <div class="navbar-vertical-content scrollbar">
+              <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
+              
+                <li class="nav-item">
+                  <div class="row navbar-vertical-label-wrapper mb-2">
+                    <div class="col-auto navbar-vertical-label">Setting
+                    </div>
+                    <div class="col ps-0">
+                      <hr class="mb-0 navbar-vertical-divider">
+                    </div>
+                  </div>
+                  
+                   <a class="nav-link" href="/member/memberList" role="button">
+                    <div class="d-flex align-items-center">
+                    	<span class="nav-link-icon">
+                    		<svg class="svg-inline--fa fa-user fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
+                    	</span>
+                    	<span class="nav-link-text ps-1">사용자 관리</span>
+                    </div>
+                  </a>
+                  
+                   <a class="nav-link" href="/member/viewAuth" role="button">
+                    <div class="d-flex align-items-center">
+                    	<span class="nav-link-icon">
+                    		<svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
+                    	</span>
+                    	<span class="nav-link-text ps-1">화면권한 관리</span>
+                    </div>
+                  </a>
+                  
+                </li>
+                
+                <li class="nav-item">
+                  <!-- label-->
+                  <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
+                    <div class="col-auto navbar-vertical-label"> WatchDog
+                    </div>
+                    <div class="col ps-0">
+                      <hr class="mb-0 navbar-vertical-divider">
+                    </div>
+                  </div>
+                  <a class="nav-link" href="/calendar" role="button">
+                    <div class="d-flex align-items-center"><span class="nav-link-icon"><svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path></svg>
+                    </span><span class="nav-link-text ps-1">수행현황</span>
+                    </div>
+                  </a>
+                  <a class="nav-link dropdown-indicator" href="#result" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="result">
+                    <div class="d-flex align-items-center">
+                    	<span class="nav-link-icon">
+                    	<svg class="svg-inline--fa fa-file-alt fa-w-12" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" data-fa-i2svg=""><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm64 236c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-64c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zm0-72v8c0 6.6-5.4 12-12 12H108c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zm96-114.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path></svg>
+                    	</span>
+                    	<span class="nav-link-text ps-1">Onlie/Batch 결과</span>
+                    </div>
+                  </a>
+                  <!-- result inner pages-->
+                  <ul class="nav collapse show" id="result">
+                    <li class="nav-item"><a class="nav-link" href="/result/dashboard">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">대시보드</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/result/fileDetectHistory">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">파일 감지 이력</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/result/itemRateOfChange">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">항목 변화율</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/result/itemRateOfChangeHistory">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">항목 변화율 이력</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/result/compositionRate">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">구성비 조회</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/result/dataReport">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 검증 보고서</span>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                  <a class="nav-link dropdown-indicator" href="#study" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="study">
+                    <div class="d-flex align-items-center">
+                    	<span class="nav-link-icon">
+                    	<svg class="svg-inline--fa fa-share-alt fa-w-16" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 480H48c-26.5 0-48-21.5-48-48V80c0-26.5 21.5-48 48-48h352c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zM238.1 177.9L102.4 313.6l-6.3 57.1c-.8 7.6 5.6 14.1 13.3 13.3l57.1-6.3L302.2 242c2.3-2.3 2.3-6.1 0-8.5L246.7 178c-2.5-2.4-6.3-2.4-8.6-.1zM345 165.1L314.9 135c-9.4-9.4-24.6-9.4-33.9 0l-23.1 23.1c-2.3 2.3-2.3 6.1 0 8.5l55.5 55.5c2.3 2.3 6.1 2.3 8.5 0L345 199c9.3-9.3 9.3-24.5 0-33.9z"></path></svg>
+                    	</span>
+                    	<span class="nav-link-text ps-1">이상감지 학습</span>
+                    </div>
+                  </a>
+                  <!-- study inner pages-->
+                  <ul class="nav collapse show" id="study">
+                    <li class="nav-item"><a class="nav-link" href="/study/layout">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">레이아웃 및 이상감지 관리</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/study/fileFormatEdit">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">파일 포맷 변경</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/study/baseInfoCreate">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">모형개발 및 기준정보 생성</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/study/detectResultDelete">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">감지결과 삭제</span>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                  
+                  <a class="nav-link dropdown-indicator" href="#execute" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="execute">
+                    <div class="d-flex align-items-center">
+                    	<span class="nav-link-icon">
+                    	<svg class="svg-inline--fa fa-share-alt fa-w-16" aria-hidden="true" focusable="false" data-prefix="far" data-icon="play-circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg=""><path fill="currentColor" d="M371.7 238l-176-107c-15.8-8.8-35.7 2.5-35.7 21v208c0 18.4 19.8 29.8 35.7 21l176-101c16.4-9.1 16.4-32.8 0-42zM504 256C504 119 393 8 256 8S8 119 8 256s111 248 248 248 248-111 248-248zm-448 0c0-110.5 89.5-200 200-200s200 89.5 200 200-89.5 200-200 200S56 366.5 56 256z"></path></svg>
+                    	</span>
+                    	<span class="nav-link-text ps-1">이상감지 실행</span>
+                    </div>
+                  </a>
+                  <!-- execute inner pages-->
+                  <ul class="nav collapse show" id="execute">
+                    <li class="nav-item"><a class="nav-link" href="/execute/dataDetect">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 이상감지</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/execute/dataDetectMany">
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 이상감지(복수)</span>
+                        </div>
+                      </a>
+                      <!-- more inner pages-->
+                    </li>
+                  </ul>
+                </li>
+                
+              </ul>
+            </div>
+          </div>
+        </nav>
+</html>

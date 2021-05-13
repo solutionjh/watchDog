@@ -6,8 +6,27 @@
     <th:block th:replace="fragments/config :: configFragment"></th:block>
 </head>	
 	<body>
-		<th:block th:replace="fragments/header :: headerFragment"></th:block>
-		<th:block layout:fragment="content"></th:block>
-		<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+		<main class="main" id="top">
+			<div class="container" data-layout="container">
+			<script>
+	          var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+	          if (isFluid) {
+	            var container = document.querySelector('[data-layout]');
+	            container.classList.remove('container');
+	            container.classList.add('container-fluid');
+	          }
+	        </script>
+				<th:block th:replace="fragments/nav :: navFragment"></th:block>
+				
+				<div class="content">
+					<th:block th:replace="fragments/header :: headerFragment"></th:block>
+					<th:block layout:fragment="content"></th:block>
+					<th:block th:replace="fragments/footer :: footerFragment"></th:block>
+				</div>
+				
+				
+				<th:block th:replace="fragments/modal :: modalFragment"></th:block>
+			</div>
+		</main>
 	</body>
 </html>
