@@ -55,10 +55,12 @@
 			</tbody>
 		</table>
 		<div class="container">[[#{err.auth.001}]]</div>
-		<div class="container">[[${@environment.getProperty('server.servlet.session.timeout')}]]
+		<div class="container">[[${@environment.getProperty('session.timeout')}]]
 		</div>
-		<div class="container">[[${session.username}]]</div>
-		<div class="container">[[${param.type}]]</div>
+		<div class="container">[[${session.LOGIN_INFO.name}]]</div>		
+		<div class="container">[[${#locale}]]</div>		
+		<a th:href="@{http://localhost:8777/locale/ko}"> 1111</a>
+		<a th:href="@{http://localhost:8777/locale/en}"> 222</a>
 		<!-- param -->
 		<!-- [[__${userId}__]] PathVariable -->
 
@@ -69,7 +71,6 @@
 			<script type="text/javascript" >
 			$(document).ready(
 					function() {
-						alert(2)
 						var table = $('#example').DataTable({
 							lengthChange : false,
 							buttons : [ 'copy', 'excel', 'csv', 'pdf', 'colvis' ]
