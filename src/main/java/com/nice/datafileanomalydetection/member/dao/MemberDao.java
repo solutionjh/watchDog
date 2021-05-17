@@ -9,12 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.nice.datafileanomalydetection.member.model.Member;
+import com.nice.datafileanomalydetection.member.model.MemberInfo;
+import com.nice.datafileanomalydetection.predict.model.PredictBatchInfo;
 import com.nice.datafileanomalydetection.role.model.Role;
 
 @Repository
@@ -30,7 +33,6 @@ public class MemberDao {
     JdbcTemplate jdbcTemplate;
 
     public Member getMember (String memberId) {
-
         StringBuilder selectSql = new StringBuilder();
         selectSql.append("SELECT * FROM MEMBER \n")
                 .append(" WHERE MEMBER_ID = :memberId");
@@ -45,6 +47,44 @@ public class MemberDao {
         
         return member;
     }
+    
+    public void insertMember (MemberInfo memberInfo) {
+        StringBuilder insertSql = new StringBuilder();
+        insertSql.append("INSERT INTO MEMBER (MEMBER_ID, PASSWORD, NAME, ROLE_TYPE) \n")
+        		 .append("VALUES (:memberId, :password, :name, :roleType)");
+        SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(memberInfo);
+        this.namedParameterJdbcTemplate.update(insertSql.toString(), namedParameters);       
+    }
+    
+    public void updateMember (MemberInfo memberInfo) {    	    	
+    	StringBuilder updateSql = new StringBuilder();
+    	updateSql.append("UPDATE MEMBER  \n")
+		    	 .append("SET NAME = :name \n")
+		    	 .append("   ,ROLE_TYPE = :roleType \n")
+		         .append("WHERE MEMBER_ID  = :memberId");
+    			 
+    	SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(memberInfo);
+    	this.namedParameterJdbcTemplate.update(updateSql.toString(), namedParameters);    	
+    }
+    
+    public void deleteMember (String memberId) {    	    	
+    	StringBuilder deleteSql = new StringBuilder();
+    	deleteSql.append("DELETE FROM MEMBER  \n")
+    	.append("WHERE MEMBER_ID  = :memberId");    	
+    	SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);
+        this.namedParameterJdbcTemplate.update(deleteSql.toString(), namedParameters);   	
+    }
+    
+    public void updatePassword (String memberId, String password) {    	    	
+    	StringBuilder updateSql = new StringBuilder();
+    	updateSql.append("UPDATE MEMBER  \n")
+		    	 .append("SET PASSWORD = :password \n")
+		         .append("WHERE MEMBER_ID  = :memberId");
+    			 
+    	SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId).addValue("password", password);
+    	this.namedParameterJdbcTemplate.update(updateSql.toString(), namedParameters);    	
+    }
+        
     
     private static final class MemberMapper implements RowMapper<Member> {
         public Member mapRow (ResultSet rs, int rowNum) throws SQLException {

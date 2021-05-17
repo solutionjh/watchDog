@@ -39,10 +39,13 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 //.groupName("수행")
                 .select()
+//                .apis(RequestHandlerSelectors.any())
+//                .paths(PathSelectors.ant("/anomaly/**"))
+//                .build()
+//                .apiInfo(metadata())
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/anomaly/**"))
+                .paths(PathSelectors.any())
                 .build()
-                .apiInfo(metadata())
                 ;
     }
 }

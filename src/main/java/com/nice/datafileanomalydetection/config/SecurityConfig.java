@@ -49,13 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(LoginConstant.SCHEMA,LoginConstant.ASSETS);
+		web.ignoring().antMatchers(LoginConstant.SCHEMA,LoginConstant.ASSETS,LoginConstant.WEBJARS);
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		
+		http.csrf().disable(); // 임시
 		setAntMatchers(http);		 
 		
 		http.sessionManagement()
@@ -79,6 +79,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.accessDeniedPage(LoginConstant.ACCESS_DENIED);
 		
 		http.rememberMe()
+		  .userDetailsService(memberService)
+		  .authenticationSuccessHandler(authSuccessHandler)
 		  .key(LoginConstant.REMEMBER_KEY) 
 		  .tokenRepository(persistentTokenRepository()) 
 		  .tokenValiditySeconds(LoginConstant.REMEMBER_SECOND); 
@@ -136,15 +138,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	});    			
     	 http.authorizeRequests()
          .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE).permitAll()  
+         .antMatchers("/member/**").permitAll()  
          .anyRequest().authenticated()
-         .and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
+         //.and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
          .and()
          .headers().frameOptions().sameOrigin();        
       }
-    
-    // 비밀번호 생성 ex)
-//    public static void main(String[] aa) {
-//    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//       System.out.println(encoder.encode("1234"));
-//    }
 }

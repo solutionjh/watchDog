@@ -68,10 +68,10 @@
 		
 		<!-- Falcon -->
 		<dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>5.0.0</version>
-        </dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>5.0.0-beta3</version>
+		</dependency>
 		<dependency>
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>anchor-js</artifactId>

@@ -26,7 +26,7 @@ public class ErrorPageController implements ErrorController  {
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
 				return VIEW_PATH_404;
 			}
-			if (statusCode == HttpStatus.FORBIDDEN.value()) {
+			if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
 				return VIEW_PATH_500;
 			}
 		}
@@ -35,6 +35,6 @@ public class ErrorPageController implements ErrorController  {
 
 	@Override
 	public String getErrorPath() {
-		return null;
+		return "/error";
 	}
 }

@@ -12,7 +12,7 @@
  -->
 
 </head>
-	<div layout:fragment="content">
+	<div layout:fragment="content" >
 		<table id="example"
 			class="table table-striped table-bordered dt-responsive nowrap"
 			style="width: 100%">
@@ -54,7 +54,9 @@
 				</tr>				
 			</tbody>
 		</table>
-		<div class="container">[[#{err.auth.001}]]</div>
+		
+		<div class="container" th:with="sessionName = ${session.LOGIN_INFO.name}"></div>
+		<div class="container">[[#{err.login.001}]]</div>
 		<div class="container">[[${@environment.getProperty('session.timeout')}]]
 		</div>
 		<div class="container">[[${session.LOGIN_INFO.name}]]</div>		

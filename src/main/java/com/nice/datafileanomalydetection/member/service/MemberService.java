@@ -13,10 +13,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nice.datafileanomalydetection.member.dao.MemberDao;
 import com.nice.datafileanomalydetection.member.model.Member;
+import com.nice.datafileanomalydetection.member.model.MemberInfo;
 import com.nice.datafileanomalydetection.message.ReloadMessageSource;
 
 @Service
@@ -30,6 +32,45 @@ public class MemberService implements UserDetailsService {
     
     @Autowired
 	private ReloadMessageSource message;
+    
+    
+    public String insertMember (MemberInfo memberInfo) throws Exception {    	
+    	Member member = memberDao.getMember(memberInfo.getMemberId());
+    	if(member != null) {
+    		throw new Exception(message.getMessage("aleady.exists.id"));
+    	}
+    	memberDao.insertMember(memberInfo);    	
+        return message.getMessage("db.success.insert");
+    }    
+    
+    public String updateMember (MemberInfo memberInfo) throws Exception {    	
+    	Member member = memberDao.getMember(memberInfo.getMemberId());
+    	if(member == null) {
+    		throw new Exception(message.getMessage("aleady.not.exists.id"));
+    	}
+    	memberDao.updateMember(memberInfo);    	
+    	return message.getMessage("db.success.update");
+    }    
+    
+    public String deleteMember (String memberId) throws Exception {    	
+    	Member member = memberDao.getMember(memberId);
+    	if(member == null) {
+    		throw new Exception(message.getMessage("aleady.not.exists.id"));
+    	}
+    	memberDao.deleteMember(memberId);    	
+    	return message.getMessage("db.success.delete");
+    }    
+    
+    public String updatePassword (String memberId, String password) throws Exception {    	
+    	Member member = memberDao.getMember(memberId);
+    	if(member == null) {
+    		throw new Exception(message.getMessage("aleady.not.exists.id"));
+    	}
+    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    	String newPassword = encoder.encode(password);
+    	memberDao.updatePassword(memberId, newPassword);    	
+    	return message.getMessage("db.success.update.password");
+    }    
 
     @Override
 	public UserDetails loadUserByUsername(String memberId)throws UsernameNotFoundException{
@@ -38,7 +79,6 @@ public class MemberService implements UserDetailsService {
 		if(member == null) {
 			throw new InternalAuthenticationServiceException(message.getMessage("err.login.001"));
 		}
-		
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		return new User(member.getMemberId(), member.getPassword(), authorities);
 	}

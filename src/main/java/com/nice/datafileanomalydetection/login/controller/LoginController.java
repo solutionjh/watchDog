@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -29,13 +30,8 @@ public class LoginController {
 		return "content/login";
 	}
 
-	@GetMapping(value = "/loginSuccess")
-	public String login(HttpServletRequest request , Authentication auth) throws Exception {		
-		loginService.loginSession(request,auth);
-		return "content/home";
-	}
 	@PostMapping(value = "/loginFail")
-	public String test(HttpServletRequest request ) {
+	public String loginFail(HttpServletRequest request ) {
 		return "content/login";
 	}
 	@PostMapping(value = "/accessDenied")
