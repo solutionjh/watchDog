@@ -5,8 +5,11 @@ import java.lang.invoke.MethodHandles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import com.nice.datafileanomalydetection.util.SessionUtils;
 
 import io.swagger.annotations.Api;
 
@@ -18,24 +21,29 @@ public class ViewController {
 	
 	
 	@GetMapping(value = "/study/{html}")
-	public String studyView(@PathVariable("html") String html) {
+	public String studyView(@PathVariable("html") String html, Model model) {
+		model.addAttribute("menu", html);
 		return "content/study/" + html;
 	}
 	@GetMapping(value = "result/{html}")
-	public String resultView(@PathVariable("html") String html) {
+	public String resultView(@PathVariable("html") String html, Model model) {
+		model.addAttribute("menu", html);
 		return "content/result/" + html;
 	}
 	@GetMapping(value = "/member/{html}")
-	public String memberView(@PathVariable("html") String html) {
+	public String memberView(@PathVariable("html") String html, Model model) {
+		model.addAttribute("menu", html);
 		return "content/member/" + html;
 	}
 	@GetMapping(value = "/execute/{html}")
-	public String executeView(@PathVariable("html") String html) {
+	public String executeView(@PathVariable("html") String html, Model model) {
+		model.addAttribute("menu", html);
 		return "content/execute/" + html;
 	}
 	
-	@GetMapping(value = "/calendar")
-	public String calendarView() {
+	@GetMapping(value = {"/", "/calendar"})
+	public String calendarView(Model model) {
+		model.addAttribute("menu", "calendar");
 		return "content/calendar";
 	}
 

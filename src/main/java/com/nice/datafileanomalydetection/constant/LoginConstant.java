@@ -5,6 +5,7 @@ public class LoginConstant {
 	//ignore resources
 	public static String SCHEMA = "/schema/**";
 	public static String ASSETS = "/assets/**";
+	public static String WEBJARS = "/webjars/**";
 	
 	// login
 	public static String LOGIN = "/login";
@@ -14,7 +15,7 @@ public class LoginConstant {
 	public static String PASSWORD = "password";
 	public static String LOGOUT = "/logout";
 	public static String ACCESS_DENIED = "/accessDenied";	
-	public static String LOGIN_SUCCESS = "/loginSuccess";
+	public static String LOGIN_SUCCESS = "/";
 	public static String LOGIN_FAIL = "/loginFail";
 	
 	// etc

@@ -27,6 +27,7 @@ public class AuthFailurHandler implements AuthenticationFailureHandler  {
             throws IOException, ServletException {		
 		
 		req.setAttribute("error", exception.getMessage());
+		req.setAttribute("memberId", req.getParameter("memberId"));
 		
 		if(exception instanceof BadCredentialsException) {			
 			req.setAttribute("error", message.getMessage("err.login.002"));

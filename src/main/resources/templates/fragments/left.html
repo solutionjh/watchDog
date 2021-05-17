@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	    <nav th:fragment="navFragment" class="navbar navbar-light navbar-vertical navbar-expand-xl">
-          <script>
+	    <div th:fragment="leftFragment" class="navbar navbar-light navbar-vertical navbar-expand-xl">
+           <script>
             var navbarStyle = localStorage.getItem("navbarStyle");
             if (navbarStyle && navbarStyle !== 'transparent') {
               document.querySelector('.navbar-vertical').classList.add(`navbar-${navbarStyle}`);
             }
           </script>
-          <div class="d-flex align-items-center">
-            <div class="toggle-icon-wrapper">
+        <div class="d-flex align-items-center">
+		<div class="toggle-icon-wrapper">
 
-              <button class="btn navbar-toggler-humburger-icon navbar-vertical-toggle" data-bs-toggle="tooltip" data-bs-placement="left" title="" data-bs-original-title="Toggle Navigation" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+			<button
+				class="btn navbar-toggler-humburger-icon navbar-vertical-toggle"
+				data-bs-toggle="tooltip" data-bs-placement="left" title=""
+				data-bs-original-title="Toggle Navigation"
+				aria-label="Toggle Navigation">
+				<span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
+			</button>
 
-            </div><a class="navbar-brand" href="../index.html">
-              <div class="d-flex align-items-center py-3">
-              	<span class="font-sans-serif">WatchDog</span>
-              </div>
-            </a>
-          </div>
+		</div>
+		<a class="navbar-brand" th:href="@{/}">
+			<div class="d-flex align-items-center py-3">
+				<img class="me-2" src="/assets/img/illustrations/falcon.png"
+					alt="" width="40" /><span class="font-sans-serif">NICE</span>
+			</div>
+		</a>
+	</div>    
+          
           <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
             <div class="navbar-vertical-content scrollbar">
               <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
@@ -31,7 +40,7 @@
                     </div>
                   </div>
                   
-                   <a class="nav-link" href="/member/memberList" role="button">
+                   <a class="nav-link" th:classappend="${menu} == memberList ? active" th:href="@{/member/memberList}" role="button">
                     <div class="d-flex align-items-center">
                     	<span class="nav-link-icon">
                     		<svg class="svg-inline--fa fa-user fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="user" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-41.6c0-74.2-60.2-134.4-134.4-134.4z"></path></svg>
@@ -40,7 +49,7 @@
                     </div>
                   </a>
                   
-                   <a class="nav-link" href="/member/viewAuth" role="button">
+                   <a class="nav-link" th:classappend="${menu} == viewAuth ? active" th:href="@{/member/viewAuth}"  role="button">
                     <div class="d-flex align-items-center">
                     	<span class="nav-link-icon">
                     		<svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
@@ -60,7 +69,7 @@
                       <hr class="mb-0 navbar-vertical-divider">
                     </div>
                   </div>
-                  <a class="nav-link" href="/calendar" role="button">
+                  <a class="nav-link" th:classappend="${menu} == calendar ? active" th:href="@{/calendar}"  role="button">
                     <div class="d-flex align-items-center"><span class="nav-link-icon"><svg class="svg-inline--fa fa-calendar-alt fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="calendar-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"></path></svg>
                     </span><span class="nav-link-text ps-1">수행현황</span>
                     </div>
@@ -75,32 +84,32 @@
                   </a>
                   <!-- result inner pages-->
                   <ul class="nav collapse show" id="result">
-                    <li class="nav-item"><a class="nav-link" href="/result/dashboard">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == dashboard ? active" th:href="@{/result/dashboard}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">대시보드</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/result/fileDetectHistory">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == fileDetectHistory ? active" th:href="@{/result/fileDetectHistory}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">파일 감지 이력</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/result/itemRateOfChange">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == itemRateOfChange ? active" th:href="@{/result/itemRateOfChange}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">항목 변화율</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/result/itemRateOfChangeHistory">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == itemRateOfChangeHistory ? active" th:href="@{/result/itemRateOfChangeHistory}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">항목 변화율 이력</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/result/compositionRate">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == compositionRate ? active" th:href="@{/result/compositionRate}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">구성비 조회</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/result/dataReport">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == dataReport ? active" th:href="@{/result/dataReport}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 검증 보고서</span>
                         </div>
                       </a>
@@ -116,22 +125,22 @@
                   </a>
                   <!-- study inner pages-->
                   <ul class="nav collapse show" id="study">
-                    <li class="nav-item"><a class="nav-link" href="/study/layout">
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == layout ? active" th:href="@{/study/layout}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">레이아웃 및 이상감지 관리</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/study/fileFormatEdit">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == fileFormatEdit ? active" th:href="@{/study/fileFormatEdit}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">파일 포맷 변경</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/study/baseInfoCreate">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoCreate ? active" th:href="@{/study/baseInfoCreate}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">모형개발 및 기준정보 생성</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/study/detectResultDelete">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == detectResultDelete ? active" th:href="@{/study/detectResultDelete}"  >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">감지결과 삭제</span>
                         </div>
                       </a>
@@ -148,13 +157,13 @@
                   </a>
                   <!-- execute inner pages-->
                   <ul class="nav collapse show" id="execute">
-                    <li class="nav-item"><a class="nav-link" href="/execute/dataDetect">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetect ? active" th:href="@{/execute/dataDetect}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 이상감지</span>
                         </div>
                       </a>
                       <!-- more inner pages-->
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="/execute/dataDetectMany">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetectMany ? active" th:href="@{/execute/dataDetectMany}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">데이터 이상감지(복수)</span>
                         </div>
                       </a>
@@ -166,5 +175,5 @@
               </ul>
             </div>
           </div>
-        </nav>
+        </div>
 </html>
