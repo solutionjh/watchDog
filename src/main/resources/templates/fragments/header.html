@@ -10,19 +10,71 @@
 			aria-label="Toggle Navigation">
 			<span class="navbar-toggle-icon"><span class="toggle-line"></span></span>
 		</button>
-		<a class="navbar-brand me-1 me-sm-3" href="../index.html">
+		<a class="navbar-brand me-1 me-sm-3" th:href="@{/}">
 			<div class="d-flex align-items-center">
 				<img class="me-2" src="/assets/img/illustrations/falcon.png" alt=""
 					width="40"><span class="font-sans-serif">NICE</span>
 			</div>
 		</a>
 		<ul
-			class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-			<div class="col-12 d-flex justify-content-end align-items-center">
-				<span class="px-3"><span class="px-1">[[${session.LOGIN_INFO.name}]]</span>
-					님 환영합니다.</span> <a th:href="@{/logout}"><button
-						class="btn btn-falcon-default btn-sm px-3 ms-1" type="button">로그아웃</button></a>
-			</div>
+			class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center font-sans-serif">
+			<li>
+				<div class="col-12 d-flex justify-content-end align-items-center">
+					<span class="px-3 py-3"><span class="text-dark">[[${session.LOGIN_INFO.name}]]</span>님
+						환영합니다.</span> <a th:href="@{/logout}">
+						<button class="btn btn-falcon-default btn-sm px-3 ms-1"
+							type="button">로그아웃</button>
+					</a>
+				</div>
+			</li>
+			<li class="nav-item dropdown">
+			<!-- icon-indicator 알림 처리-->
+			<a
+				class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator"
+				id="navbarDropdownNotification" href="#" role="button"
+				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="fas fa-bell" data-fa-transform="shrink-6"
+					style="font-size: 33px;"> </span>
+			</a>
+				<div class="dropdown-menu dropdown-menu-end dropdown-menu-card"
+					aria-labelledby="navbarDropdownNotification">
+					<div class="card card-notification shadow-none">
+						<div class="card-header">
+							<div class="row justify-content-between align-items-center">
+								<div class="col-auto">
+									<h6 class="card-header-title mb-0">완료내역</h6>
+								</div>
+							</div>
+						</div>
+						<div class="scrollbar-overlay" style="max-height: 19rem">
+							<div class="list-group list-group-flush fw-normal fs--1">
+								<div class="list-group-item">
+									<a class="notification notification-flush notification-unread"
+										href="#!">
+										<div class="notification-avatar"></div>
+										<div class="notification-body">
+											<p class="mb-1">
+												<strong>완료시간</strong>
+												완료내용완료내용완료내용완료내용완료내용완료내용완료내용완료내용완료내용완료내용
+											</p>
+										</div>
+									</a>
+								</div>
+								<div class="list-group-item">
+									<a class="notification notification-flush notification-unread"
+										href="#!">
+										<div class="notification-avatar"></div>
+										<div class="notification-body">
+											<p class="mb-1">
+												<strong>완료시간</strong> 완료내용
+											</p>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div></li>
 		</ul>
 	</nav>
 </header>

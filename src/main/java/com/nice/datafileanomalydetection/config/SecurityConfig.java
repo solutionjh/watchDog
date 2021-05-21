@@ -55,7 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.csrf().disable(); // 임시
+		//http.csrf().disable(); //임시
+		
 		setAntMatchers(http);		 
 		
 		http.sessionManagement()
@@ -137,10 +138,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			}
     	});    			
     	 http.authorizeRequests()
+    	// .antMatchers("*/**").permitAll() //임시
          .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE).permitAll()  
-         .antMatchers("/member/**").permitAll()  
          .anyRequest().authenticated()
-         //.and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
+         .and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
          .and()
          .headers().frameOptions().sameOrigin();        
       }
