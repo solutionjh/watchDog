@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.nice.datafileanomalydetection.util.SessionUtils;
 
@@ -25,16 +27,25 @@ public class ViewController {
 		model.addAttribute("menu", html);
 		return "content/study/" + html;
 	}
-	@GetMapping(value = "result/{html}")
+	@GetMapping(value = "/result/{html}")
 	public String resultView(@PathVariable("html") String html, Model model) {
 		model.addAttribute("menu", html);
 		return "content/result/" + html;
 	}
+	
 	@GetMapping(value = "/member/{html}")
 	public String memberView(@PathVariable("html") String html, Model model) {
 		model.addAttribute("menu", html);
 		return "content/member/" + html;
 	}
+//	@GetMapping(value = "/member/memberList")
+//	public String memberView() {
+//		return "content/member/memberList";
+//	}
+//	@GetMapping(value = "/member/viewAuth")
+//	public String viewAuth() {
+//		return "content/member/viewAuth";
+//	}
 	@GetMapping(value = "/execute/{html}")
 	public String executeView(@PathVariable("html") String html, Model model) {
 		model.addAttribute("menu", html);

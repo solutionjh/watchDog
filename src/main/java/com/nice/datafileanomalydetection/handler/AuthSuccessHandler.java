@@ -35,6 +35,7 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException 
 	{		
+	
 		//		로그인 성공 로그처리
        	request.getSession().setMaxInactiveInterval(sessionTimeout);
        	try {

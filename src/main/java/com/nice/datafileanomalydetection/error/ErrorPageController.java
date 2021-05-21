@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -31,6 +32,11 @@ public class ErrorPageController implements ErrorController  {
 			}
 		}
 		return "error";
+	}
+	
+	@GetMapping(value = "/accessDenied")
+	public String accessDenied(HttpServletRequest request ) {
+		return "content/error/accessDenied";
 	}
 
 	@Override

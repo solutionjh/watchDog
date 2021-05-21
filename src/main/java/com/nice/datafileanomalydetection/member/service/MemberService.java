@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,7 +22,6 @@ import com.nice.datafileanomalydetection.member.dao.MemberDao;
 import com.nice.datafileanomalydetection.member.model.Member;
 import com.nice.datafileanomalydetection.member.model.MemberInfo;
 import com.nice.datafileanomalydetection.message.ReloadMessageSource;
-import com.nice.datafileanomalydetection.util.SessionUtils;
 
 @Service
 public class MemberService implements UserDetailsService {
@@ -36,7 +36,6 @@ public class MemberService implements UserDetailsService {
 	private ReloadMessageSource message;
     
     public List<Member> getMemberList (Authentication authentication) throws Exception {    	
-    	System.out.println("auth::::::"+authentication.getAuthorities());
     	return memberDao.getMemberList(); 
     }    
     
@@ -89,7 +88,9 @@ public class MemberService implements UserDetailsService {
 		if(member == null) {
 			throw new InternalAuthenticationServiceException(message.getMessage("err.login.001"));
 		}
+				
 		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(member.getRoleType()));
 		return new User(member.getMemberId(), member.getPassword(), authorities);
 	}
     
