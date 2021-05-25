@@ -33,7 +33,7 @@ public class MemberDao {
 
     public List<Member> getMemberList() {
     	StringBuilder selectSql = new StringBuilder();
-    	selectSql.append("SELECT * FROM MEMBER");    	
+    	selectSql.append("SELECT * FROM MEMBER WHERE 1=1 ORDER BY REGDTIM DESC");    	
     	return  this.jdbcTemplate.query(selectSql.toString(),  new MemberListMapper());
     }
     

@@ -22,10 +22,9 @@
 					<th:block th:replace="fragments/header :: headerFragment"></th:block>
 					<th:block layout:fragment="content"></th:block>
 					<th:block th:replace="fragments/footer :: footerFragment"></th:block>
-				</div>
-				
-				<th:block th:replace="fragments/modal :: modalFragment"></th:block>
+				</div>				
 			</div>    			
+			<th:block th:replace="fragments/modal :: modalFragment"></th:block>
 		</main>
 		<th:block th:replace="fragments/setting :: settingFragment"></th:block>
 	</body>

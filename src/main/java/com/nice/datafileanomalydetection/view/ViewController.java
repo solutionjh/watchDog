@@ -37,15 +37,8 @@ public class ViewController {
 	public String memberView(@PathVariable("html") String html, Model model) {
 		model.addAttribute("menu", html);
 		return "content/member/" + html;
-	}
-//	@GetMapping(value = "/member/memberList")
-//	public String memberView() {
-//		return "content/member/memberList";
-//	}
-//	@GetMapping(value = "/member/viewAuth")
-//	public String viewAuth() {
-//		return "content/member/viewAuth";
-//	}
+	}	
+	
 	@GetMapping(value = "/execute/{html}")
 	public String executeView(@PathVariable("html") String html, Model model) {
 		model.addAttribute("menu", html);

@@ -123,24 +123,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	List<Role> roleList = roleService.getRoleList();    	
     	roleList.forEach(role->{
     		if(!StringUtils.isEmpty(role.getUrl())) {    			
-    			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);     
-    			String roleName = "";
-    			for(int i = 0; i < roles.length; i++) {
-    				roleName += 
-    						(i == 0 ) ? 
-    								roles[i].toUpperCase() 
-    								:LoginConstant.SEPARATE + roles[i].toUpperCase();
-    			}
-    			String url = role.getUrl();
-    			try {
-    				http.authorizeRequests()
-    				.antMatchers(url)
-    				.hasAnyAuthority(roleName);
-    			} catch (Exception e) {
-    				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
-    			}
+    			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);    
+    			for(int i = 0; i < roles.length; i++) {	
+    				String[] urls = role.getUrl().split(LoginConstant.SEPARATE);     
+        			for(int j = 0; j < urls.length; j++) {
+        				try {
+            				http.authorizeRequests()
+        					.antMatchers(urls[j])
+        					.hasAnyAuthority(roles[i]);
+            			} catch (Exception e) {
+            				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
+            			}
+        			}
+        			
+    			}    			
     		}
-    	});    			
+    	});   
+    	
     	 http.authorizeRequests()  
          .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  
          .anyRequest().authenticated()

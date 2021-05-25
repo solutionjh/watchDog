@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:fragment="headerFragment">
 	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
+		<input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
+        <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/> 
 		<button
 			class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3"
 			type="button" data-bs-toggle="collapse"

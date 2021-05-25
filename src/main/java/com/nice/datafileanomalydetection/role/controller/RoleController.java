@@ -6,13 +6,18 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nice.datafileanomalydetection.role.model.Role;
 import com.nice.datafileanomalydetection.role.service.RoleService;
 
+import io.swagger.annotations.ApiOperation;
+
 
 @RestController
+@RequestMapping(value = {"/api/role"})
 public class RoleController {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -21,9 +26,11 @@ public class RoleController {
     @Autowired
     RoleService roleService;
     
-//    public List<Role> getRoleList(){	
-//		return roleDao.getRoleList();
-//	}
+    @GetMapping(value = "/getList")
+    @ApiOperation(value = "역할목록조회")
+    public List<Role> getRoleList(){	
+		return roleService.getRoleList();
+	}
 
 
 }
