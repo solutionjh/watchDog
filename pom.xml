@@ -63,7 +63,7 @@
         <dependency>
             <groupId>org.webjars.bowergithub.wenzhixin</groupId>
             <artifactId>bootstrap-table</artifactId>
-            <version>1.14.2</version>
+            <version>1.18.3</version>
         </dependency>
 		
 		<!-- Falcon -->
@@ -128,10 +128,10 @@
         <!-- Bootstrap에서 제공하는 dropbox를 사용하기 위한 js -->
         <!-- https://mvnrepository.com/artifact/org.webjars/popper.js -->
         <dependency>
-            <groupId>org.webjars.bowergithub.fezvrasta</groupId>
-            <artifactId>popper.js</artifactId>
-            <version>1.15.0</version>
-        </dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>popper.js</artifactId>
+		    <version>2.9.2</version>
+		</dependency>
 
         <!-- jQuery 설정 -->
         <!-- https://mvnrepository.com/artifact/org.webjars/jquery -->

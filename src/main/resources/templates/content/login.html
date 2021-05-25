@@ -35,7 +35,7 @@
                       </div>
                     </div>
                     <form class="needs-validation" novalidate method="POST" th:action="@{/loginProcess}">
-                     <!--  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
+                      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
                       
                       <div class="mb-3">
                         <label class="form-label" for="split-login-email">ID</label>

@@ -1,15 +1,16 @@
 package com.nice.datafileanomalydetection.config;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -34,6 +35,9 @@ import com.nice.datafileanomalydetection.role.service.RoleService;
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+    private final Boolean isDebugEnabled = logger.isDebugEnabled();
+	
 	@Autowired
 	private  RoleService roleService;
 	@Autowired
@@ -55,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.csrf().disable(); // 임시
+		//http.csrf().disable(); //임시
+		
 		setAntMatchers(http);		 
 		
 		http.sessionManagement()
@@ -117,30 +122,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             	
     	List<Role> roleList = roleService.getRoleList();    	
     	roleList.forEach(role->{
-    		String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);             
-             for(int i = 0; i < roles.length; i++) {
-               roles[i] = 
-            		   (i == 0 ) ? 
-            				   roles[i].toUpperCase() 
-            				   :LoginConstant.ROLE_PRIFIX + roles[i].toUpperCase();
-             }
-             String url = role.getUrl();
-             if(LoginConstant.URL_SEPARATE != url.charAt(0)) {
-               url = LoginConstant.URL_SEPARATE + url;
-             }
-             try {
-				http.authorizeRequests()
-				 .antMatchers(url)
-				 .hasAnyAuthority(roles);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+    		if(!StringUtils.isEmpty(role.getUrl())) {    			
+    			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);     
+    			String roleName = "";
+    			for(int i = 0; i < roles.length; i++) {
+    				roleName += 
+    						(i == 0 ) ? 
+    								roles[i].toUpperCase() 
+    								:LoginConstant.SEPARATE + roles[i].toUpperCase();
+    			}
+    			String url = role.getUrl();
+    			try {
+    				http.authorizeRequests()
+    				.antMatchers(url)
+    				.hasAnyAuthority(roleName);
+    			} catch (Exception e) {
+    				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
+    			}
+    		}
     	});    			
-    	 http.authorizeRequests()
-         .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE).permitAll()  
-         .antMatchers("/member/**").permitAll()  
+    	 http.authorizeRequests()  
+         .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  
          .anyRequest().authenticated()
-         //.and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
+         .and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
+         .and()
+			.exceptionHandling()
+			.accessDeniedPage(LoginConstant.ACCESS_DENIED)
          .and()
          .headers().frameOptions().sameOrigin();        
       }

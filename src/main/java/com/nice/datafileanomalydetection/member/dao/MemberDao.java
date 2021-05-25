@@ -3,6 +3,7 @@ package com.nice.datafileanomalydetection.member.dao;
 import java.lang.invoke.MethodHandles;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.nice.datafileanomalydetection.member.model.Member;
 import com.nice.datafileanomalydetection.member.model.MemberInfo;
-import com.nice.datafileanomalydetection.predict.model.PredictBatchInfo;
-import com.nice.datafileanomalydetection.role.model.Role;
 
 @Repository
 public class MemberDao {
@@ -32,6 +31,12 @@ public class MemberDao {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    public List<Member> getMemberList() {
+    	StringBuilder selectSql = new StringBuilder();
+    	selectSql.append("SELECT * FROM MEMBER");    	
+    	return  this.jdbcTemplate.query(selectSql.toString(),  new MemberListMapper());
+    }
+    
     public Member getMember (String memberId) {
         StringBuilder selectSql = new StringBuilder();
         selectSql.append("SELECT * FROM MEMBER \n")
@@ -50,11 +55,22 @@ public class MemberDao {
     
     public void insertMember (MemberInfo memberInfo) {
         StringBuilder insertSql = new StringBuilder();
-        insertSql.append("INSERT INTO MEMBER (MEMBER_ID, PASSWORD, NAME, ROLE_TYPE) \n")
-        		 .append("VALUES (:memberId, :password, :name, :roleType)");
+        insertSql.append("INSERT INTO MEMBER (MEMBER_ID, PASSWORD, NAME, ROLE_TYPE, LAST_ACCESS) \n")
+        		 .append("VALUES (:memberId, :password, :name, :roleType, CURRENT_TIMESTAMP())");
         SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(memberInfo);
         this.namedParameterJdbcTemplate.update(insertSql.toString(), namedParameters);       
     }
+    
+    public void updateMemberAccess (String memberId) {    	    	
+    	StringBuilder updateSql = new StringBuilder();
+    	updateSql.append("UPDATE MEMBER  \n")
+    	.append("SET LAST_ACCESS = CURRENT_TIMESTAMP() \n")
+    	.append("WHERE MEMBER_ID  = :memberId");
+    	
+    	SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);
+    	this.namedParameterJdbcTemplate.update(updateSql.toString(), namedParameters);    	
+    }
+    
     
     public void updateMember (MemberInfo memberInfo) {    	    	
     	StringBuilder updateSql = new StringBuilder();
@@ -93,9 +109,23 @@ public class MemberDao {
         	member.setName(rs.getString("NAME"));
         	member.setPassword(rs.getString("PASSWORD"));
         	member.setRoleType(rs.getString("ROLE_TYPE"));
-        	member.setRegdtim(rs.getString("REGDTIM"));        	
+        	member.setRegdtim(rs.getTimestamp("REGDTIM"));        	
+        	member.setLastAccess(rs.getTimestamp("LAST_ACCESS"));        	
             return member;
         }
+    }
+    
+    private static final class MemberListMapper implements RowMapper<Member> {
+    	public Member mapRow (ResultSet rs, int rowNum) throws SQLException {
+    		Member member = new Member();
+    		member.setMemberId(rs.getString("MEMBER_ID"));
+    		member.setName(rs.getString("NAME"));
+    		member.setPassword(null);
+    		member.setRoleType(rs.getString("ROLE_TYPE"));
+    		member.setRegdtim(rs.getTimestamp("REGDTIM"));        	
+    		member.setLastAccess(rs.getTimestamp("LAST_ACCESS"));        	
+    		return member;
+    	}
     }
 }
 

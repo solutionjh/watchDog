@@ -19,7 +19,6 @@ public class LoginConstant {
 	public static String LOGIN_FAIL = "/loginFail";
 	
 	// etc
-	public static String ROLE_PRIFIX = "ROLE_";	
 	public static String SEPARATE = ",";
 	public static char URL_SEPARATE ='/';
 	

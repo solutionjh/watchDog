@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,6 +35,9 @@ public class MemberService implements UserDetailsService {
     @Autowired
 	private ReloadMessageSource message;
     
+    public List<Member> getMemberList (Authentication authentication) throws Exception {    	
+    	return memberDao.getMemberList(); 
+    }    
     
     public String insertMember (MemberInfo memberInfo) throws Exception {    	
     	Member member = memberDao.getMember(memberInfo.getMemberId());
@@ -41,6 +46,10 @@ public class MemberService implements UserDetailsService {
     	}
     	memberDao.insertMember(memberInfo);    	
         return message.getMessage("db.success.insert");
+    }    
+    
+    public void updateMemberAccess (String memberId) throws Exception {     	
+    	memberDao.updateMemberAccess(memberId);
     }    
     
     public String updateMember (MemberInfo memberInfo) throws Exception {    	
@@ -79,7 +88,9 @@ public class MemberService implements UserDetailsService {
 		if(member == null) {
 			throw new InternalAuthenticationServiceException(message.getMessage("err.login.001"));
 		}
+				
 		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(member.getRoleType()));
 		return new User(member.getMemberId(), member.getPassword(), authorities);
 	}
     

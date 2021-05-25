@@ -1,12 +1,14 @@
 package com.nice.datafileanomalydetection.role.controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nice.datafileanomalydetection.role.model.Role;
 import com.nice.datafileanomalydetection.role.service.RoleService;
 
 
@@ -18,6 +20,10 @@ public class RoleController {
 
     @Autowired
     RoleService roleService;
+    
+//    public List<Role> getRoleList(){	
+//		return roleDao.getRoleList();
+//	}
 
 
 }
