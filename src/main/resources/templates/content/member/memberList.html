@@ -12,10 +12,12 @@
 	<div class="card mb-3">
 		<div class="card-header">
 			<div class="row flex-between-end">
-				<div class="col-auto col-lg align-self-center">
-					<h2 class="mb-0" data-anchor="data-anchor" id="table-example">
-						사용자 관리
-					</h2>
+				<!--  <div class="col-auto col-lg align-self-center">
+                  <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">사용자 관리</h2>
+
+                </div> -->
+				<div class="col-auto ms-auto">
+					<button class="btn btn-sm btn-primary" type="button" id="insert">등록</button>
 				</div>
 			</div>
 		</div>
@@ -24,96 +26,323 @@
 				<div class="tab-pane preview-tab-pane active" role="tabpanel"
 					aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
 					id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
-					<table class="table table-sm table-striped fs--1 mb-0 overflow-hidden" id="table">
+					<table
+						class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
+						id="table">
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 
+	<div class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-100 detail d-none">
+		<div class="card-header bg-light">
+			<h5 class="mb-0">사용자 정보</h5>
+		</div>
+		<form id="info-form" class="needs-validation" novalidate>
+			<div class="card-body ">
+
+				<div class="row gx-2">
+					<div class="col-sm-3 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">아이디</span> <input
+								class="form-control" id="memberId" name="memberId" type="text" />
+						</div>
+
+					</div>
+					<div class="col-sm-3 mb-3 ">
+						<div class="input-group">
+							<span class="input-group-text">비밀번호</span> <input
+								class="form-control" id="password" name="password"
+								type="password" />
+						</div>
+					</div>
+					<div class="col-sm-3 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">이름</span> <input
+								class="form-control" id="name" name="name" type="text" required />
+						</div>
+					</div>
+					<div class="col-sm-3 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">역할</span> <select
+								class="form-select" id="roleType" name="roleType">
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">등록일</span> <input
+								class="form-control" id="regDt" name="regDt" type="text"
+								readonly />
+						</div>
+					</div>
+					<div class="col-sm-6 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">최종접속일</span> <input
+								class="form-control" id="lastAccessDt" name="lastAccessDt"
+								type="text" readonly />
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-footer bg-light">
+				<div class="row flex-between-end">
+					<div class="col-auto ms-auto">
+						<button class="btn btn-sm btn-primary" type="submit">저장</button>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<div
+		class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-80 my-md-3 password d-none">
+		<div class="card-header bg-light">
+			<h5 class="mb-0">비밀번호 재설정</h5>
+		</div>
+		<form id="password-form" class="needs-validation" novalidate>
+			<div class="card-body">
+
+				<div class="row gx-2">
+					<div class="col-sm-12 mb-3">
+						<div class="input-group">
+							<span class="input-group-text">비밀번호</span> <input
+								class="form-control" id="password-change" name="password-change"
+								type="password" required>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer bg-light">
+				<div class="row flex-between-end">
+					<div class="col-auto ms-auto">
+						<button class="btn btn-sm btn-primary" type="submit">저장</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
 
 	<script type="text/javascript">
 		var $table = $('#table');
+		var $infoForm = $("#info-form");
+		var $passwordForm = $("#password-form");
+		
+		var target_memberId = null;
+		
 		$(function() {
-			initTable();
+			fn_Table();
+			fn_role();
+			fn_Event();
 		});
+		
 
-		function callback(target, data) {
-			switch (target) {
-			case "SELECT":
-				console.log(data);
-				$table.bootstrapTable({
-					data : data
-				});
-				break;
-			default:
-				break;
-			}
+		function fn_role() {
+			var param = {
+					 target : "ROLE",
+					 url : "/api/role/getList/",
+					 isLoading: false
+				}
+	    	ajaxCall(param);
 		}
+		
 
+		function fn_Event() {			
+			$("#insert").off().on('click', function() {
+				$(".detail").removeClass('d-none');
+				$(".password").addClass('d-none');
+				$("#memberId, #password").prop('readonly', false).attr('required');	
+				$infoForm.removeClass('was-validated');	
+				$passwordForm.removeClass('was-validated');	
+				formReset($infoForm);
+				target_memberId= null;
+			});
+			
+			$passwordForm.on('submit', function(e) {
+				 e.preventDefault();	
+				if ($passwordForm[0].checkValidity() === true) {	
+					if(target_memberId){			
+				    	
+				    	var param = {
+								 target : "PASSWORD",
+								 method : "PUT",
+								 url : "/api/member/password/"+target_memberId+"/"+$("#password-change").val(),
+								 dataType : "text"
+							}
+				    	ajaxCall(param);
+					}
+			    } 
+			});
+
+			$infoForm.on("submit", function(e) {
+				 e.preventDefault();	
+				if ($infoForm[0].checkValidity() === true) {						
+				    var data = $infoForm.serializeObject();
+			    	var param = {
+							 target : "SAVE",
+							 dataType : "text",
+							 data: data
+						}
+			    	
+					if(target_memberId){						
+				    	param.method = "PUT";
+				    	param.url = "/api/member/update/";
+					}else{						
+				    	param.method = "POST";
+				    	param.url = "/api/member/insert/";
+					}
+					ajaxCall(param);
+			    } 
+			}) 
+		}
+		
+		
+		function fn_Table() {
+			$table.bootstrapTable('destroy').bootstrapTable(
+					{
+						height : 270,
+						pageSize : "5",
+						pageList : "[5, 10, 20, 50, all]",
+						columns : [ {
+							title : '#',
+							field : 'index',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '아이디',
+							field : 'memberId',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '이름',
+							field : 'name',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '역할',
+							field : 'roleType',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '등록일',
+							field : 'regDt',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '최종접속일',
+							field : 'lastAccessDt',
+							align : 'center',
+							valign : 'middle',
+							sortable : true
+						}, {
+							title : '삭제',
+							field : 'deleteBtn',
+							align : 'center',
+							valign : 'middle'
+						} ],
+						onClickRow : function(row, $element, field) {
+							var param = {}
+							
+							if(field == "deleteBtn"){	 								
+								confirmModal('삭제하시겠습니까?', function(){
+									param = {
+									 target : "DELETE",
+									 method : "DELETE",
+									 url : "/api/member/delete/"+ row.memberId,
+									 dataType:"text"
+									}									
+									ajaxCall(param);
+								});			
+							}else{		
+								param = {
+									 target : "DETAIL",
+									 url : "/api/member/get/"+ row.memberId
+								}
+								ajaxCall(param);
+							}
+							
+							
+						}
+					});
+			tableRefresh();
+
+		}
+		
+		
+		function tableRefresh(){
+			bootstrapTableRefresh($table, '/api/member/getList',
+					'[[${#locale}]]', '[[#{table.data.faile}]]');
+			
+		}
+		
+		
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = i + 1;
+				this.deleteBtn = '<button class="btn p-0 ms-1" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 				delete this.password;
 				delete this.regdtim;
 				delete this.lastAccess;
 			});
 			return res;
 		}
-		function detailFormatter(index, row) {
-			var html = []
-			$.each(row, function(key, value) {
-				html.push('<p><b>' + key + ':</b> ' + value + '</p>')
-			})
-			return html.join('')
+		
+		
+		function callback(target, data) {
+			
+			switch (target) {
+			case "DETAIL":
+				settingForm(data, $infoForm)
+				$(".detail, .password").removeClass('d-none');
+				$("#memberId, #password").prop('readonly', true).removeAttr('required');
+				$infoForm.removeClass('was-validated');	
+				$passwordForm.removeClass('was-validated');	
+				target_memberId = data.memberId;
+				formReset($passwordForm);
+				break;
+				
+			case "ROLE":
+				var html = "";
+				$.each(data, function() {
+					html += "<option value="+this.roleType+">" + this.roleType
+							+ "</option>";
+				})
+				$("#roleType").html(html);
+				break;
+				
+			case "SAVE":
+				alertModal(data)
+				$infoForm.removeClass('was-validated');	
+			    tableRefresh()
+				break;
+			    
+			case "PASSWORD":
+				alertModal(data)
+				$passwordForm.removeClass('was-validated');	
+				break;
+				
+			case "DELETE":				
+				alertModal(data)
+				tableRefresh()
+				$(".detail, .password").addClass('d-none');
+				break;
+			    
+			default:
+				break;
+			}
 		}
+		
+		
 
-		function initTable() {
-			$table.bootstrapTable('destroy').bootstrapTable({
-				height: 375,
-				pageSize:"10",
-				pageList:"[10, 25, 50, all]",
-				columns : [ {
-					title : '#',
-					field : 'index',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
-					title : 'ID',
-					field : 'memberId',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
-					title : 'Name',
-					field : 'name',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
-					title : 'ROLETYPE',
-					field : 'roleType',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
-					title : 'LASTACCESS',
-					field : 'lastAccessDt',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
-					title : 'REGDTIM',
-					field : 'regDt',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				} ]
-			});
-
-			bootstrapTableRefresh($table, '/api/member/getList', '[[${#locale}]]', '[[#{table.data.faile}]]');
-		}
 	</script>
 
 </div>
