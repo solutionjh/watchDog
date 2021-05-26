@@ -38,9 +38,4 @@ public class ErrorPageController implements ErrorController  {
 	public String accessDenied(HttpServletRequest request ) {
 		return "content/error/accessDenied";
 	}
-
-	@Override
-	public String getErrorPath() {
-		return "/error";
-	}
 }

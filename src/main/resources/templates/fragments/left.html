@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	    <nav th:fragment="leftFragment" class="navbar navbar-light navbar-vertical navbar-expand-xl">
            <script>
             var navbarStyle = localStorage.getItem("navbarStyle");
@@ -30,8 +31,7 @@
           <div class="collapse navbar-collapse" id="navbarVerticalCollapse">
             <div class="navbar-vertical-content scrollbar">
               <ul class="navbar-nav flex-column mb-3" id="navbarVerticalNav">
-              
-                <li class="nav-item">
+                <li class="nav-item"  sec:authorize="hasAnyAuthority('ADMIN','SYSADMIN')">
                   <div class="row navbar-vertical-label-wrapper mb-2">
                     <div class="col-auto navbar-vertical-label">Setting
                     </div>
@@ -47,20 +47,9 @@
                     	</span>
                     	<span class="nav-link-text ps-1">사용자 관리</span>
                     </div>
-                  </a>
-                  
-                   <a class="nav-link" th:classappend="${menu} == viewAuth ? active" th:href="@{/member/viewAuth}"  role="button">
-                    <div class="d-flex align-items-center">
-                    	<span class="nav-link-icon">
-                    		<svg class="svg-inline--fa fa-lock fa-w-14" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="lock" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M400 224h-24v-72C376 68.2 307.8 0 224 0S72 68.2 72 152v72H48c-26.5 0-48 21.5-48 48v192c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V272c0-26.5-21.5-48-48-48zm-104 0H152v-72c0-39.7 32.3-72 72-72s72 32.3 72 72v72z"></path></svg>
-                    	</span>
-                    	<span class="nav-link-text ps-1">화면권한 관리</span>
-                    </div>
-                  </a>
-                  
+                  </a>                  
                 </li>
-                
-                <li class="nav-item">
+                <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN','USER')">
                   <!-- label-->
                   <div class="row navbar-vertical-label-wrapper mt-3 mb-2">
                     <div class="col-auto navbar-vertical-label"> WatchDog

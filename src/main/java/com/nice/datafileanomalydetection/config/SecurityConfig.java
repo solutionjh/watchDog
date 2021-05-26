@@ -21,6 +21,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import com.nice.datafileanomalydetection.constant.LoginConstant;
 import com.nice.datafileanomalydetection.handler.AuthFailurHandler;
@@ -47,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private  AuthFailurHandler authFailurHandler;
 	@Autowired
 	private  AuthSuccessHandler authSuccessHandler;
+	
 	
 	 @Autowired
 	 DataSource dataSource;
@@ -91,6 +93,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		  .tokenValiditySeconds(LoginConstant.REMEMBER_SECOND); 
 	}
 	
+	@Bean
+    public SpringSecurityDialect springSecurityDialect(){
+        return new SpringSecurityDialect();
+    }
 	
 	
 	@Override
@@ -148,6 +154,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling()
 			.accessDeniedPage(LoginConstant.ACCESS_DENIED)
          .and()
-         .headers().frameOptions().sameOrigin();        
+         .headers().frameOptions().sameOrigin();   
+    	 
+    	
       }
 }
