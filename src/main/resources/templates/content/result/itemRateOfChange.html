@@ -145,7 +145,7 @@
         	const regdtim = $regdtItemDropdown.val();
         	let rateInput = $rateInput.val();
         	if(!rateInput) rateInput = 0;
-        	console.log(projectName);
+
         	if(projectName && regdtim) {
         		bootstrapTableRefresh($table, '/resultitem/'+projectName+'/'+regdtim+'/' + rateInput,
     					'[[${#locale}]]', '[[#{table.data.faile}]]');	
