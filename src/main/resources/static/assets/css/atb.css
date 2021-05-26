@@ -1,0 +1,10 @@
+/*  개발 중 추가된 css */
+
+/* select2 - 기존 falcon과 selectbox 맞춤 */
+.select2-container .select2-selection--single {
+	    height: 36px;
+	    text-align: center;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered{
+	line-height: 36px;
+}

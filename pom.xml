@@ -124,6 +124,12 @@
 		</dependency>
 		<!-- falcon-end -->
 		
+		<!-- SelectBox Filter -->
+		<dependency>
+		    <groupId>org.webjars.npm</groupId>
+		    <artifactId>select2</artifactId>
+		    <version>4.1.0-rc.0</version>
+		</dependency>
 		
         <!-- Bootstrap에서 제공하는 dropbox를 사용하기 위한 js -->
         <!-- https://mvnrepository.com/artifact/org.webjars/popper.js -->
