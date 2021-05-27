@@ -83,6 +83,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                         </div>
                       </a>
                     </li>
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == fileMonitoring ? active" th:href="@{/result/fileMonitoring}" >
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">파일 모니터링</span>
+                        </div>
+                      </a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" th:classappend="${menu} == itemRateOfChange ? active" th:href="@{/result/itemRateOfChange}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">항목 변화율</span>
                         </div>
@@ -126,6 +131,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     </li>
                     <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoCreate ? active" th:href="@{/study/baseInfoCreate}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">모형개발 및 기준정보 생성</span>
+                        </div>
+                      </a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoResult ? active" th:href="@{/study/baseInfoResult}" >
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">모형개발 결과</span>
                         </div>
                       </a>
                     </li>
