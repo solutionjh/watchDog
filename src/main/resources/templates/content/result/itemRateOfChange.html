@@ -106,6 +106,7 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable(
 					{
+					 	theadClasses:'bg-200 text-900',
 						height : 650,
 						pageSize : "20",
 						pageList : "[5, 10, 20, 50, all]",
@@ -148,7 +149,7 @@
 
         	if(projectName && regdtim) {
         		bootstrapTableRefresh($table, '/resultitem/'+projectName+'/'+regdtim+'/' + rateInput,
-    					'[[${#locale}]]', '[[#{table.data.faile}]]');	
+    					'[[${#locale}]]', '[[#{table.data.faile}]]');
         	}
 		}
 		
@@ -174,7 +175,7 @@
                 $projectNameItemDropdown.append(html);
                 $projectNameItemDropdown.off();
                 $projectNameItemDropdown.change(function(){
-                    fn_regdtItems($(this).val());
+                	if($(this).val()) fn_regdtItems($(this).val());
                 });
 
     			$('.picker').select2();
@@ -182,7 +183,7 @@
 				
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
-				var html = "<option>수행일시 선택</option>";
+				var html = "<option value=''>수행일시 선택</option>";
 				
                 $.each(data, function(index, data) {
                 	html += '<option value="'+data+'">'+data+'</option>';
