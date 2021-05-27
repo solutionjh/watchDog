@@ -61,8 +61,12 @@ function noDataAjax(ajaxParamObj)
 			callbacks.add(ajaxParamObj.callFunction);
 			callbacks.fire(ajaxParamObj.target, data);
 		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alertModal(xhr.responseText);
+		error: function (xhr, textStatus, errorThrown) {
+			 if (xhr.status == 403 || textStatus == 'parsererror') {
+		       location.href = "/login";
+		    } else{
+				alertModal(xhr.responseText);
+		    }
 		},
 		async : ajaxParamObj.async
 	});
@@ -86,9 +90,13 @@ function dataAjax(ajaxParamObj)
 			callbacks.add(ajaxParamObj.callFunction);
 			callbacks.fire(ajaxParamObj.target, data);
 		},
-		error: function (xhr, ajaxOptions, thrownError) {
-			alertModal(xhr.responseText);
-		},
+		error: function (xhr, textStatus, errorThrown) {
+			 if (xhr.status == 403 || textStatus == 'parsererror') {
+		       location.href = "/login";
+		    } else{
+				alertModal(xhr.responseText);
+		    }
+		 },
 		async : ajaxParamObj.async
 	});
 }
@@ -109,11 +117,12 @@ function gf_IsNull(sValue) {
 
 /* -------------------------------------------------------------------------- */
 
-function bootstrapTableRefresh(target, url, local,  message){
+function bootstrapTableRefresh(target, url, queryParams, local,  message){
 	target.bootstrapTable('refreshOptions', {
 		theadClasses:'bg-200 text-900',					
 		locale: local,
 		sortable:"true",
+		queryParams:"true",
 		detailView:"true",
 		pagination:"true",	
 		url : url,

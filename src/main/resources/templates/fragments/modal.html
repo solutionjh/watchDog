@@ -59,6 +59,33 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="session-timeout-modal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document"
+			style="max-width: 500px">
+			<div class="modal-content position-relative">
+				<div class="position-absolute top-0 end-0 mt-2 me-2 z-index-1">
+				</div>
+				<div class="modal-body p-0">
+					<div class="rounded-top-lg py-3 ps-4 pe-6 bg-light">
+						<h4 class="mb-1" id="modalExampleDemoLabel">[[#{common.title}]]</h4>
+					</div>
+					<div class="p-4 ">
+						<div class="row">
+							<div class="col ">
+								<h5>[[#{session.timeout}]]</h5>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="confirm-ok">[[#{button.ok}]]</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<script type="text/javascript">
 		/* alert modal */
 		function alertModal(msg){
@@ -70,12 +97,19 @@
 			$('#confirm-modal').modal('show'); 
 			$("#confirm-modal-text").html(msg);
 			
-			$("#confirm-ok").off().on('click',function(){	
+			$("#confirm-ok",$('#confirm-modal')).off().on('click',function(){	
 				$('.modal').removeClass('show');		
 				$('.modal-backdrop').remove();	
 				if (_.isFunction(callback)) {
 		          callback();
 		        }
+			})
+		}
+		/* session time out modal */
+		function sessionTimeoutModal(){
+			$('#session-timeout-modal').modal('show'); 
+			$("#confirm-ok",$('#session-timeout-modal')).off().on('click',function(){	
+				location.href = "/logout";
 			})
 		}
 	</script>
