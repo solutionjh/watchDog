@@ -22,9 +22,9 @@ public class ResultItemService {
     public List<String> getResultItemRegdtim (String projectName) {
         return resultItemDao.getResultItemRegdtim(projectName);
     }
-
-    public List<ResultItem> getProjectItemResult (String projectName, String regdtim) {
-        return resultItemDao.getProjectItemResult(projectName, regdtim);
+    
+    public List<ResultItem> getProjectItemResult (String projectName, String regdtim, String changeRate) {
+    	return resultItemDao.getProjectItemResult(projectName, regdtim, changeRate);
     }
 
 }

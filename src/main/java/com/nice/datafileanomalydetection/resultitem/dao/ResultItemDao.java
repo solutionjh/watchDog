@@ -43,19 +43,20 @@ public class ResultItemDao {
     }
 
     // refs #1360 항목값이 상수일 경우, 기준정보의 MEANSQUAREDERROR값이 0.0으로 계산되어 발생하는 division by zero 오류처리 (2020-11-09, kwb)
-    public List<ResultItem> getProjectItemResult (String projectName, String regdtim) {
+    public List<ResultItem> getProjectItemResult (String projectName, String regdtim, String changeRate) {
 
         StringBuilder selectSql = new StringBuilder();
-        selectSql.append(" SELECT A.FIELDNAME, A.MEANSQUAREDERROR AS DEVMSE, B.MEANSQUAREDERROR AS NOWMSE , CASEWHEN(A.MEANSQUAREDERROR = '0.0', CASEWHEN(B.MEANSQUAREDERROR = '0.0', '0.0', '1000.0'), ABS(ROUND((B.MEANSQUAREDERROR - A.MEANSQUAREDERROR) / A.MEANSQUAREDERROR * 100, 4))) as CHANGERATE \n")
+        selectSql.append(" SELECT * FROM ( SELECT A.FIELDNAME, A.MEANSQUAREDERROR AS DEVMSE, B.MEANSQUAREDERROR AS NOWMSE , CASEWHEN(A.MEANSQUAREDERROR = '0.0', CASEWHEN(B.MEANSQUAREDERROR = '0.0', '0.0', '1000.0'), ABS(ROUND((B.MEANSQUAREDERROR - A.MEANSQUAREDERROR) / A.MEANSQUAREDERROR * 100, 4))) as CHANGERATE \n")
                 .append("   FROM DEV_COL_MEANSQUAREDERROR A \n")
                 .append("   LEFT OUTER JOIN TOT_COL_MEANSQUAREDERROR  B \n")
                 .append("     ON A.PROJECTNAME = B.PROJECTNAME \n")
                 .append("    AND B.REGDTIM     = :regdtim \n")
                 .append("    AND A.FIELDNAME   = B.FIELDNAME  \n")
                 .append("  WHERE A.PROJECTNAME = :projectName \n")
-                .append("  ORDER BY CHANGERATE  DESC");
-        SqlParameterSource namedParameters = new MapSqlParameterSource("projectName", projectName).addValue("regdtim", regdtim);
-
+                .append("  ORDER BY CHANGERATE  DESC )A \n");
+                if(!changeRate.equals("0")) selectSql.append("  WHERE CHANGERATE > :changeRate ");
+        SqlParameterSource namedParameters = new MapSqlParameterSource("projectName", projectName).addValue("regdtim", regdtim).addValue("changeRate", changeRate);
+        
         return this.namedParameterJdbcTemplate.query(selectSql.toString(), namedParameters, new ResultItemMapper());
     }
 

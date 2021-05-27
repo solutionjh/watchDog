@@ -34,9 +34,9 @@ public class ResultItemController {
         return resultItemService.getResultItemRegdtim(projectName);
     }
 
-    @GetMapping(value = "/resultitem/{projectName}/{regdtim}")
-    public List<ResultItem> getProjectItemResult (@PathVariable String projectName, @PathVariable String regdtim) {
-        return resultItemService.getProjectItemResult(projectName, regdtim);
+    @GetMapping(value = "/resultitem/{projectName}/{regdtim}/{changeRate}")
+    public List<ResultItem> getProjectItemResult (@PathVariable String projectName, @PathVariable String regdtim, @PathVariable String changeRate) {
+        return resultItemService.getProjectItemResult(projectName, regdtim, changeRate);
     }
 
 

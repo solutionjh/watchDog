@@ -12,9 +12,8 @@
 	<div class="card mb-3">
 		<div class="card-header">
 			<div class="row flex-between-end">
-				<!--  <div class="col-auto col-lg align-self-center">
+				<!-- <div class="col-auto col-lg align-self-center">
                   <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">사용자 관리</h2>
-
                 </div> -->
 				<div class="col-auto ms-auto">
 					<button class="btn btn-sm btn-primary" type="button" id="insert">등록</button>
@@ -251,26 +250,11 @@
 						} ],
 						onClickRow : function(row, $element, field) {
 							var param = {}
-							
-							if(field == "deleteBtn"){	 								
-								confirmModal('삭제하시겠습니까?', function(){
-									param = {
-									 target : "DELETE",
-									 method : "DELETE",
-									 url : "/api/member/delete/"+ row.memberId,
-									 dataType:"text"
-									}									
-									ajaxCall(param);
-								});			
-							}else{		
-								param = {
+							param = {
 									 target : "DETAIL",
 									 url : "/api/member/get/"+ row.memberId
 								}
 								ajaxCall(param);
-							}
-							
-							
 						}
 					});
 			tableRefresh();
@@ -288,7 +272,6 @@
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = i + 1;
-				this.deleteBtn = '<button class="btn p-0 ms-1" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 				delete this.password;
 				delete this.regdtim;
 				delete this.lastAccess;

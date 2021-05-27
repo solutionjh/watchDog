@@ -2,12 +2,93 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>감지결과 삭제</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="card-header">
+			<div class="row flex-between-end">
+				<div class="card-body ">
+
+				<div class="row gx-2">
+					<div class="col-sm-3 mb-3">
+						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
+                      	<option value="">프로젝트 선택</option>
+                      </select>
+					</div>
+					<div class="col-sm-3 mb-3">
+						<button class="btn btn-primary" type="button" id="goFileMonitoring">파일모니터링</button>
+					</div>
+				</div>
+			</div>                
+			</div>
+		</div>
 	</div>
+
+	<script type="text/javascript">
+		var $table = $('#table');
+				
+		$(function() {
+			fn_projectNames();
+			fn_Event();
+		});
+		
+
+		function fn_projectNames() {
+			var param = {
+					 target : "PROJECT_NAMES",
+					 url : "/result/projectnames/",
+					 isLoading: false
+				}
+	    	ajaxCall(param);
+		}
+
+		function fn_Event() {
+			$rateBtn.on("click", function(){
+				tableRefresh();
+			})
+			
+			$rateInput.on("keyup",function(key){
+				if(key.keyCode==13) {
+					tableRefresh();			            
+				}
+			});
+		}
+	
+		function callback(target, data) {
+			
+			switch (target) {
+			case "PROJECT_NAMES":
+				var listName = data;
+				var html = "";
+				
+                $.each(listName, function(index, data) {
+                	html += "<option value="+data+">"+data+"</option>";
+                });
+                $projectNameItemDropdown.append(html);
+                $projectNameItemDropdown.off();
+                $projectNameItemDropdown.change(function(){
+                    fn_regdtItems($(this).val());
+                });
+
+    			$('.picker').select2();
+				break;
+				
+			case "DELETE":
+				break;
+			    
+			default:
+				break;
+			}
+		}
+		
+		
+
+	</script>
+
+</div>
 </html>
