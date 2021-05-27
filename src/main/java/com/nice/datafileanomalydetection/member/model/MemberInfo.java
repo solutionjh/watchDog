@@ -9,7 +9,7 @@ public class MemberInfo {
     private String memberId;
     private String password;
     private String name;
-    private String roleType;
+    private String memberType;
     
 	public String getMemberId() {
 		return memberId;
@@ -30,10 +30,10 @@ public class MemberInfo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRoleType() {
-		return roleType;
+	public String getMemberType() {
+		return memberType;
 	}
-	public void setRoleType(String roleType) {
-		this.roleType = roleType;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 }

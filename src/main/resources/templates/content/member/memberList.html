@@ -65,7 +65,7 @@
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">역할</span> <select
-								class="form-select" id="roleType" name="roleType">
+								class="form-select" id="memberType" name="memberType">
 							</select>
 						</div>
 					</div>
@@ -142,8 +142,8 @@
 
 		function fn_role() {
 			var param = {
-					 target : "ROLE",
-					 url : "/api/role/getList/",
+					 target : "MEMBER_TYPE",
+					 url : "/api/member/getMemberTypeList/",
 					 isLoading: false
 				}
 	    	ajaxCall(param);
@@ -182,15 +182,16 @@
 				if ($infoForm[0].checkValidity() === true) {						
 				    var data = $infoForm.serializeObject();
 			    	var param = {
-							 target : "SAVE",
 							 dataType : "text",
 							 data: data
 						}
 			    	
 					if(target_memberId){						
+						param.target = "UPDATE",
 				    	param.method = "PUT";
 				    	param.url = "/api/member/update/";
 					}else{						
+						param.target = "INSERT",
 				    	param.method = "POST";
 				    	param.url = "/api/member/insert/";
 					}
@@ -226,7 +227,7 @@
 							sortable : true
 						}, {
 							title : '역할',
-							field : 'roleType',
+							field : 'memberType',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
@@ -250,14 +251,27 @@
 						} ],
 						onClickRow : function(row, $element, field) {
 							var param = {}
-							param = {
-									 target : "DETAIL",
-									 url : "/api/member/get/"+ row.memberId
-								}
-								ajaxCall(param);
-						}
-					});
-			tableRefresh();
+                            
+                            if(field == "deleteBtn"){                                     
+                                confirmModal('삭제하시겠습니까?', function(){
+                                    param = {
+                                     target : "DELETE",
+                                     method : "DELETE",
+                                     url : "/api/member/delete/"+ row.memberId,
+                                     dataType:"text"
+                                    }                                    
+                                    ajaxCall(param);
+                                });            
+                            }else{        
+                            param = {
+                                     target : "DETAIL",
+                                     url : "/api/member/get/"+ row.memberId
+                                }
+                                ajaxCall(param);
+                            }
+                        }
+                    });
+            tableRefresh();
 
 		}
 		
@@ -272,6 +286,7 @@
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = i + 1;
+                this.deleteBtn = '<button class="btn p-0 ms-1" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 				delete this.password;
 				delete this.regdtim;
 				delete this.lastAccess;
@@ -293,18 +308,25 @@
 				formReset($passwordForm);
 				break;
 				
-			case "ROLE":
-				var html = "";
+			case "MEMBER_TYPE":
+				 var html = "";
 				$.each(data, function() {
-					html += "<option value="+this.roleType+">" + this.roleType
+					html += "<option value="+this+">" + this
 							+ "</option>";
 				})
-				$("#roleType").html(html);
+				$("#memberType").html(html); 
 				break;
 				
-			case "SAVE":
+			case "INSERT":
+				alertModal(data)
+				formReset($infoForm);
+				$infoForm.removeClass('was-validated');	
+			    tableRefresh()
+				break;
+			case "UPDATE":
 				alertModal(data)
 				$infoForm.removeClass('was-validated');	
+				$passwordForm.removeClass('was-validated');	
 			    tableRefresh()
 				break;
 			    

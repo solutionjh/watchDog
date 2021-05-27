@@ -130,19 +130,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	roleList.forEach(role->{
     		if(!StringUtils.isEmpty(role.getUrl())) {    			
     			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);    
-    			for(int i = 0; i < roles.length; i++) {	
-    				String[] urls = role.getUrl().split(LoginConstant.SEPARATE);     
-        			for(int j = 0; j < urls.length; j++) {
-        				try {
-            				http.authorizeRequests()
-        					.antMatchers(urls[j])
-        					.hasAnyAuthority(roles[i]);
-            			} catch (Exception e) {
-            				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
-            			}
-        			}
-        			
-    			}    			
+    			String[] urls = role.getUrl().split(LoginConstant.SEPARATE);  
+    			try {
+    				http.authorizeRequests()
+    				.antMatchers(urls)
+    				.hasAnyAuthority(roles);
+    			} catch (Exception e) {
+    				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
+    			}
     		}
     	});   
     	

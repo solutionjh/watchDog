@@ -97,9 +97,8 @@
 			$('#confirm-modal').modal('show'); 
 			$("#confirm-modal-text").html(msg);
 			
-			$("#confirm-ok",$('#confirm-modal')).off().on('click',function(){	
-				$('.modal').removeClass('show');		
-				$('.modal-backdrop').remove();	
+			$("#confirm-ok",$('#confirm-modal')).off().on('click',function(){					
+				$('#confirm-modal').modal('toggle');
 				if (_.isFunction(callback)) {
 		          callback();
 		        }

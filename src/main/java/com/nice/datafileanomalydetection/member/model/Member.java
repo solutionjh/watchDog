@@ -12,7 +12,7 @@ public class Member {
     private String memberId;
     private String password;
     private String name;
-    private String roleType;
+    private String memberType;
     private Timestamp regdtim;
     private Timestamp lastAccess;
     
@@ -34,11 +34,11 @@ public class Member {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRoleType() {
-		return roleType;
+	public String getMemberType() {
+		return memberType;
 	}
-	public void setRoleType(String roleType) {
-		this.roleType = roleType;
+	public void setMemberType(String memberType) {
+		this.memberType = memberType;
 	}
 	public Timestamp getRegdtim() {
 		return regdtim;
