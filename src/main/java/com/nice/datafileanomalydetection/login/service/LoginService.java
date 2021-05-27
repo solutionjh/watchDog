@@ -33,7 +33,7 @@ public class LoginService{
 	public void loginSession(HttpServletRequest request , Authentication auth) throws Exception{
 		
 		Member member = memberService.getMember(auth.getName());		
-		Role role = roleService.getRole(member.getRoleType());		
+		Role role = roleService.getRole(member.getMemberType());		
 		Login login = new Login();		
 		login.setMemberId(member.getMemberId());
 		login.setName(member.getName());

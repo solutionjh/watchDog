@@ -55,8 +55,8 @@ public class MemberDao {
     
     public void insertMember (MemberInfo memberInfo) {
         StringBuilder insertSql = new StringBuilder();
-        insertSql.append("INSERT INTO MEMBER (MEMBER_ID, PASSWORD, NAME, ROLE_TYPE, LAST_ACCESS) \n")
-        		 .append("VALUES (:memberId, :password, :name, :roleType, CURRENT_TIMESTAMP())");
+        insertSql.append("INSERT INTO MEMBER (MEMBER_ID, PASSWORD, NAME, MEMBER_TYPE, LAST_ACCESS) \n")
+        		 .append("VALUES (:memberId, :password, :name, :memberType, CURRENT_TIMESTAMP())");
         SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(memberInfo);
         this.namedParameterJdbcTemplate.update(insertSql.toString(), namedParameters);       
     }
@@ -76,7 +76,7 @@ public class MemberDao {
     	StringBuilder updateSql = new StringBuilder();
     	updateSql.append("UPDATE MEMBER  \n")
 		    	 .append("SET NAME = :name \n")
-		    	 .append("   ,ROLE_TYPE = :roleType \n")
+		    	 .append("   ,MEMBER_TYPE = :memberType \n")
 		         .append("WHERE MEMBER_ID  = :memberId");
     			 
     	SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(memberInfo);
@@ -100,6 +100,12 @@ public class MemberDao {
     	SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId).addValue("password", password);
     	this.namedParameterJdbcTemplate.update(updateSql.toString(), namedParameters);    	
     }
+    
+    public List<String> getMemberTypeList() {
+    	StringBuilder selectSql = new StringBuilder();
+    	selectSql.append("SELECT * FROM MEMBER_TYPE WHERE 1=1 ORDER BY MEMBER_TYPE DESC");    	
+    	return  this.jdbcTemplate.queryForList(selectSql.toString(),  String.class);
+    }
         
     
     private static final class MemberMapper implements RowMapper<Member> {
@@ -108,7 +114,7 @@ public class MemberDao {
         	member.setMemberId(rs.getString("MEMBER_ID"));
         	member.setName(rs.getString("NAME"));
         	member.setPassword(rs.getString("PASSWORD"));
-        	member.setRoleType(rs.getString("ROLE_TYPE"));
+        	member.setMemberType(rs.getString("MEMBER_TYPE"));
         	member.setRegdtim(rs.getTimestamp("REGDTIM"));        	
         	member.setLastAccess(rs.getTimestamp("LAST_ACCESS"));        	
             return member;
@@ -121,7 +127,7 @@ public class MemberDao {
     		member.setMemberId(rs.getString("MEMBER_ID"));
     		member.setName(rs.getString("NAME"));
     		member.setPassword(null);
-    		member.setRoleType(rs.getString("ROLE_TYPE"));
+    		member.setMemberType(rs.getString("MEMBER_TYPE"));
     		member.setRegdtim(rs.getTimestamp("REGDTIM"));        	
     		member.setLastAccess(rs.getTimestamp("LAST_ACCESS"));        	
     		return member;

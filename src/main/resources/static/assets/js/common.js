@@ -34,9 +34,7 @@ function ajaxCall(param) {
 	$.each(param,function(k, v){
 		ajaxParamObj[k] = v;
 	});
-	
-	console.log(ajaxParamObj);
-	
+		
 	if(gf_IsNull(param.data)){
 		noDataAjax(ajaxParamObj)
 	}else{

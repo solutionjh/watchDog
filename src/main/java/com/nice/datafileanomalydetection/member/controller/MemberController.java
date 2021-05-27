@@ -72,4 +72,10 @@ public class MemberController {
     @ApiParam(name = "password", value = "password", required = true) @PathVariable("password") String password ) throws Exception {
     	return memberService.updatePassword(memberId,password);
     }
+    
+    @GetMapping(value = "/getMemberTypeList")
+   	@ApiOperation(value = "회원역활목록조회")
+   	public List<String> getMemberTypeList(HttpServletRequest request) throws Exception {
+   		return memberService.getMemberTypeList();
+   	}
 }

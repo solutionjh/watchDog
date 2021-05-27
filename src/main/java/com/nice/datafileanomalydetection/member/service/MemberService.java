@@ -35,7 +35,7 @@ public class MemberService implements UserDetailsService {
     @Autowired
 	private ReloadMessageSource message;
     
-    public List<Member> getMemberList (Authentication authentication) throws Exception {    	
+    public List<Member> getMemberList (Authentication authentication) throws Exception {       	
     	return memberDao.getMemberList(); 
     }    
     
@@ -90,7 +90,7 @@ public class MemberService implements UserDetailsService {
 		}
 				
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(member.getRoleType()));
+		authorities.add(new SimpleGrantedAuthority(member.getMemberType()));
 		return new User(member.getMemberId(), member.getPassword(), authorities);
 	}
     
@@ -102,6 +102,11 @@ public class MemberService implements UserDetailsService {
     	}    	
     	return member;
     }
+    
+    public List<String> getMemberTypeList () throws Exception {   
+    	return memberDao.getMemberTypeList(); 
+    }    
+    
     
     
 }

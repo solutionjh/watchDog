@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:fragment="headerFragment">
 	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
-		<input type="hidden" id="csrfToken" th:value="${_csrf.token}"/>
-        <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}"/> 
+		<input type="hidden" id="csrfToken" th:value="${_csrf.token}" /> <input
+			type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" />
 		<button
 			class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3"
 			type="button" data-bs-toggle="collapse"
@@ -30,9 +30,8 @@
 				</div>
 			</li>
 			<li class="nav-item dropdown">
-			<!-- icon-indicator 알림 처리-->
-			<a
-				class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator"
+				<!-- icon-indicator 알림 처리--> <a
+				class="nav-link notification-indicator notification-indicator-primary px-0"
 				id="navbarDropdownNotification" href="#" role="button"
 				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="fas fa-bell" data-fa-transform="shrink-6"
@@ -44,13 +43,13 @@
 						<div class="card-header">
 							<div class="row justify-content-between align-items-center">
 								<div class="col-auto">
-									<h6 class="card-header-title mb-0">완료내역</h6>
+									<h6 class="card-header-title mb-0">완료내역 <button class="btn p-0 ms-1" type="button"  title="Delete" id="alarmDelete"><span class="text-500 fas fa-trash-alt"></span></button></h6>									
 								</div>
 							</div>
 						</div>
 						<div class="scrollbar-overlay" style="max-height: 19rem">
-							<div class="list-group list-group-flush fw-normal fs--1">
-								<div class="list-group-item">
+							<div class="list-group list-group-flush fw-normal fs--1" id="alarmList">
+								<!-- <div class="list-group-item">
 									<a class="notification notification-flush notification-unread"
 										href="#!">
 										<div class="notification-avatar"></div>
@@ -72,11 +71,77 @@
 											</p>
 										</div>
 									</a>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
-				</div></li>
+				</div>
+			</li>
 		</ul>
 	</nav>
+	
+	<script type="text/javascript">	
+		$(function() {			
+			setInterval(fn_Alarm, 60000);
+			fn_Alarm();
+			fn_AlarmEvent();			
+		});
+		function fn_AlarmEvent(){
+			$("#alarmDelete").off().on('click',function(e){
+				e.preventDefault();
+				var param = {
+						 target : "DELETE",
+						 method : "DELETE",
+						 url : "/api/jobExctLog/delete",
+						 dataType:"text",
+						 callbackFunc : "alarmCallback",
+						 isLoading: false
+					}
+		    	ajaxCall(param);
+			})
+		}
+		function fn_Alarm(){
+			var param = {
+					 target : "LIST",
+					 url : "/api/jobExctLog/getList",
+					 callbackFunc : "alarmCallback",
+					 isLoading: false
+				}
+	    	ajaxCall(param);
+		}
+			function alarmCallback(target, data) {				
+				switch (target) {
+				case "LIST":
+					var html ="";
+					if(!gf_IsNull(data)){
+						$.each(data,function(){							
+							html +='<div class="list-group-item">';
+							html +='	<a class="notification notification-flush notification-unread"';
+							html +='		href="#!">';
+							html +='		<div class="notification-avatar"></div>';
+							html +='		<div class="notification-body">';
+							html +='			<p class="mb-1">';
+							html +='				<strong>'+this.enddtim+'</strong>';
+							html +='			</p>';
+							html +='			<p class="mb-1">';
+							html +=					this.comment
+							html +='			</p>';
+							html +='		</div>';
+							html +='	</a>';
+							html +='</div>';
+						});
+						$("#navbarDropdownNotification").addClass('icon-indicator');
+					}
+					
+					$("#alarmList").html(html);
+					break;
+				case "DELETE":
+					$("#navbarDropdownNotification").removeClass('icon-indicator');
+					$("#alarmList").empty();
+					break;
+				default:
+					break;
+				}
+			}
+	</script>
 </header>

@@ -52,9 +52,6 @@ public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 		} catch (Exception e) {
 			logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
 		}
-				
-	   	
-	   	System.out.println("authentication::::::"+authentication.getAuthorities());
 	   	
 		if (savedRequest == null) {
 			super.onAuthenticationSuccess(request, response, authentication);
