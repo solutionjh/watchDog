@@ -15,13 +15,13 @@
 				<div class="card-body ">
 
 				<div class="row gx-2">
-					<div class="col-sm-3 mb-3">
+					<div class="col-sm-9 mb-3">
 						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
                       	<option value="">프로젝트 선택</option>
                       </select>
 					</div>
 					<div class="col-sm-3 mb-3">
-						<button class="btn btn-primary" type="button" id="goFileMonitoring">파일모니터링</button>
+						<button class="btn btn-danger" type="button" id="deleteBtn">삭제</button>
 					</div>
 				</div>
 			</div>                
@@ -30,7 +30,8 @@
 	</div>
 
 	<script type="text/javascript">
-		var $table = $('#table');
+		var $projectNameItemDropdown = $("#projectNameItemDropdown");
+		var $deleteBtn = $("#deleteBtn");
 				
 		$(function() {
 			fn_projectNames();
@@ -46,39 +47,39 @@
 				}
 	    	ajaxCall(param);
 		}
-
-		function fn_Event() {
-			$rateBtn.on("click", function(){
-				tableRefresh();
-			})
-			
-			$rateInput.on("keyup",function(key){
-				if(key.keyCode==13) {
-					tableRefresh();			            
+		
+		function fn_delete(){
+			const projectName = $projectNameItemDropdown.val();
+			var param = {
+					 target : "PROJECT_DELETE",
+					 url : "/main/deleteproject/" + projectName
 				}
-			});
+	    	ajaxCall(param);
+		}
+		function fn_Event() {
+			$deleteBtn.on("click", function(){
+				fn_delete();
+			})
 		}
 	
 		function callback(target, data) {
 			
 			switch (target) {
 			case "PROJECT_NAMES":
+				$projectNameItemDropdown.find("option").remove();
 				var listName = data;
-				var html = "";
+				var html = "<option>프로젝트 선택</option>";
 				
                 $.each(listName, function(index, data) {
                 	html += "<option value="+data+">"+data+"</option>";
                 });
                 $projectNameItemDropdown.append(html);
-                $projectNameItemDropdown.off();
-                $projectNameItemDropdown.change(function(){
-                    fn_regdtItems($(this).val());
-                });
-
     			$('.picker').select2();
 				break;
 				
-			case "DELETE":
+			case "PROJECT_DELETE":
+				fn_projectNames();
+				alertModal('[[#{web.success.delete}]]');
 				break;
 			    
 			default:
