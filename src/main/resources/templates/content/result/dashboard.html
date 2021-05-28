@@ -2,168 +2,455 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>대시보드</title>
-
 </head>
-	<div layout:fragment="content">
-	<div class="row g-0">
-            <div class="col-lg-6 pe-lg-2">
-              <div class="card mb-3">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" >분포 안정 지표</h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body bg-light h-100">
-                	<div id="barChart"style="min-height: 250px;">
-                	</div>
-                </div>
-              </div>
+<div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/assets/img/illustrations/corner-4.png);">
             </div>
-            
-            <div class="col-lg-6 ps-lg-2">
-              <div class="card mb-3">
+		<div class="card-header">
+			<div class="row flex-between-end">
+				<div class="card-body ">
+
+					<div class="row gx-2">
+						<div class="col-sm-3 mb-2 mt-3">
+							<h5 class="fs-0 mb-0">최근실행시간 : <span class="text-500" id="recentDtim"></span></h5>
+						</div>
+						<div class="col-sm-3 mb-3">
+							<select id="projectNameItemDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">프로젝트 선택</option>
+							</select>
+						</div>
+						<div class="col-sm-3 mb-3 ">
+							<select id="countDropdown" class="form-select picker"
+								data-live-search="true">
+								<!-- <option value="">수행일시 선택</option>
+								<option value="7">직전 7건</option>
+								<option value="15">직전 15건</option>
+								<option value="30">직전 30건</option> -->
+								
+								<option value="all">수행일시 선택</option>
+								<option value="oneday">최근 1일</option>
+								<option value="oneweek">최근 1주</option>
+								<option value="onemonth">최근 1개월</option>
+								<option value="onequarter">최근 3개월</option>
+								<option value="onehalf">최근 6개월</option>
+								<option value="oneyear">최근 1년</option>
+							</select>
+						</div>
+						<div class="col-sm-3 mb-3">
+							<button class="btn btn-primary" type="button"
+								id="goFileMonitoring">파일모니터링</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<div class="row g-3 mb-3">
+            <div class="col-lg-6">
+              <div class="card">
                 <div class="card-header">
                   <div class="row flex-between-end">
                     <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor">데이터  수</h5>
+                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">분포 안정 지표</a></h5>
                     </div>
                   </div>
                 </div>
                 <div class="card-body bg-light">
+                  <div class="tab-content">
+                    <div id="psiChart" style="min-height: 250px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row flex-between-end">
+                    <div class="col-auto col-lg align-self-center">
+                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">데이터 수</a></h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body bg-light">
+                  <div class="tab-content">
+                    <div id="dataCntChart" style="min-height: 250px;"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <script type="text/javascript">
-			$(function() {
-				makeLineChart();
+
+	<script type="text/javascript">
+	var $projectNameItemDropdown = $("#projectNameItemDropdown");
+	var $countDropdown = $("#countDropdown");
+	 var projectName = "";
+	 var recentPeriod = "all";
+	
+		$(function() {
+			fn_projectNames();
+			fn_Event();			
+			fn_data();	
+		});
+		
+		function fn_Event() {
+			$countDropdown.off().on('change',function(){
+				recentPeriod = "전체";
+				fn_data();
+             });
+		}
+		
+		function fn_projectNames() {			
+	    	ajaxCall({
+				 target : "PROJECT_NAMES",
+				 url : "/result/projectnames/",
+				 isLoading: false
 			});
-			
-			function makeLineChart(){
-				var chartDom = document.getElementById('barChart');
-				var myChart = echarts.init(chartDom);
-				var option;
-	
-				option = {
-				        color: utils.getGrays().white,
-				        tooltip: {
-				          trigger: 'axis',
-				          padding: [7, 10],
-				          backgroundColor: utils.getGrays()['100'],
-				          borderColor: utils.getGrays()['300'],
-				          textStyle: {
-				            color: utils.getColors().dark
-				          },
-				          borderWidth: 1,
-				          transitionDuration: 0,
-				          position: function position(pos, params, dom, rect, size) {
-				            return getPosition(pos, params, dom, rect, size);
-				          }
-				        },
-				        toolbox: {
-				            feature: {
-				                saveAsImage: { title: '이미지 저장'}
-				            }
-				        },
-				        xAxis: {
-				          type: 'category',
-				          data: ['2019-01-05', '2019-01-06', '2019-01-07', '2019-01-08', '2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12', '2019-01-13', '2019-01-14', '2019-01-15', '2019-01-16'],
-				          boundaryGap: false,
-				          axisPointer: {
-				            lineStyle: {
-				              color: utils.getGrays()['300'],
-				              type: 'dashed'
-				            }
-				          },
-				          splitLine: {
-				            show: false
-				          },
-				          axisLine: {
-				            lineStyle: {
-				              color: utils.rgbaColor('#000', 0.01),
-				              type: 'dashed'
-				            }
-				          },
-				          axisTick: {
-				            show: false
-				          },
-				          axisLabel: {
-				            color: utils.getGrays()['400'],
-				            margin: 15
-				          }
-				        },
-				        yAxis: {
-				          type: 'value',
-				          axisPointer: {
-				            show: false
-				          },
-				          splitLine: {
-				            lineStyle: {
-				              color: utils.getGrays()['300'],
-				              type: 'dashed'
-				            }
-				          },
-				          boundaryGap: false,
-				          axisLabel: {
-				            show: true,
-				            color: utils.getGrays()['400'],
-				            margin: 15
-				          },
-				          axisTick: {
-				            show: false
-				          },
-				          axisLine: {
-				            show: false
-				          }
-				        },
-				        series: [{
-				          type: 'line',
-				          data: [820, 932, 901, 934, 1290, 1330, 1320],
-				          lineStyle: {
-				            color: utils.getColors().primary
-				          },
-				          itemStyle: {
-				            borderColor: utils.getColors().primary,
-				            borderWidth: 2
-				          },
-				          symbol: 'circle',
-				          symbolSize: 10,
-				          smooth: false,
-				          hoverAnimation: true,
-				          areaStyle: {
-				            color: {
-				              type: 'linear',
-				              x: 0,
-				              y: 0,
-				              x2: 0,
-				              y2: 1,
-				              colorStops: [{
-				                offset: 0,
-				                color: utils.rgbaColor(utils.getColors().primary, 0.2)
-				              }, {
-				                offset: 1,
-				                color: utils.rgbaColor(utils.getColors().primary, 0)
-				              }]
-				            }
-				          }
-				        }],
-				        grid: {
-				          right: '28px',
-				          left: '50px',
-				          bottom: '15%',
-				          top: '5%'
-				        }
-				      };
-	
-				option && myChart.setOption(option);
+		}
+		
+		function fn_data() {
+	    	ajaxCall({
+				 target : "RECENTDTIM",
+				 url : "/main/regdtim/" + projectName,
+				 isLoading: false
+			});			
+		}
+				
+		function callback(target, data) {			
+			switch (target) {
+			case "PROJECT_NAMES":
+				var listName = data;
+				var html = "";
+				
+                $.each(listName, function(index, data) {
+                	html += "<option value="+data+">"+data+"</option>";
+                });
+                $projectNameItemDropdown.append(html);
+                $projectNameItemDropdown.off().on('change',function(){
+                	projectName = $(this).val();
+                	fn_data();
+                });
+
+    			$('.picker').select2();
+				break;			    
+			case "RECENTDTIM":					
+				$("#recentDtim").html(data[0]);	
+				
+		    	ajaxCall({
+					 target : "STAT",
+					 url : "/main/stat/" + projectName + "/" + recentPeriod 
+				});					
+				break;				    
+			case "STAT":
+				var statData = {"dtims": [], "psis": [], "cars": [], "chisqcnts": [], "datacnts": []};
+				$.each(data, function(){
+					statData.dtims.push(this.dtim);
+                    statData.psis.push(parseFloat(this.psi));
+                    statData.cars.push(parseInt(this.car));
+                    statData.chisqcnts.push(parseInt(this.chisqcnt));
+                    statData.datacnts.push(parseInt(this.inputDataCnt));
+				});
+				makeLineChart(statData);
+				fn_setDataCntBarChart(statData)
+				
+				break;			    
+			default:
+				break;
 			}
-			</script>
-	</div>
+		}
+		
+
+		function makeLineChart(data) {
+			
+			 if (psiLineChart != null) {
+		            psiLineChart.destroy();
+		        } 
+
+		        var dataSize = data.dtims.length
+		        var thresholdValue = 1.0;
+		        var thresholdArray = new Array(dataSize);
+		        for (var i = 0; i < dataSize; i++) {
+		            thresholdArray[i] = thresholdValue;
+		        }
+			
+			var psiLineChart = document.getElementById('psiChart');
+			var myChart = echarts.init(psiLineChart);
+			var option;
+
+			option = {
+				color: [utils.getColors().primary, utils.getColors().danger],
+				tooltip : {
+					trigger : 'axis',
+					padding : [ 7, 10 ],
+					backgroundColor : utils.getGrays()['100'],
+					borderColor : utils.getGrays()['300'],
+					textStyle : {
+						color : utils.getColors().dark
+					},
+					borderWidth : 1,
+					transitionDuration : 0,
+					position : function position(pos, params, dom, rect, size) {
+						return getPosition(pos, params, dom, rect, size);
+					}
+				},
+				
+				legend: {
+			          data: ['PSI', 'Threshold'],
+			          left: 'center',
+			          itemWidth: 10,
+			          itemHeight: 10,
+			          borderRadius: 0,
+			          icon: 'circle',
+			          inactiveColor: utils.getGrays()['400'],
+			          textStyle: {
+			            color: utils.getGrays()['700']
+			          }
+			        }, 
+			      
+			        
+				toolbox : {
+					feature : {
+						saveAsImage : {
+							title : '이미지 저장'
+						}
+					}
+				},
+				xAxis : {
+					type : 'category',
+					data : data.dtims,
+					boundaryGap : false,
+					axisPointer : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					splitLine : {
+						show : false
+					},
+					axisLine : {
+						lineStyle : {
+							color : utils.rgbaColor('#000', 0.01),
+							type : 'dashed'
+						}
+					},
+					axisTick : {
+						show : false
+					},
+					axisLabel : {
+						color : utils.getGrays()['400'],
+						margin : 15
+					}
+				},
+				yAxis : {
+					type : 'value',
+					axisPointer : {
+						show : false
+					},
+					splitLine : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					boundaryGap : false,
+					axisLabel : {
+						show : true,
+						color : utils.getGrays()['400'],
+						margin : 15
+					},
+					axisTick : {
+						show : false
+					},
+					axisLine : {
+						show : false
+					}
+				},
+				series : [ 
+				{
+					name: 'PSI',
+					type : 'line',
+					data : data.psis,
+					lineStyle : {
+						color : utils.getColors().primary
+					},
+					itemStyle : {
+						borderColor : utils.getColors().primary,
+						borderWidth : 2
+					},
+					showSymbol: false,
+					smooth : true,
+					hoverAnimation : true,
+					areaStyle : {
+						color : {
+							type : 'linear',
+							x : 0,
+							y : 0,
+							x2 : 0,
+							y2 : 1,
+							colorStops : [
+									{
+										offset : 0,
+										color : utils.rgbaColor(utils
+												.getColors().primary, 0.2)
+									},
+									{
+										offset : 1,
+										color : utils.rgbaColor(utils
+												.getColors().primary, 0)
+									} ]
+						}
+					}
+				},{
+					name: 'Threshold',
+					type : 'line',
+					data : thresholdArray,
+					lineStyle : {
+						color : utils.getColors().danger
+					},
+					itemStyle : {
+						borderColor : utils.getColors().danger,
+						borderWidth : 2
+					},
+					showSymbol: false,
+					smooth : false,
+					hoverAnimation : true
+				}
+				
+				
+				]
+			};
+
+			option && myChart.setOption(option);
+		}
+		
+		
+		 function fn_setDataCntBarChart(data) {
+			
+			/* if (itemBarChart != null) {
+	            itemBarChart.destroy();
+	        }
+						
+			var itemBarChart = document.getElementById('dataCnt');
+			var myChart = echarts.init(itemBarChart);
+			var option;
+
+			option = {
+				color: [utils.getColors().primary],
+				tooltip : {
+					trigger : 'item',
+					padding : [ 7, 10 ],
+					backgroundColor : utils.getGrays()['100'],
+					borderColor : utils.getGrays()['300'],
+					textStyle : {
+						color : utils.getColors().dark
+					},
+					borderWidth : 1,
+					transitionDuration : 0,
+					position : function position(pos, params, dom, rect, size) {
+						return getPosition(pos, params, dom, rect, size);
+					}
+				},
+				
+				legend: {
+			          data: ['항목수'],
+			          left: 'center',
+			          itemWidth: 10,
+			          itemHeight: 10,
+			          borderRadius: 0,
+			          icon: 'circle',
+			          inactiveColor: utils.getGrays()['400'],
+			          textStyle: {
+			            color: utils.getGrays()['700']
+			          }
+			        }, 			        
+				toolbox : {
+					feature : {
+						saveAsImage : {
+							title : '이미지 저장'
+						}
+					}
+				},
+				xAxis : {
+					 type: 'category',
+					data : data.dtims,
+			          axisLabel: {
+			            color: utils.getGrays()['400']
+			          },
+			          axisLine: {
+			            lineStyle: {
+			              color: utils.getGrays()['300'],
+			              type: 'dashed'
+			            }
+			          },
+			          axisTick: false,
+			          boundaryGap: true
+					
+				},
+				yAxis : {
+					axisPointer: {
+			            type: 'none'
+			          },
+			          axisTick: 'none',
+			          splitLine: {
+			            lineStyle: {
+			              color: utils.getGrays()['300'],
+			              type: 'dashed'
+			            }
+			          },
+			          axisLine: {
+			            show: false
+			          },
+			          axisLabel: {
+			            color: utils.getGrays()['400']
+			          }
+			        },
+				series : [ 
+				{
+					name: '항목수',
+					type : 'bar',
+					data : data.datacnts,
+					type: 'bar',
+			          barWidth: '12%',
+			          barGap: '30%',
+			          label: {
+			              normal: {
+			                show: false
+			              }
+			            },
+			            z: 10,
+			            itemStyle: {
+			              normal: {
+			                barBorderRadius: [10, 10, 0, 0],
+			                color: utils.getColors().primary
+			              }
+			            }
+			          }, {
+			            type: 'bar',
+			            barWidth: '12%',
+			            barGap: '30%',
+			            label: {
+			              normal: {
+			                show: false
+			              }
+			            },
+			            itemStyle: {
+			              normal: {
+			                barBorderRadius: [4, 4, 0, 0],
+			                color: utils.getGrays()[300]
+			              }
+			            }
+			          }
+			          ],
+			};
+
+			option && myChart.setOption(option); */
+		} 
+	</script>
+</div>
 </html>

@@ -141,12 +141,11 @@
 		
 
 		function fn_role() {
-			var param = {
-					 target : "MEMBER_TYPE",
-					 url : "/api/member/getMemberTypeList/",
-					 isLoading: false
-				}
-	    	ajaxCall(param);
+	    	ajaxCall({
+				 target : "MEMBER_TYPE",
+				 url : "/api/member/getMemberTypeList/",
+				 isLoading: false
+			});
 		}
 		
 
@@ -166,13 +165,12 @@
 				if ($passwordForm[0].checkValidity() === true) {	
 					if(target_memberId){			
 				    	
-				    	var param = {
-								 target : "PASSWORD",
-								 method : "PUT",
-								 url : "/api/member/password/"+target_memberId+"/"+$("#password-change").val(),
-								 dataType : "text"
-							}
-				    	ajaxCall(param);
+				    	ajaxCall({
+							 target : "PASSWORD",
+							 method : "PUT",
+							 url : "/api/member/password/"+target_memberId+"/"+$("#password-change").val(),
+							 dataType : "text"
+						});
 					}
 			    } 
 			});

@@ -26,7 +26,11 @@ function ajaxCall(param) {
 		console.log("param is null !!");
   		return;
   	}  
-  
+  	
+  	if(param.url != null){  		
+		param.url = param.url.replace(/\/\//gi, "/")
+  	}  
+  	  
 	ajaxParamObj.callFunction =  gf_IsNull(param.callbackFunc) 
 								 ? eval(callbackFunc)
 								 : eval(param.callbackFunc)
