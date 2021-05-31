@@ -85,6 +85,40 @@
               </div>
             </div>
           </div>
+		<div class="row g-3 mb-3">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row flex-between-end">
+                    <div class="col-auto col-lg align-self-center">
+                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">이상 항목 수</a></h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body bg-light">
+                  <div class="tab-content">
+                    <div id="dashItemBar" style="min-height: 250px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="row flex-between-end">
+                    <div class="col-auto col-lg align-self-center">
+                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">분포 이상 항목 수</a></h5>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body bg-light">
+                  <div class="tab-content">
+                    <div id="dashChisqBar" style="min-height: 250px;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
 	<script type="text/javascript">
 	var $projectNameItemDropdown = $("#projectNameItemDropdown");
@@ -94,13 +128,12 @@
 	
 		$(function() {
 			fn_projectNames();
-			fn_Event();			
-			fn_data();	
+			fn_Event();	
 		});
 		
 		function fn_Event() {
 			$countDropdown.off().on('change',function(){
-				recentPeriod = "전체";
+				recentPeriod = "all";
 				fn_data();
              });
 		}
@@ -135,8 +168,10 @@
                 	projectName = $(this).val();
                 	fn_data();
                 });
-
     			$('.picker').select2();
+    			
+    			fn_data();	
+    			
 				break;			    
 			case "RECENTDTIM":					
 				$("#recentDtim").html(data[0]);	
@@ -155,8 +190,39 @@
                     statData.chisqcnts.push(parseInt(this.chisqcnt));
                     statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
-				makeLineChart(statData);
-				fn_setDataCntBarChart(statData)
+				fn_LineChart(statData); // 분포 안정 지표
+				
+				
+				// 데이터 수 
+				var param = {
+						target : "dataCntChart",
+						title : "데이터 수",
+						xData : statData.dtims,
+						yData : statData.datacnts,
+						name  : "건수",
+						barColor  : utils.getColors().primary,
+						
+				}				
+				fn_BarChart(param) 
+				
+				
+				// 일별 이상항목수 
+				param.target = "dashItemBar";
+				param.title = "일별 이상 항목 수";
+				param.xData = statData.dtims;
+				param.yData = statData.cars;
+				param.name = "항목수";
+				param.barColor = utils.getColors().danger
+				fn_BarChart(param)  
+				
+				
+				// 분포 이상 항목수				
+				param.target = "dashChisqBar";
+				param.title = "분포 이상 항목수";
+				param.xData = statData.dtims;
+				param.yData = statData.chisqcnts;
+				param.barColor = utils.getColors().primary;
+				fn_BarChart(param); 
 				
 				break;			    
 			default:
@@ -165,8 +231,7 @@
 		}
 		
 
-		function makeLineChart(data) {
-			
+		function fn_LineChart(data) {			
 			 if (psiLineChart != null) {
 		            psiLineChart.destroy();
 		        } 
@@ -183,6 +248,7 @@
 			var option;
 
 			option = {
+				title: {text: '분포 안정 지표', show:false},	
 				color: [utils.getColors().primary, utils.getColors().danger],
 				tooltip : {
 					trigger : 'axis',
@@ -216,7 +282,7 @@
 				toolbox : {
 					feature : {
 						saveAsImage : {
-							title : '이미지 저장'
+							 title: 'Save As'
 						}
 					}
 				},
@@ -244,7 +310,9 @@
 					},
 					axisLabel : {
 						color : utils.getGrays()['400'],
-						margin : 15
+						margin : 15,
+			            rotate : 45,
+			            textStyle :{fontSize : 10}
 					}
 				},
 				yAxis : {
@@ -262,7 +330,8 @@
 					axisLabel : {
 						show : true,
 						color : utils.getGrays()['400'],
-						margin : 15
+						margin : 15,
+			            textStyle :{fontSize : 10}
 					},
 					axisTick : {
 						show : false
@@ -330,17 +399,18 @@
 		}
 		
 		
-		 function fn_setDataCntBarChart(data) {
+		 function fn_BarChart(param) {
 			
-			/* if (itemBarChart != null) {
+			if (itemBarChart != null) {
 	            itemBarChart.destroy();
 	        }
-						
-			var itemBarChart = document.getElementById('dataCnt');
+									
+			var itemBarChart = document.getElementById(param.target);
 			var myChart = echarts.init(itemBarChart);
 			var option;
 
 			option = {
+				title: {text: param.title, show:false},	
 				color: [utils.getColors().primary],
 				tooltip : {
 					trigger : 'item',
@@ -358,7 +428,7 @@
 				},
 				
 				legend: {
-			          data: ['항목수'],
+			          data: [param.name],
 			          left: 'center',
 			          itemWidth: 10,
 			          itemHeight: 10,
@@ -372,15 +442,17 @@
 				toolbox : {
 					feature : {
 						saveAsImage : {
-							title : '이미지 저장'
+							 title: 'Save As'
 						}
 					}
 				},
 				xAxis : {
 					 type: 'category',
-					data : data.dtims,
+					data : param.xData,
 			          axisLabel: {
-			            color: utils.getGrays()['400']
+			            color: utils.getGrays()['400'],
+			            rotate : 45,
+			            textStyle :{fontSize : 10}
 			          },
 			          axisLine: {
 			            lineStyle: {
@@ -407,14 +479,16 @@
 			            show: false
 			          },
 			          axisLabel: {
-			            color: utils.getGrays()['400']
+			            color: utils.getGrays()['400'],
+			            rotate : 45,
+			            textStyle :{fontSize : 10}
 			          }
 			        },
 				series : [ 
-				{
-					name: '항목수',
+					{
+					name: param.name,
 					type : 'bar',
-					data : data.datacnts,
+					data : param.yData,
 					type: 'bar',
 			          barWidth: '12%',
 			          barGap: '30%',
@@ -427,7 +501,7 @@
 			            itemStyle: {
 			              normal: {
 			                barBorderRadius: [10, 10, 0, 0],
-			                color: utils.getColors().primary
+			                color: param.barColor
 			              }
 			            }
 			          }, {
@@ -446,11 +520,12 @@
 			              }
 			            }
 			          }
-			          ],
+			      ],
 			};
 
-			option && myChart.setOption(option); */
+			option && myChart.setOption(option); 
 		} 
+		
 	</script>
 </div>
 </html>
