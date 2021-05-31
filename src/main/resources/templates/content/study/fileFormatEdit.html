@@ -2,12 +2,124 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
-<title>파일 포맷 변경</title>
+<title>파일포맷 변경</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+
+	<div class="row g-0">
+		<div class="col-lg-12 pe-lg-2">
+			<div class="card mb-3">
+			<form id="info-form" class="needs-validation" novalidate>
+				<div class="card-body">
+						<div class="row gx-2">
+							<div class="col-6 mb-3">
+								<label class="form-label" for="projectNameDropdown" data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">원본
+									파일</label> <select class="form-select picker" id="projectNameDropdown"
+									name="projectNameDropdown">
+									<option value="">직접입력</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFilePath">
+									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
+									name="inputDataFilePath" type="text"
+									placeholder="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFilePath" data-bs-original-title="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">레이아웃
+									파일</label> <select class="form-select picker" id="inputLayoutFilePath"
+									name="inputLayoutFilePath">
+									<option value="">직접입력</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFilePath">
+									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
+									name="inputDataFilePath" type="text"
+									placeholder="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFilePath" data-bs-original-title="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">변환
+									파일</label> <select class="form-select picker" id="inputLayoutFilePath"
+									name="inputLayoutFilePath">
+									<option value="">직접입력</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="outputDataFilePath">
+									&nbsp; </label> <input class="form-control" id="outputDataFilePath"
+									name="outputDataFilePath" type="text"
+									placeholder="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+						</div>
+					
+
+				</div>
+				<div class="card-footer bg-light">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="submit">실행</button>
+							</div>
+						</div>
+					</div>
+					</form>
+			</div>
+		</div>
 	</div>
+	<script type="text/javascript">
+		var $infoForm = $("#info-form");
+		var $projectNameDropdown = $("#projectNameDropdown");
+
+		$(function() {
+			fn_Event();
+		});
+
+		function fn_makeCsv() {
+			var data = $infoForm.serializeObject();
+			var param = {
+				method : "PUT",
+				target : "EXCUTE",
+				url : "/anomaly/makecsvfile",
+				data : data,
+				dataType : "text"
+			}
+			ajaxCall(param);
+		}
+
+		function fn_Event() {
+			$infoForm.on("submit", function(e) {
+				e.preventDefault();
+				if ($infoForm[0].checkValidity() === true) {
+					confirmModal('실행하시겠습니까?', function() {
+						fn_makeCsv();
+					});
+				}
+			})
+		}
+
+		function callback(target, data) {
+			switch (target) {
+			case "EXCUTE":
+				alertModal('[[#{web.success.excute}]]');
+				initForm();
+				break;
+			default:
+				break;
+			}
+		}
+
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			formReset($infoForm);
+		}
+	</script>
+
+</div>
 </html>
