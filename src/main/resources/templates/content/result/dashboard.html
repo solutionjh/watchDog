@@ -9,15 +9,18 @@
 </head>
 <div layout:fragment="content">
 	<div class="card mb-3">
-		<div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/assets/img/illustrations/corner-4.png);">
-            </div>
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
 		<div class="card-header">
 			<div class="row flex-between-end">
 				<div class="card-body ">
 
 					<div class="row gx-2">
 						<div class="col-sm-3 mb-2 mt-3">
-							<h5 class="fs-0 mb-0">최근실행시간 : <span class="text-500" id="recentDtim"></span></h5>
+							<h5 class="fs-0 mb-0">
+								최근실행시간 : <span class="text-500" id="recentDtim"></span>
+							</h5>
 						</div>
 						<div class="col-sm-3 mb-3">
 							<select id="projectNameItemDropdown" class="form-select picker"
@@ -32,7 +35,7 @@
 								<option value="7">직전 7건</option>
 								<option value="15">직전 15건</option>
 								<option value="30">직전 30건</option> -->
-								
+
 								<option value="all">수행일시 선택</option>
 								<option value="oneday">최근 1일</option>
 								<option value="oneweek">최근 1주</option>
@@ -43,169 +46,211 @@
 							</select>
 						</div>
 						<div class="col-sm-3 mb-3">
-							<button class="btn btn-primary" type="button"
-								id="goFileMonitoring">파일모니터링</button>
+							<div class="input-group">
+								<div class="input-group-append">
+									<button type="button" id="goReport" class="btn btn-primary" disabled>검증
+										보고서</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+	<div class="row g-3 mb-3">
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					<div class="row flex-between-end">
+						<div class="col-auto col-lg align-self-center">
+							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+								<a class="anchorjs-link " aria-label="Anchor"
+									data-anchorjs-icon="#" href="#bar-chart"
+									style="padding-left: 0.375em;">분포 안정 지표</a>
+							</h5>
+						</div>
+					</div>
+				</div>
+				<div class="card-body bg-light">
+					<div class="tab-content">
+						<div id="psiChart" style="min-height: 250px;"></div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="row g-3 mb-3">
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">분포 안정 지표</a></h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body bg-light">
-                  <div class="tab-content">
-                    <div id="psiChart" style="min-height: 250px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">데이터 수</a></h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body bg-light">
-                  <div class="tab-content">
-                    <div id="dataCntChart" style="min-height: 250px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-		<div class="row g-3 mb-3">
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">이상 항목 수</a></h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body bg-light">
-                  <div class="tab-content">
-                    <div id="dashItemBar" style="min-height: 250px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-header">
-                  <div class="row flex-between-end">
-                    <div class="col-auto col-lg align-self-center">
-                      <h5 class="mb-0" data-anchor="data-anchor" id="bar-chart"><a class="anchorjs-link " aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart" style="padding-left: 0.375em;">분포 이상 항목 수</a></h5>
-                    </div>
-                  </div>
-                </div>
-                <div class="card-body bg-light">
-                  <div class="tab-content">
-                    <div id="dashChisqBar" style="min-height: 250px;"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					<div class="row flex-between-end">
+						<div class="col-auto col-lg align-self-center">
+							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+								<a class="anchorjs-link " aria-label="Anchor"
+									data-anchorjs-icon="#" href="#bar-chart"
+									style="padding-left: 0.375em;">데이터 수</a>
+							</h5>
+						</div>
+					</div>
+				</div>
+				<div class="card-body bg-light">
+					<div class="tab-content">
+						<div id="dataCntChart" style="min-height: 250px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row g-3 mb-3">
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					<div class="row flex-between-end">
+						<div class="col-auto col-lg align-self-center">
+							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+								<a class="anchorjs-link " aria-label="Anchor"
+									data-anchorjs-icon="#" href="#bar-chart"
+									style="padding-left: 0.375em;">이상 항목 수</a>
+							</h5>
+						</div>
+					</div>
+				</div>
+				<div class="card-body bg-light">
+					<div class="tab-content">
+						<div id="dashItemBar" style="min-height: 250px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					<div class="row flex-between-end">
+						<div class="col-auto col-lg align-self-center">
+							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+								<a class="anchorjs-link " aria-label="Anchor"
+									data-anchorjs-icon="#" href="#bar-chart"
+									style="padding-left: 0.375em;">분포 이상 항목 수</a>
+							</h5>
+						</div>
+					</div>
+				</div>
+				<div class="card-body bg-light">
+					<div class="tab-content">
+						<div id="dashChisqBar" style="min-height: 250px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<script type="text/javascript">
-	var $projectNameItemDropdown = $("#projectNameItemDropdown");
-	var $countDropdown = $("#countDropdown");
-	 var projectName = "";
-	 var recentPeriod = "all";
-	
+		var $projectNameItemDropdown = $("#projectNameItemDropdown");
+		var $countDropdown = $("#countDropdown");
+		var $report = $("#goReport");
+		var projectName = "";
+		var recentPeriod = "all";
+
 		$(function() {
 			fn_projectNames();
-			fn_Event();	
+			fn_Event();
 		});
-		
+
 		function fn_Event() {
-			$countDropdown.off().on('change',function(){
-				recentPeriod = "all";
+			$countDropdown.off().on('change', function() {
+				recentPeriod = $(this).val();
 				fn_data();
-             });
-		}
-		
-		function fn_projectNames() {			
-	    	ajaxCall({
-				 target : "PROJECT_NAMES",
-				 url : "/result/projectnames/",
-				 isLoading: false
+			});
+			$report.off().on('click', function() {
+				var param = {
+						projectName : projectName,
+						recentPeriod : recentPeriod
+				}
+				
+				$("#paramForm").prop('action','/result/dataReport');
+				$("#paramData").val(JSON.stringify(param));
+				$("#paramForm").submit(); 
 			});
 		}
-		
-		function fn_data() {
-	    	ajaxCall({
-				 target : "RECENTDTIM",
-				 url : "/main/regdtim/" + projectName,
-				 isLoading: false
-			});			
+
+		function fn_projectNames() {
+			ajaxCall({
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			});
 		}
-				
-		function callback(target, data) {			
+
+		function fn_data() {
+			ajaxCall({
+				target : "RECENTDTIM",
+				url : "/main/regdtim/" + projectName,
+				isLoading : false
+			});
+		}
+
+		function callback(target, data) {
 			switch (target) {
 			case "PROJECT_NAMES":
 				var listName = data;
 				var html = "";
-				
-                $.each(listName, function(index, data) {
-                	html += "<option value="+data+">"+data+"</option>";
-                });
-                $projectNameItemDropdown.append(html);
-                $projectNameItemDropdown.off().on('change',function(){
-                	projectName = $(this).val();
-                	fn_data();
-                });
-    			$('.picker').select2();
-    			
-    			fn_data();	
-    			
-				break;			    
-			case "RECENTDTIM":					
-				$("#recentDtim").html(data[0]);	
-				
-		    	ajaxCall({
-					 target : "STAT",
-					 url : "/main/stat/" + projectName + "/" + recentPeriod 
-				});					
-				break;				    
+
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$projectNameItemDropdown.off().on(
+						'change',
+						function() {
+							projectName = $(this).val();
+							
+							gf_IsNull(projectName)							
+								? $report.prop('disabled',true)
+								: $report.prop('disabled', false);
+
+							fn_data();
+						});
+				$('.picker').select2();
+
+				fn_data();
+
+				break;
+			case "RECENTDTIM":
+				$("#recentDtim").html(data[0]);
+
+				ajaxCall({
+					target : "STAT",
+					url : "/main/stat/" + projectName + "/" + recentPeriod
+				});
+				break;
 			case "STAT":
-				var statData = {"dtims": [], "psis": [], "cars": [], "chisqcnts": [], "datacnts": []};
-				$.each(data, function(){
+				var statData = {
+					"dtims" : [],
+					"psis" : [],
+					"cars" : [],
+					"chisqcnts" : [],
+					"datacnts" : []
+				};
+				$.each(data, function() {
 					statData.dtims.push(this.dtim);
-                    statData.psis.push(parseFloat(this.psi));
-                    statData.cars.push(parseInt(this.car));
-                    statData.chisqcnts.push(parseInt(this.chisqcnt));
-                    statData.datacnts.push(parseInt(this.inputDataCnt));
+					statData.psis.push(parseFloat(this.psi));
+					statData.cars.push(parseInt(this.car));
+					statData.chisqcnts.push(parseInt(this.chisqcnt));
+					statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
 				fn_LineChart(statData); // 분포 안정 지표
-				
-				
+
 				// 데이터 수 
 				var param = {
-						target : "dataCntChart",
-						title : "데이터 수",
-						xData : statData.dtims,
-						yData : statData.datacnts,
-						name  : "건수",
-						barColor  : utils.getColors().primary,
-						
-				}				
-				fn_BarChart(param) 
-				
-				
+					target : "dataCntChart",
+					title : "데이터 수",
+					xData : statData.dtims,
+					yData : statData.datacnts,
+					name : "건수",
+					barColor : utils.getColors().primary,
+
+				}
+				fn_BarChart(param)
+
 				// 일별 이상항목수 
 				param.target = "dashItemBar";
 				param.title = "일별 이상 항목 수";
@@ -213,43 +258,44 @@
 				param.yData = statData.cars;
 				param.name = "항목수";
 				param.barColor = utils.getColors().danger
-				fn_BarChart(param)  
-				
-				
+				fn_BarChart(param)
+
 				// 분포 이상 항목수				
 				param.target = "dashChisqBar";
 				param.title = "분포 이상 항목수";
 				param.xData = statData.dtims;
 				param.yData = statData.chisqcnts;
 				param.barColor = utils.getColors().primary;
-				fn_BarChart(param); 
-				
-				break;			    
+				fn_BarChart(param);
+
+				break;
 			default:
 				break;
 			}
 		}
-		
 
-		function fn_LineChart(data) {			
-			 if (psiLineChart != null) {
-		            psiLineChart.destroy();
-		        } 
+		function fn_LineChart(data) {
+			if (psiLineChart != null) {
+				psiLineChart.destroy();
+			}
 
-		        var dataSize = data.dtims.length
-		        var thresholdValue = 1.0;
-		        var thresholdArray = new Array(dataSize);
-		        for (var i = 0; i < dataSize; i++) {
-		            thresholdArray[i] = thresholdValue;
-		        }
-			
+			var dataSize = data.dtims.length
+			var thresholdValue = 1.0;
+			var thresholdArray = new Array(dataSize);
+			for (var i = 0; i < dataSize; i++) {
+				thresholdArray[i] = thresholdValue;
+			}
+
 			var psiLineChart = document.getElementById('psiChart');
 			var myChart = echarts.init(psiLineChart);
 			var option;
 
 			option = {
-				title: {text: '분포 안정 지표', show:false},	
-				color: [utils.getColors().primary, utils.getColors().danger],
+				title : {
+					text : '분포 안정 지표',
+					show : false
+				},
+				color : [ utils.getColors().primary, utils.getColors().danger ],
 				tooltip : {
 					trigger : 'axis',
 					padding : [ 7, 10 ],
@@ -264,25 +310,24 @@
 						return getPosition(pos, params, dom, rect, size);
 					}
 				},
-				
-				legend: {
-			          data: ['PSI', 'Threshold'],
-			          left: 'center',
-			          itemWidth: 10,
-			          itemHeight: 10,
-			          borderRadius: 0,
-			          icon: 'circle',
-			          inactiveColor: utils.getGrays()['400'],
-			          textStyle: {
-			            color: utils.getGrays()['700']
-			          }
-			        }, 
-			      
-			        
+
+				legend : {
+					data : [ 'PSI', 'Threshold' ],
+					left : 'center',
+					itemWidth : 10,
+					itemHeight : 10,
+					borderRadius : 0,
+					icon : 'circle',
+					inactiveColor : utils.getGrays()['400'],
+					textStyle : {
+						color : utils.getGrays()['700']
+					}
+				},
+
 				toolbox : {
 					feature : {
 						saveAsImage : {
-							 title: 'Save As'
+							title : 'Save As'
 						}
 					}
 				},
@@ -311,8 +356,10 @@
 					axisLabel : {
 						color : utils.getGrays()['400'],
 						margin : 15,
-			            rotate : 45,
-			            textStyle :{fontSize : 10}
+						rotate : 45,
+						textStyle : {
+							fontSize : 10
+						}
 					}
 				},
 				yAxis : {
@@ -331,7 +378,9 @@
 						show : true,
 						color : utils.getGrays()['400'],
 						margin : 15,
-			            textStyle :{fontSize : 10}
+						textStyle : {
+							fontSize : 10
+						}
 					},
 					axisTick : {
 						show : false
@@ -340,78 +389,83 @@
 						show : false
 					}
 				},
-				series : [ 
-				{
-					name: 'PSI',
-					type : 'line',
-					data : data.psis,
-					lineStyle : {
-						color : utils.getColors().primary
-					},
-					itemStyle : {
-						borderColor : utils.getColors().primary,
-						borderWidth : 2
-					},
-					showSymbol: false,
-					smooth : true,
-					hoverAnimation : true,
-					areaStyle : {
-						color : {
-							type : 'linear',
-							x : 0,
-							y : 0,
-							x2 : 0,
-							y2 : 1,
-							colorStops : [
-									{
-										offset : 0,
-										color : utils.rgbaColor(utils
-												.getColors().primary, 0.2)
-									},
-									{
-										offset : 1,
-										color : utils.rgbaColor(utils
-												.getColors().primary, 0)
-									} ]
+				series : [
+						{
+							name : 'PSI',
+							type : 'line',
+							data : data.psis,
+							lineStyle : {
+								color : utils.getColors().primary
+							},
+							itemStyle : {
+								borderColor : utils.getColors().primary,
+								borderWidth : 2
+							},
+							showSymbol : false,
+							smooth : true,
+							hoverAnimation : true,
+							areaStyle : {
+								color : {
+									type : 'linear',
+									x : 0,
+									y : 0,
+									x2 : 0,
+									y2 : 1,
+									colorStops : [
+											{
+												offset : 0,
+												color : utils.rgbaColor(utils
+														.getColors().primary,
+														0.2)
+											},
+											{
+												offset : 1,
+												color : utils
+														.rgbaColor(
+																utils
+																		.getColors().primary,
+																0)
+											} ]
+								}
+							}
+						}, {
+							name : 'Threshold',
+							type : 'line',
+							data : thresholdArray,
+							lineStyle : {
+								color : utils.getColors().danger
+							},
+							itemStyle : {
+								borderColor : utils.getColors().danger,
+								borderWidth : 2
+							},
+							showSymbol : false,
+							smooth : false,
+							hoverAnimation : true
 						}
-					}
-				},{
-					name: 'Threshold',
-					type : 'line',
-					data : thresholdArray,
-					lineStyle : {
-						color : utils.getColors().danger
-					},
-					itemStyle : {
-						borderColor : utils.getColors().danger,
-						borderWidth : 2
-					},
-					showSymbol: false,
-					smooth : false,
-					hoverAnimation : true
-				}
-				
-				
+
 				]
 			};
 
 			option && myChart.setOption(option);
 		}
-		
-		
-		 function fn_BarChart(param) {
-			
+
+		function fn_BarChart(param) {
+
 			if (itemBarChart != null) {
-	            itemBarChart.destroy();
-	        }
-									
+				itemBarChart.destroy();
+			}
+
 			var itemBarChart = document.getElementById(param.target);
 			var myChart = echarts.init(itemBarChart);
 			var option;
 
 			option = {
-				title: {text: param.title, show:false},	
-				color: [utils.getColors().primary],
+				title : {
+					text : param.title,
+					show : false
+				},
+				color : [ utils.getColors().primary ],
 				tooltip : {
 					trigger : 'item',
 					padding : [ 7, 10 ],
@@ -426,106 +480,107 @@
 						return getPosition(pos, params, dom, rect, size);
 					}
 				},
-				
-				legend: {
-			          data: [param.name],
-			          left: 'center',
-			          itemWidth: 10,
-			          itemHeight: 10,
-			          borderRadius: 0,
-			          icon: 'circle',
-			          inactiveColor: utils.getGrays()['400'],
-			          textStyle: {
-			            color: utils.getGrays()['700']
-			          }
-			        }, 			        
+
+				legend : {
+					data : [ param.name ],
+					left : 'center',
+					itemWidth : 10,
+					itemHeight : 10,
+					borderRadius : 0,
+					icon : 'circle',
+					inactiveColor : utils.getGrays()['400'],
+					textStyle : {
+						color : utils.getGrays()['700']
+					}
+				},
 				toolbox : {
 					feature : {
 						saveAsImage : {
-							 title: 'Save As'
+							title : 'Save As'
 						}
 					}
 				},
 				xAxis : {
-					 type: 'category',
+					type : 'category',
 					data : param.xData,
-			          axisLabel: {
-			            color: utils.getGrays()['400'],
-			            rotate : 45,
-			            textStyle :{fontSize : 10}
-			          },
-			          axisLine: {
-			            lineStyle: {
-			              color: utils.getGrays()['300'],
-			              type: 'dashed'
-			            }
-			          },
-			          axisTick: false,
-			          boundaryGap: true
-					
+					axisLabel : {
+						color : utils.getGrays()['400'],
+						rotate : 45,
+						textStyle : {
+							fontSize : 10
+						}
+					},
+					axisLine : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					axisTick : false,
+					boundaryGap : true
+
 				},
 				yAxis : {
-					axisPointer: {
-			            type: 'none'
-			          },
-			          axisTick: 'none',
-			          splitLine: {
-			            lineStyle: {
-			              color: utils.getGrays()['300'],
-			              type: 'dashed'
-			            }
-			          },
-			          axisLine: {
-			            show: false
-			          },
-			          axisLabel: {
-			            color: utils.getGrays()['400'],
-			            rotate : 45,
-			            textStyle :{fontSize : 10}
-			          }
-			        },
-				series : [ 
-					{
-					name: param.name,
+					axisPointer : {
+						type : 'none'
+					},
+					axisTick : 'none',
+					splitLine : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					axisLine : {
+						show : false
+					},
+					axisLabel : {
+						color : utils.getGrays()['400'],
+						rotate : 45,
+						textStyle : {
+							fontSize : 10
+						}
+					}
+				},
+				series : [ {
+					name : param.name,
 					type : 'bar',
 					data : param.yData,
-					type: 'bar',
-			          barWidth: '12%',
-			          barGap: '30%',
-			          label: {
-			              normal: {
-			                show: false
-			              }
-			            },
-			            z: 10,
-			            itemStyle: {
-			              normal: {
-			                barBorderRadius: [10, 10, 0, 0],
-			                color: param.barColor
-			              }
-			            }
-			          }, {
-			            type: 'bar',
-			            barWidth: '12%',
-			            barGap: '30%',
-			            label: {
-			              normal: {
-			                show: false
-			              }
-			            },
-			            itemStyle: {
-			              normal: {
-			                barBorderRadius: [4, 4, 0, 0],
-			                color: utils.getGrays()[300]
-			              }
-			            }
-			          }
-			      ],
+					type : 'bar',
+					barWidth : '12%',
+					barGap : '30%',
+					label : {
+						normal : {
+							show : false
+						}
+					},
+					z : 10,
+					itemStyle : {
+						normal : {
+							barBorderRadius : [ 10, 10, 0, 0 ],
+							color : param.barColor
+						}
+					}
+				}, {
+					type : 'bar',
+					barWidth : '12%',
+					barGap : '30%',
+					label : {
+						normal : {
+							show : false
+						}
+					},
+					itemStyle : {
+						normal : {
+							barBorderRadius : [ 4, 4, 0, 0 ],
+							color : utils.getGrays()[300]
+						}
+					}
+				} ],
 			};
 
-			option && myChart.setOption(option); 
-		} 
-		
+			option && myChart.setOption(option);
+		}
 	</script>
 </div>
 </html>
