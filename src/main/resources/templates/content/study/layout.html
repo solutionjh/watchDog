@@ -40,6 +40,9 @@
 						<div class="input-group">
 							<span class="input-group-text">레이아웃 파일명</span> 
 							<input class="form-control" id="projectName" name="projectName" type="text" placeholder="이름을 지정합니다. (EX - NICE정기배치)" required/>
+							<select class="form-select picker" id="projectNameDropdown" name="projectNameDropdown" style="display: none;">
+								<option value="">*.properties</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
@@ -51,13 +54,13 @@
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">헤더라인 수</span> 
-								<input class="offOnline form-control" id="headerToSkip" name="headerToSkip" type="text" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
+								<input class="offOnline form-control" id="headerToSkip" name="headerToSkip" type="number" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">트레일러 라인 수</span> 
-							<input class="offOnline form-control" id="ratioGrade" name="ratioGrade" type="number" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
+							<input class="offOnline form-control" id="footerToSkip" name="footerToSkip" type="number" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
@@ -69,13 +72,13 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-3 mb-3">
+					<div class="col-sm-6 mb-3" style="display: none;">
 						<div class="input-group">
 							<span class="input-group-text">구분자</span> <input
 								class="offOnline form-control" id="delimiter" name="delimiter" type="text" placeholder="데이터 파일의 delimiter(구분자)가 무엇인지 입력합니다. (EX - ,)" required/>
 						</div>
 					</div>
-					<div class="col-sm-3 mb-3">
+					<div class="col-sm-6 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">항목길이(헤더) 입력</span> <input
 								class="offOnline form-control" id="columnLength" name="columnLength" type="text" placeholder="fixed length(고정길이) 파일일 경우 각 항목의 길이를 header 순서와 같게 입력합니다 . (EX - 1,2,8,10,10,5,3,5) ※ 구분자는, 로 입력" required/>
@@ -99,7 +102,7 @@
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">항목 분포 변경 감지 대상</span> <input
-								class="form-control" id="ratioGrade" name="ratioGrade" type="text" placeholder="카이제곱 검정을 수행할 항목들을 , 로 구분하여 입력합니다. 스코어 추출시 등급에 해당하는 항목을 입력합니다. (EX - GRADE1,GRADE2)"/>
+								class="form-control" id="ratiograde" name="ratiograde" type="text" placeholder="카이제곱 검정을 수행할 항목들을 , 로 구분하여 입력합니다. 스코어 추출시 등급에 해당하는 항목을 입력합니다. (EX - GRADE1,GRADE2)"/>
 						</div>
 					</div>
 					<div class="col-sm-12 mb-3">
@@ -124,8 +127,7 @@
 
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
-		
-		var target_memberId = null;
+		var $projectNameDropdown = $("#projectNameDropdown");
 		
 		$(function() {
 			fn_Event();
@@ -144,6 +146,13 @@
 	    	ajaxCall(param);
 		}
 		
+		function fn_loadProperty(propertyName){
+			var param = {
+					 target : "LOAD_PROPERTY",
+					 url : "/anomaly/loadproperty/" + propertyName
+				}
+	    	ajaxCall(param);
+		}
 		function fn_Event() {
 			initFormTooltip($infoForm);
 			$(".topBtnDiv button").on("click", function(){
@@ -153,20 +162,34 @@
 				$(this).addClass("btn-falcon-primary");
 				fn_changeForm($(this).data("id"));
 			})
+			$("#fixedLayoutYN").change(function(data){
+				if($(this).val() == "Y"){
+					$("#delimiter").parent().parent().hide();
+					$("#delimiter").removeAttr("required");
+					$("#columnLength").parent().parent().show();	
+					$("#columnLength").attr("required", '');
+				}else{
+					$("#columnLength").parent().parent().hide();
+					$("#columnLength").removeAttr("required");
+					$("#delimiter").parent().parent().show();
+					$("#delimiter").attr("required", '');
+				}
+			});
 			$infoForm.on("submit", function(e) {
 				 e.preventDefault();	
-				if ($infoForm[0].checkValidity() === true) {						
-				    var data = $infoForm.serializeObject();
-			    	var param = {
-							 target : "SAVE",
-							 dataType : "text",
-							 data: data
-						}
-			    	console.log(param);
-			    	param.method = "PUT";
-			    	param.url = "/anomaly/makeproperty";
-			    	
-					ajaxCall(param);
+				if ($infoForm[0].checkValidity() === true) {
+					confirmModal('저장하시겠습니까?', function(){
+						var data = $infoForm.serializeObject();
+				    	var param = {
+								 target : "SAVE",
+								 dataType : "text",
+								 data: data
+							}
+				    	param.method = "PUT";
+				    	param.url = "/anomaly/makeproperty";
+				    	
+						ajaxCall(param);
+                    });
 			    } 
 			}) 
 		}
@@ -174,6 +197,12 @@
 		function fn_changeForm(type){
 			formReset($infoForm);
 			$infoForm.removeClass('was-validated');
+			
+			$("#projectNameDropdown").hide();
+			$("#projectName").show();
+			$("#projectName").attr('required', '');
+			$(".select2").hide();
+			
 			switch (type) {
 			case "batchNew":
 				$.each($("#info-form .offOnline"), function(idx, data){
@@ -189,10 +218,15 @@
 				break;
 			case "edit":
 				fn_fileList();
+				$("#projectName").removeAttr('required');
+				$("#projectNameDropBox").attr('required', '');
 				$.each($("#info-form .offOnline"), function(idx, data){
 					$(this).attr('required', '');
 					$(this).parent().parent().removeClass("d-none");
 				});
+				$("#projectNameDropdown").show();
+				$("#projectName").hide();
+				$(".select2").show();
 				break;
 			}
 		}
@@ -200,19 +234,41 @@
 			
 			switch (target) {
 			case "FILE_LIST":
-				console.log(data);
+				$projectNameDropdown.find("option").remove();
+				
+				var listName = data;
+				var html = "<option value=''>*.property</option>";
+				
+                $.each(listName, function(index, data) {
+                	var simpleData = data.replace(/^.*[\\\/]/, "");
+                	html += "<option value="+simpleData+">"+simpleData+"</option>";
+                });
+                $projectNameDropdown.append(html);
+                $projectNameDropdown.off();
+                $projectNameDropdown.change(function(){
+                	var propertyName = $(this).val();
+                	if(propertyName) fn_loadProperty(propertyName);
+                });
+
+    			$('.picker').select2({ width: '88%' });
+				break;
+			case "LOAD_PROPERTY":
+				initForm();
+				settingForm(data, $infoForm);
 				break;
 			case "SAVE":
-				console.log(data);
 				alertModal('[[#{web.success.insert}]]');
-				$infoForm.removeClass('was-validated');
-				formReset($infoForm);
-				break;
+				initForm();
+				break;	
 			default:
 				break;
 			}
 		}
-
+	
+		function initForm(){
+			$infoForm.removeClass('was-validated');
+			formReset($infoForm);
+		}
 	</script>
 
 </div>
