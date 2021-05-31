@@ -245,3 +245,16 @@ function formReset(form) {
   });
 };
 
+function initFormTooltip($infoForm){
+		var obj = $('input, textarea, select', $infoForm);
+		$.each(obj, function(idx, node){
+			const $label = $(node).prev("span.input-group-text");
+			const placeholder = $(node).attr("placeholder");
+			if($label){
+				$label.attr("data-bs-toggle", "tooltip");
+				$label.attr("data-bs-original-title", placeholder);
+				$label.attr("data-bs-placement", "top");
+				$label.tooltip();
+			}
+		});
+}

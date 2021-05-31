@@ -19,7 +19,7 @@
                 <div class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0">
                   <button id="topNewBatchBtn" data-id="batchNew" class="btn btn-falcon-primary btn-sm " type="button">
 	                  <svg class="svg-inline--fa fa-plus fa-w-14" data-fa-transform="shrink-3 down-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;"><g transform="translate(224 256)"><g transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" transform="translate(-224 -256)"></path></g></g></svg>
-	                  <span class="d-none d-sm-inline-block ml-1">신규생성(배치)</span>
+	                  <span class="d-none d-sm-inline-block ml-1" >신규생성(배치)</span>
                   </button>
                   <button id="topNewOnlineBtn" data-id="onlineNew" class="btn btn-falcon-default btn-sm" type="button">
 	                  <svg class="svg-inline--fa fa-plus fa-w-14" data-fa-transform="shrink-3 down-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;"><g transform="translate(224 256)"><g transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" transform="translate(-224 -256)"></path></g></g></svg>
@@ -50,13 +50,13 @@
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">헤더라인 수</span> 
-								<input class="offOnline form-control" id="headerToSkip" name="headerToSkip" type="text" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" required/>
+								<input class="offOnline form-control" id="headerToSkip" name="headerToSkip" type="text" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">트레일러 라인 수</span> 
-							<input class="offOnline form-control" id="ratioGrade" name="ratioGrade" type="text" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" required/>
+							<input class="offOnline form-control" id="ratioGrade" name="ratioGrade" type="number" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
@@ -130,7 +130,21 @@
 			fn_Event();
 		});
 		
+		function fn_fileList() { 
+			const formData = {
+					"dirname" : "properties",
+					"pattern" : ".*\\.properties"
+			}
+			var param = {
+					 target : "FILE_LIST",
+					 url : "/anomaly/getfiles?dirname=" + encodeURIComponent(formData.dirname) + "&pattern=" + encodeURIComponent(formData.pattern),
+					 isLoading: false
+				}
+	    	ajaxCall(param);
+		}
+		
 		function fn_Event() {
+			initFormTooltip($infoForm);
 			$(".topBtnDiv button").on("click", function(){
 				$(".topBtnDiv button").removeClass("btn-falcon-primary");
 				$(".topBtnDiv button").addClass("btn-falcon-default");
@@ -173,6 +187,7 @@
 				});
 				break;
 			case "edit":
+				fn_fileList();
 				$.each($("#info-form .offOnline"), function(idx, data){
 					$(this).attr('required', '');
 					$(this).parent().parent().removeClass("d-none");
@@ -183,14 +198,8 @@
 		function callback(target, data) {
 			
 			switch (target) {
-			case "DETAIL":
-				settingForm(data, $infoForm)
-				$(".detail, .password").removeClass('d-none');
-				$("#memberId, #password").prop('readonly', true).removeAttr('required');
-				$infoForm.removeClass('was-validated');	
-				$passwordForm.removeClass('was-validated');	
-				target_memberId = data.memberId;
-				formReset($infoForm);
+			case "FILE_LIST":
+				console.log(data);
 				break;
 			case "SAVE":
 				console.log(data);
@@ -202,8 +211,6 @@
 				break;
 			}
 		}
-		
-		
 
 	</script>
 
