@@ -10,10 +10,7 @@
 </head>
 <div layout:fragment="content">
 	<div class="card mb-3">
-		<div class="card-header">
-			<div class="row flex-between-end">
-				<div class="card-body ">
-
+		<div class="card-body ">
 				<div class="row gx-2">
 					<div class="col-sm-3 mb-3">
 						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
@@ -37,12 +34,12 @@
 						<button class="btn btn-primary" type="button" id="goFileMonitoring">파일모니터링</button>
 					</div>
 				</div>
-			</div>                
-			</div>
-		</div>
-		<div class="card-body pt-0">
-			<div class="tab-content">
-				<div class="tab-pane preview-tab-pane active" role="tabpanel"
+			</div>  
+	</div>
+	
+	<div class="card mb-3">
+		<div class="card-body">
+			<div class="tab-pane preview-tab-pane active" role="tabpanel"
 					aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
 					id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
 					<table
@@ -50,7 +47,6 @@
 						id="table">
 					</table>
 				</div>
-			</div>
 		</div>
 	</div>
 
@@ -106,6 +102,7 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable(
 					{
+					 	theadClasses:'bg-200 text-900',
 						height : 650,
 						pageSize : "20",
 						pageList : "[5, 10, 20, 50, all]",
@@ -148,7 +145,7 @@
 
         	if(projectName && regdtim) {
         		bootstrapTableRefresh($table, '/resultitem/'+projectName+'/'+regdtim+'/' + rateInput,
-    					'[[${#locale}]]', '[[#{table.data.faile}]]');	
+    					'[[${#locale}]]', '[[#{table.data.faile}]]');
         	}
 		}
 		
@@ -174,7 +171,7 @@
                 $projectNameItemDropdown.append(html);
                 $projectNameItemDropdown.off();
                 $projectNameItemDropdown.change(function(){
-                    fn_regdtItems($(this).val());
+                	if($(this).val()) fn_regdtItems($(this).val());
                 });
 
     			$('.picker').select2();
@@ -182,7 +179,7 @@
 				
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
-				var html = "<option>수행일시 선택</option>";
+				var html = "<option value=''>수행일시 선택</option>";
 				
                 $.each(data, function(index, data) {
                 	html += '<option value="'+data+'">'+data+'</option>';
