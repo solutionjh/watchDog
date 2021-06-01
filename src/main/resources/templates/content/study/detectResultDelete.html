@@ -9,12 +9,14 @@
 
 </head>
 <div layout:fragment="content">
+
 	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/assets/img/illustrations/corner-4.png);">
+            </div>
 		<div class="card-header">
 			<div class="row flex-between-end">
 				<div class="card-body ">
-
-				<div class="row gx-2">
+					<div class="row gx-2">
 					<div class="col-sm-9 mb-3">
 						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
                       	<option value="">프로젝트 선택</option>
@@ -24,11 +26,11 @@
 						<button class="btn btn-danger" type="button" id="deleteBtn">삭제</button>
 					</div>
 				</div>
-			</div>                
+				</div>
 			</div>
 		</div>
 	</div>
-
+	
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $deleteBtn = $("#deleteBtn");

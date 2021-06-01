@@ -11,100 +11,155 @@
 <div layout:fragment="content">
 
 	<div class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-100 detail">
+
 		<div class="card-header bg-light">
-              <div class="row align-items-center justify-content-between">
-                <div class="col-6 col-sm-auto d-flex align-items-center pr-0">
-                  <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">입력정보</h5>
-                </div>
-                <div class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0">
-                  <button id="topNewBatchBtn" data-id="batchNew" class="btn btn-falcon-primary btn-sm " type="button">
-	                  <svg class="svg-inline--fa fa-plus fa-w-14" data-fa-transform="shrink-3 down-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;"><g transform="translate(224 256)"><g transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" transform="translate(-224 -256)"></path></g></g></svg>
-	                  <span class="d-none d-sm-inline-block ml-1" >신규생성(배치)</span>
-                  </button>
-                  <button id="topNewOnlineBtn" data-id="onlineNew" class="btn btn-falcon-default btn-sm" type="button">
-	                  <svg class="svg-inline--fa fa-plus fa-w-14" data-fa-transform="shrink-3 down-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;"><g transform="translate(224 256)"><g transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" transform="translate(-224 -256)"></path></g></g></svg>
-	                  <span class="d-none d-sm-inline-block ml-1">신규생성(온라인)</span>
-                  </button>
-                  <button id="topEditBtn" data-id="edit" class="btn btn-falcon-default btn-sm" type="button">
-	                  <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="far" data-icon="edit" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><path fill="currentColor" d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"></path></svg>
-	                  <span class="d-none d-sm-inline-block ml-1">수정</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+			<div class="row align-items-center justify-content-between">
+				<div class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0">
+					<button id="topNewBatchBtn" data-id="batchNew"
+						class="btn btn-falcon-primary btn-sm " type="button">
+						<svg class="svg-inline--fa fa-plus fa-w-14"
+							data-fa-transform="shrink-3 down-2" aria-hidden="true"
+							focusable="false" data-prefix="fas" data-icon="plus" role="img"
+							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+							data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;">
+							<g transform="translate(224 256)">
+							<g
+								transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)">
+							<path fill="currentColor"
+								d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+								transform="translate(-224 -256)"></path></g></g></svg>
+						<span class="d-none d-sm-inline-block ml-1">신규생성(배치)</span>
+					</button>
+					<button id="topNewOnlineBtn" data-id="onlineNew"
+						class="btn btn-falcon-default btn-sm" type="button">
+						<svg class="svg-inline--fa fa-plus fa-w-14"
+							data-fa-transform="shrink-3 down-2" aria-hidden="true"
+							focusable="false" data-prefix="fas" data-icon="plus" role="img"
+							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+							data-fa-i2svg="" style="transform-origin: 0.4375em 0.625em;">
+							<g transform="translate(224 256)">
+							<g
+								transform="translate(0, 64)  scale(0.8125, 0.8125)  rotate(0 0 0)">
+							<path fill="currentColor"
+								d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+								transform="translate(-224 -256)"></path></g></g></svg>
+						<span class="d-none d-sm-inline-block ml-1">신규생성(온라인)</span>
+					</button>
+					<button id="topEditBtn" data-id="edit"
+						class="btn btn-falcon-default btn-sm" type="button">
+						<svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true"
+							focusable="false" data-prefix="far" data-icon="edit" role="img"
+							xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+							data-fa-i2svg="">
+							<path fill="currentColor"
+								d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"></path></svg>
+						<span class="d-none d-sm-inline-block ml-1">수정</span>
+					</button>
+				</div>
+			</div>
+		</div>
 		<form id="info-form" class="needs-validation" novalidate>
 			<div class="card-body ">
-					<div class="row gx-2">
+				<div class="row gx-2">
 					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">레이아웃 파일명</span> 
-							<input class="form-control" id="projectName" name="projectName" type="text" placeholder="이름을 지정합니다. (EX - NICE정기배치)" required/>
+							<span class="input-group-text">레이아웃 파일명</span> <input
+								class="form-control" id="projectName" name="projectName"
+								type="text" placeholder="이름을 지정합니다. (EX - NICE정기배치)" required />
+							<select class="form-select picker" id="projectNameDropdown"
+								name="projectNameDropdown" style="display: none;">
+								<option value="">*.properties</option>
+							</select>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">항목 정보(헤더)</span> 
-								<input class="offOnline form-control" id="header" name="header" type="text" placeholder="데이터 파일의 항목명을 순서대로 ,로 구분하여 입력합니다. (EX - SEQ,DATE,NAME,SCORE1,SCORE2,GRADE1,GRADE2) ※ 구분자는 ,로 입력" required/>
+							<span class="input-group-text">항목 정보(헤더)</span> <input
+								class="offOnline form-control" id="header" name="header"
+								type="text"
+								placeholder="데이터 파일의 항목명을 순서대로 ,로 구분하여 입력합니다. (EX - SEQ,DATE,NAME,SCORE1,SCORE2,GRADE1,GRADE2) ※ 구분자는 ,로 입력"
+								required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">헤더라인 수</span> 
-								<input class="offOnline form-control" id="headerToSkip" name="headerToSkip" type="text" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
+							<span class="input-group-text">헤더라인 수</span> <input
+								class="offOnline form-control" id="headerToSkip"
+								name="headerToSkip" type="number"
+								placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">트레일러 라인 수</span> 
-							<input class="offOnline form-control" id="ratioGrade" name="ratioGrade" type="number" placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==1) return false;" required/>
+							<span class="input-group-text">트레일러 라인 수</span> <input
+								class="offOnline form-control" id="footerToSkip"
+								name="footerToSkip" type="number"
+								placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">데이터파일 종류선택</span> 
-							<select class="offOnline form-select" id="fixedLayoutYN" name="fixedLayoutYN">
+							<span class="input-group-text">데이터파일 종류선택</span> <select
+								class="offOnline form-select" id="fixedLayoutYN"
+								name="fixedLayoutYN">
 								<option value="Y">고정길이(Fixed Length) 파일</option>
 								<option value="N">구분자(delimiter)로 구분된 파일</option>
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-3 mb-3">
+					<div class="col-sm-6 mb-3" style="display: none;">
 						<div class="input-group">
 							<span class="input-group-text">구분자</span> <input
-								class="offOnline form-control" id="delimiter" name="delimiter" type="text" placeholder="데이터 파일의 delimiter(구분자)가 무엇인지 입력합니다. (EX - ,)" required/>
+								class="offOnline form-control" id="delimiter" name="delimiter"
+								type="text"
+								placeholder="데이터 파일의 delimiter(구분자)가 무엇인지 입력합니다. (EX - ,)"
+								required />
 						</div>
 					</div>
-					<div class="col-sm-3 mb-3">
+					<div class="col-sm-6 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">항목길이(헤더) 입력</span> <input
-								class="offOnline form-control" id="columnLength" name="columnLength" type="text" placeholder="fixed length(고정길이) 파일일 경우 각 항목의 길이를 header 순서와 같게 입력합니다 . (EX - 1,2,8,10,10,5,3,5) ※ 구분자는, 로 입력" required/>
+								class="offOnline form-control" id="columnLength"
+								name="columnLength" type="text"
+								placeholder="fixed length(고정길이) 파일일 경우 각 항목의 길이를 header 순서와 같게 입력합니다 . (EX - 1,2,8,10,10,5,3,5) ※ 구분자는, 로 입력"
+								required />
 						</div>
 					</div>
 					<div class="col-12">
-                        <div class="border-dashed-bottom my-3"></div>
-                      </div>
+						<div class="border-dashed-bottom my-3"></div>
+					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">감지 제외항목 입력</span> <input
-								class="form-control" id="keyColumn" name="keyColumn" type="text" placeholder="모형에서 사용하지 않을 항목들을 ,로 구분하여 입력합니다. key에 해당하는 항목, 문자형 항목을 입력합니다. (EX - SEQ,DATE,NAME)"/>
+								class="form-control" id="keyColumn" name="keyColumn" type="text"
+								placeholder="모형에서 사용하지 않을 항목들을 ,로 구분하여 입력합니다. key에 해당하는 항목, 문자형 항목을 입력합니다. (EX - SEQ,DATE,NAME)" />
 						</div>
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">감지 포함항목 입력</span> <input
-								class="form-control" id="requiredColumn" name="requiredColumn" type="text" placeholder="모형에서 반드시 사용할 항목을 입력합니다. 입력하지 않더라도 숫자형 항목은 사용하게 됩니다. (EX - GRADE1,SCORE1,GRADE2,SCORE2) ※ 구분자는 ,로 입력"/>
+								class="form-control" id="requiredColumn" name="requiredColumn"
+								type="text"
+								placeholder="모형에서 반드시 사용할 항목을 입력합니다. 입력하지 않더라도 숫자형 항목은 사용하게 됩니다. (EX - GRADE1,SCORE1,GRADE2,SCORE2) ※ 구분자는 ,로 입력" />
 						</div>
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">항목 분포 변경 감지 대상</span> <input
-								class="form-control" id="ratioGrade" name="ratioGrade" type="text" placeholder="카이제곱 검정을 수행할 항목들을 , 로 구분하여 입력합니다. 스코어 추출시 등급에 해당하는 항목을 입력합니다. (EX - GRADE1,GRADE2)"/>
+								class="form-control" id="ratiograde" name="ratiograde"
+								type="text"
+								placeholder="카이제곱 검정을 수행할 항목들을 , 로 구분하여 입력합니다. 스코어 추출시 등급에 해당하는 항목을 입력합니다. (EX - GRADE1,GRADE2)" />
 						</div>
 					</div>
 					<div class="col-sm-12 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">판단기준</span> <input
-								class="form-control" id="threshold" name="threshold" type="text" placeholder="오토 인코더의 psi, 오토 인코더의 항목 변화율, 카이제곱 통계량의 기준값을 차례대로 ,로 구분하여 입력합니다. 해당 값보다 크면 화면에서 이상으로 표시합니다. (EX - 1,50,250)"/>
+								class="form-control" id="threshold" name="threshold" type="text"
+								placeholder="오토 인코더의 psi, 오토 인코더의 항목 변화율, 카이제곱 통계량의 기준값을 차례대로 ,로 구분하여 입력합니다. 해당 값보다 크면 화면에서 이상으로 표시합니다. (EX - 1,50,250)" />
 						</div>
 					</div>
 				</div>
@@ -123,95 +178,154 @@
 
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
-		
-		var target_memberId = null;
-		
+		var $projectNameDropdown = $("#projectNameDropdown");
+
 		$(function() {
 			fn_Event();
 		});
-		
-		function fn_fileList() { 
+
+		function fn_fileList() {
 			const formData = {
-					"dirname" : "properties",
-					"pattern" : ".*\\.properties"
+				"dirname" : "properties",
+				"pattern" : ".*\\.properties"
 			}
 			var param = {
-					 target : "FILE_LIST",
-					 url : "/anomaly/getfiles?dirname=" + encodeURIComponent(formData.dirname) + "&pattern=" + encodeURIComponent(formData.pattern),
-					 isLoading: false
-				}
-	    	ajaxCall(param);
+				target : "FILE_LIST",
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
 		}
-		
+
+		function fn_loadProperty(propertyName) {
+			var param = {
+				target : "LOAD_PROPERTY",
+				url : "/anomaly/loadproperty/" + propertyName
+			}
+			ajaxCall(param);
+		}
 		function fn_Event() {
 			initFormTooltip($infoForm);
-			$(".topBtnDiv button").on("click", function(){
+			$(".topBtnDiv button").on("click", function() {
 				$(".topBtnDiv button").removeClass("btn-falcon-primary");
 				$(".topBtnDiv button").addClass("btn-falcon-default");
 				$(this).removeClass("btn-falcon-default");
 				$(this).addClass("btn-falcon-primary");
 				fn_changeForm($(this).data("id"));
 			})
+			$("#fixedLayoutYN").change(function(data) {
+				if ($(this).val() == "Y") {
+					$("#delimiter").parent().parent().hide();
+					$("#delimiter").removeAttr("required");
+					$("#columnLength").parent().parent().show();
+					$("#columnLength").attr("required", '');
+				} else {
+					$("#columnLength").parent().parent().hide();
+					$("#columnLength").removeAttr("required");
+					$("#delimiter").parent().parent().show();
+					$("#delimiter").attr("required", '');
+				}
+			});
 			$infoForm.on("submit", function(e) {
-				 e.preventDefault();	
-				if ($infoForm[0].checkValidity() === true) {						
-				    var data = $infoForm.serializeObject();
-			    	var param = {
-							 target : "SAVE",
-							 dataType : "text",
-							 data: data
+				e.preventDefault();
+				if ($infoForm[0].checkValidity() === true) {
+					confirmModal('저장하시겠습니까?', function() {
+						var data = $infoForm.serializeObject();
+						var param = {
+							target : "SAVE",
+							dataType : "text",
+							data : data
 						}
-			    	console.log(param);
-			    	param.method = "PUT";
-			    	param.url = "/anomaly/makeproperty";
-			    	
-					ajaxCall(param);
-			    } 
-			}) 
+						param.method = "PUT";
+						param.url = "/anomaly/makeproperty";
+
+						ajaxCall(param);
+					});
+				}
+			})
 		}
-		
-		function fn_changeForm(type){
+
+		function fn_changeForm(type) {
 			formReset($infoForm);
 			$infoForm.removeClass('was-validated');
+
+			$("#projectNameDropdown").hide();
+			$("#projectName").show();
+			$("#projectName").attr('required', '');
+			$(".select2").hide();
+
 			switch (type) {
 			case "batchNew":
-				$.each($("#info-form .offOnline"), function(idx, data){
+				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).attr('required', '');
 					$(this).parent().parent().removeClass("d-none");
 				});
 				break;
 			case "onlineNew":
-				$.each($("#info-form .offOnline"), function(idx, data){
+				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).removeAttr('required');
 					$(this).parent().parent().addClass("d-none");
 				});
 				break;
 			case "edit":
 				fn_fileList();
-				$.each($("#info-form .offOnline"), function(idx, data){
+				$("#projectName").removeAttr('required');
+				$("#projectNameDropBox").attr('required', '');
+				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).attr('required', '');
 					$(this).parent().parent().removeClass("d-none");
 				});
+				$("#projectNameDropdown").show();
+				$("#projectName").hide();
+				$(".select2").show();
 				break;
 			}
 		}
 		function callback(target, data) {
-			
+
 			switch (target) {
 			case "FILE_LIST":
-				console.log(data);
+				$projectNameDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value=''>*.property</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$projectNameDropdown.append(html);
+				$projectNameDropdown.off();
+				$projectNameDropdown.change(function() {
+					var propertyName = $(this).val();
+					if (propertyName)
+						fn_loadProperty(propertyName);
+				});
+
+				$('.picker').select2({
+					width : '88%'
+				});
+				break;
+			case "LOAD_PROPERTY":
+				initForm();
+				settingForm(data, $infoForm);
 				break;
 			case "SAVE":
-				console.log(data);
 				alertModal('[[#{web.success.insert}]]');
-				$infoForm.removeClass('was-validated');
-				formReset($infoForm);
+				initForm();
 				break;
 			default:
 				break;
 			}
 		}
 
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			formReset($infoForm);
+		}
 	</script>
 
 </div>
