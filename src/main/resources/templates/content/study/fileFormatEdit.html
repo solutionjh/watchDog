@@ -17,10 +17,11 @@
 				<div class="card-body">
 						<div class="row gx-2">
 							<div class="col-6 mb-3">
-								<label class="form-label" for="projectNameDropdown" data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">원본
-									파일</label> <select class="form-select picker" id="projectNameDropdown"
-									name="projectNameDropdown">
-									<option value="">직접입력</option>
+								<label class="form-label" for="inputDataFilePathDropdown" data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">원본
+									파일</label> <select class="form-select picker directInput" id="inputDataFilePathDropdown"
+									name="inputDataFilePathDropdown">
+									<option value="direct">직접입력</option>
+									<option value="A">A</option>
 								</select>
 							</div>
 							<div class="col-6 mb-3">
@@ -31,24 +32,26 @@
 									required />
 							</div>
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputLayoutFilePath" data-bs-original-title="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">레이아웃
-									파일</label> <select class="form-select picker" id="inputLayoutFilePath"
-									name="inputLayoutFilePath">
-									<option value="">직접입력</option>
+								<label class="form-label" for="inputLayoutFilePathDropdown" data-bs-original-title="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">레이아웃
+									파일</label> <select class="form-select picker directInput" id="inputLayoutFilePathDropdown"
+									name="inputLayoutFilePathDropdown">
+									<option value="direct">직접입력</option>
+									<option value="B">B</option>
 								</select>
 							</div>
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputDataFilePath">
-									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
-									name="inputDataFilePath" type="text"
+								<label class="form-label" for="inputLayoutFilePath">
+									&nbsp; </label> <input class="form-control" id="inputLayoutFilePath"
+									name="inputLayoutFilePath" type="text"
 									placeholder="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의"
 									required />
 							</div>
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputLayoutFilePath" data-bs-original-title="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">변환
-									파일</label> <select class="form-select picker" id="inputLayoutFilePath"
-									name="inputLayoutFilePath">
-									<option value="">직접입력</option>
+								<label class="form-label" for="outputDataFilePathDropdown" data-bs-original-title="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">변환
+									파일</label> <select class="form-select picker directInput" id="outputDataFilePathDropdown"
+									name="outputDataFilePathDropdown">
+									<option value="direct">직접입력</option>
+									<option value="C">C</option>
 								</select>
 							</div>
 							<div class="col-6 mb-3">
@@ -83,6 +86,10 @@
 
 		function fn_makeCsv() {
 			var data = $infoForm.serializeObject();
+			delete data.inputLayoutFilePathDropdown;
+			delete data.inputDataFilePathDropdown;
+			delete data.outputDataFilePathDropdown;
+			
 			var param = {
 				method : "PUT",
 				target : "EXCUTE",
@@ -94,6 +101,20 @@
 		}
 
 		function fn_Event() {
+			
+			$(".directInput").change(function(){
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+				console.log($(this).val());
+				if(value == "direct"){
+					$target.val("");
+					$target.prop('readonly', false);
+				}else{
+					$target.val(value);	
+					$target.prop('readonly', true);
+				}
+			});
+			
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
 				if ($infoForm[0].checkValidity() === true) {
