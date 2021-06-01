@@ -106,7 +106,7 @@
 			fn_Event();
 		});
 
-		function fn_makeCsv() {
+		function fn_excute() {
 			var data = $infoForm.serializeObject();
 			delete data.inputDataFileDropdown;
 			delete data.inputLayoutFileDropdown;
@@ -119,7 +119,16 @@
 				data : data,
 				dataType : "text"
 			}
-			console.log(data);
+			ajaxCall(param);
+		}
+		
+		function fn_checkMeta() {
+			var data = $infoForm.serializeObject();
+
+			var param = {
+				target : "CHECK",
+				url : "/anomaly/checkMeta?projectName=" + data.projectName
+			}
 			ajaxCall(param);
 		}
 
@@ -142,7 +151,7 @@
 				e.preventDefault();
 				if ($infoForm[0].checkValidity() === true) {
 					confirmModal('실행하시겠습니까?', function() {
-						fn_makeCsv();
+						fn_checkMeta();
 					});
 				}
 			})
@@ -153,6 +162,13 @@
 			case "EXCUTE":
 				alertModal('[[#{web.success.excute}]]');
 				initForm();
+				break;
+			case "CHECK":
+				if(data){
+					fn_excute();
+				}else{
+					alertModal('해당 프로젝트의 기준정보가 생성되어있지 않습니다.');
+				}
 				break;
 			default:
 				break;

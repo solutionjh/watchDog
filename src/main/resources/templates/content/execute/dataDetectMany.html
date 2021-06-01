@@ -2,12 +2,237 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>데이터 이상감지(복수)</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+
+	<div class="row g-0">
+		<div class="col-lg-12 pe-lg-2">
+			<div class="card mb-3">
+				<form id="info-form" class="needs-validation" novalidate>
+					<div class="card-body">
+						<div class="row gx-2">
+							<div class="col-12 mb-3">
+								<label class="form-label"> 항목별 이상탐지 결과 산출여부</label>
+								<div class="custom-control custom-radio">
+									<input type="radio" class="custom-control-input"
+										id="columnCalculateY" name="columnCalculateYN" value="Y"
+										checked="checked"> <label
+										class="custom-control-label font-weight-bold"
+										for="columnCalculateY" id="makeModelYLabel">파일 및 항목
+										이상여부 산출</label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" class="custom-control-input"
+										id="columnCalculateN" name="columnCalculateYN" value="N">
+									<label class="custom-control-label font-weight-bold"
+										for="columnCalculateN" id="makeModelYLabel">파일 이상여부 산출</label>
+								</div>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFileDropdown"
+									data-bs-original-title="*.csv   (EX - D:/watchdog/data/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									data-bs-toggle="tooltip" data-bs-placement="top"> 데이터
+									파일 선택</label> <select class="form-select picker directInput"
+									id="inputDataFileDropdown" name="inputDataFileDropdown">
+									<option value="direct">직접입력</option>
+									<option value="A">A</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFile"> &nbsp; </label> <input
+									class="form-control" id="inputDataFile" name="inputDataFile"
+									type="text"
+									placeholder="*.csv   (EX - D:/watchdog/data/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFileDropdown"
+									data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									data-bs-toggle="tooltip" data-bs-placement="top"> 레이아웃
+									파일 선택</label> <select class="form-select picker directInput"
+									id="inputLayoutFileDropdown" name="inputLayoutFileDropdown">
+									<option value="direct">직접입력</option>
+									<option value="B">B</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFile"> &nbsp;
+								</label> <input class="form-control" id="inputLayoutFile"
+									name="inputLayoutFile" type="text"
+									placeholder="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="projectNameDropdown"
+									data-bs-original-title="입력하신 프로젝트명으로 model 폴더에  .adnn 파일이 저장됩니다. 기존 파일이 있으면 백업됩니다."
+									data-bs-toggle="tooltip" data-bs-placement="top"> 프로젝트
+									선택</label> <select class="form-select picker directInput"
+									id="projectNameDropdown" name="projectNameDropdown">
+									<option value="direct">직접입력</option>
+									<option value="C">C</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="projectName"> &nbsp; </label> <input
+									class="form-control" id="projectName" name="projectName"
+									type="text"
+									placeholder="입력하신 프로젝트명으로 model 폴더에  .adnn 파일이 저장됩니다. 기존 파일이 있으면 백업됩니다."
+									required />
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer bg-light">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="submit">추가</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="card mb-3">
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr>
+									<th scope="col">데이터파일</th>
+									<th scope="col">레이아웃파일</th>
+									<th scope="col">프로젝트</th>
+									<th scope="col">항목별 결과산출 여부</th>
+									<th scope="col">삭제</th>
+								</tr>
+							</thead>
+							<tbody id="reqTable">
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="card-footer bg-light">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="button" id="excuteBtn">실행</button>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
 	</div>
+	<script type="text/javascript">
+		var $infoForm = $("#info-form");
+		var $table = $("#reqTable");
+		const columnCalculateEnum = {
+				"Y" : "파일 및 항목 이상여부 산출",
+				"N" : "파일 이상여부 산출"
+		};
+		$(function() {
+			fn_Event();
+		});
+	
+		function fn_excute(reqList) {
+			var param = {
+				method : "PUT",
+				target : "EXCUTE",
+				url : "/anomaly/predictmulti",
+				data : reqList
+			}
+			ajaxCall(param);
+		}
+		
+		function fn_addTable() {
+			var data = $infoForm.serializeObject();
+			var html = "";
+			
+			html += '<tr>';
+			html += '<td class="inputDataFile" >'+data.inputDataFile+'</td>';
+			html += '<td class="inputLayoutFile">'+data.inputLayoutFile+'</td>';
+			html += '<td class="projectName">'+data.projectName+'</td>';
+			html += '<td class="columnCalculateYN" data-yn="'+data.columnCalculateYN+'">'+columnCalculateEnum[data.columnCalculateYN]+'</td>';
+			html += '<td>';
+			html += '<button class="btn p-0 ms-1 table-delete-btn" type="button" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
+			html += '</td></tr>';
+			
+			$table.append(html);
+			
+			$table.find(".table-delete-btn").off().click(function(){
+				$(this).closest('tr').remove();
+			});
+			
+			initForm();
+		}
+
+		function fn_Event() {
+			$("#excuteBtn").off().click(function(){
+				const trs = $table.find('tr');
+				const reqList = [];
+				console.log(trs);
+				if(trs.length > 0){
+					confirmModal('실행하시겠습니까?', function() {
+						$.each(trs, function(idx, data){
+							var item = {
+									"inputDataFile" : $(this).find('td.inputDataFile').html(), 
+									"inputLayoutFile" : $(this).find('td.inputLayoutFile').html(), 
+									"projectName" : $(this).find('td.projectName').html(), 
+									"columnCalculateYN" : $(this).find('td.columnCalculateYN').data("yn") 
+							}
+							reqList.push(item);
+						})
+						
+						console.log("reqList::" + reqList);
+						fn_excute(reqList);
+					});	
+				}else{
+					alertModal('실행 할 대상이 없습니다.');
+				}
+			});
+			
+			$(".directInput").change(function() {
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+
+				if (value == "direct") {
+					$target.val("");
+					$target.prop('readonly', false);
+				} else {
+					$target.val(value);
+					$target.prop('readonly', true);
+				}
+			});
+
+			$infoForm.on("submit", function(e) {
+				e.preventDefault();
+				if ($infoForm[0].checkValidity() === true) {
+					fn_addTable();
+				}
+			})
+		}
+
+		function callback(target, data) {
+			switch (target) {
+			case "EXCUTE":
+				alertModal('[[#{web.success.excute}]]');
+				initForm();
+				$table.find('tr').remove();
+				break;
+			default:
+				break;
+			}
+		}
+
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			$infoForm.find('input[readonly]').prop("readonly", false)
+			formReset($infoForm);
+		}
+	</script>
+
+</div>
 </html>
