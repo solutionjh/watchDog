@@ -178,6 +178,7 @@
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = i + 1;
+				this.fieldName = '<a href="javascript:;">'+ this.fieldName + '</a>'
 			});
 			return res;
 		}
