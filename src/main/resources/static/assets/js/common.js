@@ -72,7 +72,7 @@ function noDataAjax(ajaxParamObj)
 		    } else if (xhr.status == 500){
 		    	location.href = "/serverError";
 		    }else{
-		    	alertModal(xhr.responseText);
+		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
 		    }
 				
 		},
@@ -106,7 +106,7 @@ function dataAjax(ajaxParamObj)
 		    } else if (xhr.status == 500){
 		    	location.href = "/serverError";
 		    }else{
-		    	alertModal(xhr.responseText);
+		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
 		    }
 		 },
 		async : ajaxParamObj.async

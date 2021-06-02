@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>사용자 관리</title>
+<title>[[#{txt.title.member}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -16,7 +16,7 @@
                   <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">사용자 관리</h2>
                 </div> -->
 				<div class="col-auto ms-auto">
-					<button class="btn btn-sm btn-primary" type="button" id="insert">등록</button>
+					<button class="btn btn-sm btn-primary" type="button" id="insert">[[#{button.insert}]]</button>
 				</div>
 			</div>
 		</div>
@@ -36,7 +36,7 @@
 
 	<div class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-100 detail d-none">
 		<div class="card-header bg-light">
-			<h5 class="mb-0">사용자 정보</h5>
+			<h5 class="mb-0">[[#{txt.member.info}]]</h5>
 		</div>
 		<form id="info-form" class="needs-validation" novalidate>
 			<div class="card-body ">
@@ -44,41 +44,41 @@
 				<div class="row gx-2">
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">아이디</span> <input
+							<span class="input-group-text">[[#{txt.id}]]</span> <input
 								class="form-control" id="memberId" name="memberId" type="text" />
 						</div>
 
 					</div>
 					<div class="col-sm-3 mb-3 ">
 						<div class="input-group">
-							<span class="input-group-text">비밀번호</span> <input
+							<span class="input-group-text">[[#{txt.password}]]</span> <input
 								class="form-control" id="password" name="password"
 								type="password" />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">이름</span> <input
+							<span class="input-group-text">[[#{txt.name}]]</span> <input
 								class="form-control" id="name" name="name" type="text" required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">역할</span> <select
+							<span class="input-group-text">[[#{txt.name}]]</span> <select
 								class="form-select" id="memberType" name="memberType">
 							</select>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">등록일</span> <input
+							<span class="input-group-text">[[#{txt.reg.date}]]</span> <input
 								class="form-control" id="regDt" name="regDt" type="text"
 								readonly />
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">최종접속일</span> <input
+							<span class="input-group-text">[[#{txt.last.date}]]</span> <input
 								class="form-control" id="lastAccessDt" name="lastAccessDt"
 								type="text" readonly />
 						</div>
@@ -100,7 +100,7 @@
 	<div
 		class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-80 my-md-3 password d-none">
 		<div class="card-header bg-light">
-			<h5 class="mb-0">비밀번호 재설정</h5>
+			<h5 class="mb-0">[[#{txt.password.reset}]]</h5>
 		</div>
 		<form id="password-form" class="needs-validation" novalidate>
 			<div class="card-body">
@@ -108,7 +108,7 @@
 				<div class="row gx-2">
 					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">비밀번호</span> <input
+							<span class="input-group-text">[[#{txt.password}]]</span> <input
 								class="form-control" id="password-change" name="password-change"
 								type="password" required>
 						</div>
@@ -118,7 +118,7 @@
 			<div class="card-footer bg-light">
 				<div class="row flex-between-end">
 					<div class="col-auto ms-auto">
-						<button class="btn btn-sm btn-primary" type="submit">저장</button>
+						<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
 					</div>
 				</div>
 			</div>
@@ -212,37 +212,37 @@
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '아이디',
+							title : '[[#{txt.id}]]',
 							field : 'memberId',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '이름',
+							title : '[[#{txt.name}]]',
 							field : 'name',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '역할',
+							title : '[[#{txt.role}]]',
 							field : 'memberType',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '등록일',
+							title : '[[#{txt.reg.date}]]',
 							field : 'regDt',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '최종접속일',
+							title : '[[#{txt.last.date}]]',
 							field : 'lastAccessDt',
 							align : 'center',
 							valign : 'middle',
 							sortable : true
 						}, {
-							title : '삭제',
+							title : '[[#{txt.delete}]]',
 							field : 'deleteBtn',
 							align : 'center',
 							valign : 'middle'
@@ -251,7 +251,7 @@
 							var param = {}
                             
                             if(field == "deleteBtn"){                                     
-                                confirmModal('삭제하시겠습니까?', function(){
+                                confirmModal('[[#{web.confirm.delete}]]', function(){
                                     param = {
                                      target : "DELETE",
                                      method : "DELETE",
