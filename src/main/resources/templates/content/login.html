@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<title>login</title>
+	<title>[[#{txt.title.login}]]</title>
 	<th:block th:replace="fragments/config :: configFragment"></th:block>		
 </head>
 <body>	
@@ -31,28 +31,28 @@
                   <div class="card-body p-4">
                     <div class="row flex-between-center">
                       <div class="col-auto">
-                        <h3>Login</h3>
+                        <h3>[[#{txt.title.login}]]</h3>
                       </div>
                     </div>
                     <form class="needs-validation" novalidate method="POST" th:action="@{/loginProcess}">
                       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> 
                       
                       <div class="mb-3">
-                        <label class="form-label" for="split-login-email">ID</label>
+                        <label class="form-label" for="split-login-email">[[#{txt.id}]]</label>
                         <input class="form-control" id="split-login-email" type="text" name="memberId" th:value="${memberId}" required/>
                       </div>
                       <div class="mb-3">
                         <div class="d-flex justify-content-between">
-                          <label class="form-label" for="split-login-password">Password</label>
+                          <label class="form-label" for="split-login-password">[[#{txt.password}]]</label>
                         </div>
                         <input class="form-control" id="split-login-password" type="password" name="password" required/>
                       </div>
                       <div class="form-check mb-0">
                         <input class="form-check-input" type="checkbox" id="split-checkbox" name="remember-me"  />
-                        <label class="form-check-label" for="split-checkbox">자동 로그인</label>
+                        <label class="form-check-label" for="split-checkbox">[[#{txt.auto.login}]]</label>
                       </div>
                       <div class="mb-3">
-                        <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Log in</button>
+                        <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">[[#{button.login}]]</button>
                       </div>
 					   <div class="alert alert-danger" role="alert"  th:if="${error}">[[${error}]]</div>	
                     </form>

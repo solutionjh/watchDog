@@ -5,7 +5,7 @@
 	layout:decorate ="~{layout/default}">
 	
 <head>
-<title>데이터 검증 보고서</title>
+<title>[[#{txt.title.report}]]</title>
 </head>
 	<div layout:fragment="content">
 	<div class="card mb-3">
@@ -15,37 +15,37 @@
 		<div class="card-body">
 			<div class="row flex-between-center">
 				<div class="col-sm-auto mb-2 mb-sm-0">
-					<h6 class="mb-0">최근실행시간 : <span class="text-500" id="recentDtim"></span></h6>
+					<h6 class="mb-0">[[#{txt.recent.time}]]<span class="text-500 recentDtim" ></span></h6>
 				</div>
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
 						<div class="col-auto">
 							<select id="projectNameItemDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">프로젝트 선택</option>
+								<option value="">[[#{select.project.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
 							<select id="countDropdown" class="form-select picker"
 								data-live-search="true">
-								<!-- <option value="">수행일시 선택</option>
-								<option value="7">직전 7건</option>
-								<option value="15">직전 15건</option>
-								<option value="30">직전 30건</option> -->
+								<!-- <option value="">[[#{select.perform.select}]]</option>
+								<option value="7">[[#{select.perform.select.001}]]</option>
+								<option value="15">[[#{select.perform.select.001}]]</option>
+								<option value="30">[[#{select.perform.select.001}]]</option> -->
 
-								<option value="all">수행일시 선택</option>
-								<option value="oneday">최근 1일</option>
-								<option value="oneweek">최근 1주</option>
-								<option value="onemonth">최근 1개월</option>
-								<option value="onequarter">최근 3개월</option>
-								<option value="onehalf">최근 6개월</option>
-								<option value="oneyear">최근 1년</option>
+								<option value="all">[[#{select.perform.select}]]</option>
+								<option value="oneday">[[#{select.perform.select.001}]]</option>
+								<option value="oneweek">[[#{select.perform.select.002}]]</option>
+								<option value="onemonth">[[#{select.perform.select.003}]]</option>
+								<option value="onequarter">[[#{select.perform.select.004}]]</option>
+								<option value="onehalf">[[#{select.perform.select.005}]]</option>
+								<option value="oneyear">[[#{select.perform.select.006}]]</option>
 							</select>
 						</div>
 						<div class="col-auto pe-0">
 							<div class="input-group">
 								<div class="input-group-append">
-									<button type="button" id="pdfDownLoad" class="btn btn-primary">PDF 저장</button>
+									<button type="button" id="pdfDownLoad" class="btn btn-primary">[[#{button.pdf.save}]]</button>
 								</div>
 							</div>
 						</div>
@@ -65,12 +65,12 @@
 					<table class="table table-sm table-borderless fs--1 text-end">
 						<tbody>
 							<tr>
-								<th class="text-900">실행일자:</th>
-								<td class="fw-semi-bold">2021-05-11 01:00:00</td>
+								<th class="text-900">[[#{txt.execution.date}]] :</th>
+								<td class="fw-semi-bold recentDtim"></td>
 							</tr>
 							<tr>
-								<th class="text-900">프로젝트:</th>
-								<td class="fw-semi-bold text-start">NICE_ASS</td>
+								<th class="text-900">[[#{txt.project}]] :</th>
+								<td class="fw-semi-bold text-start" id="project-name"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -86,7 +86,7 @@
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
 										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;"> 1. 검증결과</a>
+										style="padding-left: 0.375em;"> 1. [[#{txt.verification.res}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -125,7 +125,7 @@
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
 										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;">2. 데이터 항목 일치성</a>
+										style="padding-left: 0.375em;">2. [[#{txt.data.same}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -164,7 +164,7 @@
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
 										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;">3. 데이터 안정성</a>
+										style="padding-left: 0.375em;">3. [[#{txt.data.safety}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -247,7 +247,7 @@
 			      }
 
 			      // 파일 저장
-			      doc.save('데이터 검증 보고서.pdf');
+			      doc.save('[[#{txt.verification.report.pdf}]]');
 			    });
 			});
 		}
@@ -284,7 +284,8 @@
 				$projectNameItemDropdown.off().on(
 						'change',
 						function() {
-							projectName = $(this).val();							
+							projectName = $(this).val();		
+							$("#project-name").html($(this).val());
 							fn_data();
 						});
 				$('.picker').select2();
@@ -293,6 +294,7 @@
 				if(!gf_IsNull(paramData)){					
 					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					$countDropdown.val(paramData.recentPeriod).trigger('change');
+					$("#project-name").html(paramData.projectName);
 				}
 				
 				fn_data();
@@ -300,7 +302,7 @@
 				
 				
 			case "RECENTDTIM":
-				$("#recentDtim").html(data[0]);
+				$(".recentDtim").html(data[0]);
 				ajaxCall({
 					target : "ANOMALYCNT",
 					url : "/main/anomalycnt/" + projectName + "/" + recentPeriod
@@ -324,10 +326,10 @@
 	              
 	              var data = [{
 	            		value : totalData.anomalyCnt,
-	            		name : "이상파일"
+	            		name : '[[#{txt.anormal.file}]]'
 	            	},{
 	            		value : totalData.normalCnt,
-	            		name : "정상파일"
+	            		name : '[[#{txt.normal.file}]]'
 	            	}];	
 	              
 	              var  radius = ['100%', '60%'];
@@ -335,8 +337,8 @@
 	              param.target = "fileStateChart";
 	              param.data = data;
 	              param.radius = radius;
-	              param.title = "전체 파일 이상감지 결과";
-	              param.name = ["정상파일", "이상파일"];
+	              param.title = '[[#{txt.file.anormal.detection}]]';
+	              param.name = ['[[#{txt.normal.file}]]', '[[#{txt.anormal.file}]]'];
 	              param.color = [utils.getColors().danger, utils.getColors().primary];
 	              fn_PieChart(param);				
 	              
@@ -344,10 +346,10 @@
 	              ///////////////////////////    임시	    /////////////////////////         
 	               var data2 = [{
 	            		value : 1,
-	            		name : "안정성"
+	            		name : '[[#{txt.safety}]]'
 	            	},{
 	            		value : 1,
-	            		name : "항목별"
+	            		name : '[[#{txt.item}]]'
 	            	}
 	            	];	
 	              
@@ -355,8 +357,8 @@
 	              param.target = "verificationChart";
 	              param.data = data2;
 	              param.radius = radius;
-	              param.title = "검증 결과";
-	              param.name = [ "항목별","안정성"];
+	              param.title = '[[#{txt.distribution.stability.indicator}]]';
+	              param.name = [ '[[#{txt.item}]]','[[#{txt.safety}]]'];
 	              param.color = [utils.getColors().success,utils.getColors().danger];
 	              fn_PieChart(param);
 	              
@@ -387,10 +389,10 @@
 				// 데이터 수 
 				var param = {
 					target : "dataCntChart",
-					title : "데이터 수",
+					title : '[[#{txt.data.count}]]',
 					xData : statData.dtims,
 					yData : statData.datacnts,
-					name : "건수",
+					name : '[[#{txt.number.count}]]',
 					barColor : utils.getColors().primary,
 
 				}
@@ -398,10 +400,10 @@
 
 				// 일별 이상항목수 
 				param.target = "dashItemBar";
-				param.title = "일별 이상 항목 수";
+				param.title = '[[#{txt.anomaly.count}]]';
 				param.xData = statData.dtims;
 				param.yData = statData.cars;
-				param.name = "항목수";
+				param.name = '[[#{txt.item.count}]]';
 				param.barColor = utils.getColors().danger
 				fn_BarChart(param)
 
@@ -447,7 +449,7 @@
 			          borderWidth: 1,
 			          transitionDuration: 0,
 			          formatter: function formatter(params) {
-			              return "<strong>".concat(params.data.name, ":</strong> ").concat(params.value, "건");
+			              return "<strong>".concat(params.data.name, ":</strong> ").concat(params.value, '[[#{txt.number}]]');
 			            }
 			        },
 		        position: function position(pos, params, dom, rect, size) {
@@ -530,7 +532,7 @@
 
 			option = {
 				title : {
-					text : '분포 안정 지표',
+					text : '[[#{txt.distribution.stability.indicator}]]',
 					show : true
 				},
 				color : [ utils.getColors().primary, utils.getColors().danger ],
@@ -853,7 +855,7 @@
 			
 			option = {
 					title: {
-				        text: '항목별 일치성',
+				        text: '[[#{txt.item.same}]]',
 				        show: true
 				    },
 				    color : [ utils.getColors().primary ],
