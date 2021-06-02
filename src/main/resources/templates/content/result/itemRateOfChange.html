@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>항목 변화율</title>
+<title>[[#{left.009}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -22,13 +22,13 @@
 						<div class="col-auto">
 							<select id="projectNameItemDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">프로젝트 선택</option>
+								<option value="">[[#{select.project.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
 							<select id="regdtimDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">수행일시 선택</option>
+								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
@@ -37,7 +37,7 @@
 									class="form-control form-control-sm" placeholder="~% 이상">
 								<div class="input-group-append">
 									<button type="button" id="rateBtn"
-										class="btn btn-outline-secondary">검색</button>
+										class="btn btn-outline-secondary">[[#{button.search}]]</button>
 								</div>
 							</div>
 						</div>
@@ -45,7 +45,7 @@
 							<div class="input-group">
 								<div class="input-group-append">
 									<button type="button" id="goFileMonitoring"
-										class="btn btn-primary">파일모니터링</button>
+										class="btn btn-primary">[[#{button.file.monitor}]]</button>
 								</div>
 							</div>
 						</div>
@@ -132,25 +132,25 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '항목코드',
+					title : '[[#{txt.item.code}]]',
 					field : 'fieldName',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '개발시점 mse',
+					title : '[[#{txt.dev.mse}]]',
 					field : 'devMse',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '선택시점 mse',
+					title : '[[#{txt.select.mse}]]',
 					field : 'nowMse',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '변화율(%)',
+					title : '[[#{txt.change.rate}]]',
 					field : 'changeRate',
 					sortable : true,
 					align : 'right'
@@ -204,7 +204,7 @@
 
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
-				var html = "<option value=''>수행일시 선택</option>";
+				var html = "<option value=''>[[#{select.perform.select}]]</option>";
 
 				$.each(data, function(index, data) {
 					html += '<option value="'+data+'">' + data + '</option>';

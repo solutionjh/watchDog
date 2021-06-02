@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>구성비 조회</title>
+<title>[[#{left.011}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -21,26 +21,26 @@
 						<div class="col-auto">
 							<select id="projectNameItemDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">프로젝트 선택</option>
+								<option value="">[[#{select.project.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
 							<select id="regdtimDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">수행일시 선택</option>
+								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
 							<select id="fieldNameDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">항목 선택</option>
+								<option value="">[[#{select.item.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto pe-0">
 							<div class="input-group">
 								<div class="input-group-append">
 									<button type="button" id="goFileMonitoring"
-										class="btn btn-primary">파일모니터링</button>
+										class="btn btn-primary">[[#{button.file.monitor}]]</button>
 								</div>
 							</div>
 						</div>
@@ -117,31 +117,31 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '항목코드',
+					title : '[[#{txt.item.code}]]',
 					field : 'fieldName',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '항목 값',
+					title : '[[#{txt.item.code}]]',
 					field : 'itemValue',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '개발시점 분포(%)',
+					title : '[[#{txt.item.code}]]',
 					field : 'devProbability',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '선택시점 분포(%)',
+					title : '[[#{txt.select.code}]]',
 					field : 'nowProbability',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '분포 차이(%)',
+					title : '[[#{txt.distribution.diff}]]',
 					field : 'diff',
 					align : 'right',
 					sortable : true,
@@ -193,7 +193,7 @@
 
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
-				var html = "<option value=''>수행일시 선택</option>";
+				var html = "<option value=''>[[#{select.perform.select}]]</option>";
 
 				$.each(data, function(index, data) {
 					html += '<option value="'+data+'">' + data + '</option>';
@@ -210,7 +210,7 @@
 				break;
 			case "FIELDNAME_ITEMS":
 				$fieldNameDropdown.find("option").remove();
-				var html = "<option value=''>항목 선택</option>";
+				var html = "<option value=''>[[#{select.item.select}]]</option>";
 
 				$.each(data, function(index, data) {
 					html += '<option value="'+data+'">' + data + '</option>';
