@@ -64,11 +64,17 @@ function noDataAjax(ajaxParamObj)
 			callbacks.fire(ajaxParamObj.target, data);
 		},
 		error: function (xhr, textStatus, errorThrown) {
-			 if (xhr.status == 403 || textStatus == 'parsererror') {
+				
+			if (xhr.status == 403 || textStatus == 'parsererror') {
 		       location.href = "/login";
-		    } else{
-				alertModal(xhr.responseText);
+		    } else if (xhr.status == 404){
+		    	location.href = "/noPage";
+		    } else if (xhr.status == 500){
+		    	location.href = "/serverError";
+		    }else{
+		    	alertModal(xhr.responseText);
 		    }
+				
 		},
 		async : ajaxParamObj.async
 	});
@@ -93,10 +99,14 @@ function dataAjax(ajaxParamObj)
 			callbacks.fire(ajaxParamObj.target, data);
 		},
 		error: function (xhr, textStatus, errorThrown) {
-			 if (xhr.status == 403 || textStatus == 'parsererror') {
+			if (xhr.status == 403 || textStatus == 'parsererror') {
 		       location.href = "/login";
-		    } else{
-				alertModal(xhr.responseText);
+		    } else if (xhr.status == 404){
+		    	location.href = "/noPage";
+		    } else if (xhr.status == 500){
+		    	location.href = "/serverError";
+		    }else{
+		    	alertModal(xhr.responseText);
 		    }
 		 },
 		async : ajaxParamObj.async
