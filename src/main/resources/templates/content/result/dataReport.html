@@ -57,133 +57,148 @@
 			</div>
 		</div>
 	</div>
-	<div class="row g-3 mb-3">
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">검증결과</a>
-							</h5>
+	<div id="pdfArea">
+		<div class="card mb-3">
+			<div class="card-body text-center py-2">
+				<p class="h3 mt-3 fw-normal fs-2 mt-md-4 fs-md-3 initialism">
+				<u>데이터 파일 NICE_ASS_20210511.dat 검증 결과</u></p>
+			</div>
+			<div class="row g-0 justify-content-end">
+				<div class="col-auto">
+					<table class="table table-sm table-borderless fs--1 text-end">
+						<tbody>
+							<tr>
+								<th class="text-900">실행일자:</th>
+								<td class="fw-semi-bold">2021-05-11 01:00:00</td>
+							</tr>
+							<tr>
+								<th class="text-900">프로젝트:</th>
+								<td class="fw-semi-bold text-start">NICE_ASS</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;"> 1. 검증결과</a>
+								</h5>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="verificationChart" style="min-height: 250px;"></div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="verificationChart" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="fileStateChart" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">전체 파일 이상감지 결과</a>
-							</h5>
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">2. 데이터 항목 일치성</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="dashItemBar" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="itemMatchChart" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="fileStateChart" style="min-height: 250px;"></div>
+			</div>
+		</div>
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">3. 데이터 안정성</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="psiChart" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-6">
+								<div class="card">
+									<div class="card-body bg-light">
+										<div class="tab-content">
+											<div id="dataCntChart" style="min-height: 250px;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="row g-3 mb-3">
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">이상 항목 수</a>
-							</h5>
-						</div>
-					</div>
-				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="dashItemBar" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">항목별 일치성</a>
-							</h5>
-						</div>
-					</div>
-				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="itemMatchChart" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row g-3 mb-3">
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">분포 안정 지표</a>
-							</h5>
-						</div>
-					</div>
-				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="psiChart" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">데이터 수</a>
-							</h5>
-						</div>
-					</div>
-				</div>
-				<div class="card-body bg-light">
-					<div class="tab-content">
-						<div id="dataCntChart" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
+
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $countDropdown = $("#countDropdown");
@@ -201,6 +216,42 @@
 			$countDropdown.off().on('change', function() {
 				recentPeriod = "all";
 				fn_data();
+			});
+			$pdfDownLoad.off().on('click', function() {
+			    html2canvas($('#pdfArea')[0] ,{	
+			      allowTaint : true,	// cross-origin allow 
+			      useCORS: true,		// CORS 사용한 서버로부터 이미지 로드할 것인지 여부
+			      scale : 2				// 기본 96dpi에서 해상도를 두 배로 증가
+			      
+			    }).then(function(canvas) {	
+			      // 캔버스를 이미지로 변환
+			      var imgData = canvas.toDataURL('image/png');
+
+			      var imgWidth = 190; // 이미지 가로 길이(mm) / A4 기준 210mm
+			      var pageHeight = imgWidth * 1.414;  // 출력 페이지 세로 길이 계산 A4 기준
+			      var imgHeight = canvas.height * imgWidth / canvas.width;
+			      var heightLeft = imgHeight;
+			      var margin = 10; // 출력 페이지 여백설정
+			      var doc = new jsPDF('p', 'mm');
+			      var position = 0;
+
+			      // 첫 페이지 출력
+			      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+			      heightLeft -= pageHeight;
+
+			      // 한 페이지 이상일 경우 루프 돌면서 출력
+			      while (heightLeft >= 20) {			// 35
+			      position = heightLeft - imgHeight;
+			      position = position - 20 ;		// -25
+
+			      doc.addPage();
+			      doc.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
+			      heightLeft -= pageHeight;
+			      }
+
+			      // 파일 저장
+			      doc.save('데이터 검증 보고서.pdf');
+			    });
 			});
 		}
 		
@@ -385,7 +436,7 @@
 			option = {
 				title : {
 					text : param.title,
-					show : false
+					show : true
 				},
 				color: param.color,
 				tooltip: {
@@ -408,9 +459,10 @@
 
 				legend : {
 					data : param.name,
-					left : 'left',
+					bottom: 0,
+				    left: 'right',
 					itemWidth : 10,
-					itemHeight : 50,
+					itemHeight : 10,
 					borderRadius : 0,
 					icon : 'circle',
 					inactiveColor : utils.getGrays()['400'],
@@ -482,7 +534,7 @@
 			option = {
 				title : {
 					text : '분포 안정 지표',
-					show : false
+					show : true
 				},
 				color : [ utils.getColors().primary, utils.getColors().danger ],
 				tooltip : {
@@ -653,7 +705,7 @@
 			option = {
 				title : {
 					text : param.title,
-					show : false
+					show : true
 				},
 				color : [ utils.getColors().primary ],
 				tooltip : {
@@ -794,8 +846,6 @@
 			});
 
 			
-			console.log("dataArray:::",dataArray)
-
 			if (itemMatchChart != null) {
 				itemMatchChart.destroy();
 			}
@@ -807,7 +857,7 @@
 			option = {
 					title: {
 				        text: '항목별 일치성',
-				        show: false
+				        show: true
 				    },
 				    color : [ utils.getColors().primary ],
 				    tooltip : {
@@ -821,7 +871,6 @@
 						borderWidth : 1,
 						transitionDuration : 0 ,
 						formatter: function formatter(params) {
-							console.log("params:::::",params)
 				              return "<strong>".concat(params.name, ":</strong> ").concat(params.value, "%");
 			            }
 					},
