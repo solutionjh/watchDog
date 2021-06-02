@@ -101,6 +101,17 @@
 				tableRefresh();
 			})
 			
+			$("#goFileMonitoring").on("click", function(){
+				var param = {
+						projectName : $projectNameItemDropdown.val(),
+						regdtim : $regdtItemDropdown.val()
+				}
+				
+				$("#paramForm").prop('action','/result/fileMonitoring');
+				$("#paramData").val(JSON.stringify(param));
+				$("#paramForm").submit();
+			})
+			
 			$rateInput.on("keyup",function(key){
 				if(key.keyCode==13) {
 					tableRefresh();			            

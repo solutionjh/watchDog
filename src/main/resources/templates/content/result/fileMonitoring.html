@@ -2,12 +2,201 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>파일 모니터링</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-header">
+			<div class="row flex-between-end">
+				<div class="card-body ">
+					<div class="row gx-2">
+						<div class="col-sm-3 mb-3">
+							<select id="projectNameItemDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">프로젝트 선택</option>
+							</select>
+						</div>
+						<div class="col-sm-3 mb-3 ">
+							<select id="regdtimDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">수행일시 선택</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div class="card mb-3">
+		<div class="card-body">
+			<div class="tab-pane preview-tab-pane active" role="tabpanel"
+				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
+				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
+				<table
+					class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
+					id="table">
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var $table = $('#table');
+		var $projectNameItemDropdown = $("#projectNameItemDropdown");
+		var $regdtItemDropdown = $("#regdtimDropdown");
+
+		$(function() {
+			fn_projectNames();
+			fn_Table();
+			fn_Event();
+		});
+
+		function fn_projectNames() {
+			var param = {
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_regdtItems(projectName) {
+			var param = {
+				target : "REGDT_ITEMS",
+				url : "/resultitem/" + projectName + "/regdtim/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_Event() {
+
+		}
+
+		function fn_Table() {
+			$table.bootstrapTable('destroy').bootstrapTable({
+				theadClasses : 'bg-200 text-900',
+				height : 650,
+				pageSize : "20",
+				pageList : "[5, 10, 20, 50, all]",
+				columns : [ {
+					title : '프로젝트',
+					field : '',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '날짜',
+					field : '',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '항목코드',
+					field : 'fieldName',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '평균',
+					field : '',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '평균(개발)',
+					field : '',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '표준편차',
+					field : '',
+					sortable : true,
+					align : 'right'
+				}, {
+					title : '표준편차(개발)',
+					field : '',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				} ],
+				onClickRow : function(row, $element, field) {
+				}
+			});
+			tableRefresh();
+		}
+
+		function tableRefresh() {
+			const projectName = $projectNameItemDropdown.val();
+			const regdtim = $regdtItemDropdown.val();
+			let rateInput = $rateInput.val();
+			if (!rateInput)
+				rateInput = 0;
+
+			if (projectName && regdtim) {
+				bootstrapTableRefresh($table, '/resultitem/' + projectName
+						+ '/' + regdtim + '/' + rateInput, '[[${#locale}]]',
+						'[[#{table.data.faile}]]');
+			}
+		}
+
+		function responseHandler(res) {
+			$.each(res, function(i) {
+				this.index = i + 1;
+			});
+			return res;
+		}
+
+		function callback(target, data) {
+
+			switch (target) {
+			case "PROJECT_NAMES":
+				var listName = data;
+				var html = "";
+
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$projectNameItemDropdown.off();
+				$projectNameItemDropdown.change(function() {
+					if ($(this).val())
+						fn_regdtItems($(this).val());
+				});
+
+				$('.picker').select2();
+				break;
+
+			case "REGDT_ITEMS":
+				$regdtItemDropdown.find("option").remove();
+				var html = "<option value=''>수행일시 선택</option>";
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$regdtItemDropdown.append(html);
+
+				$regdtItemDropdown.off();
+				$regdtItemDropdown.change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
+				break;
+
+			default:
+				break;
+			}
+		}
+	</script>
+
+</div>
 </html>
