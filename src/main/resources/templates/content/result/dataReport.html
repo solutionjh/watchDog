@@ -12,23 +12,20 @@
 		<div class="bg-holder d-none d-lg-block bg-card"
 			style="background-image: url(/assets/img/illustrations/corner-4.png);">
 		</div>
-		<div class="card-header">
-			<div class="row flex-between-end">
-				<div class="card-body ">
-
-					<div class="row gx-2">
-						<div class="col-sm-3 mb-2 mt-3">
-							<h5 class="fs-0 mb-0">
-								최근실행시간 : <span class="text-500" id="recentDtim"></span>
-							</h5>
-						</div>
-						<div class="col-sm-3 mb-3">
+		<div class="card-body">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					<h6 class="mb-0">최근실행시간 : <span class="text-500" id="recentDtim"></span></h6>
+				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto">
 							<select id="projectNameItemDropdown" class="form-select picker"
 								data-live-search="true">
 								<option value="">프로젝트 선택</option>
 							</select>
 						</div>
-						<div class="col-sm-3 mb-3 ">
+						<div class="col-auto">
 							<select id="countDropdown" class="form-select picker"
 								data-live-search="true">
 								<!-- <option value="">수행일시 선택</option>
@@ -45,10 +42,10 @@
 								<option value="oneyear">최근 1년</option>
 							</select>
 						</div>
-						<div class="col-sm-3 mb-3">
+						<div class="col-auto pe-0">
 							<div class="input-group">
 								<div class="input-group-append">
-									<button type="button" id="pdfDownLoad" class="btn btn-primary" >PDF 저장</button>
+									<button type="button" id="pdfDownLoad" class="btn btn-primary">PDF 저장</button>
 								</div>
 							</div>
 						</div>

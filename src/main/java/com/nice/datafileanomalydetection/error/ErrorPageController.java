@@ -6,29 +6,36 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nice.datafileanomalydetection.message.ReloadMessageSource;
+
 @Controller
 public class ErrorPageController implements ErrorController  {
 	
 	public static final String VIEW_PATH_404 = "/content/error/404";
 	public static final String VIEW_PATH_500 = "/content/error/500";
-	
+	public static final String VIEW_PATH_ACCESS_DENIED = "/content/error/accessDenied";
+	   
 	@RequestMapping(value = "/error")
 	public String handleError(HttpServletRequest request , HttpServletResponse response) throws IOException {
-		
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		if (status != null) {
 			int statusCode = Integer.valueOf(status.toString());
 			if (statusCode == HttpStatus.NOT_FOUND.value()) {
-				return VIEW_PATH_404;
+				if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))) {
+					return VIEW_PATH_404;
+				}
 			}
 			if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-				return VIEW_PATH_500;
+				if(!"XMLHttpRequest".equals(request.getHeader("x-requested-with"))) {
+					return VIEW_PATH_500;
+				}
 			}
 		}
 		return "error";
@@ -36,6 +43,14 @@ public class ErrorPageController implements ErrorController  {
 	
 	@GetMapping(value = "/accessDenied")
 	public String accessDenied(HttpServletRequest request ) {
-		return "content/error/accessDenied";
+		return VIEW_PATH_ACCESS_DENIED;
+	}
+	@GetMapping(value = "/noPage")
+	public String noPage(HttpServletRequest request ) {
+		return VIEW_PATH_404;
+	}
+	@GetMapping(value = "/serverError")
+	public String serverError(HttpServletRequest request ) {
+		return VIEW_PATH_500;
 	}
 }
