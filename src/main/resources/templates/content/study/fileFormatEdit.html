@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>파일포맷 변경</title>
+<title>[[#{left.015}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -17,10 +17,10 @@
 				<div class="card-body">
 						<div class="row gx-2">
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputDataFilePathDropdown" data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">원본
-									파일</label> <select class="form-select picker directInput" id="inputDataFilePathDropdown"
+								<label class="form-label" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.orgin.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.orgin.file}]]</label> <select class="form-select picker directInput" id="inputDataFilePathDropdown"
 									name="inputDataFilePathDropdown">
-									<option value="direct">직접입력</option>
+									<option value="direct">[[#{select.direct.insert}]]</option>
 									<option value="A">A</option>
 								</select>
 							</div>
@@ -28,14 +28,14 @@
 								<label class="form-label" for="inputDataFilePath">
 									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
 									name="inputDataFilePath" type="text"
-									placeholder="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									th:placeholder="#{txt.orgin.file.ph}"
 									required />
 							</div>
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputLayoutFilePathDropdown" data-bs-original-title="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">레이아웃
-									파일</label> <select class="form-select picker directInput" id="inputLayoutFilePathDropdown"
+								<label class="form-label" for="inputLayoutFilePathDropdown" th:data-bs-original-title="#{txt.orgin.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.layout.file}]]</label> <select class="form-select picker directInput" id="inputLayoutFilePathDropdown"
 									name="inputLayoutFilePathDropdown">
-									<option value="direct">직접입력</option>
+									<option value="direct">[[#{select.direct.insert}]]</option>
 									<option value="B">B</option>
 								</select>
 							</div>
@@ -43,14 +43,14 @@
 								<label class="form-label" for="inputLayoutFilePath">
 									&nbsp; </label> <input class="form-control" id="inputLayoutFilePath"
 									name="inputLayoutFilePath" type="text"
-									placeholder="*.gz   (EX - D:/watchdog/data/test.gz)   ※ 구분자, 띄어쓰기 주의"
+									th:placeholder="#{txt.orgin.file.ph}"
 									required />
 							</div>
 							<div class="col-6 mb-3">
-								<label class="form-label" for="outputDataFilePathDropdown" data-bs-original-title="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의" data-bs-toggle="tooltip" data-bs-placement="top">변환
-									파일</label> <select class="form-select picker directInput" id="outputDataFilePathDropdown"
+								<label class="form-label" for="outputDataFilePathDropdown" th:data-bs-original-title="#{txt.convert.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.convert.file}]]</label> <select class="form-select picker directInput" id="outputDataFilePathDropdown"
 									name="outputDataFilePathDropdown">
-									<option value="direct">직접입력</option>
+									<option value="direct">[[#{select.direct.insert}]]</option>
 									<option value="C">C</option>
 								</select>
 							</div>
@@ -58,7 +58,7 @@
 								<label class="form-label" for="outputDataFilePath">
 									&nbsp; </label> <input class="form-control" id="outputDataFilePath"
 									name="outputDataFilePath" type="text"
-									placeholder="*.csv   (EX - D:/watchdog/output/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									th:placeholder="#{txt.convert.file.ph}"
 									required />
 							</div>
 						</div>
@@ -68,7 +68,7 @@
 				<div class="card-footer bg-light">
 						<div class="row flex-between-end">
 							<div class="col-auto ms-auto">
-								<button class="btn btn-sm btn-primary" type="submit">실행</button>
+								<button class="btn btn-sm btn-primary" type="submit">[[#{button.excute}]]</button>
 							</div>
 						</div>
 					</div>
@@ -118,7 +118,7 @@
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
 				if ($infoForm[0].checkValidity() === true) {
-					confirmModal('실행하시겠습니까?', function() {
+					confirmModal('[[#{web.confirm.excute}]]', function() {
 						fn_makeCsv();
 					});
 				}

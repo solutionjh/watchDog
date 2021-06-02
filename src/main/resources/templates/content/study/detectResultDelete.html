@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>감지결과 삭제</title>
+<title>[[#{left.018}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -19,7 +19,7 @@
 				<div class="col-sm-auto mb-2 mb-sm-0">
 					<select id="projectNameItemDropdown" class="form-select picker"
 						data-live-search="true">
-						<option value="">프로젝트 선택</option>
+						<option value="">[[#{select.project.select}]]</option>
 					</select>
 				</div>
 				<div class="col-sm-auto">
@@ -28,7 +28,7 @@
 						<div class="col-auto pe-0">
 							<div class="input-group">
 								<div class="input-group-append">
-									<button class="btn btn-danger" type="button" id="deleteBtn">삭제</button>
+									<button class="btn btn-danger" type="button" id="deleteBtn">[[#{txt.delete}]]</button>
 								</div>
 							</div>
 						</div>
@@ -58,7 +58,7 @@
 
 		function fn_delete() {
 			const projectName = $projectNameItemDropdown.val();
-			console.log(projectName);
+			
 			if(projectName){
 				var param = {
 						target : "PROJECT_DELETE",
@@ -66,12 +66,14 @@
 					}
 					ajaxCall(param);	
 			}else{
-				alertModal('프로젝트가 선택되지 않았습니다.');
+				alertModal('[[#{txt.noselect.proejct}]]');
 			}
 		}
 		function fn_Event() {
 			$deleteBtn.on("click", function() {
-				fn_delete();
+				confirmModal('[[#{web.confirm.delete}]]', function() {
+					fn_delete();
+				});
 			})
 		}
 
@@ -81,7 +83,7 @@
 			case "PROJECT_NAMES":
 				$projectNameItemDropdown.find("option").remove();
 				var listName = data;
-				var html = "<option value=''>프로젝트 선택</option>";
+				var html = "<option value=''>[[#{select.project.select}]]</option>";
 
 				$.each(listName, function(index, data) {
 					html += "<option value="+data+">" + data + "</option>";

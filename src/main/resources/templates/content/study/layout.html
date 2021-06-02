@@ -211,7 +211,7 @@
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
 				if ($infoForm[0].checkValidity() === true) {
-					confirmModal('저장하시겠습니까?', function() {
+					confirmModal('[[#{web.confirm.save}]]', function() {
 						var data = $infoForm.serializeObject();
 						var param = {
 							target : "SAVE",
