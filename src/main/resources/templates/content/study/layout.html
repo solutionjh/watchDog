@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>레아이웃 및 이상감지 관리</title>
+<title>[[#{left.014}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -22,17 +22,17 @@
 						<button id="topNewBatchBtn" data-id="batchNew"
 							class="btn btn-falcon-primary btn-sm " type="button">
 							<span class="far fa-plus-square"></span> <span
-								class="d-none d-sm-inline-block ml-1">신규생성(배치)</span>
+								class="d-none d-sm-inline-block ml-1">[[#{button.new.batch}]]</span>
 						</button>
 						<button id="topNewOnlineBtn" data-id="onlineNew"
 							class="btn btn-falcon-default btn-sm" type="button">
 							<span class="far fa-plus-square"></span> <span
-								class="d-none d-sm-inline-block ml-1">신규생성(온라인)</span>
+								class="d-none d-sm-inline-block ml-1">[[#{button.new.online}]]</span>
 						</button>
 						<button id="topEditBtn" data-id="edit"
 							class="btn btn-falcon-default btn-sm" type="button">
 							<span class="far fa-edit"></span> <span
-								class="d-none d-sm-inline-block ml-1">수정</span>
+								class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
 						</button>
 					</div>
 				</div>
@@ -43,9 +43,9 @@
 				<div class="row gx-2">
 					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">레이아웃 파일명</span> <input
+							<span class="input-group-text">[[#{txt.layoutFile.name}]]</span> <input
 								class="form-control" id="projectName" name="projectName"
-								type="text" placeholder="이름을 지정합니다. (EX - NICE정기배치)" required />
+								type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
 							<select class="form-select picker" id="projectNameDropdown"
 								name="projectNameDropdown" style="display: none;">
 								<option value="">*.properties</option>
@@ -54,58 +54,58 @@
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">항목 정보(헤더)</span> <input
+							<span class="input-group-text">[[#{txt.headerInfo}]]</span> <input
 								class="offOnline form-control" id="header" name="header"
 								type="text"
-								placeholder="데이터 파일의 항목명을 순서대로 ,로 구분하여 입력합니다. (EX - SEQ,DATE,NAME,SCORE1,SCORE2,GRADE1,GRADE2) ※ 구분자는 ,로 입력"
+								th:placeholder="#{txt.headerInfo.ph}"
 								required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">헤더라인 수</span> <input
+							<span class="input-group-text">[[#{txt.headerToSkip}]]</span> <input
 								class="offOnline form-control" id="headerToSkip"
 								name="headerToSkip" type="number"
-								placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)"
+								th:placeholder="#{txt.headerToSkip.ph}"
 								pattern="/^-?\d+\.?\d*$/"
 								onKeyPress="if(this.value.length==1) return false;" required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">트레일러 라인 수</span> <input
+							<span class="input-group-text">[[#{txt.footerToSkip}]]</span> <input
 								class="offOnline form-control" id="footerToSkip"
 								name="footerToSkip" type="number"
-								placeholder="1줄 있을 경우 1 입력, 없으면 0을 입력합니다. (EX - 1)"
+								th:placeholder="#{txt.footerToSkip.ph}"
 								pattern="/^-?\d+\.?\d*$/"
 								onKeyPress="if(this.value.length==1) return false;" required />
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">데이터파일 종류선택</span> <select
+							<span class="input-group-text">[[#{txt.fixedLayoutYN}]]</span> <select
 								class="offOnline form-select" id="fixedLayoutYN"
 								name="fixedLayoutYN">
-								<option value="Y">고정길이(Fixed Length) 파일</option>
-								<option value="N">구분자(delimiter)로 구분된 파일</option>
+								<option value="Y">[[#{select.fixedLayoutYN.001}]]</option>
+								<option value="N">[[#{select.fixedLayoutYN.002}]]</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3" style="display: none;">
 						<div class="input-group">
-							<span class="input-group-text">구분자</span> <input
+							<span class="input-group-text">[[#{txt.delimiter}]]</span> <input
 								class="offOnline form-control" id="delimiter" name="delimiter"
 								type="text"
-								placeholder="데이터 파일의 delimiter(구분자)가 무엇인지 입력합니다. (EX - ,)"
+								th:placeholder="#{txt.delimiter.ph}"
 								required />
 						</div>
 					</div>
 					<div class="col-sm-6 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">항목길이(헤더) 입력</span> <input
+							<span class="input-group-text">[[#{txt.columnLength}]]</span> <input
 								class="offOnline form-control" id="columnLength"
 								name="columnLength" type="text"
-								placeholder="fixed length(고정길이) 파일일 경우 각 항목의 길이를 header 순서와 같게 입력합니다 . (EX - 1,2,8,10,10,5,3,5) ※ 구분자는, 로 입력"
+								th:placeholder="#{txt.columnLength.ph}"
 								required />
 						</div>
 					</div>
@@ -114,32 +114,32 @@
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">감지 제외항목 입력</span> <input
+							<span class="input-group-text">[[#{txt.keyColumn}]]</span> <input
 								class="form-control" id="keyColumn" name="keyColumn" type="text"
-								placeholder="모형에서 사용하지 않을 항목들을 ,로 구분하여 입력합니다. key에 해당하는 항목, 문자형 항목을 입력합니다. (EX - SEQ,DATE,NAME)" />
+								th:placeholder="#{txt.keyColumn.ph}" />
 						</div>
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">감지 포함항목 입력</span> <input
+							<span class="input-group-text">[[#{txt.requiredColumn}]]</span> <input
 								class="form-control" id="requiredColumn" name="requiredColumn"
 								type="text"
-								placeholder="모형에서 반드시 사용할 항목을 입력합니다. 입력하지 않더라도 숫자형 항목은 사용하게 됩니다. (EX - GRADE1,SCORE1,GRADE2,SCORE2) ※ 구분자는 ,로 입력" />
+								th:placeholder="#{txt.requiredColumn.ph}" />
 						</div>
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">항목 분포 변경 감지 대상</span> <input
+							<span class="input-group-text">[[#{txt.ratiograde}]]</span> <input
 								class="form-control" id="ratiograde" name="ratiograde"
 								type="text"
-								placeholder="카이제곱 검정을 수행할 항목들을 , 로 구분하여 입력합니다. 스코어 추출시 등급에 해당하는 항목을 입력합니다. (EX - GRADE1,GRADE2)" />
+								th:placeholder="#{txt.ratiograde.ph}" />
 						</div>
 					</div>
 					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">판단기준</span> <input
+							<span class="input-group-text">[[#{txt.threshold}]]</span> <input
 								class="form-control" id="threshold" name="threshold" type="text"
-								placeholder="오토 인코더의 psi, 오토 인코더의 항목 변화율, 카이제곱 통계량의 기준값을 차례대로 ,로 구분하여 입력합니다. 해당 값보다 크면 화면에서 이상으로 표시합니다. (EX - 1,50,250)" />
+								th:placeholder="#{txt.threshold.ph}" />
 						</div>
 					</div>
 				</div>
@@ -148,7 +148,7 @@
 			<div class="card-footer bg-light">
 				<div class="row flex-between-end">
 					<div class="col-auto ms-auto">
-						<button class="btn btn-sm btn-primary" type="submit">저장</button>
+						<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
 					</div>
 				</div>
 			</div>
