@@ -11,86 +11,94 @@
 <div layout:fragment="content">
 
 	<div class="card mb-3">
-		<div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/assets/img/illustrations/corner-4.png);">
-            </div>
-		<div class="card-header">
-			<div class="row flex-between-end">
-				<div class="card-body ">
-					<div class="row gx-2">
-					<div class="col-sm-9 mb-3">
-						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
-                      	<option value="">프로젝트 선택</option>
-                      </select>
-					</div>
-					<div class="col-sm-3 mb-3">
-						<button class="btn btn-danger" type="button" id="deleteBtn">삭제</button>
-					</div>
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-body">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					<select id="projectNameItemDropdown" class="form-select picker"
+						data-live-search="true">
+						<option value="">프로젝트 선택</option>
+					</select>
 				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto"></div>
+						<div class="col-auto pe-0">
+							<div class="input-group">
+								<div class="input-group-append">
+									<button class="btn btn-danger" type="button" id="deleteBtn">삭제</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $deleteBtn = $("#deleteBtn");
-				
+
 		$(function() {
 			fn_projectNames();
 			fn_Event();
 		});
-		
 
 		function fn_projectNames() {
 			var param = {
-					 target : "PROJECT_NAMES",
-					 url : "/result/projectnames/",
-					 isLoading: false
-				}
-	    	ajaxCall(param);
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			}
+			ajaxCall(param);
 		}
-		
-		function fn_delete(){
+
+		function fn_delete() {
 			const projectName = $projectNameItemDropdown.val();
-			var param = {
-					 target : "PROJECT_DELETE",
-					 url : "/main/deleteproject/" + projectName
-				}
-	    	ajaxCall(param);
+			console.log(projectName);
+			if(projectName){
+				var param = {
+						target : "PROJECT_DELETE",
+						url : "/main/deleteproject/" + projectName
+					}
+					ajaxCall(param);	
+			}else{
+				alertModal('프로젝트가 선택되지 않았습니다.');
+			}
 		}
 		function fn_Event() {
-			$deleteBtn.on("click", function(){
+			$deleteBtn.on("click", function() {
 				fn_delete();
 			})
 		}
-	
+
 		function callback(target, data) {
-			
+
 			switch (target) {
 			case "PROJECT_NAMES":
 				$projectNameItemDropdown.find("option").remove();
 				var listName = data;
-				var html = "<option>프로젝트 선택</option>";
-				
-                $.each(listName, function(index, data) {
-                	html += "<option value="+data+">"+data+"</option>";
-                });
-                $projectNameItemDropdown.append(html);
-    			$('.picker').select2();
+				var html = "<option value=''>프로젝트 선택</option>";
+
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$('.picker').select2();
 				break;
-				
+
 			case "PROJECT_DELETE":
 				fn_projectNames();
 				alertModal('[[#{web.success.delete}]]');
 				break;
-			    
+
 			default:
 				break;
 			}
 		}
-		
-		
-
 	</script>
 
 </div>

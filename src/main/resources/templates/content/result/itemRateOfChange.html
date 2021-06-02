@@ -9,54 +9,62 @@
 
 </head>
 <div layout:fragment="content">
-<div class="card mb-3">
-		<div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(/assets/img/illustrations/corner-4.png);">
-            </div>
-		<div class="card-header">
-			<div class="row flex-between-end">
-				<div class="card-body ">
-					<div class="row gx-2">
-					<div class="col-sm-3 mb-3">
-						<select id="projectNameItemDropdown" class="form-select picker" data-live-search="true">
-                      	<option value="">프로젝트 선택</option>
-                      </select>
-					</div>
-					<div class="col-sm-3 mb-3 ">
-						<select id="regdtimDropdown" class="form-select picker" data-live-search="true">
-                      	<option value="">수행일시 선택</option>
-                      </select>
-					</div>
-					<div class="col-sm-3 mb-3">
-						<div class="input-group">
-						  <input type="number" id="rateInput" class="form-control form-control-sm" placeholder="~% 이상">
-						  <div class="input-group-append">
-						    <button type="button" id="rateBtn" class="btn btn-outline-secondary">검색</button>
-						  </div>
-						</div>
-					</div>
-					<div class="col-sm-3 mb-3">
-					<div class="input-group">
-						  <div class="input-group-append">
-						    <button type="button" id="goFileMonitoring" class="btn btn-primary">파일모니터링</button>
-						  </div>
-						</div>
-					</div>
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-body">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
 				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto">
+							<select id="projectNameItemDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">프로젝트 선택</option>
+							</select>
+						</div>
+						<div class="col-auto">
+							<select id="regdtimDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">수행일시 선택</option>
+							</select>
+						</div>
+						<div class="col-auto">
+							<div class="input-group">
+								<input type="number" id="rateInput"
+									class="form-control form-control-sm" placeholder="~% 이상">
+								<div class="input-group-append">
+									<button type="button" id="rateBtn"
+										class="btn btn-outline-secondary">검색</button>
+								</div>
+							</div>
+						</div>
+						<div class="col-auto pe-0">
+							<div class="input-group">
+								<div class="input-group-append">
+									<button type="button" id="goFileMonitoring"
+										class="btn btn-primary">파일모니터링</button>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="card mb-3">
 		<div class="card-body">
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
-					aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
-					id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
-					<table
-						class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
-						id="table">
-					</table>
-				</div>
+				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
+				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
+				<table
+					class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
+					id="table">
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -66,161 +74,154 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $rateInput = $("#rateInput");
 		var $rateBtn = $("#rateBtn");
-		
+
 		var target_memberId = null;
-		
+
 		$(function() {
-			
+
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
 		});
-		
 
 		function fn_projectNames() {
 			var param = {
-					 target : "PROJECT_NAMES",
-					 url : "/result/projectnames/",
-					 isLoading: false
-				}
-	    	ajaxCall(param);
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			}
+			ajaxCall(param);
 		}
-		
+
 		function fn_regdtItems(projectName) {
 			var param = {
-					 target : "REGDT_ITEMS",
-					 url : "/resultitem/" + projectName + "/regdtim/",
-					 isLoading: false
-				}
-	    	ajaxCall(param);
+				target : "REGDT_ITEMS",
+				url : "/resultitem/" + projectName + "/regdtim/",
+				isLoading : false
+			}
+			ajaxCall(param);
 		}
-		
 
 		function fn_Event() {
-			$rateBtn.on("click", function(){
+			$rateBtn.on("click", function() {
 				tableRefresh();
 			})
-			
-			$("#goFileMonitoring").on("click", function(){
+
+			$("#goFileMonitoring").on("click", function() {
 				var param = {
-						projectName : $projectNameItemDropdown.val(),
-						regdtim : $regdtItemDropdown.val()
+					projectName : $projectNameItemDropdown.val(),
+					regdtim : $regdtItemDropdown.val()
 				}
-				
-				$("#paramForm").prop('action','/result/fileMonitoring');
+
+				$("#paramForm").prop('action', '/result/fileMonitoring');
 				$("#paramData").val(JSON.stringify(param));
 				$("#paramForm").submit();
 			})
-			
-			$rateInput.on("keyup",function(key){
-				if(key.keyCode==13) {
-					tableRefresh();			            
+
+			$rateInput.on("keyup", function(key) {
+				if (key.keyCode == 13) {
+					tableRefresh();
 				}
 			});
 		}
-		
-		
+
 		function fn_Table() {
-			$table.bootstrapTable('destroy').bootstrapTable(
-					{
-					 	theadClasses:'bg-200 text-900',
-						height : 650,
-						pageSize : "20",
-						pageList : "[5, 10, 20, 50, all]",
-						columns : [
-								{
-					              title: '항목코드',
-					              field: 'fieldName',
-					              align: 'center',
-					              sortable: true,
-					              valign: 'middle'
-					            }, {
-					              title: '개발시점 mse',
-					              field: 'devMse',
-					              align: 'right',
-					              sortable: true,
-					              valign: 'middle'
-					            }, {
-					              title: '선택시점 mse',
-					              field: 'nowMse',
-					              align: 'right',
-					              sortable: true,
-					              valign: 'middle'
-					            }, {
-					              title: '변화율(%)',
-					              field: 'changeRate',
-					              sortable: true,
-					              align: 'right'
-					            }],
-						onClickRow : function(row, $element, field) {}
-					});
+			$table.bootstrapTable('destroy').bootstrapTable({
+				theadClasses : 'bg-200 text-900',
+				height : 650,
+				pageSize : "20",
+				pageList : "[5, 10, 20, 50, all]",
+				columns : [ {
+					title : '항목코드',
+					field : 'fieldName',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '개발시점 mse',
+					field : 'devMse',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '선택시점 mse',
+					field : 'nowMse',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '변화율(%)',
+					field : 'changeRate',
+					sortable : true,
+					align : 'right'
+				} ],
+				onClickRow : function(row, $element, field) {
+				}
+			});
 			tableRefresh();
 		}
-		
-		
-		function tableRefresh(){
-			const projectName = $projectNameItemDropdown.val();
-        	const regdtim = $regdtItemDropdown.val();
-        	let rateInput = $rateInput.val();
-        	if(!rateInput) rateInput = 0;
 
-        	if(projectName && regdtim) {
-        		bootstrapTableRefresh($table, '/resultitem/'+projectName+'/'+regdtim+'/' + rateInput,
-    					'[[${#locale}]]', '[[#{table.data.faile}]]');
-        	}
+		function tableRefresh() {
+			const projectName = $projectNameItemDropdown.val();
+			const regdtim = $regdtItemDropdown.val();
+			let rateInput = $rateInput.val();
+			if (!rateInput)
+				rateInput = 0;
+
+			if (projectName && regdtim) {
+				bootstrapTableRefresh($table, '/resultitem/' + projectName
+						+ '/' + regdtim + '/' + rateInput, '[[${#locale}]]',
+						'[[#{table.data.faile}]]');
+			}
 		}
-		
-		
+
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = i + 1;
 			});
 			return res;
 		}
-		
-		
+
 		function callback(target, data) {
-			
+
 			switch (target) {
 			case "PROJECT_NAMES":
 				var listName = data;
 				var html = "";
-				
-                $.each(listName, function(index, data) {
-                	html += "<option value="+data+">"+data+"</option>";
-                });
-                $projectNameItemDropdown.append(html);
-                $projectNameItemDropdown.off();
-                $projectNameItemDropdown.change(function(){
-                	if($(this).val()) fn_regdtItems($(this).val());
-                });
 
-    			$('.picker').select2();
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$projectNameItemDropdown.off();
+				$projectNameItemDropdown.change(function() {
+					if ($(this).val())
+						fn_regdtItems($(this).val());
+				});
+
+				$('.picker').select2();
 				break;
-				
+
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
 				var html = "<option value=''>수행일시 선택</option>";
-				
-                $.each(data, function(index, data) {
-                	html += '<option value="'+data+'">'+data+'</option>';
-                });
-                $regdtItemDropdown.append(html);
-                
-                $regdtItemDropdown.off();
-                $regdtItemDropdown.change(function(){
-                	tableRefresh();
-                });
-                $('.picker').select2();
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$regdtItemDropdown.append(html);
+
+				$regdtItemDropdown.off();
+				$regdtItemDropdown.change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
 				break;
-			    
+
 			default:
 				break;
 			}
 		}
-		
-		
-
 	</script>
 
 </div>
