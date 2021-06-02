@@ -2,12 +2,184 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>데이터 이상감지</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+
+	<div class="row g-0">
+		<div class="col-lg-12 pe-lg-2">
+			<div class="card mb-3">
+				<form id="info-form" class="needs-validation" novalidate>
+					<div class="card-body">
+						<div class="row gx-2">
+							<div class="col-12 mb-3">
+								<label class="form-label"> 항목별 이상탐지 결과 산출여부</label>
+								<div class="custom-control custom-radio">
+									<input type="radio" class="custom-control-input"
+										id="columnCalculateY" name="columnCalculateYN" value="Y"
+										checked="checked"> <label
+										class="custom-control-label font-weight-bold"
+										for="columnCalculateY" id="makeModelYLabel">파일 및 항목
+										이상여부 산출</label>
+								</div>
+								<div class="custom-control custom-radio">
+									<input type="radio" class="custom-control-input"
+										id="columnCalculateN" name="columnCalculateYN" value="N">
+									<label class="custom-control-label font-weight-bold"
+										for="columnCalculateN" id="makeModelYLabel">파일 이상여부 산출</label>
+								</div>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFileDropdown"
+									data-bs-original-title="*.csv   (EX - D:/watchdog/data/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									data-bs-toggle="tooltip" data-bs-placement="top"> 데이터
+									파일 선택</label> <select class="form-select picker directInput"
+									id="inputDataFileDropdown" name="inputDataFileDropdown">
+									<option value="direct">직접입력</option>
+									<option value="A">A</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFile"> &nbsp; </label> <input
+									class="form-control" id="inputDataFile" name="inputDataFile"
+									type="text"
+									placeholder="*.csv   (EX - D:/watchdog/data/test.csv)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFileDropdown"
+									data-bs-original-title="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									data-bs-toggle="tooltip" data-bs-placement="top"> 레이아웃
+									파일 선택</label> <select class="form-select picker directInput"
+									id="inputLayoutFileDropdown" name="inputLayoutFileDropdown">
+									<option value="direct">직접입력</option>
+									<option value="B">B</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFile"> &nbsp;
+								</label> <input class="form-control" id="inputLayoutFile"
+									name="inputLayoutFile" type="text"
+									placeholder="*.properties   (EX - D:/watchdog/layout/test.properties)   ※ 구분자, 띄어쓰기 주의"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="projectNameDropdown"
+									data-bs-original-title="입력하신 프로젝트명으로 model 폴더에  .adnn 파일이 저장됩니다. 기존 파일이 있으면 백업됩니다."
+									data-bs-toggle="tooltip" data-bs-placement="top"> 프로젝트
+									선택</label> <select class="form-select picker directInput"
+									id="projectNameDropdown" name="projectNameDropdown">
+									<option value="direct">직접입력</option>
+									<option value="C">C</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="projectName"> &nbsp; </label> <input
+									class="form-control" id="projectName" name="projectName"
+									type="text"
+									placeholder="입력하신 프로젝트명으로 model 폴더에  .adnn 파일이 저장됩니다. 기존 파일이 있으면 백업됩니다."
+									required />
+							</div>
+						</div>
+
+
+					</div>
+					<div class="card-footer bg-light">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="submit">실행</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
+	<script type="text/javascript">
+		var $infoForm = $("#info-form");
+
+		$(function() {
+			fn_Event();
+		});
+
+		function fn_excute() {
+			var data = $infoForm.serializeObject();
+			delete data.inputDataFileDropdown;
+			delete data.inputLayoutFileDropdown;
+			delete data.projectNameDropdown;
+
+			var param = {
+				method : "PUT",
+				target : "EXCUTE",
+				url : "/anomaly/predict",
+				data : data,
+				dataType : "text"
+			}
+			ajaxCall(param);
+		}
+		
+		function fn_checkMeta() {
+			var data = $infoForm.serializeObject();
+
+			var param = {
+				target : "CHECK",
+				url : "/anomaly/checkMeta?projectName=" + data.projectName
+			}
+			ajaxCall(param);
+		}
+
+		function fn_Event() {
+
+			$(".directInput").change(function() {
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+
+				if (value == "direct") {
+					$target.val("");
+					$target.prop('readonly', false);
+				} else {
+					$target.val(value);
+					$target.prop('readonly', true);
+				}
+			});
+
+			$infoForm.on("submit", function(e) {
+				e.preventDefault();
+				if ($infoForm[0].checkValidity() === true) {
+					confirmModal('실행하시겠습니까?', function() {
+						fn_checkMeta();
+					});
+				}
+			})
+		}
+
+		function callback(target, data) {
+			switch (target) {
+			case "EXCUTE":
+				alertModal('[[#{web.success.excute}]]');
+				initForm();
+				break;
+			case "CHECK":
+				if(data){
+					fn_excute();
+				}else{
+					alertModal('해당 프로젝트의 기준정보가 생성되어있지 않습니다.');
+				}
+				break;
+			default:
+				break;
+			}
+		}
+
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			formReset($infoForm);
+		}
+	</script>
+
+</div>
 </html>
