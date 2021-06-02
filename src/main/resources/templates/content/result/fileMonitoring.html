@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>파일 모니터링</title>
+<title>[[#{left.008}]]</title>
 
 </head>
 <div layout:fragment="content">
@@ -22,13 +22,13 @@
 						<div class="col-auto">
 							<select id="projectNameItemDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">프로젝트 선택</option>
+								<option value="">[[#{select.project.select}]]</option>
 							</select>
 						</div>
 						<div class="col-auto">
 							<select id="regdtimDropdown" class="form-select picker"
 								data-live-search="true">
-								<option value="">수행일시 선택</option>
+								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
 					</div>
@@ -92,42 +92,42 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '프로젝트',
+					title : '[[#{txt.project}]]',
 					field : '',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '날짜',
+					title : '[[#{txt.date}]]',
 					field : '',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '항목코드',
+					title : '[[#{txt.item.code}]]',
 					field : 'fieldName',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '평균',
+					title : '[[#{txt.average}]]',
 					field : '',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '평균(개발)',
+					title : '[[#{txt.average.dev}]]',
 					field : '',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '표준편차',
+					title : '[[#{txt.standard.deviation}]]',
 					field : '',
 					sortable : true,
 					align : 'right'
 				}, {
-					title : '표준편차(개발)',
+					title : '[[#{txt.standard.deviation.dev}]]',
 					field : '',
 					align : 'center',
 					sortable : true,
@@ -184,7 +184,7 @@
 
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
-				var html = "<option value=''>수행일시 선택</option>";
+				var html = "<option value=''>[[#{select.perform.select}]]</option>";
 
 				$.each(data, function(index, data) {
 					html += '<option value="'+data+'">' + data + '</option>';
