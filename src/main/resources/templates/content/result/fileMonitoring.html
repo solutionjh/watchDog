@@ -54,10 +54,10 @@
 		var $table = $('#table');
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $regdtItemDropdown = $("#regdtimDropdown");
-
+		var paramData = {};
 		$(function() {
-			var paramData = jsonParse('[[${paramData}]]');
-			console.log(paramData);
+			paramData = jsonParse('[[${paramData}]]');
+			
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
@@ -173,8 +173,13 @@
 					if ($(this).val())
 						fn_regdtItems($(this).val());
 				});
-
+				
 				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+				}
+				
 				break;
 
 			case "REGDT_ITEMS":
@@ -186,11 +191,14 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off();
-				$regdtItemDropdown.change(function() {
+				$regdtItemDropdown.off().change(function() {
 					tableRefresh();
 				});
 				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+				}
 				break;
 
 			default:
