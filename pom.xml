@@ -46,20 +46,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- Tomcat에서 JSP Rendering 위한 선언 -->
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Bootstrap 설정(StyleSheet 활용) -->
-        <!-- <dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>4.3.1</version>
-        </dependency> -->
-
+    
         <dependency>
             <groupId>org.webjars.bowergithub.wenzhixin</groupId>
             <artifactId>bootstrap-table</artifactId>
@@ -132,7 +119,6 @@
 		</dependency>
 		
         <!-- Bootstrap에서 제공하는 dropbox를 사용하기 위한 js -->
-        <!-- https://mvnrepository.com/artifact/org.webjars/popper.js -->
         <dependency>
 		    <groupId>org.webjars</groupId>
 		    <artifactId>popper.js</artifactId>
@@ -140,7 +126,6 @@
 		</dependency>
 
         <!-- jQuery 설정 -->
-        <!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
         <dependency>
             <groupId>org.webjars.bowergithub.jquery</groupId>
             <artifactId>jquery-dist</artifactId>
@@ -153,13 +138,6 @@
 		    <version>2.1.0</version>
 		</dependency>		
 
-        <!-- Chart.js 설정 -->
-        <dependency>
-            <groupId>org.webjars.bowergithub.chartjs</groupId>
-            <artifactId>chart.js</artifactId>
-            <version>2.9.3</version>
-        </dependency>
-
         <!-- Font Awesome 설정 -->
         <dependency>
             <groupId>org.webjars</groupId>
@@ -167,21 +145,13 @@
             <version>5.12.0</version>
         </dependency>
 
-        <!-- JSTL 설정 -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-        </dependency>
-
         <!-- Swagger 사용을 위한 Library -->
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -246,7 +216,6 @@
         </dependency>
 
         <!-- 파일 인코딩 확인을 위한 라이브러리 -->
-        <!-- https://mvnrepository.com/artifact/com.googlecode.juniversalchardet/juniversalchardet -->
         <dependency>
             <groupId>com.googlecode.juniversalchardet</groupId>
             <artifactId>juniversalchardet</artifactId>
