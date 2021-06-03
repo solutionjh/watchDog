@@ -10,13 +10,13 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
@@ -244,6 +244,51 @@ var getStoreSpace = function getStoreSpace() {
   var store = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : localStorage;
   return parseFloat((escape(encodeURIComponent(JSON.stringify(store))).length / (1024 * 1024)).toFixed(2));
 };
+/* get Dates between */
+
+
+var getDates = function getDates(startDate, endDate) {
+  var interval = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000 * 60 * 60 * 24;
+  var duration = endDate - startDate;
+  var steps = duration / interval;
+  return Array.from({
+    length: steps + 1
+  }, function (v, i) {
+    return new Date(startDate.valueOf() + interval * i);
+  });
+};
+
+var getPastDates = function getPastDates(duration) {
+  var days;
+
+  switch (duration) {
+    case 'week':
+      days = 7;
+      break;
+
+    case 'month':
+      days = 30;
+      break;
+
+    case 'year':
+      days = 365;
+      break;
+
+    default:
+      days = duration;
+  }
+
+  var date = new Date();
+  var endDate = date;
+  var startDate = new Date(new Date().setDate(date.getDate() - (days - 1)));
+  return getDates(startDate, endDate);
+};
+/* Get Random Number */
+
+
+var getRandomNumber = function getRandomNumber(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+};
 
 var utils = {
   docReady: docReady,
@@ -268,7 +313,10 @@ var utils = {
   settings: settings,
   getItemFromStore: getItemFromStore,
   setItemToStore: setItemToStore,
-  getStoreSpace: getStoreSpace
+  getStoreSpace: getStoreSpace,
+  getDates: getDates,
+  getPastDates: getPastDates,
+  getRandomNumber: getRandomNumber
 };
 /* -------------------------------------------------------------------------- */
 
@@ -582,7 +630,7 @@ var chatInit = function chatInit() {
       var $this = e.currentTarget;
       $this.classList.add('active'); // Hide contact list sidebar on responsive
 
-      window.innerWidth < 768 && ($chatSidebar.style.left = '-100%'); // Remove unread-message class when read
+      window.innerWidth < 768 && !e.target.classList.contains('hover-actions') && ($chatSidebar.style.left = '-100%'); // Remove unread-message class when read
 
       $this.classList.contains(ClassName.UNREAD_MESSAGE) && $this.classList.remove(ClassName.UNREAD_MESSAGE);
     });
@@ -1029,6 +1077,8 @@ var formValidationInit = function formValidationInit() {
 var merge = window._.merge;
 
 var renderCalendar = function renderCalendar(el, option) {
+  var _document$querySelect;
+
   var options = merge({
     initialView: 'dayGridMonth',
     editable: true,
@@ -1046,7 +1096,7 @@ var renderCalendar = function renderCalendar(el, option) {
   }, option);
   var calendar = new window.FullCalendar.Calendar(el, options);
   calendar.render();
-  document.querySelector('.navbar-vertical-toggle').addEventListener('navbar.vertical.toggle', function () {
+  (_document$querySelect = document.querySelector('.navbar-vertical-toggle')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener('navbar.vertical.toggle', function () {
     return calendar.updateSize();
   });
   return calendar;
@@ -3220,6 +3270,15 @@ var listInit = function listInit() {
     if (lists.length) {
       lists.forEach(function (el) {
         var options = utils.getData(el, 'list');
+
+        if (options.pagination) {
+          options = _objectSpread(_objectSpread({}, options), {}, {
+            pagination: _objectSpread({
+              item: '<li><button class=\'page\' type=\'button\'></button></li>'
+            }, options.pagination)
+          });
+        }
+
         var paginationButtonNext = el.querySelector('[data-list-pagination="next"]');
         var paginationButtonPrev = el.querySelector('[data-list-pagination="prev"]');
         var viewAll = el.querySelector('[data-list-view="*"]');
@@ -3228,7 +3287,7 @@ var listInit = function listInit() {
         var list = new window.List(el, options); //-------fallback-----------
 
         list.on('updated', function (item) {
-          var fallback = el.querySelector('.fallback');
+          var fallback = el.querySelector('.fallback') || document.getElementById(options.fallback);
 
           if (fallback) {
             if (item.matchingItems.length === 0) {
@@ -3430,6 +3489,11 @@ var navbarDarkenOnScroll = function navbarDarkenOnScroll() {
   };
   var navbar = document.querySelector(Selector.NAVBAR);
 
+  function removeNavbarBgClass() {
+    navbar.classList.remove('bg-dark');
+    navbar.classList.remove('bg-100');
+  }
+
   var toggleThemeClass = function toggleThemeClass(theme) {
     if (theme === 'dark') {
       navbar.classList.remove('navbar-dark');
@@ -3440,8 +3504,24 @@ var navbarDarkenOnScroll = function navbarDarkenOnScroll() {
     }
   };
 
+  function getBgClassName(name, defaultColorName) {
+    var parent = document.documentElement;
+
+    var allColors = _objectSpread(_objectSpread({}, utils.getColors(parent)), utils.getGrays(parent));
+
+    var colorName = Object.keys(allColors).includes(name) ? name : defaultColorName;
+    var color = allColors[colorName];
+    var bgClassName = "bg-".concat(colorName);
+    return {
+      color: color,
+      bgClassName: bgClassName
+    };
+  }
+
   if (navbar) {
     var theme = localStorage.getItem('theme');
+    var defaultColorName = theme === 'dark' ? '100' : 'dark';
+    var name = utils.getData(navbar, DataKey.NAVBAR_DARKEN_ON_SCROLL);
     toggleThemeClass(theme);
     var themeController = document.body;
     themeController.addEventListener('clickControl', function (_ref10) {
@@ -3451,21 +3531,18 @@ var navbarDarkenOnScroll = function navbarDarkenOnScroll() {
 
       if (control === 'theme') {
         toggleThemeClass(value);
+        defaultColorName = value === 'dark' ? '100' : 'dark';
+
+        if (navbar.classList.contains('bg-dark') || navbar.classList.contains('bg-100')) {
+          removeNavbarBgClass();
+          navbar.classList.add(getBgClassName(name, defaultColorName).bgClassName);
+        }
       }
     });
-    var defaultColorName = theme === 'dark' ? '100' : 'dark';
-    var parent = document.documentElement;
     var windowHeight = window.innerHeight;
     var html = document.documentElement;
     var navbarCollapse = navbar.querySelector(Selector.NAVBAR_COLLAPSE);
-
-    var allColors = _objectSpread(_objectSpread({}, utils.getColors(parent)), utils.getGrays(parent));
-
-    var name = utils.getData(navbar, DataKey.NAVBAR_DARKEN_ON_SCROLL);
-    var colorName = Object.keys(allColors).includes(name) ? name : defaultColorName;
-    var color = allColors[colorName];
-    var bgClassName = "bg-".concat(colorName);
-    var colorRgb = utils.hexToRgb(color);
+    var colorRgb = utils.hexToRgb(getBgClassName(name, defaultColorName).color);
 
     var _window$getComputedSt = window.getComputedStyle(navbar),
         backgroundImage = _window$getComputedSt.backgroundImage;
@@ -3485,11 +3562,11 @@ var navbarDarkenOnScroll = function navbarDarkenOnScroll() {
       var breakPoint = utils.getBreakpoint(navbar);
 
       if (window.innerWidth > breakPoint) {
-        navbar.classList.remove(bgClassName);
+        removeNavbarBgClass();
         navbar.style.backgroundImage = html.scrollTop ? backgroundImage : 'none';
         navbar.style.transition = 'none';
       } else if (!utils.hasClass(navbar.querySelector(Selector.NAVBAR_TOGGLER), ClassNames.COLLAPSED)) {
-        navbar.classList.add(bgClassName);
+        removeNavbarBgClass();
         navbar.style.backgroundImage = backgroundImage;
       }
 
@@ -3498,12 +3575,12 @@ var navbarDarkenOnScroll = function navbarDarkenOnScroll() {
       }
     });
     navbarCollapse.addEventListener(Events.SHOW_BS_COLLAPSE, function () {
-      navbar.classList.add(bgClassName);
+      navbar.classList.add(getBgClassName(name, defaultColorName).bgClassName);
       navbar.style.backgroundImage = backgroundImage;
       navbar.style.transition = transition;
     });
     navbarCollapse.addEventListener(Events.HIDE_BS_COLLAPSE, function () {
-      navbar.classList.remove(bgClassName);
+      removeNavbarBgClass();
       !html.scrollTop && (navbar.style.backgroundImage = 'none');
     });
     navbarCollapse.addEventListener(Events.HIDDEN_BS_COLLAPSE, function () {
@@ -3883,20 +3960,21 @@ var scrollbarInit = function scrollbarInit() {
     });
   });
 };
-/* -------------------------------------------------------------------------- */
-
-/*                              Search Suggestion                             */
-
-/* -------------------------------------------------------------------------- */
-
 
 var searchInit = function searchInit() {
   var Selectors = {
     SEARCH_DISMISS: '[data-bs-dismiss="search"]',
     DROPDOWN_TOGGLE: '[data-bs-toggle="dropdown"]',
+    DROPDOWN_MENU: '.dropdown-menu',
     SEARCH_BOX: '.search-box',
     SEARCH_INPUT: '.search-input',
     SEARCH_TOGGLE: '[data-bs-toggle="search"]'
+  };
+  var ClassName = {
+    SHOW: 'show'
+  };
+  var Attribute = {
+    ARIA_EXPANDED: 'aria-expanded'
   };
   var Events = {
     CLICK: 'click',
@@ -3907,8 +3985,10 @@ var searchInit = function searchInit() {
 
   var hideSearchSuggestion = function hideSearchSuggestion(searchArea) {
     var el = searchArea.querySelector(Selectors.SEARCH_TOGGLE);
-    var dropdown = window.bootstrap.Dropdown.getInstance(el);
-    dropdown === null || dropdown === void 0 ? void 0 : dropdown.hide();
+    var dropdownMenu = searchArea.querySelector(Selectors.DROPDOWN_MENU);
+    el.setAttribute(Attribute.ARIA_EXPANDED, 'false');
+    el.classList.remove(ClassName.SHOW);
+    dropdownMenu.classList.remove(ClassName.SHOW);
   };
 
   var searchAreas = document.querySelectorAll(Selectors.SEARCH_BOX);
@@ -3920,12 +4000,18 @@ var searchInit = function searchInit() {
   searchAreas.forEach(function (searchArea) {
     var input = searchArea.querySelector(Selectors.SEARCH_INPUT);
     var btnDropdownClose = searchArea.querySelector(Selectors.SEARCH_DISMISS);
-    input.addEventListener(Events.FOCUS, function () {
-      hideAllSearchAreas();
-      var el = searchArea.querySelector(Selectors.SEARCH_TOGGLE);
-      var dropdown = new window.bootstrap.Dropdown(el);
-      dropdown.show();
-    });
+    var dropdownMenu = searchArea.querySelector(Selectors.DROPDOWN_MENU);
+
+    if (input) {
+      input.addEventListener(Events.FOCUS, function () {
+        hideAllSearchAreas();
+        var el = searchArea.querySelector(Selectors.SEARCH_TOGGLE);
+        el.setAttribute(Attribute.ARIA_EXPANDED, 'true');
+        el.classList.add(ClassName.SHOW);
+        dropdownMenu.classList.add(ClassName.SHOW);
+      });
+    }
+
     document.addEventListener(Events.CLICK, function (_ref12) {
       var target = _ref12.target;
       !searchArea.contains(target) && hideSearchSuggestion(searchArea);
@@ -4469,7 +4555,7 @@ var appCalendarInit = function appCalendarInit() {
           window.open(info.event.url, '_blank');
           info.jsEvent.preventDefault();
         } else {
-          var template = getTemplate(info);
+          var template = getTemplate(info.event);
           document.querySelector(Selectors.EVENT_DETAILS_MODAL_CONTENT).innerHTML = template;
           var modal = new window.bootstrap.Modal(eventDetailsModal);
           modal.show();
@@ -4553,15 +4639,221 @@ var appCalendarInit = function appCalendarInit() {
     currentTarget.querySelector(Selectors.INPUT_TITLE).focus();
   });
 };
+/*-----------------------------------------------
+|   Project Management Calendar
+-----------------------------------------------*/
 
-var getStackIcon = function getStackIcon(icon, transform) {
-  return "\n      <span class=\"fa-stack ml-n1 mr-3\">\n        <i class=\"fas fa-circle fa-stack-2x text-200\"></i>\n        <i class=\"".concat(icon, " fa-stack-1x text-primary\" data-fa-transform=").concat(transform, "></i>\n      </span>\n    ");
+
+var managementCalendarInit = function managementCalendarInit() {
+  var Selectors = {
+    ADD_EVENT_FORM: '#addEventForm',
+    ADD_EVENT_MODAL: '#addEventModal',
+    CALENDAR: '#managementAppCalendar',
+    EVENT_DETAILS_MODAL: '#eventDetailsModal',
+    EVENT_DETAILS_MODAL_CONTENT: '#eventDetailsModal .modal-content',
+    DATA_EVENT: '[data-event]',
+    DATA_VIEW_TITLE: '[data-view-title]',
+    EVENT_START_DATE: '#addEventModal [name="startDate"]',
+    EVENT_MANAGEMENT_INFO: '[data-calendar-events]'
+  };
+  var Events = {
+    CLICK: 'click',
+    SUBMIT: 'submit'
+  };
+  var managementEventList = [];
+  var DataKeys = {
+    EVENT: 'event'
+  };
+  var managementCalendar = document.querySelector(Selectors.CALENDAR);
+
+  if (managementCalendar) {
+    var calendarData = utils.getData(managementCalendar, 'calendar-option');
+    var managementCalendarEvents = document.getElementById(calendarData === null || calendarData === void 0 ? void 0 : calendarData.events);
+    var addEventForm = document.querySelector(Selectors.ADD_EVENT_FORM);
+    var addEventModal = document.querySelector(Selectors.ADD_EVENT_MODAL);
+    var eventDetailsModal = document.querySelector(Selectors.EVENT_DETAILS_MODAL);
+
+    var updateTitle = function updateTitle(title) {
+      var selectTitle = document.getElementById(calendarData === null || calendarData === void 0 ? void 0 : calendarData.title);
+
+      if (selectTitle) {
+        selectTitle.textContent = title;
+      }
+    };
+
+    var updateDay = function updateDay(day) {
+      var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      var selectDay = document.getElementById(calendarData === null || calendarData === void 0 ? void 0 : calendarData.day);
+
+      if (selectDay) {
+        selectDay.textContent = days[day];
+      }
+    };
+
+    if (managementEvents) {
+      managementEvents.forEach(function (e) {
+        managementEventList.push({
+          start: e.start,
+          end: e.end,
+          display: 'background',
+          classNames: "border border-2 border-".concat(e.classNames, " bg-100")
+        });
+      });
+    }
+
+    if (managementCalendarEvents) {
+      managementEvents.forEach(function (e) {
+        managementCalendarEvents.innerHTML += "\n          <li class= 'border-top pt-3 mb-3 pb-1 cursor-pointer' data-calendar-events>\n            <div class= 'border-start border-3 border-".concat(e.classNames, " ps-3 mt-1'>\n              <h6 class=\"mb-1 fw-semi-bold text-700\">").concat(e.title, "</h6>\n              <p class= 'fs--2 text-600 mb-0'>").concat(e.startTime || '', " ").concat(e.endTime ? '-' : '', " ").concat(e.endTime || '', "</p>\n            </div>\n          </li> ");
+      });
+    }
+
+    var eventManagementInfo = document.querySelectorAll(Selectors.EVENT_MANAGEMENT_INFO);
+
+    if (eventManagementInfo) {
+      eventManagementInfo.forEach(function (li, index) {
+        li.addEventListener(Events.CLICK, function () {
+          var event = managementEvents[index];
+          var template = getTemplate(event);
+          document.querySelector(Selectors.EVENT_DETAILS_MODAL_CONTENT).innerHTML = template;
+          var modal = new window.bootstrap.Modal(eventDetailsModal);
+          modal.show();
+        });
+      });
+    }
+
+    if (managementCalendar) {
+      var calendar = renderCalendar(managementCalendar, {
+        headerToolbar: false,
+        dayMaxEvents: 2,
+        height: 360,
+        stickyHeaderDates: false,
+        dateClick: function dateClick(info) {
+          var modal = new window.bootstrap.Modal(addEventModal);
+          modal.show();
+          /*eslint-disable-next-line*/
+
+          var flatpickr = document.querySelector(Selectors.EVENT_START_DATE)._flatpickr;
+
+          flatpickr.setDate([info.dateStr]);
+        },
+        events: managementEventList
+      });
+      updateTitle(calendar.currentData.viewTitle);
+      updateDay(calendar.currentData.currentDate.getDay());
+      document.querySelectorAll(Selectors.DATA_EVENT).forEach(function (button) {
+        button.addEventListener(Events.CLICK, function (e) {
+          var el = e.currentTarget;
+          var type = utils.getData(el, DataKeys.EVENT);
+
+          switch (type) {
+            case 'prev':
+              calendar.prev();
+              updateTitle(calendar.currentData.viewTitle);
+              break;
+
+            case 'next':
+              calendar.next();
+              updateTitle(calendar.currentData.viewTitle);
+              break;
+
+            case 'today':
+              calendar.today();
+              updateTitle(calendar.currentData.viewTitle);
+              break;
+
+            default:
+              calendar.today();
+              updateTitle(calendar.currentData.viewTitle);
+              break;
+          }
+        });
+      });
+
+      if (addEventForm) {
+        addEventForm.addEventListener(Events.SUBMIT, function (e) {
+          e.preventDefault();
+          e.target.reset();
+          window.bootstrap.Modal.getInstance(addEventModal).hide();
+        });
+      }
+    }
+  }
 };
 
-var getTemplate = function getTemplate(info) {
-  return "\n  <div class=\"modal-header bg-light ps-card pe-5 border-bottom-0\">\n    <div>\n      <h5 class=\"modal-title mb-0\">".concat(info.event.title, "</h5>\n      ").concat(info.event.extendedProps.organizer ? "<p class=\"mb-0 fs--1 mt-1\">\n          by <a href=\"#!\">".concat(info.event.extendedProps.organizer, "</a>\n        </p>") : '', "\n    </div>\n    <button type=\"button\" class=\"btn-close position-absolute end-0 top-0 mt-3 me-3\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n  </div>\n  <div class=\"modal-body px-card pb-card pt-1 fs--1\">\n    ").concat(info.event.extendedProps.description ? "\n        <div class=\"d-flex mt-3\">\n          ".concat(getStackIcon('fas fa-align-left'), "\n          <div class=\"flex-1\">\n            <h6>Description</h6>\n            <p class=\"mb-0\">\n              \n            ").concat(info.event.extendedProps.description.split(' ').slice(0, 30).join(' '), "\n            </p>\n          </div>\n        </div>\n      ") : '', " \n    <div class=\"d-flex mt-3\">\n      ").concat(getStackIcon('fas fa-calendar-check'), "\n      <div class=\"flex-1\">\n          <h6>Date and Time</h6>\n          <p class=\"mb-1\">\n            ").concat(window.dayjs && window.dayjs(info.event.start).format('dddd, MMMM D, YYYY, h:mm A'), " \n            ").concat(info.event.end ? "\u2013 <br/>".concat(window.dayjs && window.dayjs(info.event.end).subtract(1, 'day').format('dddd, MMMM D, YYYY, h:mm A')) : '', "\n          </p>\n      </div>\n    </div>\n    ").concat(info.event.extendedProps.location ? "\n          <div class=\"d-flex mt-3\">\n            ".concat(getStackIcon('fas fa-map-marker-alt'), "\n            <div class=\"flex-1\">\n                <h6>Location</h6>\n                <p class=\"mb-0\">").concat(info.event.extendedProps.location, "</p>\n            </div>\n          </div>\n        ") : '', "\n    ").concat(info.event.extendedProps.schedules ? "\n          <div class=\"d-flex mt-3\">\n          ".concat(getStackIcon('fas fa-clock'), "\n          <div class=\"flex-1\">\n              <h6>Schedule</h6>\n              \n              <ul class=\"list-unstyled timeline mb-0\">\n                ").concat(info.event.extendedProps.schedules.map(function (schedule) {
+var thisDay = window.dayjs && window.dayjs().format('DD');
+var plus2Day = window.dayjs && window.dayjs().add(2, 'day').format('DD');
+var thisMonthNumber = window.dayjs && window.dayjs().format('MM');
+var thisMonthName = window.dayjs && window.dayjs().format('MMM');
+var upcommingMonthNumber = window.dayjs && window.dayjs().add(1, 'month').format('MM');
+var upcommingMonthName = window.dayjs && window.dayjs().format('MMM');
+var thisYear = window.dayjs && window.dayjs().format('YYYY');
+var managementEvents = [{
+  title: 'Monthly team meeting for Falcon React Project',
+  start: "".concat(thisYear, "-").concat(thisMonthNumber, "-07"),
+  end: "".concat(thisYear, "-").concat(thisMonthNumber, "-09"),
+  startTime: "07 ".concat(thisMonthName, ", ").concat(thisYear),
+  endTime: "10 ".concat(thisMonthName, ", ").concat(thisYear),
+  classNames: 'primary',
+  extendedProps: {
+    description: 'Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council.',
+    location: 'Boston Harborwalk, Christopher Columbus Park, </br> Boston, MA 02109, United States',
+    organizer: 'Boston Harbor Now'
+  }
+}, {
+  title: 'Newmarket Nights',
+  start: "".concat(thisYear, "-").concat(thisMonthNumber, "-16"),
+  end: "".concat(thisYear, "-").concat(thisMonthNumber, "-18"),
+  startTime: "16 ".concat(thisMonthName, ", ").concat(thisYear),
+  classNames: 'success',
+  extendedProps: {
+    description: 'Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council.',
+    location: 'Boston Harborwalk, Christopher Columbus Park, </br> Boston, MA 02109, United States',
+    organizer: 'Boston Harbor Now'
+  }
+}, {
+  title: 'Folk Festival',
+  start: "".concat(thisYear, "-").concat(thisMonthNumber, "-25"),
+  end: "".concat(thisYear, "-").concat(thisMonthNumber, "-28"),
+  startTime: "07 ".concat(thisMonthName, ", ").concat(thisYear),
+  endTime: "10 ".concat(thisMonthName, ", ").concat(thisYear),
+  classNames: 'warning',
+  extendedProps: {
+    description: 'Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council.',
+    location: 'Boston Harborwalk, Christopher Columbus Park, </br> Boston, MA 02109, United States',
+    organizer: 'Boston Harbor Now'
+  }
+}, {
+  title: 'Film Festival',
+  start: "".concat(thisYear, "-").concat(upcommingMonthNumber, "-").concat(thisDay),
+  end: "".concat(thisYear, "-").concat(upcommingMonthNumber, "-").concat(plus2Day),
+  startTime: "07 ".concat(upcommingMonthName, ", ").concat(thisYear),
+  endTime: "10 ".concat(upcommingMonthName, ", ").concat(thisYear),
+  classNames: 'danger',
+  extendedProps: {
+    description: 'Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council.',
+    location: 'Boston Harborwalk, Christopher Columbus Park, </br> Boston, MA 02109, United States',
+    organizer: 'Boston Harbor Now'
+  }
+}, {
+  title: 'Meeting',
+  start: "".concat(thisYear, "-").concat(upcommingMonthNumber, "-28"),
+  startTime: "07 ".concat(upcommingMonthName, ", ").concat(thisYear),
+  classNames: 'warning',
+  extendedProps: {
+    description: 'Boston Harbor Now in partnership with the Friends of Christopher Columbus Park, the Wharf District Council.',
+    location: 'Boston Harborwalk, Christopher Columbus Park, </br> Boston, MA 02109, United States',
+    organizer: 'Boston Harbor Now'
+  }
+}];
+
+var getStackIcon = function getStackIcon(icon, transform) {
+  return "\n  <span class=\"fa-stack ms-n1 me-3\">\n    <i class=\"fas fa-circle fa-stack-2x text-200\"></i>\n    <i class=\"".concat(icon, " fa-stack-1x text-primary\" data-fa-transform=").concat(transform, "></i>\n  </span>\n");
+};
+
+var getTemplate = function getTemplate(event) {
+  return "\n<div class=\"modal-header bg-light ps-card pe-5 border-bottom-0\">\n  <div>\n    <h5 class=\"modal-title mb-0\">".concat(event.title, "</h5>\n    ").concat(event.extendedProps.organizer ? "<p class=\"mb-0 fs--1 mt-1\">\n        by <a href=\"#!\">".concat(event.extendedProps.organizer, "</a>\n      </p>") : '', "\n  </div>\n  <button type=\"button\" class=\"btn-close position-absolute end-0 top-0 mt-3 me-3\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n</div>\n<div class=\"modal-body px-card pb-card pt-1 fs--1\">\n  ").concat(event.extendedProps.description ? "\n      <div class=\"d-flex mt-3\">\n        ".concat(getStackIcon('fas fa-align-left'), "\n        <div class=\"flex-1\">\n          <h6>Description</h6>\n          <p class=\"mb-0\">\n            \n          ").concat(event.extendedProps.description.split(' ').slice(0, 30).join(' '), "\n          </p>\n        </div>\n      </div>\n    ") : '', " \n  <div class=\"d-flex mt-3\">\n    ").concat(getStackIcon('fas fa-calendar-check'), "\n    <div class=\"flex-1\">\n        <h6>Date and Time</h6>\n        <p class=\"mb-1\">\n          ").concat(window.dayjs && window.dayjs(event.start).format('dddd, MMMM D, YYYY, h:mm A'), " \n          ").concat(event.end ? "\u2013 <br/>".concat(window.dayjs && window.dayjs(event.end).subtract(1, 'day').format('dddd, MMMM D, YYYY, h:mm A')) : '', "\n        </p>\n    </div>\n  </div>\n  ").concat(event.extendedProps.location ? "\n        <div class=\"d-flex mt-3\">\n          ".concat(getStackIcon('fas fa-map-marker-alt'), "\n          <div class=\"flex-1\">\n              <h6>Location</h6>\n              <p class=\"mb-0\">").concat(event.extendedProps.location, "</p>\n          </div>\n        </div>\n      ") : '', "\n  ").concat(event.schedules ? "\n        <div class=\"d-flex mt-3\">\n        ".concat(getStackIcon('fas fa-clock'), "\n        <div class=\"flex-1\">\n            <h6>Schedule</h6>\n            \n            <ul class=\"list-unstyled timeline mb-0\">\n              ").concat(event.schedules.map(function (schedule) {
     return "<li>".concat(schedule.title, "</li>");
-  }).join(''), "\n              </ul>\n          </div>\n        ") : '', "\n    </div>\n  </div>\n  <div class=\"modal-footer d-flex justify-content-end bg-light px-card border-top-0\">\n    <a href=\"pages/event-create.html\" class=\"btn btn-falcon-default btn-sm\">\n      <span class=\"fas fa-pencil-alt fs--2 mr-2\"></span> Edit\n    </a>\n    <a href='pages/event-detail.html' class=\"btn btn-falcon-primary btn-sm\">\n      See more details\n      <span class=\"fas fa-angle-right fs--2 ml-1\"></span>\n    </a>\n  </div\n  ");
+  }).join(''), "\n            </ul>\n        </div>\n      ") : '', "\n  </div>\n</div>\n<div class=\"modal-footer d-flex justify-content-end bg-light px-card border-top-0\">\n  <a href=\"").concat(document.location.href.split('/').slice(0, 5).join('/'), "/app/events/create-an-event.html\" class=\"btn btn-falcon-default btn-sm\">\n    <span class=\"fas fa-pencil-alt fs--2 mr-2\"></span> Edit\n  </a>\n  <a href='").concat(document.location.href.split('/').slice(0, 5).join('/'), "/app/events/event-detail.html' class=\"btn btn-falcon-primary btn-sm\">\n    See more details\n    <span class=\"fas fa-angle-right fs--2 ml-1\"></span>\n  </a>\n</div\n");
 };
 /* -------------------------------------------------------------------------- */
 
@@ -4735,9 +5027,11 @@ var chartLinePaymentInit = function chartLinePaymentInit() {
   var chartLine = document.getElementById('chart-line');
 
   if (chartLine) {
-    var _document$querySelect;
+    var _document$querySelect2;
 
     var getChartBackground = function getChartBackground(chart) {
+      var isFluid = utils.getItemFromStore('isFluid');
+      isFluid && chartLine.setAttribute('height', 275);
       var ctx = chart.getContext('2d');
 
       if (localStorage.getItem('theme') === 'light') {
@@ -4814,7 +5108,7 @@ var chartLinePaymentInit = function chartLinePaymentInit() {
         }
       }
     });
-    (_document$querySelect = document.querySelector('#dashboard-chart-select')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.addEventListener('change', function (e) {
+    (_document$querySelect2 = document.querySelector('#dashboard-chart-select')) === null || _document$querySelect2 === void 0 ? void 0 : _document$querySelect2.addEventListener('change', function (e) {
       var LineDB = {
         all: [4, 1, 6, 2, 7, 12, 4, 6, 5, 4, 5, 10].map(function (d) {
           return (d * 3.14).toFixed(2);
@@ -5192,6 +5486,776 @@ var chartJsDefaultTooltip = function chartJsDefaultTooltip() {
     }
   };
 };
+/* -------------------------------------------------------------------------- */
+
+/*                            Chart Scatter                                   */
+
+/* -------------------------------------------------------------------------- */
+
+
+var productShareDoughnutInit = function productShareDoughnutInit() {
+  var marketShareDoughnutElement = document.getElementById('marketShareDoughnut');
+
+  var getOptions = function getOptions() {
+    return {
+      type: 'doughnut',
+      data: {
+        labels: ['Flacon', 'Sparrow'],
+        datasets: [{
+          data: [50, 88],
+          backgroundColor: [utils.getColor('primary'), utils.getColor('300')],
+          borderColor: [utils.getColor('primary'), utils.getColor('300')]
+        }]
+      },
+      options: {
+        tooltips: chartJsDefaultTooltip(),
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        legend: {
+          display: false
+        },
+        cutoutPercentage: 80
+      }
+    };
+  };
+
+  chartJsInit(marketShareDoughnutElement, getOptions);
+};
+/* -------------------------------------------------------------------------- */
+
+/*                             Echarts Active Users                           */
+
+/* -------------------------------------------------------------------------- */
+
+
+var activeUsersChartReportInit = function activeUsersChartReportInit() {
+  var $echartsActiveUsersChart = document.querySelector('.echart-active-users-report');
+
+  if ($echartsActiveUsersChart) {
+    var userOptions = utils.getData($echartsActiveUsersChart, 'options');
+    var chart = window.echarts.init($echartsActiveUsersChart);
+
+    var tooltipFormatter = function tooltipFormatter(params) {
+      return "\n      <div>\n        <p class='mb-2 text-600'>".concat(window.dayjs(params[0].axisValue).format('MMM DD, YYYY'), "</p>\n        <div class='ms-1'>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle text-primary me-2\"></span>").concat(params[0].value, "</h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle text-success me-2\"></span>").concat(params[1].value, "</h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle text-info me-2\"></span>").concat(params[2].value, "</h6>\n        </div>\n      </div>\n      ");
+    };
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: [utils.getColor('primary'), utils.getColor('success'), utils.getColor('info')],
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          formatter: tooltipFormatter
+        },
+        xAxis: {
+          type: 'category',
+          data: utils.getPastDates(30).map(function (date) {
+            return window.dayjs(date).format('DD MMM, YYYY');
+          }),
+          boundaryGap: false,
+          silent: true,
+          axisPointer: {
+            lineStyle: {
+              color: utils.getGrays()['300']
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['300']
+            }
+          },
+          axisTick: {
+            show: true,
+            length: 20,
+            lineStyle: {
+              color: utils.getGrays()['200']
+            },
+            interval: 5
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return window.dayjs(value).format('MMM DD');
+            },
+            align: 'left',
+            fontSize: 11,
+            padding: [0, 0, 0, 5],
+            interval: 5
+          }
+        },
+        yAxis: {
+          type: 'value',
+          position: 'right',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return "".concat(Math.round(value / 1000 * 10) / 10, "k");
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          type: 'line',
+          data: [4164, 4652, 4817, 4841, 4920, 5439, 5486, 5498, 5512, 5538, 5841, 5877, 6086, 6146, 6199, 6431, 6704, 7939, 8127, 8296, 8322, 8389, 8411, 8502, 8868, 8977, 9273, 9325, 9345, 9430],
+          showSymbol: false,
+          symbol: 'circle',
+          itemStyle: {
+            borderColor: utils.getColors().primary,
+            borderWidth: 2
+          },
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          symbolSize: 2
+        }, {
+          type: 'line',
+          data: [2164, 2292, 2386, 2430, 2528, 3045, 3255, 3295, 3481, 3604, 3688, 3840, 3932, 3949, 4003, 4298, 4424, 4869, 4922, 4973, 5155, 5267, 5566, 5689, 5692, 5758, 5773, 5799, 5960, 6000],
+          showSymbol: false,
+          symbol: 'circle',
+          itemStyle: {
+            borderColor: utils.getColors().success,
+            borderWidth: 2
+          },
+          lineStyle: {
+            color: utils.getColor('success')
+          },
+          symbolSize: 2
+        }, {
+          type: 'line',
+          data: [1069, 1089, 1125, 1141, 1162, 1179, 1185, 1216, 1274, 1322, 1346, 1395, 1439, 1564, 1581, 1590, 1656, 1815, 1868, 2010, 2133, 2179, 2264, 2265, 2278, 2343, 2354, 2456, 2472, 2480],
+          showSymbol: false,
+          symbol: 'circle',
+          itemStyle: {
+            borderColor: utils.getColors().info,
+            borderWidth: 2
+          },
+          lineStyle: {
+            color: utils.getColor('info')
+          },
+          symbolSize: 2
+        }],
+        grid: {
+          right: '30px',
+          left: '5px',
+          bottom: '20px',
+          top: '20px'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                                Audience Chart                              */
+
+/* -------------------------------------------------------------------------- */
+
+
+var audienceChartInit = function audienceChartInit() {
+  var data = {
+    dates: utils.getPastDates(7),
+    dataset: {
+      users: [[504, 333, 400, 606, 451, 685, 404], [237, 229, 707, 575, 420, 536, 258]],
+      sessions: [[322, 694, 235, 537, 791, 292, 806], [584, 661, 214, 286, 526, 707, 627]],
+      rate: [[789, 749, 412, 697, 633, 254, 472], [276, 739, 525, 394, 643, 653, 719]],
+      duration: [[625, 269, 479, 654, 549, 305, 671], [499, 670, 550, 222, 696, 695, 469]]
+    }
+  };
+
+  var tooltipFormatter = function tooltipFormatter(params) {
+    var percentage = (params[0].value - params[1].value) / params[1].value * 100;
+    var perTemp = "\n      <div class=\"d-flex align-items-center ms-2\">\n        <span class=\"fas fa-caret-".concat(percentage < 0 ? 'down' : 'up', " text-").concat(percentage < 0 ? 'danger' : 'success', "\"></span>\n        <h6 class=\"fs--2 mb-0 ms-1 fw-semi-bold\">").concat(Math.abs(percentage).toFixed(2), " %</h6>\n      </div>\n    ");
+    var currentDate = new Date(params[0].axisValue);
+    var prevDate = new Date(new Date().setDate(currentDate.getDate() - 7));
+    return "<div>\n          <p class='mb-0 fs--2 text-600'>".concat(window.dayjs(params[0].axisValue).format('MMM DD'), " vs ").concat(window.dayjs(prevDate).format('MMM DD'), "</p>\n          <div class=\"d-flex align-items-center\">\n            <p class='mb-0 text-600 fs--1'>\n              Users: <span class='text-800 fw-semi-bold fs--1'>").concat(params[0].data, "</span>\n            </p>\n            ").concat(perTemp, "\n          </div>\n        </div>");
+  };
+
+  var getDefaultOptions = function getDefaultOptions(data1, data2) {
+    return function () {
+      return {
+        color: utils.getGrays().white,
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          axisPointer: {
+            type: 'none'
+          },
+          formatter: tooltipFormatter
+        },
+        xAxis: {
+          type: 'category',
+          data: data.dates,
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return window.dayjs(value).format('MMM DD');
+            },
+            align: 'left',
+            fontSize: 11,
+            padding: [0, 0, 0, 5],
+            showMaxLabel: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisTick: {
+            show: true,
+            length: 20,
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          boundaryGap: false
+        },
+        yAxis: {
+          position: 'right',
+          axisPointer: {
+            type: 'none'
+          },
+          axisTick: 'none',
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600']
+          }
+        },
+        series: [{
+          type: 'line',
+          data: data1,
+          showSymbol: false,
+          symbol: 'circle',
+          itemStyle: {
+            borderColor: utils.getColors().primary,
+            borderWidth: 2
+          },
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: utils.rgbaColor(utils.getColors().primary, 0.2)
+              }, {
+                offset: 1,
+                color: utils.rgbaColor(utils.getColors().primary, 0)
+              }]
+            }
+          }
+        }, {
+          type: 'line',
+          data: data2,
+          symbol: 'none',
+          lineStyle: {
+            type: 'dashed',
+            width: 1,
+            color: utils.getColor('info')
+          }
+        }],
+        grid: {
+          right: '40px',
+          left: '5px',
+          bottom: '10%',
+          top: '3%'
+        }
+      };
+    };
+  };
+
+  var initChart = function initChart(el, options) {
+    var userOptions = utils.getData(el, 'options');
+    var chart = window.echarts.init(el);
+    echartSetOption(chart, userOptions, options);
+  };
+
+  var tab = document.querySelector('#audience-chart-tab');
+
+  if (tab) {
+    initChart(document.querySelector('.echart-audience'), getDefaultOptions(data.dataset.users[0], data.dataset.users[1]));
+    var triggerTabList = Array.from(tab.querySelectorAll('[data-bs-toggle="tab"]'));
+    triggerTabList.forEach(function (triggerEl) {
+      triggerEl.addEventListener('shown.bs.tab', function () {
+        var key = triggerEl.href.split('#').pop();
+        var $echartAudience = document.getElementById(key).querySelector('.echart-audience');
+        initChart($echartAudience, getDefaultOptions(data.dataset[key][0], data.dataset[key][1]));
+      });
+    });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                     Echart Bar Member info                                 */
+
+/* -------------------------------------------------------------------------- */
+
+
+var basicEchartsInit = function basicEchartsInit() {
+  var $echartBasicCharts = document.querySelectorAll('[data-echarts]');
+  $echartBasicCharts.forEach(function ($echartBasicChart) {
+    var userOptions = utils.getData($echartBasicChart, 'echarts');
+    var chart = window.echarts.init($echartBasicChart);
+
+    function getFormatter(params) {
+      return "".concat(params.value);
+    }
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: utils.getColors().primary,
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: function formatter(params) {
+            return getFormatter(params);
+          },
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        xAxis: {
+          type: 'category',
+          show: false
+        },
+        yAxis: {
+          show: false,
+          type: 'value'
+        },
+        series: [{
+          type: 'bar',
+          symbol: 'none',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: utils.rgbaColor(utils.getColor('primary'), 0.25)
+              }, {
+                offset: 1,
+                color: utils.rgbaColor(utils.getColor('primary'), 0)
+              }]
+            }
+          }
+        }],
+        grid: {
+          right: '0',
+          left: '0',
+          bottom: '0',
+          top: '0'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  });
+};
+/* -------------------------------------------------------------------------- */
+
+/*                             Echarts Bounce Rate                            */
+
+/* -------------------------------------------------------------------------- */
+
+
+var bounceRateChartInit = function bounceRateChartInit() {
+  var $echartsBounceRateChart = document.querySelector('.echart-bounce-rate');
+
+  var tooltipFormatter = function tooltipFormatter(params) {
+    return "<div>\n          <p class='mb-0 text-600'>".concat(window.dayjs(params[0].axisValue).format('DD, MMMM'), "</p>\n          <div class=\"d-flex align-items-center\">\n            <p class=\"mb-0 text-600\">\n              Rate : <span class='text-800'>").concat(params[0].value, "%</span>\n            </p>\n          </div>\n        </div>");
+  };
+
+  var dataset = {
+    week: [41, 45, 37, 44, 35, 39, 43],
+    month: [40, 37, 42, 44, 36, 39, 37, 43, 38, 35, 43, 39, 42, 36, 37, 36, 42, 44, 34, 41, 37, 41, 40, 40, 43, 34, 41, 35, 44, 41, 40]
+  };
+
+  if ($echartsBounceRateChart) {
+    var userOptions = utils.getData($echartsBounceRateChart, 'options');
+    var chart = window.echarts.init($echartsBounceRateChart);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: utils.getGrays().white,
+        title: {
+          text: 'Bounce Rate',
+          padding: [5, 0, 0, 0],
+          textStyle: {
+            color: utils.getGrays()['900'],
+            fontSize: 13,
+            fontWeight: 600
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'none'
+          },
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          formatter: tooltipFormatter
+        },
+        xAxis: {
+          type: 'category',
+          data: utils.getPastDates(30).map(function (date) {
+            return window.dayjs(date).format('DD MMM, YYYY');
+          }),
+          axisPointer: {
+            lineStyle: {
+              color: utils.getGrays()['300']
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['400']
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return window.dayjs(value).format('MMM DD');
+            },
+            fontSize: 11
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return "".concat(value, "%");
+            },
+            margin: 15
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          type: 'line',
+          data: [40, 37, 42, 44, 36, 39, 37, 43, 38, 35, 43, 39, 42, 36, 37, 36, 42, 44, 34, 41, 37, 41, 40, 40, 43, 34, 41, 35, 44, 41, 40],
+          showSymbol: false,
+          symbol: 'circle',
+          itemStyle: {
+            borderColor: utils.getColors().primary,
+            borderWidth: 2
+          },
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          symbolSize: 2
+        }],
+        grid: {
+          right: '10px',
+          left: '40px',
+          bottom: '10%',
+          top: '13%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+    var selectMenu = document.querySelector("[data-target='.echart-bounce-rate']");
+
+    if (selectMenu) {
+      selectMenu.addEventListener('change', function (e) {
+        var value = e.currentTarget.value;
+        chart.setOption({
+          xAxis: {
+            data: utils.getPastDates(value).map(function (date) {
+              return window.dayjs(date).format('DD MMM, YYYY');
+            })
+          },
+          series: [{
+            data: dataset[value]
+          }]
+        });
+      });
+    }
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                             Echarts Candle Chart                           */
+
+/* -------------------------------------------------------------------------- */
+
+
+var candleChartInit = function candleChartInit() {
+  var ECHART_CANDLE_CHART = '.echart-candle-chart';
+  var ECHART_ZOOM_IN = "[data-zoom='in']";
+  var ECHART_ZOOM_OUT = "[data-zoom='out']";
+  var $echartsCandleChart = document.querySelector(ECHART_CANDLE_CHART);
+
+  if ($echartsCandleChart) {
+    var userOptions = utils.getData($echartsCandleChart, 'options');
+    var chart = window.echarts.init($echartsCandleChart);
+    var $echartsZoomIn = document.getElementById($echartsCandleChart.dataset.actionTarget).querySelector(ECHART_ZOOM_IN);
+    var $echartsZoomOut = document.getElementById($echartsCandleChart.dataset.actionTarget).querySelector(ECHART_ZOOM_OUT);
+
+    var _utils$getColors = utils.getColors(),
+        warning = _utils$getColors.warning;
+
+    var _utils$getColors2 = utils.getColors(),
+        primary = _utils$getColors2.primary;
+
+    var splitData = function splitData(rawData) {
+      var categoryData = [];
+      var values = [];
+      rawData.forEach(function (item) {
+        categoryData.push(item.splice(0, 1)[0]);
+        values.push(item);
+      });
+      return {
+        categoryData: categoryData,
+        values: values
+      };
+    };
+
+    var data = splitData([['2013/1/24', 2320.26, 2320.26, 2287.3, 2362.94], ['2013/1/25', 2300, 2291.3, 2288.26, 2308.38], ['2013/1/28', 2295.35, 2346.5, 2295.35, 2346.92], ['2013/1/29', 2347.22, 2358.98, 2337.35, 2363.8], ['2013/1/30', 2360.75, 2382.48, 2347.89, 2383.76], ['2013/1/31', 2383.43, 2385.42, 2371.23, 2391.82], ['2013/2/1', 2377.41, 2419.02, 2369.57, 2421.15], ['2013/2/4', 2425.92, 2428.15, 2417.58, 2440.38], ['2013/2/5', 2411, 2433.13, 2403.3, 2437.42], ['2013/2/6', 2432.68, 2434.48, 2427.7, 2441.73], ['2013/2/7', 2430.69, 2418.53, 2394.22, 2433.89], ['2013/2/8', 2416.62, 2432.4, 2414.4, 2443.03], ['2013/2/18', 2441.91, 2421.56, 2415.43, 2444.8], ['2013/2/19', 2420.26, 2382.91, 2373.53, 2427.07], ['2013/2/20', 2383.49, 2397.18, 2370.61, 2397.94], ['2013/2/21', 2378.82, 2325.95, 2309.17, 2378.82], ['2013/2/22', 2322.94, 2314.16, 2308.76, 2330.88], ['2013/2/25', 2320.62, 2325.82, 2315.01, 2338.78], ['2013/2/26', 2313.74, 2293.34, 2289.89, 2340.71], ['2013/2/27', 2297.77, 2313.22, 2292.03, 2324.63], ['2013/2/28', 2322.32, 2365.59, 2308.92, 2366.16], ['2013/3/1', 2364.54, 2359.51, 2330.86, 2369.65], ['2013/3/4', 2332.08, 2273.4, 2259.25, 2333.54], ['2013/3/5', 2274.81, 2326.31, 2270.1, 2328.14], ['2013/3/6', 2333.61, 2347.18, 2321.6, 2351.44], ['2013/3/7', 2340.44, 2324.29, 2304.27, 2352.02], ['2013/3/8', 2326.42, 2318.61, 2314.59, 2333.67], ['2013/3/11', 2314.68, 2310.59, 2296.58, 2320.96], ['2013/3/12', 2309.16, 2286.6, 2264.83, 2333.29], ['2013/3/13', 2282.17, 2263.97, 2253.25, 2286.33], ['2013/3/14', 2255.77, 2270.28, 2253.31, 2276.22], ['2013/3/15', 2269.31, 2278.4, 2250, 2312.08], ['2013/3/18', 2267.29, 2240.02, 2239.21, 2276.05], ['2013/3/19', 2244.26, 2257.43, 2232.02, 2261.31], ['2013/3/20', 2257.74, 2317.37, 2257.42, 2317.86], ['2013/3/21', 2318.21, 2324.24, 2311.6, 2330.81], ['2013/3/22', 2321.4, 2328.28, 2314.97, 2332], ['2013/3/25', 2334.74, 2326.72, 2319.91, 2344.89], ['2013/3/26', 2318.58, 2297.67, 2281.12, 2319.99], ['2013/3/27', 2299.38, 2301.26, 2289, 2323.48], ['2013/3/28', 2273.55, 2236.3, 2232.91, 2273.55], ['2013/3/29', 2238.49, 2236.62, 2228.81, 2246.87], ['2013/4/1', 2229.46, 2234.4, 2227.31, 2243.95], ['2013/4/2', 2234.9, 2227.74, 2220.44, 2253.42], ['2013/4/3', 2232.69, 2225.29, 2217.25, 2241.34], ['2013/4/8', 2196.24, 2211.59, 2180.67, 2212.59], ['2013/4/9', 2215.47, 2225.77, 2215.47, 2234.73], ['2013/4/10', 2224.93, 2226.13, 2212.56, 2233.04], ['2013/4/11', 2236.98, 2219.55, 2217.26, 2242.48], ['2013/4/12', 2218.09, 2206.78, 2204.44, 2226.26]]);
+    var zoomStart = 0;
+    var zoomEnd = 70;
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          // axisPointer: {
+          //   type: "cross",
+          // },
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: data.categoryData,
+          scale: true,
+          splitLine: {
+            show: false
+          },
+          splitNumber: 10,
+          min: 'dataMin',
+          max: 'dataMax',
+          boundaryGap: true,
+          axisPointer: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return new Date(value).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric'
+              });
+            },
+            margin: 15,
+            fontWeight: 500
+          }
+        },
+        yAxis: {
+          scale: true,
+          position: 'right',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200'],
+              type: 'dashed'
+            }
+          },
+          boundaryGap: false,
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['600'],
+            margin: 15,
+            fontWeight: 500
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        dataZoom: [{
+          type: 'inside',
+          start: zoomStart,
+          end: zoomEnd
+        }],
+        series: [{
+          name: 'candlestick',
+          type: 'candlestick',
+          data: data.values,
+          itemStyle: {
+            color: warning,
+            color0: primary,
+            borderColor: warning,
+            borderColor0: primary
+          }
+        }],
+        grid: {
+          right: '70px',
+          left: '20px',
+          bottom: '15%',
+          top: '20px'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+
+    var dispatchZoomAction = function dispatchZoomAction() {
+      chart.dispatchAction({
+        type: 'dataZoom',
+        start: zoomStart,
+        end: zoomEnd
+      });
+    };
+
+    $echartsZoomIn.addEventListener('click', function () {
+      if (zoomEnd > 10) {
+        zoomEnd -= 10;
+      }
+
+      if (zoomEnd <= 10) {
+        $echartsZoomIn.disabled = true;
+      }
+
+      if (zoomEnd > 0) {
+        $echartsZoomOut.disabled = false;
+        dispatchZoomAction();
+      }
+    });
+    $echartsZoomOut.addEventListener('click', function () {
+      if (zoomEnd < 100) {
+        zoomEnd += 10;
+      }
+
+      if (zoomEnd >= 100) {
+        $echartsZoomOut.disabled = true;
+      }
+
+      if (zoomEnd > 0) {
+        $echartsZoomIn.disabled = false;
+        dispatchZoomAction();
+      }
+    });
+    chart.on('dataZoom', function (params) {
+      if (params.batch) {
+        zoomStart = params.batch[0].start;
+        zoomEnd = params.batch[0].end;
+      }
+    });
+  }
+};
 
 var getPosition = function getPosition(pos, params, dom, rect, size) {
   return {
@@ -5219,7 +6283,9 @@ var resizeEcharts = function resizeEcharts() {
   if ($echarts.length) {
     $echarts.forEach(function (item) {
       if (utils.getData(item, 'echart-responsive')) {
-        window.echarts.init(item).resize();
+        if (!(item.closest('.tab-pane') && window.getComputedStyle(item.closest('.tab-pane')).display === 'none')) {
+          window.echarts.init(item).resize();
+        }
       }
     });
   }
@@ -5234,11 +6300,294 @@ navbarVerticalToggle && navbarVerticalToggle.addEventListener('navbar.vertical.t
 });
 /* -------------------------------------------------------------------------- */
 
+/*                             Echarts Gross Revenue                          */
+
+/* -------------------------------------------------------------------------- */
+
+var grossRevenueChartInit = function grossRevenueChartInit() {
+  var ECHART_GROSS_REVENUE = '.echart-gross-revenue-chart';
+  var $echartsGrossRevenue = document.querySelector(ECHART_GROSS_REVENUE);
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  if ($echartsGrossRevenue) {
+    // Get options from data attribute
+    var userOptions = utils.getData($echartsGrossRevenue, 'options');
+    var chart = window.echarts.init($echartsGrossRevenue);
+    var SELECT_MONTH = "#".concat(userOptions.monthSelect);
+    var LEGEND_MONTH_TARGET = userOptions.target;
+    var LEGEND_CURRENT_MONTH = "#".concat(userOptions.optionOne);
+    var LEGEND_PREV_MONTH = "#".concat(userOptions.optionTwo);
+    var $legendCurrentMonth = document.getElementById(LEGEND_MONTH_TARGET).querySelector(LEGEND_CURRENT_MONTH);
+    var $legendPrevMonth = document.getElementById(LEGEND_MONTH_TARGET).querySelector(LEGEND_PREV_MONTH);
+
+    var dates = function dates(month) {
+      return utils.getDates(window.dayjs().month(month).date(1), window.dayjs().month(Number(month) + 1).date(0), 1000 * 60 * 60 * 24 * 3);
+    };
+
+    var monthsnumber = [[20, 40, 20, 80, 50, 80, 120, 80, 50, 120, 110, 110], [60, 80, 60, 80, 65, 130, 120, 100, 30, 40, 30, 70], [100, 70, 80, 50, 120, 100, 130, 140, 90, 100, 40, 50], [80, 50, 60, 40, 60, 120, 100, 130, 60, 80, 50, 60], [70, 80, 100, 70, 90, 60, 80, 130, 40, 60, 50, 80], [90, 40, 80, 80, 100, 140, 100, 130, 90, 60, 70, 50], [80, 60, 80, 60, 40, 100, 120, 100, 30, 40, 30, 70], [20, 40, 20, 50, 70, 60, 110, 80, 90, 30, 50, 50], [60, 70, 30, 40, 80, 140, 80, 140, 120, 130, 100, 110], [90, 90, 40, 60, 40, 110, 90, 110, 60, 80, 60, 70], [50, 80, 50, 80, 50, 80, 120, 80, 50, 120, 110, 110], [60, 90, 60, 70, 40, 70, 100, 140, 30, 40, 30, 70], [20, 40, 20, 50, 30, 80, 120, 100, 30, 40, 30, 70]];
+
+    var tooltipFormatter = function tooltipFormatter(params) {
+      var currentDate = window.dayjs(params[0].axisValue);
+      return "\n        <div class='ms-1'>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:".concat(params[1].borderColor, "\"></span>\n            ").concat(currentDate.format('MMM DD'), " : ").concat(params[1].value, "\n          </h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[0].borderColor, "\"></span>\n            ").concat(currentDate.month(currentDate.month() - 1).format('MMM DD'), " : ").concat(params[0].value, "\n          </h6>\n        </div>\n      ");
+    };
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        title: {
+          text: 'Sales over time',
+          textStyle: {
+            fontWeight: 500,
+            fontSize: 13,
+            fontFamily: 'poppins'
+          }
+        },
+        legend: {
+          show: false,
+          data: ['currentMonth', 'prevMonth']
+        },
+        color: utils.getGrays().white,
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: tooltipFormatter,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        xAxis: {
+          type: 'category',
+          data: dates(0),
+          boundaryGap: false,
+          axisPointer: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['400'],
+            formatter: function formatter(value) {
+              var date = new Date(value);
+              return "".concat(months[date.getMonth()].substring(0, 3), " ").concat(date.getDate());
+            },
+            margin: 15
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'] // type: "dashed",
+
+            }
+          },
+          boundaryGap: false,
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['400'],
+            margin: 15
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          name: 'prevMonth',
+          type: 'line',
+          data: monthsnumber[0],
+          lineStyle: {
+            color: utils.getGrays()['300']
+          },
+          itemStyle: {
+            borderColor: utils.getGrays()['300'],
+            borderWidth: 2
+          },
+          symbol: 'none',
+          smooth: false,
+          hoverAnimation: true
+        }, {
+          name: 'currentMonth',
+          type: 'line',
+          data: monthsnumber[1],
+          lineStyle: {
+            color: utils.getColors().primary
+          },
+          itemStyle: {
+            borderColor: utils.getColors().primary,
+            borderWidth: 2
+          },
+          symbol: 'none',
+          smooth: false,
+          hoverAnimation: true
+        }],
+        grid: {
+          right: '8px',
+          left: '40px',
+          bottom: '15%',
+          top: '20%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions); // Change chart options accordiong to the selected month
+
+    var monthSelect = document.querySelector(SELECT_MONTH);
+    var month = 0;
+    var currentMonthData = monthsnumber[Number(month) + 1];
+    var prevMonthData = monthsnumber[monthSelect.selectedIndex];
+    monthSelect.addEventListener('change', function (e) {
+      month = e.currentTarget.value;
+      currentMonthData = monthsnumber[Number(month) + 1];
+      prevMonthData = monthsnumber[month];
+      $legendCurrentMonth.querySelector('.text').innerText = months[month];
+      $legendPrevMonth.querySelector('.text').innerText = months[month - 1] ? months[month - 1] : 'Dec';
+      chart.setOption({
+        xAxis: {
+          data: dates(month)
+        },
+        series: [{
+          data: currentMonthData
+        }, {
+          data: prevMonthData
+        }]
+      });
+    });
+    $legendCurrentMonth.addEventListener('click', function () {
+      $legendCurrentMonth.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'currentMonth'
+      });
+    });
+    $legendPrevMonth.addEventListener('click', function () {
+      $legendPrevMonth.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'prevMonth'
+      });
+    });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                                Product Share                               */
+
+/* -------------------------------------------------------------------------- */
+
+
+var marketShareEcommerceInit = function marketShareEcommerceInit() {
+  var ECHART_PRODUCT_SHARE = '.echart-product-share';
+  var $echartProductShare = document.querySelector(ECHART_PRODUCT_SHARE);
+
+  if ($echartProductShare) {
+    var userOptions = utils.getData($echartProductShare, 'options');
+    var chart = window.echarts.init($echartProductShare);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: [utils.getColors().primary, utils.getColors().info, utils.getColors().warning],
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          formatter: function formatter(params) {
+            return "<strong>".concat(params.data.name, ":</strong> ").concat(params.percent, "%");
+          }
+        },
+        position: function position(pos, params, dom, rect, size) {
+          return getPosition(pos, params, dom, rect, size);
+        },
+        legend: {
+          show: false
+        },
+        series: [{
+          type: 'pie',
+          radius: ['100%', '80%'],
+          avoidLabelOverlap: false,
+          hoverAnimation: false,
+          itemStyle: {
+            borderWidth: 2,
+            borderColor: utils.getColor('card-bg')
+          },
+          label: {
+            normal: {
+              show: false,
+              position: 'center',
+              textStyle: {
+                fontSize: '20',
+                fontWeight: '500',
+                color: utils.getGrays()['700']
+              }
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          data: [{
+            value: 5300000,
+            name: 'Falcon'
+          }, {
+            value: 1900000,
+            name: 'Sparrow'
+          }, {
+            value: 2000000,
+            name: 'Phoenix'
+          }]
+        }]
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
 /*                                Market Share                                */
 
 /* -------------------------------------------------------------------------- */
 
-var marketShare = function marketShare() {
+
+var marketShareInit = function marketShareInit() {
   var ECHART_MARKET_SHARE = '.echart-market-share';
   var $echartMarketShare = document.querySelector(ECHART_MARKET_SHARE);
 
@@ -5316,19 +6665,1350 @@ var marketShare = function marketShare() {
 };
 /* -------------------------------------------------------------------------- */
 
+/*                     Echart Bar Report For This Week                        */
+
+/* -------------------------------------------------------------------------- */
+
+
+var reportForThisWeekInit = function reportForThisWeekInit() {
+  var ECHART_BAR_REPORT_FOR_THIS_WEEK = '.echart-bar-report-for-this-week';
+  var $echartBarReportForThisWeek = document.querySelector(ECHART_BAR_REPORT_FOR_THIS_WEEK);
+
+  if ($echartBarReportForThisWeek) {
+    var selectChart = utils.getData($echartBarReportForThisWeek, 'chart');
+    var legendLastWeek = document.getElementById(selectChart === null || selectChart === void 0 ? void 0 : selectChart.option1);
+    var legendThisWeek = document.getElementById(selectChart === null || selectChart === void 0 ? void 0 : selectChart.option2);
+    var data = [['product', 'This Week', 'Last Week'], ['Sun', 43, 85], ['Mon', 83, 73], ['Tue', 86, 62], ['Wed', 72, 53], ['Thu', 80, 50], ['Fri', 50, 70], ['Sat', 80, 90]];
+    var userOptions = utils.getData($echartBarReportForThisWeek, 'options');
+    var chart = window.echarts.init($echartBarReportForThisWeek);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: [utils.getColors().primary, utils.getGrays()['300']],
+        dataset: {
+          source: data
+        },
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          formatter: function formatter(params) {
+            return "<div class=\"font-weight-semi-bold\">".concat(params.seriesName, "</div><div class=\"fs--1 text-600\"><strong>").concat(params.name, ":</strong> ").concat(params.value[params.componentIndex + 1], "</div>");
+          }
+        },
+        legend: {
+          show: false
+        },
+        xAxis: {
+          type: 'category',
+          axisLabel: {
+            color: utils.getGrays()['400']
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          },
+          axisTick: false,
+          boundaryGap: true
+        },
+        yAxis: {
+          axisPointer: {
+            type: 'none'
+          },
+          axisTick: 'none',
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['400'],
+            formatter: function formatter(value) {
+              return "".concat(value, " hr");
+            }
+          }
+        },
+        series: [{
+          type: 'bar',
+          name: '',
+          barWidth: '12%',
+          barGap: '30%',
+          label: {
+            normal: {
+              show: false
+            }
+          },
+          z: 10,
+          itemStyle: {
+            normal: {
+              barBorderRadius: [10, 10, 0, 0],
+              color: utils.getColors().primary
+            }
+          }
+        }, {
+          type: 'bar',
+          barWidth: '12%',
+          barGap: '30%',
+          label: {
+            normal: {
+              show: false
+            }
+          },
+          itemStyle: {
+            normal: {
+              barBorderRadius: [4, 4, 0, 0],
+              color: utils.getGrays()[300]
+            }
+          }
+        }],
+        grid: {
+          right: '0',
+          left: '40px',
+          bottom: '10%',
+          top: '15%'
+        }
+      };
+    };
+
+    legendLastWeek && legendLastWeek.addEventListener('click', function () {
+      legendLastWeek.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'Last Week'
+      });
+    });
+    legendThisWeek && legendThisWeek.addEventListener('click', function () {
+      legendThisWeek.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'This Week'
+      });
+    });
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                     Echarts Line Returing Customer Rate                    */
+
+/* -------------------------------------------------------------------------- */
+
+
+var returningCustomerRateInit = function returningCustomerRateInit() {
+  var ECHART_LINE_RETURNING_CUSTOMER_RATE = '.echart-line-returning-customer-rate';
+  var $echartsLineReturningCustomerRate = document.querySelector(ECHART_LINE_RETURNING_CUSTOMER_RATE);
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  var tooltipFormatter = function tooltipFormatter(params) {
+    var currentDate = window.dayjs(params[0].axisValue);
+    return "\n      <div class='ms-1'>\n        <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:".concat(params[1].borderColor, "\"></span>\n          ").concat(currentDate.format('MMM DD'), " : ").concat(params[1].value, "\n        </h6>\n        <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[0].borderColor, "\"></span>\n          ").concat(currentDate.month(currentDate.month() - 1).format('MMM DD'), " : ").concat(params[0].value, "\n        </h6>\n      </div>\n    ");
+  };
+
+  if ($echartsLineReturningCustomerRate) {
+    // Get options from data attribute
+    var userOptions = utils.getData($echartsLineReturningCustomerRate, 'options');
+    var LEGEND_MONTH_TARGET = userOptions.target;
+    var SELECT_MONTH = "#".concat(userOptions.monthSelect);
+    var LEGEND_NEW_MONTH = "#".concat(userOptions.optionOne);
+    var LEGEND_RETURNING_MONTH = "#".concat(userOptions.optionTwo);
+    var $legendNewMonth = document.getElementById(LEGEND_MONTH_TARGET).querySelector(LEGEND_NEW_MONTH);
+    var $legendReturningMonth = document.getElementById(LEGEND_MONTH_TARGET).querySelector(LEGEND_RETURNING_MONTH);
+    var chart = window.echarts.init($echartsLineReturningCustomerRate);
+    var monthNumbers = [[20, 40, 20, 80, 50, 80, 120, 80, 50, 120, 110, 110], [60, 80, 60, 80, 65, 130, 120, 100, 30, 40, 30, 70], [100, 70, 80, 50, 120, 100, 130, 140, 90, 100, 40, 50], [80, 50, 60, 40, 60, 120, 100, 130, 60, 80, 50, 60], [70, 80, 100, 70, 90, 60, 80, 130, 40, 60, 50, 80], [90, 40, 80, 80, 100, 140, 100, 130, 90, 60, 70, 50], [80, 60, 80, 60, 40, 100, 120, 100, 30, 40, 30, 70], [20, 40, 20, 50, 70, 60, 110, 80, 90, 30, 50, 50], [60, 70, 30, 40, 80, 140, 80, 140, 120, 130, 100, 110], [90, 90, 40, 60, 40, 110, 90, 110, 60, 80, 60, 70], [50, 80, 50, 80, 50, 80, 120, 80, 50, 120, 110, 110], [60, 90, 60, 70, 40, 70, 100, 140, 30, 40, 30, 70], [20, 40, 20, 50, 30, 80, 120, 100, 30, 40, 30, 70]];
+
+    var dates = function dates(month) {
+      return utils.getDates(window.dayjs().month(month).date(1), window.dayjs().month(Number(month) + 1).date(0), 1000 * 60 * 60 * 24 * 3);
+    };
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        title: {
+          text: 'Customers',
+          textStyle: {
+            fontWeight: 500,
+            fontSize: 13,
+            fontFamily: 'poppins',
+            color: utils.getColor('900')
+          }
+        },
+        legend: {
+          show: false,
+          data: ['newMonth', 'returningMonth']
+        },
+        // color: utils.getGrays().white,
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          formatter: tooltipFormatter
+        },
+        xAxis: {
+          type: 'category',
+          data: dates(0),
+          boundaryGap: false,
+          axisPointer: {
+            lineStyle: {
+              color: utils.getColor('300'),
+              type: 'dashed'
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getColor('300'),
+              type: 'solid'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getColor('400'),
+            formatter: function formatter(value) {
+              var date = new Date(value);
+
+              if (date.getDate() === 1) {
+                return "".concat(months[date.getMonth()].substring(0, 3), " ").concat(date.getDate());
+              }
+
+              return "".concat(date.getDate());
+            },
+            margin: 15
+          },
+          splitLine: {
+            show: true,
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'] // type: "dashed",
+
+            }
+          },
+          boundaryGap: false,
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['400'],
+            margin: 15
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          name: 'newMonth',
+          type: 'line',
+          data: monthNumbers[1],
+          lineStyle: {
+            color: utils.getColors().primary
+          },
+          itemStyle: {
+            borderColor: utils.getColors().primary,
+            borderWidth: 2
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: utils.rgbaColor(utils.getColor('primary'), 0.2)
+              }, {
+                offset: 1,
+                color: utils.rgbaColor(utils.getColor('primary'), 0.01)
+              }]
+            }
+          },
+          symbol: 'none',
+          smooth: false,
+          hoverAnimation: true
+        }, {
+          name: 'returningMonth',
+          type: 'line',
+          data: monthNumbers[0],
+          lineStyle: {
+            color: utils.getColor('warning')
+          },
+          itemStyle: {
+            borderColor: utils.getColor('warning'),
+            borderWidth: 2
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: utils.rgbaColor(utils.getColor('warning'), 0.2)
+              }, {
+                offset: 1,
+                color: utils.rgbaColor(utils.getColor('warning'), 0.01)
+              }]
+            }
+          },
+          symbol: 'none',
+          smooth: false,
+          hoverAnimation: true
+        }],
+        grid: {
+          right: '7px',
+          left: '35px',
+          bottom: '8%',
+          top: '15%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions); // Change chart options accordiong to the selected month
+
+    var monthSelect = document.querySelector(SELECT_MONTH);
+    monthSelect.addEventListener('change', function (e) {
+      var month = e.currentTarget.value;
+      var dataNewMonth = monthNumbers[Number(month) + 1];
+      var dataReturningMonth = monthNumbers[month];
+      chart.setOption({
+        xAxis: {
+          data: dates(month)
+        },
+        series: [{
+          data: dataNewMonth
+        }, {
+          data: dataReturningMonth
+        }]
+      });
+    });
+    $legendNewMonth.addEventListener('click', function () {
+      $legendNewMonth.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'newMonth'
+      });
+    });
+    $legendReturningMonth.addEventListener('click', function () {
+      $legendReturningMonth.classList.toggle('opacity-50');
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'returningMonth'
+      });
+    });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                          Echarts Sales Pos Location                        */
+
+/* -------------------------------------------------------------------------- */
+
+
+var salesByPosLocationInit = function salesByPosLocationInit() {
+  var ECHART_RADAR_SALES_BY_POS_LOCATION = '.echart-radar-sales-by-pos-location';
+  var $echartsRadarSalesByPosLocation = document.querySelector(ECHART_RADAR_SALES_BY_POS_LOCATION);
+
+  function getformatter(params) {
+    //const indicators = ['Marketing','Sales', 'Dev', 'Support', 'Tech', 'Admin']
+    return "<strong > ".concat(params.name, " </strong>\n    <div class=\"fs--1 text-600\">\n      <strong >Marketing</strong>: ").concat(params.value[0], "  <br>\n      <strong>Sales</strong>: ").concat(params.value[1], "  <br>\n      <strong>Dev</strong>: ").concat(params.value[2], "  <br>\n      <strong>Support</strong>: ").concat(params.value[3], "  <br>\n      <strong>Tech</strong>: ").concat(params.value[4], "  <br>\n      <strong>Admin</strong>: ").concat(params.value[5], "  <br>\n    </div>");
+  }
+
+  if ($echartsRadarSalesByPosLocation) {
+    // Get options from data attribute
+    var userOptions = utils.getData($echartsRadarSalesByPosLocation, 'options');
+    var chart = window.echarts.init($echartsRadarSalesByPosLocation);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getColor('100'),
+          borderColor: utils.getColor('300'),
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          formatter: getformatter
+        },
+        radar: {
+          splitNumber: 7,
+          radius: '75%',
+          axisLine: {
+            show: true,
+            symbol: 'circle',
+            symbolSize: [13, 13],
+            lineStyle: {
+              color: {
+                type: 'radial',
+                x: 0.5,
+                y: 0.5,
+                r: 0.5,
+                colorStops: [{
+                  offset: 0.7,
+                  color: utils.getColor('100')
+                }, {
+                  offset: 1,
+                  color: utils.getColor('400')
+                }]
+              }
+            }
+          },
+          splitArea: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getColor('300')
+            }
+          },
+          name: {
+            textStyle: {
+              color: utils.getColor('600'),
+              fontWeight: 500
+            }
+          },
+          indicator: [{
+            name: 'Marketing',
+            max: 70
+          }, {
+            name: 'Admin',
+            max: 70
+          }, {
+            name: 'Tech',
+            max: 70
+          }, {
+            name: 'Support',
+            max: 70
+          }, {
+            name: 'Dev',
+            max: 70
+          }, {
+            name: 'Sales',
+            max: 70
+          }]
+        },
+        series: [{
+          name: 'Budget vs spending',
+          type: 'radar',
+          symbol: 'pin',
+          data: [{
+            value: [20, 50, 60, 50, 60, 60],
+            name: 'Budget',
+            itemStyle: {
+              color: utils.rgbaColor(utils.getColors().warning, 0.5)
+            },
+            areaStyle: {
+              color: [utils.rgbaColor(utils.getColors().warning, 0.24)]
+            },
+            symbol: 'circle',
+            symbolSize: 8
+          }, {
+            value: [40, 60, 30, 15, 60, 35],
+            name: 'Spending',
+            areaStyle: {
+              color: [utils.rgbaColor(utils.getColors().primary, 0.24)]
+            },
+            symbol: 'circle',
+            symbolSize: 8,
+            itemStyle: {
+              color: utils.rgbaColor(utils.getColors().primary)
+            }
+          }]
+        }],
+        grid: {
+          top: 0,
+          bottom: '100px'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                                Session By Device                           */
+
+/* -------------------------------------------------------------------------- */
+
+
+var sessionByBrowserChartInit = function sessionByBrowserChartInit() {
+  var $sessionByBroswser = document.querySelector('.echart-session-by-browser');
+
+  if ($sessionByBroswser) {
+    var userOptions = utils.getData($sessionByBroswser, 'options');
+    var chart = window.echarts.init($sessionByBroswser);
+    var dataset = {
+      week: [{
+        value: 50.3,
+        name: 'Chrome'
+      }, {
+        value: 20.6,
+        name: 'Safari'
+      }, {
+        value: 30.1,
+        name: 'Mozilla'
+      }],
+      month: [{
+        value: 35.1,
+        name: 'Chrome'
+      }, {
+        value: 25.6,
+        name: 'Safari'
+      }, {
+        value: 40.3,
+        name: 'Mozilla'
+      }],
+      year: [{
+        value: 26.1,
+        name: 'Chrome'
+      }, {
+        value: 10.6,
+        name: 'Safari'
+      }, {
+        value: 64.3,
+        name: 'Mozilla'
+      }]
+    };
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: [utils.getColors().primary, utils.getColors().success, utils.getColors().info],
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          formatter: function formatter(params) {
+            return "<strong>".concat(params.data.name, ":</strong> ").concat(params.data.value, "%");
+          },
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        legend: {
+          show: false
+        },
+        series: [{
+          type: 'pie',
+          radius: ['100%', '65%'],
+          avoidLabelOverlap: false,
+          hoverAnimation: false,
+          itemStyle: {
+            borderWidth: 2,
+            borderColor: utils.getColor('card-bg')
+          },
+          label: {
+            normal: {
+              show: false
+            },
+            emphasis: {
+              show: false
+            }
+          },
+          labelLine: {
+            normal: {
+              show: false
+            }
+          },
+          data: dataset.week
+        }]
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+    var selectMenu = document.querySelector("[data-target='.echart-session-by-browser']");
+
+    if (selectMenu) {
+      selectMenu.addEventListener('change', function (e) {
+        var value = e.currentTarget.value;
+        chart.setOption({
+          series: [{
+            data: dataset[value]
+          }]
+        });
+      });
+    }
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                                Session By Country Map                      */
+
+/* -------------------------------------------------------------------------- */
+
+
+var sessionByCountryMapInit = function sessionByCountryMapInit() {
+  var $sessionByCountryMap = document.querySelector('.echart-session-by-country-map');
+  var data = [{
+    name: 'Afghanistan',
+    value: 28397.812
+  }, {
+    name: 'Angola',
+    value: 19549.124
+  }, {
+    name: 'Albania',
+    value: 3150.143
+  }, {
+    name: 'United Arab Emirates',
+    value: 8441.537
+  }, {
+    name: 'Argentina',
+    value: 40374.224
+  }, {
+    name: 'Armenia',
+    value: 2963.496
+  }, {
+    name: 'French Southern and Antarctic Lands',
+    value: 268.065
+  }, {
+    name: 'Australia',
+    value: 22404.488
+  }, {
+    name: 'Austria',
+    value: 8401.924
+  }, {
+    name: 'Azerbaijan',
+    value: 9094.718
+  }, {
+    name: 'Burundi',
+    value: 9232.753
+  }, {
+    name: 'Belgium',
+    value: 10941.288
+  }, {
+    name: 'Benin',
+    value: 9509.798
+  }, {
+    name: 'Burkina Faso',
+    value: 15540.284
+  }, {
+    name: 'Bangladesh',
+    value: 151125.475
+  }, {
+    name: 'Bulgaria',
+    value: 7389.175
+  }, {
+    name: 'The Bahamas',
+    value: 66402.316
+  }, {
+    name: 'Bosnia and Herzegovina',
+    value: 3845.929
+  }, {
+    name: 'Belarus',
+    value: 9491.07
+  }, {
+    name: 'Belize',
+    value: 308.595
+  }, {
+    name: 'Bermuda',
+    value: 64.951
+  }, {
+    name: 'Bolivia',
+    value: 716.939
+  }, {
+    name: 'Brazil',
+    value: 195210.154
+  }, {
+    name: 'Brunei',
+    value: 27.223
+  }, {
+    name: 'Bhutan',
+    value: 716.939
+  }, {
+    name: 'Botswana',
+    value: 1969.341
+  }, {
+    name: 'Central African Rep.',
+    value: 4349.921
+  }, {
+    name: 'Canada',
+    value: 34126.24
+  }, {
+    name: 'Switzerland',
+    value: 7830.534
+  }, {
+    name: 'Chile',
+    value: 17150.76
+  }, {
+    name: 'China',
+    value: 1359821.465
+  }, {
+    name: "Côte d'Ivoire",
+    value: 60508.978
+  }, {
+    name: 'Cameroon',
+    value: 20624.343
+  }, {
+    name: 'Dem. Rep. Congo',
+    value: 62191.161
+  }, {
+    name: 'Congo',
+    value: 3573.024
+  }, {
+    name: 'Colombia',
+    value: 46444.798
+  }, {
+    name: 'Costa Rica',
+    value: 4669.685
+  }, {
+    name: 'Cuba',
+    value: 11281.768
+  }, {
+    name: 'Northern Cyprus',
+    value: 1.468
+  }, {
+    name: 'Cyprus',
+    value: 1103.685
+  }, {
+    name: 'Czech Republic',
+    value: 10553.701
+  }, {
+    name: 'Germany',
+    value: 83017.404
+  }, {
+    name: 'Djibouti',
+    value: 834.036
+  }, {
+    name: 'Denmark',
+    value: 5550.959
+  }, {
+    name: 'Dominican Republic',
+    value: 10016.797
+  }, {
+    name: 'Algeria',
+    value: 37062.82
+  }, {
+    name: 'Ecuador',
+    value: 15001.072
+  }, {
+    name: 'Egypt',
+    value: 78075.705
+  }, {
+    name: 'Eritrea',
+    value: 5741.159
+  }, {
+    name: 'Spain',
+    value: 46182.038
+  }, {
+    name: 'Estonia',
+    value: 1298.533
+  }, {
+    name: 'Ethiopia',
+    value: 87095.281
+  }, {
+    name: 'Finland',
+    value: 5367.693
+  }, {
+    name: 'Fiji',
+    value: 860.559
+  }, {
+    name: 'Falkland Islands',
+    value: 49.581
+  }, {
+    name: 'France',
+    value: 63230.866
+  }, {
+    name: 'Gabon',
+    value: 1556.222
+  }, {
+    name: 'United Kingdom',
+    value: 62066.35
+  }, {
+    name: 'Georgia',
+    value: 4388.674
+  }, {
+    name: 'Ghana',
+    value: 24262.901
+  }, {
+    name: 'Eq. Guinea',
+    value: 10876.033
+  }, {
+    name: 'Guinea',
+    value: 10876.033
+  }, {
+    name: 'Gambia',
+    value: 1680.64
+  }, {
+    name: 'Guinea Bissau',
+    value: 10876.033
+  }, {
+    name: 'Equatorial Guinea',
+    value: 696.167
+  }, {
+    name: 'Greece',
+    value: 11109.999
+  }, {
+    name: 'Greenland',
+    value: 56.546
+  }, {
+    name: 'Guatemala',
+    value: 14341.576
+  }, {
+    name: 'French Guiana',
+    value: 231.169
+  }, {
+    name: 'Guyana',
+    value: 786.126
+  }, {
+    name: 'Honduras',
+    value: 7621.204
+  }, {
+    name: 'Croatia',
+    value: 4338.027
+  }, {
+    name: 'Haiti',
+    value: 9896.4
+  }, {
+    name: 'Hungary',
+    value: 10014.633
+  }, {
+    name: 'Indonesia',
+    value: 240676.485
+  }, {
+    name: 'India',
+    value: 1205624.648
+  }, {
+    name: 'Ireland',
+    value: 4467.561
+  }, {
+    name: 'Iran',
+    value: 240676.485
+  }, {
+    name: 'Iraq',
+    value: 30962.38
+  }, {
+    name: 'Iceland',
+    value: 318.042
+  }, {
+    name: 'Israel',
+    value: 7420.368
+  }, {
+    name: 'Italy',
+    value: 60508.978
+  }, {
+    name: 'Jamaica',
+    value: 2741.485
+  }, {
+    name: 'Jordan',
+    value: 6454.554
+  }, {
+    name: 'Japan',
+    value: 127352.833
+  }, {
+    name: 'Kazakhstan',
+    value: 15921.127
+  }, {
+    name: 'Kenya',
+    value: 40909.194
+  }, {
+    name: 'Kyrgyzstan',
+    value: 5334.223
+  }, {
+    name: 'Cambodia',
+    value: 14364.931
+  }, {
+    name: 'South Korea',
+    value: 51452.352
+  }, {
+    name: 'Kosovo',
+    value: 97.743
+  }, {
+    name: 'Kuwait',
+    value: 2991.58
+  }, {
+    name: 'Laos',
+    value: 6395.713
+  }, {
+    name: 'Lebanon',
+    value: 4341.092
+  }, {
+    name: 'Liberia',
+    value: 3957.99
+  }, {
+    name: 'Libya',
+    value: 6040.612
+  }, {
+    name: 'Sri Lanka',
+    value: 20758.779
+  }, {
+    name: 'Lesotho',
+    value: 2008.921
+  }, {
+    name: 'Lithuania',
+    value: 3068.457
+  }, {
+    name: 'Luxembourg',
+    value: 507.885
+  }, {
+    name: 'Latvia',
+    value: 2090.519
+  }, {
+    name: 'Morocco',
+    value: 31642.36
+  }, {
+    name: 'Moldova',
+    value: 103.619
+  }, {
+    name: 'Madagascar',
+    value: 21079.532
+  }, {
+    name: 'Mexico',
+    value: 117886.404
+  }, {
+    name: 'Macedonia',
+    value: 507.885
+  }, {
+    name: 'Mali',
+    value: 13985.961
+  }, {
+    name: 'Myanmar',
+    value: 51931.231
+  }, {
+    name: 'Montenegro',
+    value: 620.078
+  }, {
+    name: 'Mongolia',
+    value: 2712.738
+  }, {
+    name: 'Mozambique',
+    value: 23967.265
+  }, {
+    name: 'Mauritania',
+    value: 3609.42
+  }, {
+    name: 'Malawi',
+    value: 15013.694
+  }, {
+    name: 'Malaysia',
+    value: 28275.835
+  }, {
+    name: 'Namibia',
+    value: 2178.967
+  }, {
+    name: 'New Caledonia',
+    value: 246.379
+  }, {
+    name: 'Niger',
+    value: 15893.746
+  }, {
+    name: 'Nigeria',
+    value: 159707.78
+  }, {
+    name: 'Nicaragua',
+    value: 5822.209
+  }, {
+    name: 'Netherlands',
+    value: 16615.243
+  }, {
+    name: 'Norway',
+    value: 4891.251
+  }, {
+    name: 'Nepal',
+    value: 26846.016
+  }, {
+    name: 'New Zealand',
+    value: 4368.136
+  }, {
+    name: 'Oman',
+    value: 2802.768
+  }, {
+    name: 'Pakistan',
+    value: 173149.306
+  }, {
+    name: 'Panama',
+    value: 3678.128
+  }, {
+    name: 'Peru',
+    value: 29262.83
+  }, {
+    name: 'Philippines',
+    value: 93444.322
+  }, {
+    name: 'Papua New Guinea',
+    value: 6858.945
+  }, {
+    name: 'Poland',
+    value: 38198.754
+  }, {
+    name: 'Puerto Rico',
+    value: 3709.671
+  }, {
+    name: 'North Korea',
+    value: 1.468
+  }, {
+    name: 'Portugal',
+    value: 10589.792
+  }, {
+    name: 'Paraguay',
+    value: 6459.721
+  }, {
+    name: 'Qatar',
+    value: 1749.713
+  }, {
+    name: 'Romania',
+    value: 21861.476
+  }, {
+    name: 'Russia',
+    value: 21861.476
+  }, {
+    name: 'Rwanda',
+    value: 10836.732
+  }, {
+    name: 'Western Sahara',
+    value: 514.648
+  }, {
+    name: 'Saudi Arabia',
+    value: 27258.387
+  }, {
+    name: 'Sudan',
+    value: 35652.002
+  }, {
+    name: 'S. Sudan',
+    value: 9940.929
+  }, {
+    name: 'Senegal',
+    value: 12950.564
+  }, {
+    name: 'Solomon Islands',
+    value: 526.447
+  }, {
+    name: 'Sierra Leone',
+    value: 5751.976
+  }, {
+    name: 'El Salvador',
+    value: 6218.195
+  }, {
+    name: 'Somaliland',
+    value: 9636.173
+  }, {
+    name: 'Somalia',
+    value: 9636.173
+  }, {
+    name: 'Republic of Serbia',
+    value: 3573.024
+  }, {
+    name: 'Suriname',
+    value: 524.96
+  }, {
+    name: 'Slovakia',
+    value: 5433.437
+  }, {
+    name: 'Slovenia',
+    value: 2054.232
+  }, {
+    name: 'Sweden',
+    value: 9382.297
+  }, {
+    name: 'Swaziland',
+    value: 1193.148
+  }, {
+    name: 'Syria',
+    value: 7830.534
+  }, {
+    name: 'Chad',
+    value: 11720.781
+  }, {
+    name: 'Togo',
+    value: 6306.014
+  }, {
+    name: 'Thailand',
+    value: 66402.316
+  }, {
+    name: 'Tajikistan',
+    value: 7627.326
+  }, {
+    name: 'Turkmenistan',
+    value: 5041.995
+  }, {
+    name: 'East Timor',
+    value: 10016.797
+  }, {
+    name: 'Trinidad and Tobago',
+    value: 1328.095
+  }, {
+    name: 'Tunisia',
+    value: 10631.83
+  }, {
+    name: 'Turkey',
+    value: 72137.546
+  }, {
+    name: 'Tanzania',
+    value: 44973.33
+  }, {
+    name: 'Uganda',
+    value: 33987.213
+  }, {
+    name: 'Ukraine',
+    value: 46050.22
+  }, {
+    name: 'Uruguay',
+    value: 3371.982
+  }, {
+    name: 'United States',
+    value: 312247.116
+  }, {
+    name: 'Uzbekistan',
+    value: 27769.27
+  }, {
+    name: 'Venezuela',
+    value: 236.299
+  }, {
+    name: 'Vietnam',
+    value: 89047.397
+  }, {
+    name: 'Vanuatu',
+    value: 236.299
+  }, {
+    name: 'West Bank',
+    value: 13.565
+  }, {
+    name: 'Yemen',
+    value: 22763.008
+  }, {
+    name: 'South Africa',
+    value: 51452.352
+  }, {
+    name: 'Zambia',
+    value: 13216.985
+  }, {
+    name: 'Zimbabwe',
+    value: 13076.978
+  }];
+  var total = 6961500;
+
+  if ($sessionByCountryMap) {
+    var userOptions = utils.getData($sessionByCountryMap, 'options');
+    var chart = window.echarts.init($sessionByCountryMap);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'item',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          formatter: function formatter(params) {
+            return "<strong>".concat(params.data.name, " :</strong> ").concat((params.data.value / total * 100).toFixed(2), "%");
+          }
+        },
+        toolbox: {
+          show: false,
+          feature: {
+            restore: {}
+          }
+        },
+        visualMap: {
+          show: false,
+          min: 800,
+          max: 50000,
+          inRange: {
+            color: [utils.getColors().primary, utils.rgbaColor(utils.getColors().primary, 0.8), utils.rgbaColor(utils.getColors().primary, 0.6), utils.rgbaColor(utils.getColors().primary, 0.4), utils.rgbaColor(utils.getColors().primary, 0.2)].reverse()
+          }
+        },
+        series: [{
+          type: 'map',
+          map: 'world',
+          data: data,
+          roam: true,
+          scaleLimit: {
+            min: 1,
+            max: 5
+          },
+          left: 0,
+          right: 0,
+          label: {
+            show: false
+          },
+          itemStyle: {
+            borderColor: utils.getGrays()['300']
+          },
+          emphasis: {
+            label: {
+              show: false
+            },
+            itemStyle: {
+              areaColor: utils.getColor('warning')
+            }
+          }
+        }]
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+    document.querySelector('.session-by-country-map-reset').addEventListener('click', function () {
+      chart.dispatchAction({
+        type: 'restore'
+      });
+    });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                                Session By Country                          */
+
+/* -------------------------------------------------------------------------- */
+
+
+var sessionByCountryChartInit = function sessionByCountryChartInit() {
+  var $sessionByCountry = document.querySelector('.echart-session-by-country');
+  var data = [['CHINA', 'INDIA', 'USA', 'IRAN', 'BRAZIL', 'PAKISTAN'], [19.53, 17.32, 4.49, 3.46, 2.8, 1.7]];
+
+  if ($sessionByCountry) {
+    var userOptions = utils.getData($sessionByCountry, 'options');
+    var chart = window.echarts.init($sessionByCountry);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          axisPointer: {
+            type: 'none'
+          },
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          } // formatter: tooltipFormatter
+
+        },
+        xAxis: {
+          type: 'category',
+          data: data[0],
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return value.substring(0, 3);
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['400']
+            }
+          },
+          axisTick: {
+            show: true,
+            // length: 8,
+            alignWithLabel: true,
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          }
+        },
+        yAxis: {
+          type: 'value',
+          // inverse: true,
+          axisTick: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['300'],
+              type: 'dashed'
+            }
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return "".concat(value, "%");
+            },
+            fontWeight: 500,
+            padding: [3, 0, 0, 0],
+            margin: 12
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          type: 'bar',
+          data: data[1],
+          itemStyle: {
+            barBorderRadius: [3, 3, 0, 0],
+            color: utils.getColors().primary
+          },
+          barWidth: 15
+        }],
+        grid: {
+          right: '12px',
+          left: '40px',
+          bottom: '10%',
+          top: '16px'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
 /*                                Top Products                                */
 
 /* -------------------------------------------------------------------------- */
 
 
-var topProducts = function topProducts() {
+var topProductsInit = function topProductsInit() {
   var ECHART_BAR_TOP_PRODUCTS = '.echart-bar-top-products';
   var $echartBarTopProducts = document.querySelector(ECHART_BAR_TOP_PRODUCTS);
 
   if ($echartBarTopProducts) {
-    var data = [['product', '2019', '2018'], ['Boots4', 43, 85], ['Reign Pro', 83, 73], ['Slick', 86, 62], ['Falcon', 72, 53], ['Sparrow', 80, 50], ['Hideway', 50, 70], ['Freya', 80, 90] // ['Raven Pro', 60, 70],
-    // ['Posh', 80, 70],
-    ];
+    var data = [['product', '2019', '2018'], ['Boots4', 43, 85], ['Reign Pro', 83, 73], ['Slick', 86, 62], ['Falcon', 72, 53], ['Sparrow', 80, 50], ['Hideway', 50, 70], ['Freya', 80, 90]];
     var userOptions = utils.getData($echartBarTopProducts, 'options');
     var chart = window.echarts.init($echartBarTopProducts);
 
@@ -5401,7 +8081,7 @@ var topProducts = function topProducts() {
         },
         series: [{
           type: 'bar',
-          barWidth: '12%',
+          barWidth: '10px',
           barGap: '30%',
           label: {
             normal: {
@@ -5417,7 +8097,7 @@ var topProducts = function topProducts() {
           }
         }, {
           type: 'bar',
-          barWidth: '12%',
+          barWidth: '10px',
           barGap: '30%',
           label: {
             normal: {
@@ -5450,7 +8130,7 @@ var topProducts = function topProducts() {
 /* -------------------------------------------------------------------------- */
 
 
-var totalOrder = function totalOrder() {
+var totalOrderInit = function totalOrderInit() {
   var ECHART_LINE_TOTAL_ORDER = '.echart-line-total-order'; //
   // ─── TOTAL ORDER CHART ──────────────────────────────────────────────────────────
   //
@@ -5571,12 +8251,191 @@ var totalOrder = function totalOrder() {
 };
 /* -------------------------------------------------------------------------- */
 
+/*                      Echarts Total Sales E-commerce                        */
+
+/* -------------------------------------------------------------------------- */
+
+
+var totalSalesEcommerce = function totalSalesEcommerce() {
+  var ECHART_LINE_TOTAL_SALES_ECOMM = '.echart-line-total-sales-ecommerce';
+  var $echartsLineTotalSalesEcomm = document.querySelector(ECHART_LINE_TOTAL_SALES_ECOMM);
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  function getFormatter(params) {
+    return params.map(function (_ref17, index) {
+      var value = _ref17.value,
+          borderColor = _ref17.borderColor;
+      return "<span class= \"fas fa-circle\" style=\"color: ".concat(borderColor, "\"></span>\n    <span class='text-600'>").concat(index === 0 ? 'Last Month' : 'Previous Year', ": ").concat(value, "</span>");
+    }).join('<br/>');
+  }
+
+  if ($echartsLineTotalSalesEcomm) {
+    // Get options from data attribute
+    var userOptions = utils.getData($echartsLineTotalSalesEcomm, 'options');
+    var TOTAL_SALES_LAST_MONTH = "#".concat(userOptions.optionOne);
+    var TOTAL_SALES_PREVIOUS_YEAR = "#".concat(userOptions.optionTwo);
+    var totalSalesLastMonth = document.querySelector(TOTAL_SALES_LAST_MONTH);
+    var totalSalesPreviousYear = document.querySelector(TOTAL_SALES_PREVIOUS_YEAR);
+    var chart = window.echarts.init($echartsLineTotalSalesEcomm);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: utils.getGrays()['100'],
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: function formatter(params) {
+            return getFormatter(params);
+          },
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          }
+        },
+        legend: {
+          data: ['lastMonth', 'previousYear'],
+          show: false
+        },
+        xAxis: {
+          type: 'category',
+          data: ['2019-01-05', '2019-01-06', '2019-01-07', '2019-01-08', '2019-01-09', '2019-01-10', '2019-01-11', '2019-01-12', '2019-01-13', '2019-01-14', '2019-01-15', '2019-01-16'],
+          boundaryGap: false,
+          axisPointer: {
+            lineStyle: {
+              color: utils.getColor('300'),
+              type: 'dashed'
+            }
+          },
+          splitLine: {
+            show: false
+          },
+          axisLine: {
+            lineStyle: {
+              // color: utils.getGrays()['300'],
+              color: utils.rgbaColor('#000', 0.01),
+              type: 'dashed'
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getColor('400'),
+            formatter: function formatter(value) {
+              var date = new Date(value);
+              return "".concat(months[date.getMonth()], " ").concat(date.getDate());
+            },
+            margin: 15 // showMaxLabel: false
+
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisPointer: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getColor('300'),
+              type: 'dashed'
+            }
+          },
+          boundaryGap: false,
+          axisLabel: {
+            show: true,
+            color: utils.getColor('400'),
+            margin: 15
+          },
+          axisTick: {
+            show: false
+          },
+          axisLine: {
+            show: false
+          }
+        },
+        series: [{
+          name: 'lastMonth',
+          type: 'line',
+          data: [50, 80, 60, 80, 65, 90, 130, 90, 30, 40, 30, 70],
+          lineStyle: {
+            color: utils.getColor('primary')
+          },
+          itemStyle: {
+            borderColor: utils.getColor('primary'),
+            borderWidth: 2
+          },
+          symbol: 'circle',
+          symbolSize: 10,
+          hoverAnimation: true,
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: utils.rgbaColor(utils.getColor('primary'), 0.2)
+              }, {
+                offset: 1,
+                color: utils.rgbaColor(utils.getColor('primary'), 0)
+              }]
+            }
+          }
+        }, {
+          name: 'previousYear',
+          type: 'line',
+          data: [110, 30, 40, 50, 80, 70, 50, 40, 110, 90, 60, 60],
+          lineStyle: {
+            color: utils.rgbaColor(utils.getColor('warning'), 0.3)
+          },
+          itemStyle: {
+            borderColor: utils.rgbaColor(utils.getColor('warning'), 0.6),
+            borderWidth: 2
+          },
+          symbol: 'circle',
+          symbolSize: 10,
+          hoverAnimation: true
+        }],
+        grid: {
+          right: '18px',
+          left: '40px',
+          bottom: '15%',
+          top: '5%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+    totalSalesLastMonth.addEventListener('click', function () {
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'lastMonth'
+      });
+    });
+    totalSalesPreviousYear.addEventListener('click', function () {
+      chart.dispatchAction({
+        type: 'legendToggleSelect',
+        name: 'previousYear'
+      });
+    });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
 /*                             Echarts Total Sales                            */
 
 /* -------------------------------------------------------------------------- */
 
 
-var totalSales = function totalSales() {
+var totalSalesInit = function totalSalesInit() {
   var ECHART_LINE_TOTAL_SALES = '.echart-line-total-sales';
   var SELECT_MONTH = '.select-month';
   var $echartsLineTotalSales = document.querySelector(ECHART_LINE_TOTAL_SALES);
@@ -5598,7 +8457,7 @@ var totalSales = function totalSales() {
 
     var getDefaultOptions = function getDefaultOptions() {
       return {
-        color: utils.getGrays().white,
+        color: utils.getGrays()['100'],
         tooltip: {
           trigger: 'axis',
           padding: [7, 10],
@@ -5749,12 +8608,289 @@ var totalSales = function totalSales() {
 };
 /* -------------------------------------------------------------------------- */
 
+/*                                Traffic Channels                           */
+
+/* -------------------------------------------------------------------------- */
+
+
+var trafficChannelChartInit = function trafficChannelChartInit() {
+  var $trafficChannels = document.querySelector('.echart-traffic-channels');
+
+  if ($trafficChannels) {
+    var userOptions = utils.getData($trafficChannels, 'options');
+    var chart = window.echarts.init($trafficChannels);
+
+    var tooltipFormatter = function tooltipFormatter(params) {
+      return "\n      <div>\n        <p class='mb-2 text-600'>".concat(window.dayjs(params[0].axisValue).format('MMM DD, YYYY'), "</p>\n        <div class='ms-1'>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[0].color, "\"></span>\n            ").concat(params[0].seriesName, " : ").concat(params[0].value, "\n          </h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[1].color, "\"></span>\n            ").concat(params[1].seriesName, " : ").concat(params[1].value, "\n          </h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[2].color, "\"></span>\n            ").concat(params[2].seriesName, " : ").concat(params[2].value, "\n          </h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[3].color, "\"></span>\n            ").concat(params[3].seriesName, " : ").concat(params[3].value, "\n          </h6>\n          <h6 class=\"fs--1 text-700\"><span class=\"fas fa-circle me-2\" style=\"color:").concat(params[4].color, "\"></span>\n            ").concat(params[4].seriesName, " : ").concat(params[4].value, "\n          </h6>\n        </div>\n      </div>\n      ");
+    };
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        color: [utils.getColors().primary, utils.rgbaColor(utils.getColors().primary, 0.8), utils.rgbaColor(utils.getColors().primary, 0.6), utils.rgbaColor(utils.getColors().primary, 0.4), utils.rgbaColor(utils.getColors().primary, 0.2)],
+        legend: {
+          data: ['Display', 'Direct', 'Organic Search', 'Paid Search', 'Other'],
+          left: 5,
+          // bottom: 10,
+          itemWidth: 10,
+          itemHeight: 10,
+          borderRadius: 0,
+          icon: 'circle',
+          inactiveColor: utils.getGrays()['400'],
+          textStyle: {
+            color: utils.getGrays()['700']
+          },
+          itemGap: 20
+        },
+        xAxis: {
+          type: 'category',
+          data: utils.getPastDates(7).map(function (date) {
+            return window.dayjs(date).format('DD MMM, YYYY');
+          }),
+          axisLine: {
+            show: false
+          },
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return window.dayjs(value).format('ddd');
+            }
+          }
+        },
+        yAxis: {
+          type: 'value',
+          position: 'right',
+          splitLine: {
+            lineStyle: {
+              color: utils.getGrays()['200']
+            }
+          },
+          axisLine: {
+            show: false
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            show: true,
+            color: utils.getGrays()['600'],
+            margin: 15
+          }
+        },
+        tooltip: {
+          trigger: 'axis',
+          padding: [7, 10],
+          axisPointer: {
+            type: 'none'
+          },
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          transitionDuration: 0,
+          position: function position(pos, params, dom, rect, size) {
+            return getPosition(pos, params, dom, rect, size);
+          },
+          formatter: tooltipFormatter
+        },
+        series: [{
+          name: 'Display',
+          type: 'bar',
+          stack: 'total',
+          data: [320, 302, 301, 334, 390, 330, 320]
+        }, {
+          name: 'Direct',
+          type: 'bar',
+          stack: 'total',
+          data: [120, 132, 101, 134, 90, 230, 210]
+        }, {
+          name: 'Organic Search',
+          type: 'bar',
+          stack: 'total',
+          data: [220, 182, 191, 234, 290, 330, 310]
+        }, {
+          name: 'Paid Search',
+          type: 'bar',
+          stack: 'total',
+          data: [150, 212, 201, 154, 190, 330, 410]
+        }, {
+          name: 'Other',
+          type: 'bar',
+          stack: 'total',
+          data: [820, 832, 901, 934, 1290, 1330, 1320],
+          itemStyle: {
+            barBorderRadius: [5, 5, 0, 0]
+          }
+        }],
+        grid: {
+          right: '50px',
+          left: '0px',
+          bottom: '10%',
+          top: '15%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions); // utils.resize(() => {
+    //   if (window.innerWidth < 520) {
+    //     chart.setOption({
+    //       grid: { right: '50px', left: '0px', bottom: '10%', top: '10%' },
+    //     });
+    //   } else {
+    //     chart.setOption({
+    //       grid: { right: '50px', left: '0px', bottom: '10%', top: '10%' },
+    //     });
+    //   }
+    // });
+  }
+};
+/* -------------------------------------------------------------------------- */
+
+/*                             Echarts Users By Time                          */
+
+/* -------------------------------------------------------------------------- */
+
+
+var usersByTimeChartInit = function usersByTimeChartInit() {
+  var $echartUsersByTimeChart = document.querySelector('.echart-users-by-time');
+  var hours = ['12 AM', '1 AM', '2 AM', '3 AM', '4 AM', '5 AM', '6 AM', '7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM', '4 PM', '5 PM', '6 PM', '7 PM', '8 PM', '9 PM', '10 PM', '11 PM'];
+  var data = [];
+
+  for (var i = 0; i < 24; i += 1) {
+    for (var j = 0; j < 7; j += 1) {
+      data.push([j, i, utils.getRandomNumber(20, 300)]);
+    }
+  }
+
+  var tooltipFormatter = function tooltipFormatter(params) {
+    return "<div>\n          <p class='mb-0 text-600'>".concat(window.dayjs(params.name).format('MMM DD, YYYY'), "</p>\n          <div class=\"d-flex align-items-center\">\n            <p class=\"mb-0 text-600\">\n              ").concat(window.dayjs().hour(params.data[1]).format('hA'), " : <span class='text-800 fw-semi-bold'>").concat(params.data[2], "</span>\n            </p>\n          </div>\n        </div>");
+  };
+
+  if ($echartUsersByTimeChart) {
+    var userOptions = utils.getData($echartUsersByTimeChart, 'options');
+    var chart = window.echarts.init($echartUsersByTimeChart);
+
+    var getDefaultOptions = function getDefaultOptions() {
+      return {
+        gradientColor: [utils.getColor('info'), utils.getColor('primary')],
+        tooltip: {
+          position: 'top',
+          padding: [7, 10],
+          backgroundColor: utils.getGrays()['100'],
+          borderColor: utils.getGrays()['300'],
+          textStyle: {
+            color: utils.getColors().dark
+          },
+          borderWidth: 1,
+          formatter: tooltipFormatter
+        },
+        xAxis: {
+          type: 'category',
+          data: utils.getPastDates(7),
+          splitArea: {
+            show: true
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            formatter: function formatter(value) {
+              return window.dayjs(value).format('ddd');
+            }
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['400']
+            }
+          }
+        },
+        yAxis: {
+          position: 'right',
+          type: 'category',
+          inverse: true,
+          data: hours,
+          splitArea: {
+            show: true
+          },
+          axisTick: {
+            show: false
+          },
+          axisLabel: {
+            color: utils.getGrays()['600'],
+            margin: 20,
+            padding: [10, 0, 0, 0]
+          },
+          axisLine: {
+            lineStyle: {
+              color: utils.getGrays()['400']
+            }
+          }
+        },
+        visualMap: {
+          type: 'piecewise',
+          orient: 'horizontal',
+          left: 'left',
+          bottom: '3%',
+          itemSymbol: 'diamond',
+          itemWidth: '10px',
+          itemHeight: '10px',
+          min: 20,
+          max: 300,
+          splitNumber: 4,
+          textGap: 5,
+          textStyle: {
+            color: utils.getGrays()['600'],
+            fontWeight: 500
+          }
+        },
+        series: [{
+          name: 'Users By Time',
+          type: 'heatmap',
+          data: data,
+          label: {
+            show: false
+          },
+          itemStyle: {
+            borderColor: utils.getColor('white'),
+            borderWidth: 3
+          },
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 3,
+              shadowColor: utils.rgbaColor(utils.getGrays().black, 0.5)
+            }
+          }
+        }],
+        grid: {
+          right: '60px',
+          left: '0px',
+          bottom: '20%',
+          top: '0%'
+        }
+      };
+    };
+
+    echartSetOption(chart, userOptions, getDefaultOptions);
+  }
+};
+/* -------------------------------------------------------------------------- */
+
 /*                                Weekly Sales                                */
 
 /* -------------------------------------------------------------------------- */
 
 
-var weeklySales = function weeklySales() {
+var weeklySalesInit = function weeklySalesInit() {
   var ECHART_BAR_WEEKLY_SALES = '.echart-bar-weekly-sales';
   var $echartBarWeeklySales = document.querySelector(ECHART_BAR_WEEKLY_SALES);
 
@@ -5872,11 +9008,11 @@ var weeklySales = function weeklySales() {
 
 docReady(detectorInit);
 docReady(handleNavbarVerticalCollapsed);
-docReady(totalOrder);
-docReady(weeklySales);
-docReady(marketShare);
-docReady(totalSales);
-docReady(topProducts);
+docReady(totalOrderInit);
+docReady(weeklySalesInit);
+docReady(marketShareInit);
+docReady(totalSalesInit);
+docReady(topProductsInit);
 docReady(progressBar);
 docReady(navbarTopDropShadow);
 docReady(tooltipInit);
@@ -5910,14 +9046,24 @@ docReady(draggableInit);
 docReady(kanbanInit);
 docReady(fullCalendarInit);
 docReady(appCalendarInit);
+docReady(managementCalendarInit);
 docReady(lottieInit);
 docReady(wizardInit);
 docReady(searchInit);
 docReady(cookieNoticeInit);
 docReady(themeControl);
 docReady(dropdownOnHover);
+docReady(marketShareEcommerceInit);
+docReady(productShareDoughnutInit);
+docReady(totalSalesEcommerce);
+docReady(salesByPosLocationInit);
+docReady(returningCustomerRateInit);
+docReady(candleChartInit);
+docReady(grossRevenueChartInit);
 docReady(scrollbarInit);
 docReady(iconCopiedInit);
+docReady(reportForThisWeekInit);
+docReady(basicEchartsInit);
 docReady(chartScatter);
 docReady(chartDoughnut);
 docReady(chartPie);
@@ -5925,4 +9071,12 @@ docReady(chartPolar);
 docReady(chartRadar);
 docReady(chartCombo);
 docReady(dropdownMenuInit);
+docReady(audienceChartInit);
+docReady(sessionByBrowserChartInit);
+docReady(sessionByCountryChartInit);
+docReady(activeUsersChartReportInit);
+docReady(trafficChannelChartInit);
+docReady(bounceRateChartInit);
+docReady(usersByTimeChartInit);
+docReady(sessionByCountryMapInit);
 //# sourceMappingURL=theme.js.map

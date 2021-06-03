@@ -54,11 +54,11 @@
         </dependency>
 
         <!-- Bootstrap 설정(StyleSheet 활용) -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.webjars.npm</groupId>
             <artifactId>bootstrap</artifactId>
             <version>4.3.1</version>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.webjars.bowergithub.wenzhixin</groupId>
@@ -70,7 +70,7 @@
 		<dependency>
 		    <groupId>org.webjars.npm</groupId>
 		    <artifactId>bootstrap</artifactId>
-		    <version>5.0.0-beta3</version>
+		    <version>5.0.1</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.webjars.bower</groupId>
