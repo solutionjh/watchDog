@@ -5,7 +5,7 @@
 	layout:decorate="~{layout/default}">
 
 <head>
-<title>수행현황</title>
+<title>[[#{left.004}]]</title>
 </head>
 <div layout:fragment="content">
 
@@ -32,8 +32,7 @@
 										</button>
 									</div>
 									<div class="col-auto col-md-auto order-md-2">
-										<h4 class="mb-0 fs-0 fs-sm-1 fs-lg-2 calendar-title">May
-											2021</h4>
+										<h4 class="mb-0 fs-0 fs-sm-1 fs-lg-2 calendar-title"></h4>
 									</div>
 									<div class="col-md-auto d-md-none">
 										<hr>
@@ -88,13 +87,13 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">프로젝트명</th>
-									<th scope="col">수행시작일시</th>
-									<th scope="col">파일명</th>
-									<th scope="col">데이터건수</th>
-									<th scope="col">분포안정지표</th>
-									<th scope="col">이상항목건수</th>
-									<th scope="col">구성비변화항목수</th>
+									<th scope="col">[[#{txt.projectName}]]</th>
+									<th scope="col">[[#{txt.excute.startday}]]</th>
+									<th scope="col">[[#{txt.file.name}]]</th>
+									<th scope="col">[[#{txt.data.count}]]</th>
+									<th scope="col">[[#{txt.psi}]]</th>
+									<th scope="col">[[#{txt.car}]]</th>
+									<th scope="col">[[#{txt.chisqCnt}]]</th>
 								</tr>
 							</thead>
 							<tbody id="detailTable">
@@ -114,6 +113,7 @@
 		const PSI_BASE = 10;
 		
 		$(function() {
+			console.log('[[${#locale}]]');
 			fn_Event();
 		});
 
@@ -221,7 +221,7 @@
 			var addEventForm = document.querySelector(Selectors.ADD_EVENT_FORM);
 			if (appCalendar) {
 				var calendar = renderCalendar(appCalendar, {
-					locale : 'ko',
+					locale : '[[${#locale}]]'.split('_')[0],
 					eventStartEditable: false,
 					headerToolbar : false,
 					dayMaxEvents : 2,
