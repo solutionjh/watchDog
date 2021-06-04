@@ -218,7 +218,7 @@
 			};
 
 			var appCalendar = document.querySelector(Selectors.CALENDAR);
-
+			var addEventForm = document.querySelector(Selectors.ADD_EVENT_FORM);
 			if (appCalendar) {
 				var calendar = renderCalendar(appCalendar, {
 					locale : 'ko',
@@ -285,6 +285,38 @@
 													});
 								});
 			}
+			addEventForm && addEventForm.addEventListener(Events.SUBMIT, function (e) {
+			      e.preventDefault();
+			      var _e$target = e.target,
+			          title = _e$target.title,
+			          startDate = _e$target.startDate,
+			          endDate = _e$target.endDate,
+			          label = _e$target.label,
+			          description = _e$target.description,
+			          allDay = _e$target.allDay;
+			      calendar.addEvent({
+			        title: title.value,
+			        start: startDate.value,
+			        end: endDate.value ? endDate.value : null,
+			        allDay: allDay.checked,
+			        className: allDay.checked && label.value ? "bg-soft-".concat(label.value) : '',
+			        description: description.value
+			      });
+			      e.target.reset();
+			      window.bootstrap.Modal.getInstance(addEventModal).hide();
+			    });
+			document.querySelectorAll(Selectors.DATA_CALENDAR_VIEW).forEach(function (link) {
+			      link.addEventListener(Events.CLICK, function (e) {
+			        e.preventDefault();
+			        var el = e.currentTarget;
+			        var text = el.textContent;
+			        el.parentElement.querySelector(Selectors.ACTIVE).classList.remove(ClassNames.ACTIVE);
+			        el.classList.add(ClassNames.ACTIVE);
+			        document.querySelector(Selectors.DATA_VIEW_TITLE).textContent = text;
+			        calendar.changeView(utils.getData(el, DataKeys.FC_VIEW));
+			        updateTitle(calendar.currentData.viewTitle);
+			      });
+			    });
 
 		};
 	</script>
