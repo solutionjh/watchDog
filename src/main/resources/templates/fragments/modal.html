@@ -150,85 +150,32 @@
 			var myChart = echarts.init(boxplotChart);
 			var option;
 			
-			var jsonArray = new Array();
-			var data = param.data;
-			$.each(data,function(i){
-				var jsonObject =  {
-			        source: data[i]
-			    }
-				jsonArray.push(jsonObject);
-			})
 			
-			$.each(data,function(i){
-				var jsonObject = 
-				{
-			        fromDatasetIndex: i,
-			        transform: { type: 'boxplot' }
-			    }
-				jsonArray.push(jsonObject);
-			})
-						
-			var seriesJsonArray = new Array();			
-			$.each(data,function(i){
-				var jsonObject =  {
-				        name: param.name[i],
-				        type: 'boxplot',
-				        datasetIndex: data.length + i
-				    }
-				seriesJsonArray.push(jsonObject);
-			})
+			var data = echarts.dataTool.prepareBoxplotData(param.data);
 			
+			console.log(data);
 						
 			option = {
-				title : {
-					text : param.title,
-					show : true
-				},
-				
+			    title: [
+			        {
+			            text: param.title,
+			            left: 'center'
+			        }
+			    ],
+			    tooltip: {
+			        trigger: 'item',  //item axis
+			        axisPointer: {
+			            type: 'shadow'
+			        }
+			    },
 			    grid: {
-			    	left: '10%',
-			        top: '15%',
+			        left: '10%',
 			        right: '10%',
 			        bottom: '15%'
-			    },			
-			    dataset: jsonArray,
-			    
-				tooltip : {
-					trigger : 'axis',
-					padding : [ 7, 10 ],
-					backgroundColor : utils.getGrays()['100'],
-					borderColor : utils.getGrays()['300'],
-					textStyle : {
-						color : utils.getColors().dark
-					},
-					borderWidth : 1,
-					transitionDuration : 0,
-					position : function position(pos, params, dom, rect, size) {
-						return getPosition(pos, params, dom, rect, size);
-					}
-				},
-
-				toolbox : {
-					feature : {
-						saveAsImage : {
-							title : 'Save As'
-						}
-					}
-				},
-				legend : {
-					data : param.name,
-					left : 'center',
-					itemWidth : 10,
-					itemHeight : 10,
-					borderRadius : 0,
-					icon : 'circle',
-					inactiveColor : utils.getGrays()['400'],
-					textStyle : {
-						color : utils.getGrays()['700']
-					}
-				},
-				xAxis : {
-					type : 'category',
+			    },
+			    xAxis: {
+			    	type : 'category',	
+			    	data: param.name,
 					boundaryGap : true,
 					axisPointer : {
 						lineStyle : {
@@ -237,30 +184,31 @@
 						}
 					},
 					splitLine : {
-						show : true
+						show : false
 					},
 					axisLine : {
 						lineStyle : {
 							color : utils.rgbaColor('#000', 0.01),
-							type : 'dashed'
+							type : 'line'
 						}
 					},
 					axisTick : {
-						show : true
+						show : false
 					},
 					axisLabel : {
-						color : utils.getGrays()['400'],
-						margin : 15,
+						color : utils.getGrays()['500'],
 						textStyle : {
-							fontSize : 10
+							fontSize : 15
 						}
 					}
-				},
-				yAxis : {
-					type : 'value',
-					name : param.yAxisNm,
-					splitArea: {
-			            show: false
+			    },
+			    
+			    
+			    yAxis: {
+			        type: 'value',
+			        name: param.yAxisNm,
+			        splitArea: {
+			            show: true
 			        } ,
 					axisPointer : {
 						show : false
@@ -268,16 +216,16 @@
 					splitLine : {
 						lineStyle : {
 							color : utils.getGrays()['300'],
-							type : 'dashed'
-						}
+							type : 'line'
+						},
+						show : true
 					},
 					boundaryGap : false,
 					axisLabel : {
 						show : true,
-						color : utils.getGrays()['400'],
-						margin : 15,
+						color : utils.getGrays()['500'],
 						textStyle : {
-							fontSize : 10
+							fontSize : 15
 						}
 					},
 						axisTick : {
@@ -285,24 +233,69 @@
 					},
 					 axisLine : {
 						lineStyle : {
-							color : utils.getGrays()['500'],
-							type : 'dashed'
-						}
+							color : utils.getGrays()['300'],
+							type : 'line'							
+						},
+						show : true
 					}  
-				},
-			/*     dataZoom: [{
-			        type: 'inside',
-			        start: 0,
-			        end: 20
-			    }, {
-			        show: true,
-			        type: 'slider',
-			        top: '90%',
-			        xAxisIndex: [0],
-			        start: 0,
-			        end: 20
-			    }], */
-			    series: seriesJsonArray
+			    },
+			    series: [
+			        {
+			            name: '상세',
+			            type: 'boxplot',
+			            data: data.boxData,
+			            tooltip: {
+			            	backgroundColor : utils.getGrays()['50'],
+			            	borderColor : utils.getColors().primary,
+							textStyle : {
+								color : utils.getColors().dark
+							},
+			                formatter: function (params) {	
+			                	console.log("params::::",params)
+			                    return [
+			                    '<table>',
+								'<tbody>',
+								'<tr>',
+								'	<td>'+ params.name+'</td>',
+								'	<th class=" text-end"></t>',
+								'</tr>',
+								'<tr>',
+								'	<td>'+params.marker+'[[#{txt.boxplot.top}]] :</td>',
+								'	<th class=" text-end">'+params.data[5]+'</t>',
+								'</tr>',
+								'<tr> ',
+								'	<td>'+params.marker+'[[#{txt.boxplot.q3}]] :</td>',
+								'	<th class=" text-end" >'+params.data[4]+'</th>',
+								'</tr>',
+								'<tr>',
+								'	<td>'+params.marker+'[[#{txt.boxplot.median}]] :</td>',
+								'	<th class=" text-end" >'+params.data[3]+'</th>',
+								'</tr>',
+								'<tr>',
+								'	<td>'+params.marker+'[[#{txt.boxplot.q1}]] :</td>',
+								'	<th class=" text-end">'+params.data[2]+'</th>',
+								'</tr>',
+								'<tr>',
+								'	<td>'+params.marker+'[[#{txt.boxplot.bottom}]] :</td>',
+								'	<th class=" text-end" >'+params.data[1]+'</th>',
+								'</tr>',
+								'</tbody>',
+								'</table>',
+			                    ].join('');
+			                }
+			            }
+			        },
+			        {
+			        	name: 'outlier',
+			            type: 'scatter',
+			            data: data.outliers,
+						itemStyle : {
+							normal : {
+								color :  utils.getColors().danger
+							}
+						},
+			        }
+			    ]
 			};
 
 			option && myChart.setOption(option);
