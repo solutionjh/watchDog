@@ -384,7 +384,7 @@
 					//statData.chisqcnts.push(parseInt(this.chisqcnt));
 					statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
-				fn_LineChart(statData); // 분포 안정 지표
+				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
 				var param = {
@@ -396,7 +396,7 @@
 					barColor : utils.getColors().primary,
 
 				}
-				fn_BarChart(param)
+				fn_LineChart(param)
 
 				// 일별 이상항목수 
 				param.target = "dashItemBar";
@@ -520,7 +520,7 @@
 	    }		
 		
 
-		function fn_LineChart(data) {
+		function fn_PsiChart(data) {
 			if (psiLineChart != null) {
 				psiLineChart.destroy();
 			}
@@ -841,6 +841,165 @@
 			option && myChart.setOption(option);
 		}
 		
+		
+		function fn_LineChart(data) {
+			if (dataCntLineChart != null) {
+				dataCntLineChart.destroy();
+			}
+
+			var dataCntLineChart = document.getElementById(data.target);
+			var myChart = echarts.init(dataCntLineChart);
+			var option;
+
+			option = {
+				title : {
+					text : data.name,
+					show : false
+				},
+				color : [ utils.getColors().primary],
+				tooltip : {
+					trigger : 'axis',
+					padding : [ 7, 10 ],
+					backgroundColor : utils.getGrays()['100'],
+					borderColor : utils.getGrays()['300'],
+					textStyle : {
+						color : utils.getColors().dark
+					},
+					borderWidth : 1,
+					transitionDuration : 0,
+					position : function position(pos, params, dom, rect, size) {
+						return getPosition(pos, params, dom, rect, size);
+					}
+				},
+
+				legend : {
+					data : [data.name],
+					left : 'center',
+					itemWidth : 10,
+					itemHeight : 10,
+					borderRadius : 0,
+					icon : 'circle',
+					inactiveColor : utils.getGrays()['400'],
+					textStyle : {
+						color : utils.getGrays()['700']
+					}
+				},
+				 grid: {
+				        left: '3%',
+				        right: '4%',
+				        bottom: '3%',
+				        containLabel: true
+				    },
+
+				toolbox : {
+					feature : {
+						saveAsImage : {
+							title : 'Save As'
+						}
+					}
+				},
+				xAxis : {
+					type : 'category',
+					data : data.xData,
+					boundaryGap : false,
+					axisPointer : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					splitLine : {
+						show : false
+					},
+					axisLine : {
+						lineStyle : {
+							color : utils.rgbaColor('#000', 0.01),
+							type : 'dashed'
+						}
+					},
+					axisTick : {
+						show : false
+					},
+					axisLabel : {
+						color : utils.getGrays()['400'],
+						margin : 15,
+						rotate : 45,
+						textStyle : {
+							fontSize : 10
+						}
+					}
+				},
+				yAxis : {
+					type : 'value',
+					axisPointer : {
+						show : false
+					},
+					splitLine : {
+						lineStyle : {
+							color : utils.getGrays()['300'],
+							type : 'dashed'
+						}
+					},
+					boundaryGap : false,
+					axisLabel : {
+						show : true,
+						color : utils.getGrays()['400'],
+						margin : 15,
+						textStyle : {
+							fontSize : 10
+						}
+					},
+					axisTick : {
+						show : false
+					},
+					axisLine : {
+						show : false
+					}
+				},
+				series : [
+						{
+							name : data.name,
+							type : 'line',
+							data : data.yData,
+							lineStyle : {
+								color : data.color
+							},
+							itemStyle : {
+								borderColor : data.color,
+								borderWidth : 2
+							},
+							showSymbol : true,
+							symbolSize : 10,
+							smooth : true,
+							hoverAnimation : true,
+							areaStyle : {
+								color : {
+									type : 'linear',
+									x : 0,
+									y : 0,
+									x2 : 0,
+									y2 : 1,
+									colorStops : [
+											{
+												offset : 0,
+												color : utils.rgbaColor(data.color,
+														0.2)
+											},
+											{
+												offset : 1,
+												color : utils
+														.rgbaColor(data.color,
+																0)
+											} ]
+								}
+							}
+						}
+
+				]
+			};
+
+			option && myChart.setOption(option);
+		}
 		
 		
 		//항목별 일치성 예제

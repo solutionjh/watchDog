@@ -10,11 +10,26 @@
 </head>
 <div layout:fragment="content">
 	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
 		<div class="card-header">
 			<div class="row flex-between-end">
-				<!-- <div class="col-auto col-lg align-self-center">
-                  <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">사용자 관리</h2>
-                </div> -->
+				 <div class="col-auto col-lg align-self-center">
+		                <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">사용자 관리</h2>
+		              </div> 
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="card mb-3">
+		<div class="card-header">
+			<div class="row flex-between-end">
+				<div class="col-auto col-lg align-self-center">
+                  <h2 class="mb-0" data-anchor="data-anchor" id="tooltips">[[#{left.002}]]</h2>
+                </div>
 				<div class="col-auto ms-auto">
 					<button class="btn btn-sm btn-primary" type="button" id="insert">[[#{button.insert}]]</button>
 				</div>
@@ -51,9 +66,11 @@
 					</div>
 					<div class="col-sm-3 mb-3 ">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.password}]]</span> <input
-								class="form-control" id="password" name="password"
-								type="password" />
+							<span class="input-group-text">[[#{txt.password}]]</span> 
+							<input class="form-control d-none" id="password" name="password" type="password" />
+							<div class="flex-1 newPassword d-none">
+                          		<h5 class="mb-0 d-flex align-items-center mt-2 px-3"><a class="text-600 stretched-link" href="#password-form">[[#{txt.password.reset}]]</a></h5>
+                        	</div>
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
@@ -151,13 +168,16 @@
 
 		function fn_Event() {			
 			$("#insert").off().on('click', function() {
-				$(".detail").removeClass('d-none');
-				$(".password").addClass('d-none');
+				$(".detail, #password").removeClass('d-none');
+				$(".password, .newPassword").addClass('d-none');
 				$("#memberId, #password").prop('readonly', false).attr('required');	
 				$infoForm.removeClass('was-validated');	
 				$passwordForm.removeClass('was-validated');	
 				formReset($infoForm);
 				target_memberId= null;
+			});
+			$(".newPassword").off().on('click', function() {
+				$(".password").removeClass('d-none');
 			});
 			
 			$passwordForm.on('submit', function(e) {
@@ -298,7 +318,8 @@
 			switch (target) {
 			case "DETAIL":
 				settingForm(data, $infoForm)
-				$(".detail, .password").removeClass('d-none');
+				$(".detail, .newPassword").removeClass('d-none');
+				$("#password, .password").addClass('d-none');
 				$("#memberId, #password").prop('readonly', true).removeAttr('required');
 				$infoForm.removeClass('was-validated');	
 				$passwordForm.removeClass('was-validated');	
