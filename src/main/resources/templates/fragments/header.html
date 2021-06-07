@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <header th:fragment="headerFragment">
-	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand">
+	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" style="z-index:1010">
 		<form method="post" id="paramForm" name="paramForm" th:action="@{/}">
 				<input type="hidden" id="paramData" name="paramData"/>
 				<input type="hidden" id="csrfToken" th:value="${_csrf.token}" /> 
@@ -17,8 +17,10 @@
 		</button>
 		<a class="navbar-brand me-1 me-sm-3" th:href="@{/}">
 			<div class="d-flex align-items-center">
-				<img class="me-2" src="/assets/img/illustrations/falcon.png" alt=""
-					width="40"><span class="font-sans-serif">[[#{common.title}]]</span>
+				<img class="me-2" src="/assets/img/nice/Horizontal type(Korean).png" alt="" width="107px" />
+				<img class="me-2" src="/assets/img/nice/symbolmark.jpg"	alt="" width="40" />
+				
+				<!-- <span class="font-sans-serif">[[#{common.title}]]</span> -->
 			</div>
 		</a>
 		<ul

@@ -155,6 +155,9 @@
 			$.each(param.data,function(){
 				data.push(echarts.dataTool.prepareBoxplotData(this));
 			});
+			
+			
+			console.log("data:::",data)
 						
             var seriesJsonArray = new Array();            
             $.each(data,function(i){
@@ -267,6 +270,8 @@
 			
 			
 			var data = echarts.dataTool.prepareBoxplotData(param.data);
+			
+			console.log("data:::",data)
 									
 			option = {
 			    title: [
