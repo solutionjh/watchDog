@@ -16,6 +16,39 @@
 		            container.classList.remove('container');
 		            container.classList.add('container-fluid');
 		          }
+		          
+		          function boxplot_formatter(params) {
+		      	    return [
+			      	    	'<table>',
+			      			'<tbody>',
+			      			'<tr>',
+			      			'	<td>'+ params.name+'</td>',
+			      			'	<th class=" text-end"></t>',
+			      			'</tr>',
+			      			'<tr>',
+			      			'	<td>'+params.marker+'[[#{txt.boxplot.top}]] :</td>',
+			      			'	<th class=" text-end">'+params.data[1]+'</t>',
+			      			'</tr>',
+			      			'<tr> ',
+			      			'	<td>'+params.marker+'[[#{txt.boxplot.q3}]] :</td>',
+			      			'	<th class=" text-end" >'+params.data[2]+'</th>',
+			      			'</tr>',
+			      			'<tr>',
+			      			'	<td>'+params.marker+'[[#{txt.average}]] :</td>',
+			      			'	<th class=" text-end" >'+params.data[3]+'</th>',
+			      			'</tr>',
+			      			'<tr>',
+			      			'	<td>'+params.marker+'[[#{txt.boxplot.q1}]] :</td>',
+			      			'	<th class=" text-end">'+params.data[4]+'</th>',
+			      			'</tr>',
+			      			'<tr>',
+			      			'	<td>'+params.marker+'[[#{txt.boxplot.bottom}]] :</td>',
+			      			'	<th class=" text-end" >'+params.data[5]+'</th>',
+			      			'</tr>',
+			      			'</tbody>',
+			      			'</table>',
+			      	    ].join('');
+			      	}		
 		        </script>
 				<th:block th:replace="fragments/left :: leftFragment"></th:block>			
 				<div class="content">

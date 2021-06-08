@@ -93,14 +93,20 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
+					title : '#',
+					field : 'index',
+					align : 'center',
+					valign : 'middle',
+					sortable : true
+				},{
 					title : '[[#{txt.project}]]',
-					field : '',
+					field : 'a',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.date}]]',
-					field : '',
+					field : 'b',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
@@ -112,16 +118,62 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average}]]',
-					field : '',
+					field : 'median',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average.dev}]]',
-					field : '',
+					field : 'medianDev',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.top}]]',
+					field : 'top',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.bottom}]]',
+					field : 'bottom',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.q3}]]',
+					field : 'q3',
+					sortable : true,
+					align : 'right'
+				}, {
+					title : '[[#{txt.boxplot.q1}]]',
+					field : 'q1',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'	
+				}, {
+					title : '[[#{txt.boxplot.top}]](개발)',
+					field : 'topDev',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.bottom}]](개발)',
+					field : 'bottomDev',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.q3}]](개발)',
+					field : 'q3Dev',
+					sortable : true,
+					align : 'right'
+				}, {
+					title : '[[#{txt.boxplot.q1}]](개발)',
+					field : 'q1Dev',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'	
 				}, {
 					title : '[[#{txt.standard.deviation}]]',
 					field : '',
@@ -134,21 +186,67 @@
 					sortable : true,
 					valign : 'middle'
 				} ],
-				onClickRow : function(row, $element, field) {
+				onDblClickRow : function(row, $element, field) {
+					console.log("row::::",row)
+					
+					var param = [];
+						
+				 	var boxData = [];
+				 	boxData.push(row.bottom);
+				 	boxData.push(row.q1);
+				 	boxData.push(row.median);
+				 	boxData.push(row.q3);
+				 	boxData.push(row.top);				 	
+				 	var data = []	
+				 	var dataObj = {}
+				 	dataObj.axisData = ["0"];
+				 	dataObj.boxData = boxData;
+				 	dataObj.outliers = [];
+				 	data.push(dataObj)
+				 	
+				 	param.push(dataObj)
+				 					 	
+				 	var boxDataDev = [];
+				 	boxDataDev.push(row.bottomDev);
+				 	boxDataDev.push(row.q1Dev);
+				 	boxDataDev.push(row.medianDev);
+				 	boxDataDev.push(row.q3Dev);
+				 	boxDataDev.push(row.topDev);
+				 	var dataDev = []	
+				 	var dataObjDev = {}
+				 	dataObjDev.axisData = ["0"];
+				 	dataObjDev.boxData = boxDataDev;
+				 	dataObjDev.outliers = [];
+				 	dataDev.push(dataObjDev)
+					
+					param.push(data);
+				 	
+				 	
+				 	var boxplotParam = {};
+					boxplotParam.data = param
+					boxplotParam.title = "항목변화율 이력"
+					boxplotParam.yAxisNm = ""	
+					boxplotParam.name = ["일반", "개발"]					
+					multiBoxplotModal(boxplotParam)			
+					
+				},				
+				onLoadSuccess : function() {
+					
+					// 임시
+					var data = [
+						{index: 1,a:10, b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,"topDev":220 , "q3Dev":90, "medianDev":75 , "q1Dev":30 , "bottomDev":10 }	
+					] 
+					$table.bootstrapTable('load', data)
+					// 임시
+				
 				}
 			});
 			tableRefresh();
 		}
 
 		function tableRefresh() {
-			const projectName = $projectNameItemDropdown.val();
-			const regdtim = $regdtItemDropdown.val();
-
-			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/resultitem/' + projectName
-						+ '/' + regdtim, '[[${#locale}]]',
-						'[[#{table.data.faile}]]');
-			}
+			bootstrapTableRefresh($table, '/api/member/getList',
+					'[[${#locale}]]', '[[#{table.data.faile}]]');
 		}
 
 		function responseHandler(res) {
