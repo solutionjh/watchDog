@@ -38,8 +38,7 @@ body {
   font-weight: 300;
   letter-spacing: -0.3px;
   line-height: 1.5;
-  background-image:url("/assets/img/nice/bg-top.png");
-  background-repeat: repeat-x;
+  border-top: 5px solid #1155a8;
 }
 
 h1,
@@ -85,22 +84,7 @@ h5 {
 .title-area{font-weight:500; letter-spacing: -0.5;}
 
 /* left menu */
-/*
-.navbar-vertical{background-color:#1d55a8;}
-.navbar-vertical.navbar-inverted .navbar-collapse {background-color: #1d55a8;padding-top:20px;}
-.navbar-vertical.navbar-inverted .navbar-nav .nav-item .navbar-vertical-label {color: rgba(255,255,255,.5);}
-.navbar-vertical.navbar-inverted .navbar-nav .nav-item .nav-link {color: rgba(255,255,255,.65);}
-@media (min-width: 1200px){
-.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-card, .navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-vibrant, .navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-inverted {
-    width: 3.125rem;
-}}
-*/
-
 .navbar-vertical.navbar-card .navbar-collapse {padding-top: 20px;}
-.navbar-glass {
-    background-color: rgba(0,0,0,0);
-}
-
 
 /*.btn{height:32px !important;}*/
 .btn-falcon-default, [data-list] .page{font-weight:500;font-size:0.75rem;margin-right:0.5rem !important; height: 30px !important;}
@@ -115,4 +99,6 @@ h5 {
 
 
 
-
+.navbar-vertical.navbar-expand-xl.navbar-card .toggle-icon-wrapper, .navbar-vertical.navbar-expand-xl.navbar-vibrant .toggle-icon-wrapper, .navbar-vertical.navbar-expand-xl.navbar-inverted .toggle-icon-wrapper{
+	    margin-right: 0.5rem !important;	
+}

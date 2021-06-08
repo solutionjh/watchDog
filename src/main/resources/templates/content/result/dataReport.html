@@ -2,8 +2,7 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate ="~{layout/default}">	
 <head>
 <title>[[#{left.012}]]</title>
 </head>
@@ -33,12 +32,12 @@
 							</select>
 						</div>
 						<div class="col-auto">
-							<select id="countDropdown" class="form-select picker"
+							<!-- <select id="countDropdown" class="form-select picker"
 								data-live-search="true">
-								<!-- <option value="">[[#{select.perform.select}]]</option>
+								<option value="">[[#{select.perform.select}]]</option>
 								<option value="7">[[#{select.perform.select.001}]]</option>
 								<option value="15">[[#{select.perform.select.001}]]</option>
-								<option value="30">[[#{select.perform.select.001}]]</option> -->
+								<option value="30">[[#{select.perform.select.001}]]</option>
 
 								<option value="all">[[#{select.perform.select}]]</option>
 								<option value="oneday">[[#{select.perform.select.001}]]</option>
@@ -47,7 +46,26 @@
 								<option value="onequarter">[[#{select.perform.select.004}]]</option>
 								<option value="onehalf">[[#{select.perform.select.005}]]</option>
 								<option value="oneyear">[[#{select.perform.select.006}]]</option>
-							</select>
+							</select> -->
+						</div>
+						<div class="col-auto pe-0">
+							<div class="input-group">
+								<div class="input-group-append">
+									<input class="form-control datetimepicker" id="start-date"
+										type="text" placeholder="d/m/y"
+										data-options='{"dateFormat":"d/m/y","disableMobile":true}' />
+								</div>
+							</div>
+						</div>
+						<div class="col-auto pe-0">
+							<div class="input-group">
+								<div class="input-group-append">
+									<input class="form-control datetimepicker" id="start-time"
+										type="text" placeholder="H:i"
+										data-options='{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}' />
+
+								</div>
+							</div>
 						</div>
 						<div class="col-auto pe-0">
 							<div class="input-group">
@@ -202,7 +220,8 @@
 			</div>
 		</div>
 	</div>
-
+	
+	 <script src="/assets/js/flatpickr.js"></script>         
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $countDropdown = $("#countDropdown");
