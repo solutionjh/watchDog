@@ -158,14 +158,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                   </a>
                   <!-- execute inner pages-->
                   <ul class="nav collapse show" id="execute">
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetect ? active" th:href="@{/execute/dataDetect}">
+                    <!-- <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetect ? active" th:href="@{/execute/dataDetect}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.020}]]</span>
                         </div>
                       </a>
-                      <!-- more inner pages-->
-                    </li>
+                      more inner pages
+                    </li> -->
                     <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetectMany ? active" th:href="@{/execute/dataDetectMany}">
-                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.021}]]</span>
+                        <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.020}]]</span>
                         </div>
                       </a>
                       <!-- more inner pages-->
