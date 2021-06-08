@@ -1,65 +1,118 @@
 /*  개발 중 추가된 css */
 
-/* select2 - 기존 falcon과 selectbox 맞춤 */
-.select2-container .select2-selection--single {
-	    height: 32px;
-}
-.select2-container--default .select2-selection--single .select2-selection__rendered{
-	
-}
-.btn{
-	height:32px !important;
+
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  src: local(※), url(/assets/font/NotoSansKR-Light.woff) format("woff");
 }
 
 @font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 100;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/Pby6FmXiEBPT4ITbgNA5CgmOsk7vyJE.woff) format('woff');
-}
-@font-face {
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 300;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/Pby7FmXiEBPT4ITbgNA5CgmOelz477IX.woff) format('woff');
+  src: local(※), url(/assets/font/NotoSansKR-Regular.woff) format("woff");
 }
+
 @font-face {
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 400;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/PbykFmXiEBPT4ITbgNA5CgmG0X7r.woff) format('woff');
+  src: local(※), url(/assets/font/NotoSansKR-Medium.woff) format("woff");
 }
+
 @font-face {
-  font-family: 'Noto Sans KR';
+  font-family: "Noto Sans KR";
   font-style: normal;
-  font-weight: 500;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/Pby7FmXiEBPT4ITbgNA5CgmOIl3477IX.woff) format('woff');
-}
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 700;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/Pby7FmXiEBPT4ITbgNA5CgmOalv477IX.woff) format('woff');
-}
-@font-face {
-  font-family: 'Noto Sans KR';
-  font-style: normal;
-  font-weight: 900;
-  src: url(https://fonts.gstatic.com/s/notosanskr/v13/Pby7FmXiEBPT4ITbgNA5CgmOUln477IX.woff) format('woff');
+  font-weight: 600;
+  src: local(※), url(/assets/font/NotoSansKR-Bold.woff) format("woff");
 }
 
 body {
-	margin: 0;
-	font-family: "Noto Sans KR", "Poppins", -apple-system, BlinkMacSystemFont,
-		"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
-		"Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-size: 0.9rem;
-	font-weight: 300;
-	line-height: 1.5;
-	letter-spacing: -0.2;
-	    border-top: 3px solid #0f228b;
+  position: relative;
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
+    "Malgun Gothic", helvetica, "Apple SD Gothic Neo", sans-serif;
+  color: #333;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: -0.3px;
+  line-height: 1.5;
+  background-image:url("/assets/img/nice/bg-top.png");
+  background-repeat: repeat-x;
 }
 
-.title-area{
-	font-weight:600
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont,
+    "Malgun Gothic", helvetica, "Apple SD Gothic Neo", sans-serif;
+  line-height: 1.5;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 48px;
+}
+
+h2 {
+  font-size: 40px;
+}
+
+h3 {
+  font-size: 32px;
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+.title-area{font-weight:500; letter-spacing: -0.5;}
+
+/* left menu */
+/*
+.navbar-vertical{background-color:#1d55a8;}
+.navbar-vertical.navbar-inverted .navbar-collapse {background-color: #1d55a8;padding-top:20px;}
+.navbar-vertical.navbar-inverted .navbar-nav .nav-item .navbar-vertical-label {color: rgba(255,255,255,.5);}
+.navbar-vertical.navbar-inverted .navbar-nav .nav-item .nav-link {color: rgba(255,255,255,.65);}
+@media (min-width: 1200px){
+.navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-card, .navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-vibrant, .navbar-vertical-collapsed .navbar-vertical.navbar-expand-xl.navbar-inverted {
+    width: 3.125rem;
+}}
+*/
+
+.navbar-vertical.navbar-card .navbar-collapse {padding-top: 20px;}
+.navbar-glass {
+    background-color: rgba(0,0,0,0);
+}
+
+
+/*.btn{height:32px !important;}*/
+.btn-falcon-default, [data-list] .page{font-weight:500;font-size:0.75rem;margin-right:0.5rem !important; height: 30px !important;}
+.bootstrap-table .fixed-table-pagination>.pagination-detail .pagination-info {font-size: 0.85rem;}
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list {font-size: 0.85rem;}
+.btn-group>.btn.btn-secondary {font-size:0.75rem;height:24px !important;line-height:1.2;margin-left:0.5rem;margin-right:0.25rem;}
+@media (min-width: 992px) {.fs-lg-2 {font-size: 1.2rem !important;}}
+.bootstrap-table .fixed-table-container.fixed-height .table thead th{border-bottom: 0px;}
+
+.select2-container .select2-selection--single {height: 32px;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{font-size:0.95rem;}
+
+
+
+
