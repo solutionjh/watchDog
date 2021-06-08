@@ -25,7 +25,7 @@
 					<div class="card-body pt-0">
 						<div class="row gx-2">
 							<div class="col-6 mb-3">
-								<label class="form-label" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.orgin.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								<label class="form-label" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layout.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
 								[[#{txt.orgin.file}]]</label> <select class="form-select picker directInput" id="inputDataFilePathDropdown"
 									name="inputDataFilePathDropdown">
 									<option value="direct">[[#{select.direct.insert}]]</option>
@@ -36,7 +36,7 @@
 								<label class="form-label" for="inputDataFilePath">
 									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
 									name="inputDataFilePath" type="text"
-									th:placeholder="#{txt.orgin.file.ph}"
+									th:placeholder="#{txt.layout.file.ph}"
 									required />
 							</div>
 							<div class="col-6 mb-3">
@@ -54,15 +54,10 @@
 									th:placeholder="#{txt.orgin.file.ph}"
 									required />
 							</div>
-							<div class="col-6 mb-3">
+							<div class="col-12 mb-3">
 								<label class="form-label" for="outputDataFilePathDropdown" th:data-bs-original-title="#{txt.convert.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
-								[[#{txt.convert.file}]]</label> <select class="form-select picker directInput" id="outputDataFilePathDropdown"
-									name="outputDataFilePathDropdown">
-									<option value="direct">[[#{select.direct.insert}]]</option>
-									<option value="C">C</option>
-								</select>
-							</div>
-							<div class="col-6 mb-3">
+								[[#{txt.convert.file}]]</label> 
+								
 								<label class="form-label" for="outputDataFilePath">
 									&nbsp; </label> <input class="form-control" id="outputDataFilePath"
 									name="outputDataFilePath" type="text"
@@ -86,12 +81,28 @@
 	</div>
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
-		var $projectNameDropdown = $("#projectNameDropdown");
+		var $inputDataFilePathDropdown = $("#inputDataFilePathDropdown");
+		var $inputLayoutFilePathDropdown = $("#inputLayoutFilePathDropdown");
 
 		$(function() {
 			fn_Event();
 		});
-
+		
+		function fn_fileList(dirname, pattern, target) {
+			const formData = {
+				"dirname" : dirname,
+				"pattern" : pattern
+			}
+			var param = {
+				target : target,
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 		function fn_makeCsv() {
 			var data = $infoForm.serializeObject();
 			delete data.inputLayoutFilePathDropdown;
@@ -109,19 +120,8 @@
 		}
 
 		function fn_Event() {
-			
-			$(".directInput").change(function(){
-				const value = $(this).val();
-				const $target = $(this).parent().next().find("input");
-				console.log($(this).val());
-				if(value == "direct"){
-					$target.val("");
-					$target.prop('readonly', false);
-				}else{
-					$target.val(value);	
-					$target.prop('readonly', true);
-				}
-			});
+			fn_fileList("model", ".*.adnn", "DATA_FILE");
+			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
 			
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
@@ -139,11 +139,54 @@
 				alertModal('[[#{web.success.excute}]]');
 				initForm();
 				break;
+			case "LAYOUT_FILE":
+				$inputLayoutFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputLayoutFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "DATA_FILE":
+				$inputDataFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputDataFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+				break;
 			default:
 				break;
 			}
 		}
-
+		
+		function setDropDownEvent(){
+			$(".directInput").off().change(function(){
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+				console.log($(this).val());
+				if(value == "direct"){
+					$target.val("");
+					$target.prop('readonly', false);
+				}else{
+					$target.val(value);	
+					$target.prop('readonly', true);
+				}
+			});
+		}
 		function initForm() {
 			$infoForm.removeClass('was-validated');
 			formReset($infoForm);
