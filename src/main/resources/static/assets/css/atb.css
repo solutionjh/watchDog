@@ -114,5 +114,23 @@ h5 {
 .select2-container--default .select2-selection--single .select2-selection__rendered{font-size:0.95rem;}
 
 
+/* 레아이웃 및 이상감지쪽에 input-group에 select2 적용된 부분*/
+.input-group-select2 {
+	height: 36px !important;
+	border: 1px solid var(--falcon-input-border-color) !important;
+	border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
 
+.input-group-select2 .select2-selection__rendered{
+	padding: .3125rem 3rem .3125rem 1rem;
+	font-size: 1rem !important;
+    font-weight: 300 !important;
+    padding-left: 13px !important;
+    padding-top: 2px !important;
+}
 
+.input-group-select2.select2-selection--single .select2-selection__arrow {
+	height: 31px;
+	right: 3px;
+}

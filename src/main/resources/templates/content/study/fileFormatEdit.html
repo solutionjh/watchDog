@@ -109,6 +109,11 @@
 			delete data.inputDataFilePathDropdown;
 			delete data.outputDataFilePathDropdown;
 			
+			data.inputDataFilePath = data.inputDataFilePath.replace(/\\/g, "/"); 
+			data.inputLayoutFilePath = data.inputLayoutFilePath.replace(/\\/g, "/"); 
+			data.outputDataFilePath = data.outputDataFilePath.replace(/\\/g, "/"); 
+			
+			
 			var param = {
 				method : "PUT",
 				target : "EXCUTE",

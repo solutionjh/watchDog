@@ -284,3 +284,7 @@ function jsonParse(data){
 	if(gf_IsNull(data)) return data
 	return JSON.parse(data.replace(/&quot;/g, '"'));
 }
+
+function commaCount(str){
+	return (str.match(/,/g) || []).length; 
+}

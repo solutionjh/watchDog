@@ -6,7 +6,11 @@
 
 <head>
 <title>[[#{left.014}]]</title>
-
+<style>
+ /* .input-group-text{
+ min-width : 170px;
+ } */
+</style>
 </head>
 <div layout:fragment="content">
 
@@ -41,9 +45,9 @@
 		<form id="info-form" class="needs-validation" novalidate>
 			<div class="card-body ">
 				<div class="row gx-2">
-					<div class="col-sm-12 mb-3">
+					<div class="col-sm-5 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.layoutFile.name}]]</span> <input
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layoutFile.name.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.layoutFile.name}]]</span> <input
 								class="form-control" id="projectName" name="projectName"
 								type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
 							<select class="form-select picker" id="projectNameDropdown"
@@ -52,36 +56,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-3">
-						<div class="input-group">
-							<span class="input-group-text">[[#{txt.headerInfo}]]</span> <input
-								class="offOnline form-control" id="header" name="header"
-								type="text"
-								th:placeholder="#{txt.headerInfo.ph}"
-								required />
-						</div>
-					</div>
-					<div class="col-sm-3 mb-3">
-						<div class="input-group">
-							<span class="input-group-text">[[#{txt.headerToSkip}]]</span> <input
-								class="offOnline form-control" id="headerToSkip"
-								name="headerToSkip" type="number"
-								th:placeholder="#{txt.headerToSkip.ph}"
-								pattern="/^-?\d+\.?\d*$/"
-								onKeyPress="if(this.value.length==1) return false;" required />
-						</div>
-					</div>
-					<div class="col-sm-3 mb-3">
-						<div class="input-group">
-							<span class="input-group-text">[[#{txt.footerToSkip}]]</span> <input
-								class="offOnline form-control" id="footerToSkip"
-								name="footerToSkip" type="number"
-								th:placeholder="#{txt.footerToSkip.ph}"
-								pattern="/^-?\d+\.?\d*$/"
-								onKeyPress="if(this.value.length==1) return false;" required />
-						</div>
-					</div>
-					<div class="col-sm-6 mb-3">
+					<div class="col-sm-7 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">[[#{txt.fixedLayoutYN}]]</span> <select
 								class="offOnline form-select" id="fixedLayoutYN"
@@ -91,55 +66,84 @@
 							</select>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-3" style="display: none;">
+					<div class="col-sm-2 mb-3" style="display: none;">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.delimiter}]]</span> <input
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.delimiter.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.delimiter}]]</span> <input
 								class="offOnline form-control" id="delimiter" name="delimiter"
 								type="text"
 								th:placeholder="#{txt.delimiter.ph}"
-								required />
+								/>
 						</div>
 					</div>
-					<div class="col-sm-6 mb-3">
+					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.columnLength}]]</span> <input
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layout.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.columnLength}]]</span> <input
 								class="offOnline form-control" id="columnLength"
 								name="columnLength" type="text"
 								th:placeholder="#{txt.columnLength.ph}"
 								required />
 						</div>
 					</div>
-					<div class="col-12">
-						<div class="border-dashed-bottom my-3"></div>
-					</div>
-					<div class="col-sm-4 mb-3">
+					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.keyColumn}]]</span> <input
-								class="form-control" id="keyColumn" name="keyColumn" type="text"
-								th:placeholder="#{txt.keyColumn.ph}" />
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.headerInfo.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerInfo}]]</span> <input
+								class="offOnline form-control" id="header" name="header"
+								type="text"
+								th:placeholder="#{txt.headerInfo.ph}"
+								required />
 						</div>
 					</div>
 					<div class="col-sm-4 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.requiredColumn}]]</span> <input
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.headerToSkip.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerToSkip}]]</span> <input
+								class="offOnline form-control" id="headerToSkip"
+								name="headerToSkip" type="number"
+								th:placeholder="#{txt.headerToSkip.ph}"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
+						</div>
+					</div>
+					<div class="col-sm-4 mb-3">
+						<div class="input-group">
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.footerToSkip.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.footerToSkip}]]</span> <input
+								class="offOnline form-control" id="footerToSkip"
+								name="footerToSkip" type="number"
+								th:placeholder="#{txt.footerToSkip.ph}"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
+						</div>
+					</div>
+					<div class="col-sm-4 mb-3">
+						<div class="input-group">
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.threshold.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.threshold}]]</span> <input
+								class="form-control" id="threshold" name="threshold" type="text"
+								th:placeholder="#{txt.threshold.ph}" />
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="border-dashed-bottom my-3"></div>
+					</div>
+					<div class="col-sm-12 mb-3">
+						<div class="input-group">
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.keyColumn.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.keyColumn}]]</span> <input
+								class="form-control" id="keyColumn" name="keyColumn" type="text"
+								th:placeholder="#{txt.keyColumn.ph}" />
+						</div>
+					</div>
+					<div class="col-sm-12 mb-3">
+						<div class="input-group">
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.requiredColumn.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.requiredColumn}]]</span> <input
 								class="form-control" id="requiredColumn" name="requiredColumn"
 								type="text"
 								th:placeholder="#{txt.requiredColumn.ph}" />
 						</div>
 					</div>
-					<div class="col-sm-4 mb-3">
+					<div class="col-sm-12 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.ratiograde}]]</span> <input
+							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.ratiograde.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.ratiograde}]]</span> <input
 								class="form-control" id="ratiograde" name="ratiograde"
 								type="text"
 								th:placeholder="#{txt.ratiograde.ph}" />
-						</div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text">[[#{txt.threshold}]]</span> <input
-								class="form-control" id="threshold" name="threshold" type="text"
-								th:placeholder="#{txt.threshold.ph}" />
 						</div>
 					</div>
 				</div>
@@ -159,7 +163,7 @@
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
 		var $projectNameDropdown = $("#projectNameDropdown");
-
+		var formatGbData = "fixed";
 		$(function() {
 			fn_Event();
 		});
@@ -197,33 +201,52 @@
 			})
 			$("#fixedLayoutYN").change(function(data) {
 				if ($(this).val() == "Y") {
+					$("#fixedLayoutYN").parent().parent().removeClass("col-sm-5");
+					$("#fixedLayoutYN").parent().parent().addClass("col-sm-7");
+					$("#delimiter").val("");
 					$("#delimiter").parent().parent().hide();
 					$("#delimiter").removeAttr("required");
 					$("#columnLength").parent().parent().show();
 					$("#columnLength").attr("required", '');
+					formatGbData = "fixed";
 				} else {
+					$("#fixedLayoutYN").parent().parent().removeClass("col-sm-7");
+					$("#fixedLayoutYN").parent().parent().addClass("col-sm-5");
+					$("#columnLength").val("");
 					$("#columnLength").parent().parent().hide();
 					$("#columnLength").removeAttr("required");
 					$("#delimiter").parent().parent().show();
 					$("#delimiter").attr("required", '');
+					formatGbData = "csv";
 				}
 			});
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
+				var data = $infoForm.serializeObject();
+				var columnLength = data.columnLength;
+				var header = data.header;
+				
 				if ($infoForm[0].checkValidity() === true) {
-					confirmModal('[[#{web.confirm.save}]]', function() {
-						var data = $infoForm.serializeObject();
-						var param = {
-							target : "SAVE",
-							dataType : "text",
-							data : data
-						}
-						param.method = "PUT";
-						param.url = "/anomaly/makeproperty";
+					console.log(data);
+					if(data.fixedLayoutYN == "Y" && (commaCount(columnLength) != commaCount(header)) ){
+						alertModal('[[#{txt.layout.headercomma}]]');
+					}else{
+						confirmModal('[[#{web.confirm.save}]]', function() {
+							data.formatGb = formatGbData;
+							var param = {
+								target : "SAVE",
+								dataType : "text",
+								data : data
+							}
+							param.method = "PUT";
+							param.url = "/anomaly/makeproperty";
 
-						ajaxCall(param);
-					});
+							ajaxCall(param);
+						});	
+					}
 				}
+				
+				
 			})
 		}
 
@@ -235,33 +258,7 @@
 			$("#projectName").show();
 			$("#projectName").attr('required', '');
 			$(".select2").hide();
-
-			switch (type) {
-			case "batchNew":
-				$.each($("#info-form .offOnline"), function(idx, data) {
-					$(this).attr('required', '');
-					$(this).parent().parent().removeClass("d-none");
-				});
-				break;
-			case "onlineNew":
-				$.each($("#info-form .offOnline"), function(idx, data) {
-					$(this).removeAttr('required');
-					$(this).parent().parent().addClass("d-none");
-				});
-				break;
-			case "edit":
-				fn_fileList();
-				$("#projectName").removeAttr('required');
-				$("#projectNameDropBox").attr('required', '');
-				$.each($("#info-form .offOnline"), function(idx, data) {
-					$(this).attr('required', '');
-					$(this).parent().parent().removeClass("d-none");
-				});
-				$("#projectNameDropdown").show();
-				$("#projectName").hide();
-				$(".select2").show();
-				break;
-			}
+			setView(type);
 		}
 		function callback(target, data) {
 
@@ -286,12 +283,28 @@
 				});
 
 				$('.picker').select2({
-					width : '88%'
+					width : '70%',
+					selectionCssClass : "input-group-select2"
 				});
 				break;
 			case "LOAD_PROPERTY":
 				initForm();
+				formatGbData = data.formatGb;
 				settingForm(data, $infoForm);
+				formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
+				switch (formatGbData) {
+				case "json":
+					setView("onlineNew");
+					break;
+				case "fixed":
+					$("#fixedLayoutYN").val("Y").change()
+					setView("batchNew");
+					break;
+				case "csv":
+					$("#fixedLayoutYN").val("N").change()
+					setView("batchNew");
+					break;
+				}
 				break;
 			case "SAVE":
 				alertModal('[[#{web.success.insert}]]');
@@ -301,7 +314,43 @@
 				break;
 			}
 		}
-
+		
+		function setView(type){
+			switch (type) {
+			case "batchNew":
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).attr('required', '');
+					$(this).parent().parent().removeClass("d-none");
+				});
+				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				formatGbData = "fixed";
+				break;
+			case "onlineNew":
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).removeAttr('required');
+					$(this).parent().parent().addClass("d-none");
+				});
+				$("#threshold").parent().parent().removeClass("col-sm-4 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-7 mb-3");
+				formatGbData = "json";
+				break;
+			case "edit":
+				fn_fileList();
+				$("#projectName").removeAttr('required');
+				$("#projectNameDropBox").attr('required', '');
+				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).attr('required', '');
+					$(this).parent().parent().removeClass("d-none");
+				});
+				$("#projectNameDropdown").show();
+				$("#projectName").hide();
+				$(".select2").show();
+				break;
+			}
+		}
 		function initForm() {
 			$infoForm.removeClass('was-validated');
 			formReset($infoForm);
