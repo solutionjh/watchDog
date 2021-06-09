@@ -139,36 +139,38 @@
 			})
 		}
 		
-		
-		function multiBoxplotModal(param){
+		function multiBoxplotModal(param){			
 			$('#boxplot-modal').modal('toggle'); 
 			
 			if (boxplotChart != null) {
 				boxplotChart.destroy();
 			}
-
+		
 			var boxplotChart = document.getElementById('boxplotChart');
 			var myChart = echarts.init(boxplotChart);
 			var option;
-			var data = [];
+			/* var data = [];
 			
 			$.each(param.data,function(){
 				data.push(echarts.dataTool.prepareBoxplotData(this));
 			});
 			
 			
-			console.log("data:::",data)
+			console.log("data:::",data) */
+			
+			
+			
 						
-            var seriesJsonArray = new Array();            
-            $.each(data,function(i){
-                var jsonObject =  {
+		    var seriesJsonArray = new Array();            
+		    $.each(param.data,function(i){
+		        var jsonObject =  {
 			            name: param.name[i],
 			            type: 'boxplot',
-			            data: data[i].boxData,
-			            tooltip: {formatter: formatter}
-                    }
-                seriesJsonArray.push(jsonObject);
-            })
+			            data: param.data[i].boxData,
+			            tooltip: {formatter: boxplot_formatter}
+		            }
+		        seriesJsonArray.push(jsonObject);
+		    })
 			
 			option = {
 				    title: {
@@ -193,7 +195,7 @@
 				    },
 				    xAxis: {
 				        type: 'category',
-				        data: data[0].axisData,
+				        data: param.data[0].axisData,
 				        boundaryGap: true,
 				        splitLine : {
 							show : false
@@ -252,172 +254,8 @@
 				    },
 				    series: seriesJsonArray
 				};
-            
-            option && myChart.setOption(option);
-		}
-		
-		
-		function boxplotModal(param){
-			$('#boxplot-modal').modal('toggle'); 
-			
-			if (boxplotChart != null) {
-				boxplotChart.destroy();
-			}
-
-			var boxplotChart = document.getElementById('boxplotChart');
-			var myChart = echarts.init(boxplotChart);
-			var option;
-			
-			
-			var data = echarts.dataTool.prepareBoxplotData(param.data);
-			
-			console.log("data:::",data)
-									
-			option = {
-			    title: [
-			        {
-			            text: param.title,
-			            left: 'center'
-			        }
-			    ],
-			    tooltip: {
-			        trigger: 'item',  //item axis
-			        axisPointer: {
-			            type: 'shadow'
-			        }
-			    },
-			    grid: {
-			        left: '10%',
-			        right: '10%',
-			        bottom: '15%'
-			    },
-			    xAxis: {
-			    	type : 'category',	
-			    	data: param.name,
-					boundaryGap : true,
-					axisPointer : {
-						lineStyle : {
-							color : utils.getGrays()['300'],
-							type : 'dashed'
-						}
-					},
-					splitLine : {
-						show : false
-					},
-					axisLine : {
-						lineStyle : {
-							color : utils.rgbaColor('#000', 0.01),
-							type : 'line'
-						}
-					},
-					axisTick : {
-						show : false
-					},
-					axisLabel : {
-						color : utils.getGrays()['500'],
-						textStyle : {
-							fontSize : 15
-						}
-					}
-			    },
-			    
-			    
-			    yAxis: {
-			        type: 'value',
-			        name: param.yAxisNm,
-			        splitArea: {
-			            show: true
-			        } ,
-					axisPointer : {
-						show : false
-					},
-					splitLine : {
-						lineStyle : {
-							color : utils.getGrays()['300'],
-							type : 'line'
-						},
-						show : true
-					},
-					boundaryGap : false,
-					axisLabel : {
-						show : true,
-						color : utils.getGrays()['500'],
-						textStyle : {
-							fontSize : 15
-						}
-					},
-						axisTick : {
-						show : false
-					},
-					 axisLine : {
-						lineStyle : {
-							color : utils.getGrays()['300'],
-							type : 'line'							
-						},
-						show : true
-					}  
-			    },
-			    series: [
-			        {
-			            type: 'boxplot',
-			            data: data.boxData,
-			            tooltip: {
-			            	backgroundColor : utils.getGrays()['50'],
-			            	borderColor : utils.getColors().primary,
-							textStyle : {
-								color : utils.getColors().dark
-							},
-							 tooltip: {formatter: formatter}
-			            }
-			        },
-			        {
-			        	name: 'outlier',
-			            type: 'scatter',
-			            data: data.outliers,
-						itemStyle : {
-							normal : {
-								color :  utils.getColors().danger
-							}
-						},
-			        }
-			    ]
-			};
-
-			option && myChart.setOption(option);
-			
-		}
-		
-		function formatter(params) {
-		    return [
-		    	'<table>',
-				'<tbody>',
-				'<tr>',
-				'	<td>'+ params.seriesName+'</td>',
-				'	<th class=" text-end"></t>',
-				'</tr>',
-				'<tr>',
-				'	<td>'+params.marker+'[[#{txt.boxplot.top}]] :</td>',
-				'	<th class=" text-end">'+params.data[5]+'</t>',
-				'</tr>',
-				'<tr> ',
-				'	<td>'+params.marker+'[[#{txt.boxplot.q3}]] :</td>',
-				'	<th class=" text-end" >'+params.data[4]+'</th>',
-				'</tr>',
-				'<tr>',
-				'	<td>'+params.marker+'[[#{txt.boxplot.median}]] :</td>',
-				'	<th class=" text-end" >'+params.data[3]+'</th>',
-				'</tr>',
-				'<tr>',
-				'	<td>'+params.marker+'[[#{txt.boxplot.q1}]] :</td>',
-				'	<th class=" text-end">'+params.data[2]+'</th>',
-				'</tr>',
-				'<tr>',
-				'	<td>'+params.marker+'[[#{txt.boxplot.bottom}]] :</td>',
-				'	<th class=" text-end" >'+params.data[1]+'</th>',
-				'</tr>',
-				'</tbody>',
-				'</table>',
-		    ].join('');
+		    
+		    option && myChart.setOption(option);
 		}
 		
 	</script>

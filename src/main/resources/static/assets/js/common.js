@@ -138,9 +138,9 @@ function bootstrapTableRefresh(target, url, queryParams, local,  message){
 		detailView:"true",
 		pagination:"true",	
 		url : url,
-		//formatRecordsPerPage: function(pageNumber){
-        //    return pageNumber ;
-        //},
+		formatRecordsPerPage: function(pageNumber){
+            return pageNumber ;
+        },
 
         formatShowingRows: function(pageFrom, pageTo, totalRows){
             return  + pageFrom + ' to ' + pageTo + ' of ' + totalRows + ' ';

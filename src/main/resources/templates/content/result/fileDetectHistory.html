@@ -2,12 +2,290 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>[[#{left.007}]]</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-body">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.007}]]</h4>
+				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto">
+							<select id="projectNameItemDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.project.select}]]</option>
+							</select>
+						</div>
+						<div class="col-auto">
+							<select id="regdtimDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.perform.select}]]</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div class="card mb-3">
+		<div class="card-body">
+			<div class="tab-pane preview-tab-pane active" role="tabpanel"
+				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
+				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
+				<table
+					class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
+					id="table">
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="card mb-3">
+		<div class="card-body bg-light">
+			<div class="tab-content">
+				<div id="boxplot" style="min-height: 350px;"></div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var $table = $('#table');
+		var $projectNameItemDropdown = $("#projectNameItemDropdown");
+		var $regdtItemDropdown = $("#regdtimDropdown");
+		var paramData = {};
+		$(function() {
+			paramData = jsonParse('[[${paramData}]]');
+			
+			fn_projectNames();
+			fn_Table();
+			fn_Event();
+		});
+
+		function fn_projectNames() {
+			var param = {
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_regdtItems(projectName) {
+			var param = {
+				target : "REGDT_ITEMS",
+				url : "/resultitem/" + projectName + "/regdtim/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_Event() {
+
+		}
+
+		function fn_Table() {
+			$table.bootstrapTable('destroy').bootstrapTable({
+				theadClasses : 'bg-200 text-900',
+				height : 375,				
+				pageSize : "10",
+				pageList : "[10, 20, 50, all]",
+				columns : [ {
+					title : '#',
+					field : 'index',
+					align : 'center',
+					valign : 'middle',
+					sortable : true
+				},{
+					title : '[[#{txt.project}]]',
+					field : 'a',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.date}]]',
+					field : 'b',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.average}]]',
+					field : 'median',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.standard.deviation}]]',
+					field : 'c',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.top}]]',
+					field : 'top',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.bottom}]]',
+					field : 'bottom',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.q3}]]',
+					field : 'q3',
+					sortable : true,
+					align : 'right'
+				}, {
+					title : '[[#{txt.boxplot.q1}]]',
+					field : 'q1',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				} ],
+				onClickRow : function(row, $element, field) {
+				},
+				onLoadSuccess : function() {
+					
+					// 임시
+					var data = [
+						{index: 1,a:10, b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10 },
+						{index: 2,a:10, b:"2020.11.12", fieldName :'test',  c:30, top:100 , q3:90, median:80 , q1:44 , bottom:13 },
+						{index: 3,a:10, b:"2020.11.13", fieldName :'test',  c:30, top:110 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 4,a:10, b:"2020.11.14", fieldName :'test',  c:30, top:150 , q3:98, median:90 , q1:80 , bottom:14 },
+						{index: 5,a:10, b:"2020.11.15", fieldName :'test',  c:30, top:110 , q3:90, median:70 , q1:50 , bottom:-33 },
+						{index: 6,a:10, b:"2020.11.16", fieldName :'test',  c:30, top:170 , q3:40, median:39 , q1:32 , bottom:10 },
+						{index: 7,a:10, b:"2020.11.17", fieldName :'test',  c:30, top:100 , q3:90, median:65 , q1:35 , bottom:28 },
+						{index: 8,a:10, b:"2020.11.18", fieldName :'test',  c:30, top:120 , q3:88, median:77 , q1:55 , bottom:30 },
+						{index: 9,a:10, b:"2020.11.19", fieldName :'test',  c:30, top:110 , q3:90, median:65 , q1:59 , bottom:20 },
+						{index: 10,a:10, b:"2020.11.20", fieldName :'test', c:30, top:130 , q3:90, median:75 , q1:55 , bottom:30 },				
+						{index: 11,a:10, b:"2020.11.21", fieldName :'test', c:30, top:150 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 12,a:10, b:"2020.11.22", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:55 , bottom:30 },
+						{index: 13,a:10, b:"2020.11.23", fieldName :'test', c:30, top:120 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 14,a:10, b:"2020.11.24", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:55 , bottom:30 },
+						{index: 15,a:10, b:"2020.11.25", fieldName :'test', c:30, top:120 , q3:90, median:45 , q1:55 , bottom:30 },
+						{index: 16,a:10, b:"2020.11.26", fieldName :'test', c:30, top:120 , q3:90, median:65 , q1:55 , bottom:30 },
+						{index: 17,a:10, b:"2020.11.27", fieldName :'test', c:30, top:130 , q3:70, median:65 , q1:35 , bottom:20 },
+						{index: 18,a:10, b:"2020.11.28", fieldName :'test', c:30, top:140 , q3:80, median:75 , q1:55 , bottom:30 },
+						{index: 19,a:10, b:"2020.11.29", fieldName :'test', c:30, top:150 , q3:80, median:45 , q1:35 , bottom:10 },
+						{index: 20,a:10, b:"2020.11.30", fieldName :'test', c:30, top:160 , q3:70, median:55 , q1:35 , bottom:20 },				
+						{index: 21,a:10, b:"2020.12.01", fieldName :'test', c:30, top:140 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 22,a:10, b:"2020.12.02", fieldName :'test', c:30, top:120 , q3:80, median:75 , q1:45 , bottom:32 },
+						{index: 23,a:10, b:"2020.12.03", fieldName :'test', c:30, top:120 , q3:90, median:65 , q1:55 , bottom:30 },
+						{index: 24,a:10, b:"2020.12.04", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:35 , bottom:20 },
+						{index: 25,a:10, b:"2020.12.05", fieldName :'test', c:30, top:140 , q3:70, median:45 , q1:35 , bottom:10 },
+						{index: 26,a:10, b:"2020.12.06", fieldName :'test', c:30, top:150 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 27,a:10, b:"2020.12.07", fieldName :'test', c:30, top:160 , q3:80, median:75 , q1:65 , bottom:30 },
+						{index: 28,a:10, b:"2020.12.08", fieldName :'test', c:30, top:170 , q3:70, median:65 , q1:55 , bottom:30 },
+						{index: 29,a:10, b:"2020.12.09", fieldName :'test', c:30, top:130 , q3:80, median:45 , q1:35 , bottom:20 },
+						{index: 30,a:10, b:"2020.12.10", fieldName :'test', c:30, top:120 , q3:90, median:55 , q1:45 , bottom:40 }		
+					] 
+					$table.bootstrapTable('load', data)
+					// 임시
+					
+					var boxData = [];
+					var outliers = [];
+					var tableData = $table.bootstrapTable('getData');
+					var dataIndex = []
+						$.each(tableData,function(i){
+							var data = [];					
+							data.push(this.bottom);
+							data.push(this.q1);
+							data.push(this.median);
+							data.push(this.q3);
+							data.push(this.top);
+							boxData.push(data);
+							
+							dataIndex.push(this.b)
+						})
+						
+					var boxplotParam = {};
+					boxplotParam.target = "boxplot"
+					boxplotParam.boxData = boxData
+					boxplotParam.outliers = outliers
+					boxplotParam.title = "파일감지 이력"
+					boxplotParam.name = dataIndex;		
+					boxplotParam.yAxisNm = "";			
+					fn_boxplot(boxplotParam) 
+				}
+			});
+			tableRefresh();
+		}
+
+		function tableRefresh() {
+			bootstrapTableRefresh($table, '/api/member/getList',
+					'[[${#locale}]]', '[[#{table.data.faile}]]');
+			
+		}
+
+		function responseHandler(res) {
+			$.each(res, function(i) {
+				this.index = i + 1;
+			});
+			return res;
+		}
+
+		function callback(target, data) {
+
+			switch (target) {
+			case "PROJECT_NAMES":
+				var listName = data;
+				var html = "";
+
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$projectNameItemDropdown.off();
+				$projectNameItemDropdown.change(function() {
+					if ($(this).val())
+						fn_regdtItems($(this).val());
+				});
+				
+				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+				}
+				
+				break;
+
+			case "REGDT_ITEMS":
+				$regdtItemDropdown.find("option").remove();
+				var html = "<option value=''>[[#{select.perform.select}]]</option>";
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$regdtItemDropdown.append(html);
+
+				$regdtItemDropdown.off().change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	</script>
+
+</div>
 </html>
