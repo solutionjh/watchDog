@@ -58,9 +58,7 @@
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
 				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
 				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
-				<table
-					class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
-					id="table">
+				<table class="table table-sm fs--1 mb-0 overflow-hidden" id="table">
 				</table>
 			</div>
 		</div>
@@ -91,6 +89,9 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
+			$fieldNameDropdown.find("option").remove();
+			$fieldNameDropdown
+					.append("<option value=''>[[#{select.item.select}]]</option>");
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
@@ -101,8 +102,6 @@
 				$regdtItemDropdown.find("option").remove();
 				$regdtItemDropdown
 						.append("<option value=''>[[#{select.perform.select}]]</option>");
-				$fieldNameDropdown.find("option").remove();
-				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");
 			}
 		}
 
@@ -122,11 +121,23 @@
 
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
+				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
 				height : 650,
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
+					title : '#',
+					field : 'index',
+					align : 'center',
+					valign : 'middle',
+					sortable : true
+				}, {
+					title : '',
+					field : 'alertIcon',
+					align : 'center',
+					valign : 'middle'
+				}, {
 					title : '[[#{txt.item.code}]]',
 					field : 'fieldName',
 					align : 'center',
@@ -171,15 +182,20 @@
 				bootstrapTableRefresh($table, '/resultitemdist/' + projectName
 						+ '/' + regdtim + '/' + fieldNameDropdown,
 						'[[${#locale}]]', '[[#{table.data.faile}]]');
-			}else{
+			} else {
 				$table.bootstrapTable('removeAll');
 			}
 		}
 
 		function responseHandler(res) {
-			$.each(res, function(i) {
-				this.index = i + 1;
-			});
+			$
+					.each(
+							res,
+							function(i) {
+								this.index = i + 1;
+								if (i == 0)
+									this.alertIcon = '<span class="fs-2 fas fa-exclamation-triangle" style="color:#2d7be5;"></span>';
+							});
 			return res;
 		}
 
@@ -211,11 +227,12 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off().change(function() {
-					fn_fieldItems($projectNameItemDropdown.val(),
-							$regdtItemDropdown.val());
-					tableRefresh();
-				});
+				$regdtItemDropdown.off().change(
+						function() {
+							fn_fieldItems($projectNameItemDropdown.val(),
+									$regdtItemDropdown.val());
+							tableRefresh();
+						});
 				$('.picker').select2();
 				break;
 			case "FIELDNAME_ITEMS":
@@ -237,6 +254,14 @@
 			default:
 				break;
 			}
+		}
+		function rowStyle(row, index) {
+			if (row.changeRate > 5) {
+				return {
+					'classes' : 'bg-upper-changeRate'
+				}
+			}
+			return {}
 		}
 	</script>
 

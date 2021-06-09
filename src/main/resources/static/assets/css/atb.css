@@ -155,3 +155,8 @@ iput {font-weight:300;}
 	height: 31px;
 	right: 3px;
 }
+
+.bg-upper-changeRate {
+	background-color : #f7f0f0;
+	border-color : #e0e1e2;
+}
