@@ -24,7 +24,7 @@
 		          borderWidth: 1,
 		          transitionDuration: 0,
 		          formatter: function formatter(params) {
-		              return "<strong>".concat(params.data.name, ":</strong> ").concat(params.value, '[[#{txt.number}]]');
+		              return "<strong>".concat(params.data.name, ":</strong> ").concat(params.value, param.formatterTxt);
 		            }
 		        },
 	        position: function position(pos, params, dom, rect, size) {
@@ -96,18 +96,18 @@
 	
 	
 	//항목별 일치성 예제
-	function fn_HorizontalBarChart() {
+	function fn_HorizontalBarChart(param) {
 		
-		var data = [10, 20, 30, 40, 50, 90];
+		//var data = [10, 20, 30, 40, 50, 90];
 		var dataArray = []
 		
-		$.each(data, function(i) {				
+		$.each(param.data, function(i) {				
 			var dataObj ={}				
 			if (this > 80){
-				dataObj.value = data[i];
+				dataObj.value = param.data[i];
 				dataObj.itemStyle = {color: utils.getColors().danger};
 			}else{
-				dataObj.value = data[i];
+				dataObj.value = param.data[i];
 				dataObj.itemStyle = {color: utils.getColors().primary};
 			}
 			
@@ -125,7 +125,7 @@
 		
 		option = {
 				title: {
-			        text: '[[#{txt.item.same}]]',
+			        text: param.title,
 			        show: true
 			    },
 			    color : [ utils.getColors().primary ],
@@ -211,7 +211,9 @@
 			
 	
 	
-	function fn_PsiChart(data) {
+	function fn_PsiChart(data) {	
+		var isTitle  = (data.isTitle == true) ? true : false;
+		
 		if (psiLineChart != null) {
 			psiLineChart.destroy();
 		}
@@ -229,8 +231,8 @@
 	
 		option = {
 			title : {
-				text : '[[#{txt.distribution.stability.indicator}]]',
-				show : false
+				text : data.title,
+				show : isTitle
 			},
 			color : [ utils.getColors().primary, utils.getColors().danger ],
 			tooltip : {
@@ -394,6 +396,8 @@
 	}
 	
 	function fn_LineChart(data) {
+		var isTitle  = (data.isTitle == true) ? true : false;
+	
 		if (dataCntLineChart != null) {
 			dataCntLineChart.destroy();
 		}
@@ -404,8 +408,8 @@
 	
 		option = {
 			title : {
-				text : data.name,
-				show : false
+				text : data.title,
+				show : isTitle
 			},
 			color : [ utils.getColors().primary],
 			tooltip : {
@@ -554,6 +558,8 @@
 	
 	function fn_BarChart(param) {
 	
+		var isTitle  = (param.isTitle == true) ? true : false;
+	
 		if (itemBarChart != null) {
 			itemBarChart.destroy();
 		}
@@ -565,7 +571,7 @@
 		option = {
 			title : {
 				text : param.title,
-				show : false
+				show : isTitle
 			},
 			color : [ utils.getColors().primary ],
 			tooltip : {

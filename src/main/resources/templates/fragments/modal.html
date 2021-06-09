@@ -139,38 +139,37 @@
 			})
 		}
 		
-		function multiBoxplotModal(param){			
+		function multiBoxplotModal(param){
 			$('#boxplot-modal').modal('toggle'); 
 			
 			if (boxplotChart != null) {
 				boxplotChart.destroy();
 			}
-		
+
 			var boxplotChart = document.getElementById('boxplotChart');
 			var myChart = echarts.init(boxplotChart);
 			var option;
-			/* var data = [];
+			//var data = [];
 			
-			$.each(param.data,function(){
+			/* $.each(param.data,function(){
 				data.push(echarts.dataTool.prepareBoxplotData(this));
 			});
 			
 			
 			console.log("data:::",data) */
 			
-			
-			
+			console.log(param.data);
 						
-		    var seriesJsonArray = new Array();            
-		    $.each(param.data,function(i){
-		        var jsonObject =  {
+            var seriesJsonArray = new Array();            
+            $.each(param.data,function(i){
+                var jsonObject =  {
 			            name: param.name[i],
 			            type: 'boxplot',
 			            data: param.data[i].boxData,
 			            tooltip: {formatter: boxplot_formatter}
-		            }
-		        seriesJsonArray.push(jsonObject);
-		    })
+                    }
+                seriesJsonArray.push(jsonObject);
+            })
 			
 			option = {
 				    title: {
@@ -214,7 +213,7 @@
 							textStyle : {
 								fontSize : 15
 							},
-						show : false
+						show : true
 						}
 				    },
 				    yAxis: {
@@ -254,9 +253,10 @@
 				    },
 				    series: seriesJsonArray
 				};
-		    
-		    option && myChart.setOption(option);
+            
+            option && myChart.setOption(option);
 		}
+		
 		
 	</script>
 </div>

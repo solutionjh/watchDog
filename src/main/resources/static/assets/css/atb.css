@@ -156,7 +156,37 @@ iput {font-weight:300;}
 	right: 3px;
 }
 
+.indicator-title{
+	position: relative;
+    bottom: 3px;
+    font-size: 19px;
+    font-weight: bold;
+    color: #5f5b5b;
+    left: 7px;	
+}
+
+.indicator-img{
+	position: relative;
+    width: 181px;
+}
+.indicator-img.left{
+    left: 55px;
+}
+
+.indicator-span{
+	position: relative;
+	top: 116px;
+    
+}
+.indicator-span.left{
+   right: 62px;
+}
+.indicator-span.right{
+   right: 115px;
+}
+
 .bg-upper-changeRate {
 	background-color : #f7f0f0;
 	border-color : #e0e1e2;
 }
+

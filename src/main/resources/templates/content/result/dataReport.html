@@ -32,40 +32,10 @@
 							</select>
 						</div>
 						<div class="col-auto">
-							<!-- <select id="countDropdown" class="form-select picker"
+							<select id="regdtimDropdown" class="form-select picker"
 								data-live-search="true">
 								<option value="">[[#{select.perform.select}]]</option>
-								<option value="7">[[#{select.perform.select.001}]]</option>
-								<option value="15">[[#{select.perform.select.001}]]</option>
-								<option value="30">[[#{select.perform.select.001}]]</option>
-
-								<option value="all">[[#{select.perform.select}]]</option>
-								<option value="oneday">[[#{select.perform.select.001}]]</option>
-								<option value="oneweek">[[#{select.perform.select.002}]]</option>
-								<option value="onemonth">[[#{select.perform.select.003}]]</option>
-								<option value="onequarter">[[#{select.perform.select.004}]]</option>
-								<option value="onehalf">[[#{select.perform.select.005}]]</option>
-								<option value="oneyear">[[#{select.perform.select.006}]]</option>
-							</select> -->
-						</div>
-						<div class="col-auto pe-0">
-							<div class="input-group">
-								<div class="input-group-append">
-									<input class="form-control datetimepicker" id="start-date"
-										type="text" placeholder="d/m/y"
-										data-options='{"dateFormat":"d/m/y","disableMobile":true}' />
-								</div>
-							</div>
-						</div>
-						<div class="col-auto pe-0">
-							<div class="input-group">
-								<div class="input-group-append">
-									<input class="form-control datetimepicker" id="start-time"
-										type="text" placeholder="H:i"
-										data-options='{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}' />
-
-								</div>
-							</div>
+							</select>
 						</div>
 						<div class="col-auto pe-0">
 							<div class="input-group">
@@ -120,9 +90,21 @@
 						<div class="row g-3 mb-3">
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-light">
+									<div class="card-body bg-light indicator">
 										<div class="tab-content">
-											<div id="verificationChart" style="min-height: 250px;"></div>
+											<div style="min-height: 245px;">
+												<div class="indicator-title">분포 안정 지표</div>
+												<div class="row g-3 mb-3">
+													<div class="col-lg-6">
+														<img src="/assets/img/nice/on.png" class="indicator-img left" >	
+														<span class="indicator-span left">항목별</span>
+													</div>
+													<div class="col-lg-6">
+														<img src="/assets/img/nice/off.png" class="indicator-img right" >	
+														<span class="indicator-span right">안전성</span>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -220,14 +202,12 @@
 			</div>
 		</div>
 	</div>
-	
-	 <script src="/assets/js/flatpickr.js"></script>         
+	     
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
-		var $countDropdown = $("#countDropdown");
+		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $pdfDownLoad = $("#pdfDownLoad");
 		var projectName = "";
-		var recentPeriod = "all";
 
 		$(function() {
 			fn_projectNames();
@@ -236,10 +216,6 @@
 		
 
 		function fn_Event() {
-			$countDropdown.off().on('change', function() {
-				recentPeriod = "all";
-				fn_data();
-			});
 			$pdfDownLoad.off().on('click', function() {
 			    html2canvas($('#pdfArea')[0] ,{	
 			      allowTaint : true,	// cross-origin allow 
@@ -296,6 +272,15 @@
 			});
 		}
 		
+		function fn_regdtItems(projectName) {
+			var param = {
+				target : "REGDT_ITEMS",
+				url : "/resultitem/" + projectName + "/regdtim/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 
 		function callback(target, data) {
 			switch (target) {
@@ -312,14 +297,15 @@
 						function() {
 							projectName = $(this).val();		
 							$("#project-name").html($(this).val());
-							fn_data();
+							
+							if ($(this).val())
+								fn_regdtItems($(this).val());							
 						});
 				$('.picker').select2();
 				
 				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
-					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
-					$countDropdown.val(paramData.recentPeriod).trigger('change');
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');					
 					$("#project-name").html(paramData.projectName);
 				}
 				
@@ -331,12 +317,12 @@
 				$(".recentDtim").html(data[0]);
 				ajaxCall({
 					target : "ANOMALYCNT",
-					url : "/main/anomalycnt/" + projectName + "/" + recentPeriod
+					url : "/main/anomalycnt/" + projectName + "/all"
 				});
 				
 				ajaxCall({
 					target : "STAT",
-					url : "/main/stat/" + projectName + "/" + recentPeriod
+					url : "/main/stat/" + projectName + "/all"
 				});				
 				break;
 				
@@ -370,7 +356,7 @@
 	              
 	              
 	              ///////////////////////////    임시	    /////////////////////////         
-	               var data2 = [{
+	           /*   var data2 = [{
 	            		value : 1,
 	            		name : '[[#{txt.safety}]]'
 	            	},{
@@ -386,10 +372,15 @@
 	              param.title = '[[#{txt.distribution.stability.indicator}]]';
 	              param.name = [ '[[#{txt.item}]]','[[#{txt.safety}]]'];
 	              param.color = [utils.getColors().success,utils.getColors().danger];
-	              fn_PieChart(param);
+	              fn_PieChart(param);  */
 	              
 	              
-	              fn_HorizontalBarChart()
+	              
+	              
+	              param = {};
+	              param.title = '[[#{txt.item.same}]]';
+	              param.data = [10, 20, 30, 40, 50, 90];
+	              fn_HorizontalBarChart(param)
 				  ///////////////////////////    임시	    ///////////////////////// 
 				  
 				break;
@@ -410,12 +401,17 @@
 					//statData.chisqcnts.push(parseInt(this.chisqcnt));
 					statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
+				
+				statData.title ='[[#{txt.distribution.stability.indicator}]]';
+				statData.formatterTxt ='[[#{txt.number}]]';	
+				statData.isTitle = true
 				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
 				var param = {
 					target : "dataCntChart",
 					title : '[[#{txt.data.count}]]',
+					isTitle : true,
 					xData : statData.dtims,
 					yData : statData.datacnts,
 					name : '[[#{txt.number.count}]]',
@@ -427,6 +423,7 @@
 				// 일별 이상항목수 
 				param.target = "dashItemBar";
 				param.title = '[[#{txt.anomaly.count}]]';
+				isTitle : true,
 				param.xData = statData.dtims;
 				param.yData = statData.cars;
 				param.name = '[[#{txt.item.count}]]';
@@ -434,13 +431,32 @@
 				fn_BarChart(param)
 
 				// 분포 이상 항목수				
-				/* param.target = "dashChisqBar";
+			 /* param.target = "dashChisqBar";
 				param.title = "분포 이상 항목수";
 				param.xData = statData.dtims;
 				param.yData = statData.chisqcnts;
 				param.barColor = utils.getColors().primary;
 				fn_BarChart(param); */
 				break;
+				
+			case "REGDT_ITEMS":
+				$regdtItemDropdown.find("option").remove();
+				var html = "<option value=''>[[#{select.perform.select}]]</option>";
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$regdtItemDropdown.append(html);
+
+				$regdtItemDropdown.off().change(function() {
+					fn_data();
+				});
+				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+				}
+				break;	
 				
 				
 			default:
