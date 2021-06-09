@@ -85,22 +85,26 @@
 			fn_Event();
 		});
 
-		function fn_projectNames() {
-			var param = {
+		function fn_projectNames() { 
+			ajaxCall({
 				target : "PROJECT_NAMES",
 				url : "/result/projectnames/",
 				isLoading : false
-			}
-			ajaxCall(param);
+			});
 		}
 
 		function fn_regdtItems(projectName) {
-			var param = {
-				target : "REGDT_ITEMS",
-				url : "/resultitem/" + projectName + "/regdtim/",
-				isLoading : false
-			}
-			ajaxCall(param);
+			$table.bootstrapTable('removeAll');
+			if(projectName){
+				ajaxCall({
+					target : "REGDT_ITEMS",
+					url : "/resultitem/" + projectName + "/regdtim/",
+					isLoading : false
+				});	
+			}else{
+				$regdtItemDropdown.find("option").remove();
+				$regdtItemDropdown.append("<option value=''>[[#{select.perform.select}]]</option>");
+			} 
 		}
 
 		function fn_Event() {
@@ -173,6 +177,8 @@
 				bootstrapTableRefresh($table, '/resultitem/' + projectName
 						+ '/' + regdtim + '/' + rateInput, '[[${#locale}]]',
 						'[[#{table.data.faile}]]');
+			}else{
+				$table.bootstrapTable('removeAll');
 			}
 		}
 
@@ -195,10 +201,8 @@
 					html += "<option value="+data+">" + data + "</option>";
 				});
 				$projectNameItemDropdown.append(html);
-				$projectNameItemDropdown.off();
-				$projectNameItemDropdown.change(function() {
-					if ($(this).val())
-						fn_regdtItems($(this).val());
+				$projectNameItemDropdown.off().change(function() {
+					fn_regdtItems($(this).val());
 				});
 
 				$('.picker').select2();
@@ -213,8 +217,7 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off();
-				$regdtItemDropdown.change(function() {
+				$regdtItemDropdown.off().change(function() {
 					tableRefresh();
 				});
 				$('.picker').select2();

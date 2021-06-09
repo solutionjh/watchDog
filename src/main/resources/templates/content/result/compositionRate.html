@@ -16,7 +16,7 @@
 		<div class="card-body">
 			<div class="row flex-between-center">
 				<div class="col-sm-auto mb-2 mb-sm-0">
-				<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.011}]]</h4>
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.011}]]</h4>
 				</div>
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
@@ -90,12 +90,20 @@
 		}
 
 		function fn_regdtItems(projectName) {
-			var param = {
-				target : "REGDT_ITEMS",
-				url : "/resultitemdist/" + projectName + "/regdtim/",
-				isLoading : false
+			$table.bootstrapTable('removeAll');
+			if (projectName) {
+				ajaxCall(param = {
+					target : "REGDT_ITEMS",
+					url : "/resultitemdist/" + projectName + "/regdtim/",
+					isLoading : false
+				});
+			} else {
+				$regdtItemDropdown.find("option").remove();
+				$regdtItemDropdown
+						.append("<option value=''>[[#{select.perform.select}]]</option>");
+				$fieldNameDropdown.find("option").remove();
+				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");
 			}
-			ajaxCall(param);
 		}
 
 		function fn_fieldItems(projectName, regdtim) {
@@ -163,6 +171,8 @@
 				bootstrapTableRefresh($table, '/resultitemdist/' + projectName
 						+ '/' + regdtim + '/' + fieldNameDropdown,
 						'[[${#locale}]]', '[[#{table.data.faile}]]');
+			}else{
+				$table.bootstrapTable('removeAll');
 			}
 		}
 
@@ -186,8 +196,7 @@
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
 				$projectNameItemDropdown.change(function() {
-					if ($(this).val())
-						fn_regdtItems($(this).val());
+					fn_regdtItems($(this).val());
 				});
 
 				$('.picker').select2();
@@ -202,8 +211,7 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off();
-				$regdtItemDropdown.change(function() {
+				$regdtItemDropdown.off().change(function() {
 					fn_fieldItems($projectNameItemDropdown.val(),
 							$regdtItemDropdown.val());
 					tableRefresh();
