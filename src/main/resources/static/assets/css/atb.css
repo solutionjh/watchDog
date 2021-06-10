@@ -167,7 +167,8 @@ iput {font-weight:300;}
 
 .indicator-img{
 	position: relative;
-    width: 181px;
+    width: 80%;
+    min-width: 181px;
 }
 .indicator-img.left{
     left: 55px;
@@ -179,14 +180,17 @@ iput {font-weight:300;}
     
 }
 .indicator-span.left{
-   right: 62px;
+   right: 76px;
 }
 .indicator-span.right{
-   right: 115px;
+   right: 127px;
 }
 
 .bg-upper-changeRate {
 	background-color : #f7f0f0;
+	border-color : #e0e1e2;
+}
+.bg-200{
 	border-color : #e0e1e2;
 }
 

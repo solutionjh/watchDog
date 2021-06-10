@@ -110,7 +110,7 @@
 				},{
 					title : '[[#{txt.project}]]',
 					field : 'a',
-					align : 'center',
+					align : 'left',
 					sortable : true,
 					valign : 'middle'
 				}, {
@@ -121,19 +121,13 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average}]]',
-					field : 'median',
-					align : 'center',
-					sortable : true,
-					valign : 'middle'
-				}, {
-					title : '[[#{txt.standard.deviation}]]',
 					field : 'c',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
-					title : '[[#{txt.boxplot.top}]]',
-					field : 'top',
+					title : '[[#{txt.standard.deviation}]]',
+					field : 'c',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
@@ -144,14 +138,26 @@
 					sortable : true,
 					valign : 'middle'
 				}, {
+					title : '[[#{txt.boxplot.q1}]]',
+					field : 'q1',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.median}]]',
+					field : 'median',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
 					title : '[[#{txt.boxplot.q3}]]',
 					field : 'q3',
 					sortable : true,
 					align : 'right'
 				}, {
-					title : '[[#{txt.boxplot.q1}]]',
-					field : 'q1',
-					align : 'center',
+					title : '[[#{txt.boxplot.top}]]',
+					field : 'top',
+					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				} ],
@@ -201,11 +207,11 @@
 					var dataIndex = []
 						$.each(tableData,function(i){
 							var data = [];					
-							data.push(this.bottom);
-							data.push(this.q1);
-							data.push(this.median);
-							data.push(this.q3);
 							data.push(this.top);
+							data.push(this.q3);
+							data.push(this.median);
+							data.push(this.q1);
+							data.push(this.bottom);
 							boxData.push(data);
 							
 							dataIndex.push(this.b)

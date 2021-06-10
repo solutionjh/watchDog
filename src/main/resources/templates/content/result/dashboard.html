@@ -167,9 +167,8 @@
 			$report.off().on('click', function() {
 				var param = {
 						projectName : projectName,
-						recentPeriod : recentPeriod
-				}
-				
+						recentDtim : $("#recentDtim").html()
+				}				
 				$("#paramForm").prop('action','/result/dataReport');
 				$("#paramData").val(JSON.stringify(param));
 				$("#paramForm").submit(); 

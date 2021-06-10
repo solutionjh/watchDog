@@ -92,9 +92,9 @@
 								<div class="card">
 									<div class="card-body bg-light indicator">
 										<div class="tab-content">
-											<div style="min-height: 245px;">
+											<div style="min-height: 250px;">
 												<div class="indicator-title">분포 안정 지표</div>
-												<div class="row g-3 mb-3">
+												<div class="row d-flex justify-content-between">
 													<div class="col-lg-6">
 														<img src="/assets/img/nice/on.png" class="indicator-img left" >	
 														<span class="indicator-span left">항목별</span>
@@ -272,13 +272,20 @@
 			});
 		}
 		
-		function fn_regdtItems(projectName) {
-			var param = {
-				target : "REGDT_ITEMS",
-				url : "/resultitem/" + projectName + "/regdtim/",
-				isLoading : false
+		function fn_regdtItems(projectName) {		
+			if (projectName) {
+				ajaxCall(param = {
+					target : "REGDT_ITEMS",
+					url : "/resultitemdist/" + projectName + "/regdtim/",
+					isLoading : false
+				});
+			} else {
+				$regdtItemDropdown.find("option").remove();
+				$regdtItemDropdown
+						.append("<option value=''>[[#{select.perform.select}]]</option>");
+				
+				fn_data();
 			}
-			ajaxCall(param);
 		}
 		
 
@@ -297,15 +304,13 @@
 						function() {
 							projectName = $(this).val();		
 							$("#project-name").html($(this).val());
-							
-							if ($(this).val())
-								fn_regdtItems($(this).val());							
+							fn_regdtItems($(this).val());							
 						});
 				$('.picker').select2();
 				
 				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
-					$projectNameItemDropdown.val(paramData.projectName).trigger('change');					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');	
 					$("#project-name").html(paramData.projectName);
 				}
 				
@@ -452,9 +457,11 @@
 					fn_data();
 				});
 				$('.picker').select2();
-				
-				if(!gf_IsNull(paramData)){					
-					$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+								
+				var paramData = jsonParse('[[${paramData}]]');	
+				if(!gf_IsNull(paramData)){			
+					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+					fn_data();
 				}
 				break;	
 				
