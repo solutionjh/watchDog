@@ -107,11 +107,29 @@
 	</div>
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
+		var $inputDataFilePathDropdown = $("#inputDataFileDropdown");
+		var $inputLayoutFilePathDropdown = $("#inputLayoutFileDropdown");
+		var $projectNameDropdown = $("#projectNameDropdown");
 
 		$(function() {
 			fn_Event();
 		});
-			
+		
+		function fn_fileList(dirname, pattern, target) {
+			const formData = {
+				"dirname" : dirname,
+				"pattern" : pattern
+			}
+			var param = {
+				target : target,
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 		function fn_makeCsv() {
 			var data = $infoForm.serializeObject();
 			delete data.inputDataFileDropdown;
@@ -129,20 +147,10 @@
 		}
 
 		function fn_Event() {
-
-			$(".directInput").change(function() {
-				const value = $(this).val();
-				const $target = $(this).parent().next().find("input");
-				
-				if (value == "direct") {
-					$target.val("");
-					$target.prop('readonly', false);
-				} else {
-					$target.val(value);
-					$target.prop('readonly', true);
-				}
-			});
-
+			fn_fileList("data", ".*", "DATA_FILE");
+			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
+			fn_fileList("model", ".*.adnn", "PROJECT_FILE");
+			
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
 				if ($infoForm[0].checkValidity() === true) {
@@ -159,11 +167,65 @@
 				alertModal('[[#{web.success.excute}]]');
 				initForm();
 				break;
+			case "LAYOUT_FILE":
+				$inputLayoutFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputLayoutFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "DATA_FILE":
+				$inputDataFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputDataFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "PROJECT_FILE":
+				$projectNameDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$projectNameDropdown.append(html);
+				setDropDownEvent();
+				break;
 			default:
 				break;
 			}
 		}
-
+		function setDropDownEvent(){
+			$(".directInput").off().change(function(){
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+				if(value == "direct"){
+					$target.val("");
+					$target.prop('readonly', false);
+				}else{
+					$target.val(value);	
+					$target.prop('readonly', true);
+				}
+			});
+		}
 		function initForm() {
 			$infoForm.removeClass('was-validated');
 			formReset($infoForm);

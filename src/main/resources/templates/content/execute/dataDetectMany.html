@@ -97,7 +97,7 @@
 									<th scope="col">[[#{txt.inputDataFile}]]</th>
 									<th scope="col">[[#{txt.layout.file}]]</th>
 									<th scope="col">[[#{txt.project}]]</th>
-									<th scope="col">[[#{txt.item.result.text}]]</th>
+									<!-- <th scope="col">[[#{txt.item.result.text}]]</th> -->
 									<th scope="col">[[#{txt.delete}]]</th>
 								</tr>
 							</thead>
@@ -119,6 +119,10 @@
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
 		var $table = $("#reqTable");
+		var $inputDataFilePathDropdown = $("#inputDataFileDropdown");
+		var $inputLayoutFilePathDropdown = $("#inputLayoutFileDropdown");
+		var $projectNameDropdown = $("#projectNameDropdown");
+		
 		const columnCalculateEnum = {
 				"Y" : "[[#{txt.columnCalculateY}]]",
 				"N" : "[[#{txt.columnCalculateN}]]"
@@ -126,7 +130,22 @@
 		$(function() {
 			fn_Event();
 		});
-	
+		
+		function fn_fileList(dirname, pattern, target) {
+			const formData = {
+				"dirname" : dirname,
+				"pattern" : pattern
+			}
+			var param = {
+				target : target,
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 		function fn_excute(reqList) {
 			var param = {
 				method : "PUT",
@@ -145,7 +164,7 @@
 			html += '<td class="inputDataFile" >'+data.inputDataFile+'</td>';
 			html += '<td class="inputLayoutFile">'+data.inputLayoutFile+'</td>';
 			html += '<td class="projectName">'+data.projectName+'</td>';
-			html += '<td class="columnCalculateYN" data-yn="'+data.columnCalculateYN+'">'+columnCalculateEnum[data.columnCalculateYN]+'</td>';
+			//html += '<td class="columnCalculateYN" data-yn="'+data.columnCalculateYN+'">'+columnCalculateEnum[data.columnCalculateYN]+'</td>';
 			html += '<td>';
 			html += '<button class="btn p-0 ms-1 table-delete-btn" type="button" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 			html += '</td></tr>';
@@ -160,6 +179,10 @@
 		}
 
 		function fn_Event() {
+			fn_fileList("data", ".*", "DATA_FILE");
+			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
+			fn_fileList("model", ".*.adnn", "PROJECT_FILE");
+			
 			$("#excuteBtn").off().click(function(){
 				const trs = $table.find('tr');
 				const reqList = [];
@@ -182,19 +205,6 @@
 					alertModal('[[#{txt.not.exist}]]');
 				}
 			});
-			
-			$(".directInput").change(function() {
-				const value = $(this).val();
-				const $target = $(this).parent().next().find("input");
-
-				if (value == "direct") {
-					$target.val("");
-					$target.prop('readonly', false);
-				} else {
-					$target.val(value);
-					$target.prop('readonly', true);
-				}
-			});
 
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
@@ -211,11 +221,67 @@
 				initForm();
 				$table.find('tr').remove();
 				break;
+			case "LAYOUT_FILE":
+				$inputLayoutFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputLayoutFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "DATA_FILE":
+				$inputDataFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputDataFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "PROJECT_FILE":
+				$projectNameDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$projectNameDropdown.append(html);
+				setDropDownEvent();
+				break;
 			default:
 				break;
 			}
 		}
-
+		
+		function setDropDownEvent(){
+			$(".directInput").off().change(function(){
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+				if(value == "direct"){
+					$target.val("");
+					$target.prop('readonly', false);
+				}else{
+					$target.val(value);	
+					$target.prop('readonly', true);
+				}
+			});
+		}
+		
 		function initForm() {
 			$infoForm.removeClass('was-validated');
 			$infoForm.find('input[readonly]').prop("readonly", false)
