@@ -172,7 +172,6 @@
 				$inputDataFilePathDropdown.append(html);
 				setDropDownEvent();
 				break;
-				break;
 			default:
 				break;
 			}
@@ -194,6 +193,7 @@
 		}
 		function initForm() {
 			$infoForm.removeClass('was-validated');
+			$infoForm.find('input').prop("readonly", "");
 			formReset($infoForm);
 		}
 	</script>
