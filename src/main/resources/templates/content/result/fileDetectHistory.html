@@ -32,6 +32,15 @@
 								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
+						<div class="col-auto">
+							<select id="countDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="7">[[#{select.perform.select.007}]]</option>
+								<option value="15">[[#{select.perform.select.008}]]</option>
+								<option value="30">[[#{select.perform.select.009}]]</option>
+								<option value="">[[#{select.perform.all}]]</option>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -54,7 +63,7 @@
 	<div class="card mb-3">
 		<div class="card-body bg-light">
 			<div class="tab-content">
-				<div id="boxplot" style="min-height: 350px;"></div>
+				<div id="boxplot" style="min-height: 220px;"></div>
 			</div>
 		</div>
 	</div>
@@ -64,6 +73,7 @@
 		var $table = $('#table');
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $regdtItemDropdown = $("#regdtimDropdown");
+		var $countDropdown = $("#countDropdown");
 		var paramData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
@@ -83,22 +93,32 @@
 		}
 
 		function fn_regdtItems(projectName) {
-			var param = {
-				target : "REGDT_ITEMS",
-				url : "/resultitem/" + projectName + "/regdtim/",
-				isLoading : false
+			$table.bootstrapTable('removeAll');
+			if (projectName) {
+				ajaxCall(param = {
+					target : "REGDT_ITEMS",
+					url : "/resultitemdist/" + projectName + "/regdtim/",
+					isLoading : false
+				});
+			} else {
+				$regdtItemDropdown.find("option").remove();
+				$regdtItemDropdown.append("<option value=''>[[#{select.perform.select}]]</option>");											
+				$countDropdown.val("7").trigger('change');	
 			}
-			ajaxCall(param);
 		}
 
 		function fn_Event() {
+			
+			$countDropdown.off().on('change',function(){
+				if(!gf_IsNull($regdtItemDropdown.val()) && !gf_IsNull($regdtItemDropdown.val())) tableRefresh();				
+			});
 
 		}
 
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
-				height : 375,				
+				height : 390,				
 				pageSize : "10",
 				pageList : "[10, 20, 50, all]",
 				columns : [ {
@@ -231,8 +251,14 @@
 		}
 
 		function tableRefresh() {
-			bootstrapTableRefresh($table, '/api/member/getList',
-					'[[${#locale}]]', '[[#{table.data.faile}]]');
+			const projectName = $projectNameItemDropdown.val();
+			const regdtim = $regdtItemDropdown.val();
+			if (projectName && regdtim) {
+				bootstrapTableRefresh($table, '/api/member/getList',
+						'[[${#locale}]]', '[[#{table.data.faile}]]');
+			} else {
+				$table.bootstrapTable('removeAll');
+			}
 			
 		}
 
@@ -255,8 +281,7 @@
 				});
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
-				$projectNameItemDropdown.change(function() {
-					if ($(this).val())
+				$projectNameItemDropdown.change(function() {					
 						fn_regdtItems($(this).val());
 				});
 				
@@ -277,13 +302,17 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off().change(function() {
+				$regdtItemDropdown.off().change(function() {					
+					if(gf_IsNull($(this).val())) $countDropdown.val("7").trigger('change');	
+					
 					tableRefresh();
 				});
 				$('.picker').select2();
 				
+				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
-					$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+					tableRefresh();
 				}
 				break;
 

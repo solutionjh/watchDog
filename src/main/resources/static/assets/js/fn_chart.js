@@ -749,7 +749,7 @@
 				axisLabel : {
 					color : utils.getGrays()['500'],
 					textStyle : {
-						fontSize : 15
+						fontSize : 10
 					}
 				}
 		    },
@@ -776,7 +776,7 @@
 					show : true,
 					color : utils.getGrays()['500'],
 					textStyle : {
-						fontSize : 15
+						fontSize : 10
 					}
 				},
 					axisTick : {
