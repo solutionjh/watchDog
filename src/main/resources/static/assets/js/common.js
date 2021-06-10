@@ -81,8 +81,10 @@ function noDataAjax(ajaxParamObj)
 }
 
 function dataAjax(ajaxParamObj)
-{
-
+{	
+	$.each(ajaxParamObj.data, function(idx,data){
+		ajaxParamObj.data[idx] = escapeHtml(data);
+	})
 	$.ajax({
 		type: ajaxParamObj.method,
 		url: ajaxParamObj.url,
@@ -288,3 +290,7 @@ function jsonParse(data){
 function commaCount(str){
 	return (str.match(/,/g) || []).length; 
 }
+
+function escapeHtml(text){
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\"/g, "&quot;");
+};
