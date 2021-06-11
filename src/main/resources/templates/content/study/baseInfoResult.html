@@ -97,9 +97,10 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
-				height : 650,				
+				height : 650,			
+				locale:'[[${#locale}]]',
 				pageSize : "20",
-				pageList : "[20, 50, all]",
+				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
 					title : '#',
 					field : 'index',
@@ -215,14 +216,14 @@
 
 		function tableRefresh() {
 			bootstrapTableRefresh($table, '/api/member/getList',
-					'[[${#locale}]]', '[[#{table.data.faile}]]');
+					);
 			
 			
 			/* const projectName = $projectNameItemDropdown.val();
 			const fieldName = $fieldNameDropdown.val();
 			if (projectName && fieldName) {
 				bootstrapTableRefresh($table, '/api/member/getList',
-						'[[${#locale}]]', '[[#{table.data.faile}]]');
+						);
 			} else {
 				$table.bootstrapTable('removeAll');
 			} */

@@ -209,8 +209,7 @@
 			$table.bootstrapTable('destroy').bootstrapTable(
 					{
 						height : 270,
-						pageSize : "5",
-						pageList : "[5, 10, 20, 50, all]",
+						locale:'[[${#locale}]]',
 						columns : [ {
 							title : '#',
 							field : 'index',
@@ -253,6 +252,7 @@
 							align : 'center',
 							valign : 'middle'
 						} ],
+						
 						onClickRow : function(row, $element, field) {
 							var param = {}
                             
@@ -281,8 +281,7 @@
 		
 		
 		function tableRefresh(){
-			bootstrapTableRefresh($table, '/api/member/getList',
-					'[[${#locale}]]', '[[#{table.data.faile}]]');
+			bootstrapTableRefresh($table, '/api/member/getList', false);
 			
 		}
 		

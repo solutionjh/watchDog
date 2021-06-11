@@ -95,8 +95,9 @@
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
 				height : 650,
+				locale:'[[${#locale}]]',
 				pageSize : "20",
-				pageList : "[20, 50, all]",
+				pageList : "[5, 10, 20, 50, all]",
 				columns : [
 					[{
 						title : '#',
@@ -289,7 +290,7 @@
 			const regdtim = $regdtItemDropdown.val();
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/api/member/getList',
-						'[[${#locale}]]', '[[#{table.data.faile}]]');
+						);
 			} else {
 				$table.bootstrapTable('removeAll');
 			}

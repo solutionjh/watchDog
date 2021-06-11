@@ -131,14 +131,17 @@ function gf_IsNull(sValue) {
 
 /* -------------------------------------------------------------------------- */
 
-function bootstrapTableRefresh(target, url, queryParams, local,  message){
+function bootstrapTableRefresh(target, url ,isPage){
+
+	var pagination = isPage == null ? true : false
+
 	target.bootstrapTable('refreshOptions', {
 		theadClasses:'bg-200 text-900',					
-		locale: local,
-		sortable:"true",
-		queryParams:"true",
-		detailView:"true",
-		pagination:"true",	
+		locale: "",
+		sortable:true,
+		queryParams:true,
+		detailView:true,
+		pagination:pagination,	
 		url : url,
 		formatRecordsPerPage: function(pageNumber){
             return pageNumber ;
@@ -150,7 +153,7 @@ function bootstrapTableRefresh(target, url, queryParams, local,  message){
 		responseHandler: responseHandler,
 		detailFormatter:detailFormatter,
 		onLoadError : function(status) {
-			alertModal("[STATUS " + status + "]" + message)
+			alertModal("[STATUS " + status + "]" )
 		}
 	})
 }

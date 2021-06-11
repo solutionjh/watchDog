@@ -94,6 +94,7 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
+			$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
@@ -119,8 +120,9 @@
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
 				height : 390,				
+				locale:'[[${#locale}]]',
 				pageSize : "10",
-				pageList : "[10, 20, 50, all]",
+				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
 					title : '#',
 					field : 'index',
@@ -255,9 +257,10 @@
 			const regdtim = $regdtItemDropdown.val();
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/api/member/getList',
-						'[[${#locale}]]', '[[#{table.data.faile}]]');
+						);
 			} else {
 				$table.bootstrapTable('removeAll');
+				$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
 			}
 			
 		}

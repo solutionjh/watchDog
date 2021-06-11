@@ -124,6 +124,7 @@
 				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
 				height : 650,
+				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
@@ -181,7 +182,7 @@
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/resultitemdist/' + projectName
 						+ '/' + regdtim + '/' + fieldNameDropdown,
-						'[[${#locale}]]', '[[#{table.data.faile}]]');
+						);
 			} else {
 				$table.bootstrapTable('removeAll');
 			}
