@@ -125,21 +125,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }    
     
     protected void setAntMatchers(HttpSecurity http) throws Exception {
-            	
-    	List<Role> roleList = roleService.getRoleList();    	
-    	roleList.forEach(role->{
-    		if(!StringUtils.isEmpty(role.getUrl())) {    			
-    			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);    
-    			String[] urls = role.getUrl().split(LoginConstant.SEPARATE);  
-    			try {
-    				http.authorizeRequests()
-    				.antMatchers(urls)
-    				.hasAnyAuthority(roles);
-    			} catch (Exception e) {
-    				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
-    			}
-    		}
-    	});   
+    	
+    	
+//      추후 DB에서 역할 관리할경우 사용....            	
+//    	List<Role> roleList = roleService.getRoleList();    	
+//    	roleList.forEach(role->{
+//    		if(!StringUtils.isEmpty(role.getUrl())) {    			
+//    			String[] roles = role.getRoleType().split(LoginConstant.SEPARATE);    
+//    			String[] urls = role.getUrl().split(LoginConstant.SEPARATE);  
+//    			try {
+//    				http.authorizeRequests()
+//    				.antMatchers(urls)
+//    				.hasAnyAuthority(roles);
+//    			} catch (Exception e) {
+//    				logger.warn("onAuthenticationSuccess ::::: Login Session or Access Fail!!" );
+//    			}
+//    		}
+//    	});       	
+    	
+    	http.authorizeRequests().antMatchers("/member/**","/api/member/**").hasAnyAuthority("ADMIN","SYSADMIN");
     	
     	 http.authorizeRequests()  
          .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  

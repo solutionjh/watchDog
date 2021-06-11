@@ -2,12 +2,292 @@
 
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate ="~{layout/default}">
-	
+	layout:decorate="~{layout/default}">
+
 <head>
 <title>[[#{left.017}]]</title>
 
 </head>
-	<div layout:fragment="content">
+<div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-body">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.017}]]</h4>
+				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto">
+							<select id="projectNameItemDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.project.select}]]</option>
+							</select>
+						</div>
+						<div class="col-auto">
+							<select id=fieldNameDropdown class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.item.select}]]</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+	<div class="card mb-3">
+		<div class="card-body">
+			<div class="tab-pane preview-tab-pane active" role="tabpanel"
+				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
+				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
+				<table
+					class="table table-sm table-striped fs--1 mb-0 overflow-hidden"
+					id="table">
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var $table = $('#table');
+		var $projectNameItemDropdown = $("#projectNameItemDropdown");
+		var $fieldNameDropdown = $("#fieldNameDropdown");
+		var paramData = {};
+		$(function() {
+			paramData = jsonParse('[[${paramData}]]');
+			
+			fn_projectNames();
+			fn_Table();
+			fn_Event();
+		});
+
+		function fn_projectNames() {
+			var param = {
+				target : "PROJECT_NAMES",
+				url : "/result/projectnames/",
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_regdtItems(projectName) {
+			$table.bootstrapTable('removeAll');
+			if (projectName) {
+				
+				// 프로젝트명으로 항목코드 가져오는 api가 지금 없다.....				
+				/* ajaxCall(param = {
+					target : "FIELDNAME_ITEMS",
+					url : "/resultitemdist/" + projectName ,
+					isLoading : false
+				}); */
+			} else {
+				$fieldNameDropdown.find("option").remove();
+				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");											
+				
+			}
+		}
+
+		function fn_Event() {
+
+		}
+
+		function fn_Table() {
+			$table.bootstrapTable('destroy').bootstrapTable({
+				theadClasses : 'bg-200 text-900',
+				height : 650,				
+				pageSize : "20",
+				pageList : "[20, 50, all]",
+				columns : [ {
+					title : '#',
+					field : 'index',
+					align : 'center',
+					valign : 'middle',
+					sortable : true
+				},{
+					title : '[[#{txt.project}]]',
+					field : 'a',
+					align : 'left',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.item.code}]]',
+					field : '항목코드',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.model.useYn}]]',
+					field : 'b',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.except.reason}]]',
+					field : 'b',
+					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.average}]]',
+					field : 'c',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.standard.deviation}]]',
+					field : 'c',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.bottom}]]',
+					field : 'bottom',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.q1}]]',
+					field : 'q1',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.median}]]',
+					field : 'median',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				}, {
+					title : '[[#{txt.boxplot.q3}]]',
+					field : 'q3',
+					sortable : true,
+					align : 'right'
+				}, {
+					title : '[[#{txt.boxplot.top}]]',
+					field : 'top',
+					align : 'right',
+					sortable : true,
+					valign : 'middle'
+				} ],
+				onDblClickRow : function(row, $element, field) {
+					
+					var data = [];	
+					
+				 	var boxData = [];
+					var boxDataArray = [];	 			 	
+				 	boxData.push(row.top);				 	
+				 	boxData.push(row.q3);
+				 	boxData.push(row.median);
+				 	boxData.push(row.q1);
+				 	boxData.push(row.bottom);
+				 	boxDataArray.push(boxData)				 	
+				 	var dataObj = {}
+				 	dataObj.axisData = [row.b];
+				 	dataObj.boxData = boxDataArray;
+				 	dataObj.outliers = [];
+				 	
+				 	data.push(dataObj)
+				 	
+				 	var boxplotParam = {};
+					boxplotParam.data = data
+					boxplotParam.title = "모형개발 결과"
+					boxplotParam.yAxisNm = ""	
+					boxplotParam.name = [row.항목코드]					
+					multiBoxplotModal(boxplotParam)	
+					
+					
+				},
+				onLoadSuccess : function() {
+					
+					// 임시
+					var data = [
+						{index: 1,a:10, b:"2020.11.11", fieldName :'test', '항목코드': 'A001', c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10 }	
+					] 
+					$table.bootstrapTable('load', data)
+					// 임시
+				}
+			});
+			tableRefresh();
+		}
+
+		function tableRefresh() {
+			bootstrapTableRefresh($table, '/api/member/getList',
+					'[[${#locale}]]', '[[#{table.data.faile}]]');
+			
+			
+			/* const projectName = $projectNameItemDropdown.val();
+			const fieldName = $fieldNameDropdown.val();
+			if (projectName && fieldName) {
+				bootstrapTableRefresh($table, '/api/member/getList',
+						'[[${#locale}]]', '[[#{table.data.faile}]]');
+			} else {
+				$table.bootstrapTable('removeAll');
+			} */
+			
+		}
+
+		function responseHandler(res) {
+			$.each(res, function(i) {
+				this.index = i + 1;
+			});
+			return res;
+		}
+
+		function callback(target, data) {
+
+			switch (target) {
+			case "PROJECT_NAMES":
+				var listName = data;
+				var html = "";
+
+				$.each(listName, function(index, data) {
+					html += "<option value="+data+">" + data + "</option>";
+				});
+				$projectNameItemDropdown.append(html);
+				$projectNameItemDropdown.off();
+				$projectNameItemDropdown.change(function() {	
+					
+					/* 프로젝트명으로 항목코드 가져오는게 없어서 임시로 tablerefresh */
+					
+					tableRefresh();
+					/* 프로젝트명으로 항목코드 가져오는게 없어서 임시로 처리 tablerefresh*/
+					
+					
+						fn_regdtItems($(this).val());
+				});
+				
+				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+				}
+				
+				break;
+
+			case "FIELDNAME_ITEMS":
+				$fieldNameDropdown.find("option").remove();
+				var html = "<option value=''>[[#{select.item.select}]]</option>";
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$fieldNameDropdown.append(html);
+
+				$fieldNameDropdown.off();
+				$fieldNameDropdown.change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
+				break;
+
+			default:
+				break;
+			}
+		}
+	</script>
+
+</div>
 </html>
