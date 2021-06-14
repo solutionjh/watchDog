@@ -18,7 +18,7 @@ public class WebMvcConfig  {
     public MessageSource messageSource() {		
 		ReloadMessageSource message = new ReloadMessageSource();
 		
-		message.setBasenames("classpath:/messages");
+		message.setBasenames("classpath:/i18n/messages");
 		message.setDefaultEncoding("UTF-8");
 		return message;		
     }
