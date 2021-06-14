@@ -18,7 +18,7 @@ public class WebMvcConfig  {
     public MessageSource messageSource() {		
 		ReloadMessageSource message = new ReloadMessageSource();
 		
-		message.setBasenames("classpath:com/nice/datafileanomalydetection/i18n/messages");
+		message.setBasenames("classpath:/messages");
 		message.setDefaultEncoding("UTF-8");
 		return message;		
     }
