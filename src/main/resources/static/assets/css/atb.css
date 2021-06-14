@@ -191,6 +191,24 @@ iput {font-weight:300;}
 	border-color : #e0e1e2;
 }
 .bg-200{
-	border-color : #e0e1e2;
+	border-color :#eaeaea;
 }
 
+.fixed-table-header{
+	margin-right:0px !important;
+}
+
+.bootstrap-table .fixed-table-container.fixed-height .fixed-table-border {  
+    border-left: 0px solid #dee2e6 !important; 
+    border-right: 0px solid #dee2e6 !important; 
+    border-bottom: 0px solid white !important; 
+}
+
+.member-table .bootstrap-table .fixed-table-container .fixed-table-body {
+     overflow-x: hidden !important; 
+     overflow-y: hidden !important; 
+}
+
+.fc .fc-col-header{
+	background-color: var(--falcon-200) !important;
+}
