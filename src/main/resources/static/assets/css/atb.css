@@ -212,3 +212,12 @@ iput {font-weight:300;}
 .fc .fc-col-header{
 	background-color: var(--falcon-200) !important;
 }
+
+/*  calendar */
+.fc .fc-daygrid-day-number {
+	font-size : .6rem;
+}
+
+.this-month {
+	color : #2c7be5;
+}

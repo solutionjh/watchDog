@@ -45,20 +45,13 @@
 									<hr>
 								</div>
 								<div class="col-auto d-flex order-md-0">
-									<!-- <div class="bg-soft-primary">
-										<div class="fc-event-main">정상</div>
-									</div>
-									<div>/</div>
-									<div class="bg-soft-danger">
-										<div class="fc-event-main">위험</div>
-									</div> -->
 								</div>
 								<div
-									class="col col-md-auto d-flex justify-content-end order-md-3">
+									class="col col-md-auto d-flex justify-content-end order-md-3 mb-2">
 									<button class="btn btn-falcon-primary btn-sm" type="button"
 										data-event="today">Today</button>
 								</div>
-								<div class="col d-flex justify-content-end order-md-2">
+								<div class="col d-flex justify-content-end order-md-2 mb-2">
 									<div class="dropdown font-sans-serif me-md-2">
 										<button
 											class="btn btn-falcon-default text-600 btn-sm dropdown-toggle dropdown-caret-none"
@@ -227,7 +220,13 @@
 			};
 
 			var updateTitle = function updateTitle(title) {
-				document.querySelector(Selectors.CALENDAR_TITLE).textContent = title;
+				var titleHtml = title;
+				var calDayShort = title.replace("년", "").replace("월","").replace(" ","");
+				var todayShort = getToday().substr(0, calDayShort.length);
+
+				if(calDayShort == todayShort) titleHtml = "<div class='this-month'>"+title+"</div>";
+				$(".calendar-title").html(titleHtml);
+				//document.querySelector(Selectors.CALENDAR_TITLE).textContent = "<div style='background-color:#2c7be5'>title</div>";
 			};
 
 			var appCalendar = document.querySelector(Selectors.CALENDAR);
@@ -237,7 +236,7 @@
 					locale : '[[${#locale}]]'.split('_')[0],
 					eventStartEditable: false,
 					headerToolbar : false,
-					dayMaxEvents : 2,
+					dayMaxEvents : 4,
 					height : 800,
 					stickyHeaderDates : false,
 					views : {
@@ -257,7 +256,11 @@
 					},
 					dateClick : function dateClick(info) {
 						fn_showTable(formatData.filter((v)=>(v.start==info.dateStr)));
+					},
+					dayCellContent(a, max_date, date, cell){
+						return a.dayNumberText.replace("일", "");
 					}
+					
 				});
 				updateTitle(calendar.currentData.viewTitle);
 				document
