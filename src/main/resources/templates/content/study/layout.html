@@ -7,158 +7,196 @@
 <head>
 <title>[[#{left.014}]]</title>
 <style>
- /* .input-group-text{
- min-width : 170px;
- } */
+.select2-container{
+ display : block;
+ } 
 </style>
 </head>
 <div layout:fragment="content">
 
-	<div class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-100 detail">
-
-		<div class="card-header bg-200">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-body">
 			<div class="row flex-between-center">
-				<div class="col-auto">
+				<div class="col-sm-auto mb-2 mb-sm-0">
 					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.014}]]</h4>
 				</div>
-				<div class="col-auto d-flex">
-					<div class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0">
-						<button id="topNewBatchBtn" data-id="batchNew"
-							class="btn btn-falcon-primary btn-sm " type="button">
-							<span class="far fa-plus-square"></span> <span
-								class="d-none d-sm-inline-block ml-1">[[#{button.new.batch}]]</span>
-						</button>
-						<button id="topNewOnlineBtn" data-id="onlineNew"
-							class="btn btn-falcon-default btn-sm" type="button">
-							<span class="far fa-plus-square"></span> <span
-								class="d-none d-sm-inline-block ml-1">[[#{button.new.online}]]</span>
-						</button>
-						<button id="topEditBtn" data-id="edit"
-							class="btn btn-falcon-default btn-sm" type="button">
-							<span class="far fa-edit"></span> <span
-								class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
-						</button>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">
+						<div class="col-auto pe-0">
+							<div
+								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
+								<button id="topNewBatchBtn" data-id="batchNew"
+									class="btn btn-falcon-primary btn-sm " type="button">
+									<span class="far fa-plus-square"></span> <span
+										class="d-none d-sm-inline-block ml-1">[[#{button.new.batch}]]</span>
+								</button>
+								<button id="topNewOnlineBtn" data-id="onlineNew"
+									class="btn btn-falcon-default btn-sm" type="button">
+									<span class="far fa-plus-square"></span> <span
+										class="d-none d-sm-inline-block ml-1">[[#{button.new.online}]]</span>
+								</button>
+								<button id="topEditBtn" data-id="edit"
+									class="btn btn-falcon-default btn-sm" type="button">
+									<span class="far fa-edit"></span> <span
+										class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<form id="info-form" class="needs-validation" novalidate>
-			<div class="card-body ">
-				<div class="row gx-2">
-					<div class="col-sm-5 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layoutFile.name.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.layoutFile.name}]]</span> <input
-								class="form-control" id="projectName" name="projectName"
-								type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
-							<select class="form-select picker" id="projectNameDropdown"
-								name="projectNameDropdown" style="display: none;">
-								<option value="">*.properties</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-7 mb-3">
-						<div class="input-group">
-							<span class="input-group-text">[[#{txt.fixedLayoutYN}]]</span> <select
-								class="offOnline form-select" id="fixedLayoutYN"
-								name="fixedLayoutYN">
-								<option value="Y">[[#{select.fixedLayoutYN.001}]]</option>
-								<option value="N">[[#{select.fixedLayoutYN.002}]]</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-sm-2 mb-3" style="display: none;">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.delimiter.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.delimiter}]]</span> <input
-								class="offOnline form-control" id="delimiter" name="delimiter"
-								type="text"
-								th:placeholder="#{txt.delimiter.ph}"
-								/>
-						</div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layout.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.columnLength}]]</span> <input
-								class="offOnline form-control" id="columnLength"
-								name="columnLength" type="text"
-								th:placeholder="#{txt.columnLength.ph}"
-								required />
-						</div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.headerInfo.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerInfo}]]</span> <input
-								class="offOnline form-control" id="header" name="header"
-								type="text"
-								th:placeholder="#{txt.headerInfo.ph}"
-								required />
-						</div>
-					</div>
-					<div class="col-sm-4 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.headerToSkip.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerToSkip}]]</span> <input
-								class="offOnline form-control" id="headerToSkip"
-								name="headerToSkip" type="number"
-								th:placeholder="#{txt.headerToSkip.ph}"
-								pattern="/^-?\d+\.?\d*$/"
-								onKeyPress="if(this.value.length==1) return false;" required />
-						</div>
-					</div>
-					<div class="col-sm-4 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.footerToSkip.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.footerToSkip}]]</span> <input
-								class="offOnline form-control" id="footerToSkip"
-								name="footerToSkip" type="number"
-								th:placeholder="#{txt.footerToSkip.ph}"
-								pattern="/^-?\d+\.?\d*$/"
-								onKeyPress="if(this.value.length==1) return false;" required />
-						</div>
-					</div>
-					<div class="col-sm-4 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.threshold.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.threshold}]]</span> <input
-								class="form-control" id="threshold" name="threshold" type="text"
-								th:placeholder="#{txt.threshold.ph}" />
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="border-dashed-bottom my-3"></div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.keyColumn.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.keyColumn}]]</span> <input
-								class="form-control" id="keyColumn" name="keyColumn" type="text"
-								th:placeholder="#{txt.keyColumn.ph}" />
-						</div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.requiredColumn.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.requiredColumn}]]</span> <input
-								class="form-control" id="requiredColumn" name="requiredColumn"
-								type="text"
-								th:placeholder="#{txt.requiredColumn.ph}" />
-						</div>
-					</div>
-					<div class="col-sm-12 mb-3">
-						<div class="input-group">
-							<span class="input-group-text" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.ratiograde.ph}" data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.ratiograde}]]</span> <input
-								class="form-control" id="ratiograde" name="ratiograde"
-								type="text"
-								th:placeholder="#{txt.ratiograde.ph}" />
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="card-footer bg-200">
-				<div class="row flex-between-end">
-					<div class="col-auto ms-auto">
-						<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
-					</div>
-				</div>
-			</div>
-
-		</form>
 	</div>
+
+	<form id="info-form" class="needs-validation" novalidate>
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">[[#{txt.layout.title1}]]</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label">[[#{txt.layoutFile.name}]]</label> <input
+									class="form-control" id="projectName" name="projectName"
+									type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
+								<select class="form-select picker" id="projectNameDropdown"
+									name="projectNameDropdown" style="display: none;">
+									<option value="">*.properties</option>
+								</select>
+
+							</div>
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label">[[#{txt.fixedLayoutYN}]]</label> <select
+									class="offOnline form-select" id="fixedLayoutYN"
+									name="fixedLayoutYN">
+									<option value="Y">[[#{select.fixedLayoutYN.001}]]</option>
+									<option value="N">[[#{select.fixedLayoutYN.002}]]</option>
+								</select>
+							</div>
+							<div class=" col-sm-2 mb-3" style="display: none;">
+								<label class="form-label">[[#{txt.delimiter}]]</label> <input
+									class="offOnline form-control" id="delimiter" name="delimiter"
+									type="text" th:placeholder="#{txt.delimiter.ph}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12 offOnline">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">[[#{txt.layout.title2}]]</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.headerInfo}]]</label> <input
+									class="offOnline form-control" id="header" name="header"
+									type="text" th:placeholder="#{txt.headerInfo.ph}" required />
+							</div>
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.columnLength}]]</label> <input
+									class="offOnline form-control" id="columnLength"
+									name="columnLength" type="text"
+									th:placeholder="#{txt.columnLength.ph}" required />
+							</div>
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label">[[#{txt.headerToSkip}]]</label> <input
+									class="offOnline form-control" id="headerToSkip"
+									name="headerToSkip" type="number"
+									th:placeholder="#{txt.headerToSkip.ph}"
+									pattern="/^-?\d+\.?\d*$/"
+									onKeyPress="if(this.value.length==1) return false;" required />
+							</div>
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label">[[#{txt.footerToSkip}]]</label> <input
+									class="offOnline form-control" id="footerToSkip"
+									name="footerToSkip" type="number"
+									th:placeholder="#{txt.footerToSkip.ph}"
+									pattern="/^-?\d+\.?\d*$/"
+									onKeyPress="if(this.value.length==1) return false;" required />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row g-3 mb-3">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">[[#{txt.layout.title3}]]</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-light">
+						<div class="row g-3 mb-3">
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.threshold}]]</label> <input
+									class="form-control" id="threshold" name="threshold"
+									type="text" th:placeholder="#{txt.threshold.ph}" />
+							</div>
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.keyColumn}]]</label> <input
+									class="form-control" id="keyColumn" name="keyColumn"
+									type="text" th:placeholder="#{txt.keyColumn.ph}" />
+							</div>
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.requiredColumn}]]</label> <input
+									class="form-control" id="requiredColumn" name="requiredColumn"
+									type="text" th:placeholder="#{txt.requiredColumn.ph}" />
+							</div>
+							<div class=" col-sm-12 mb-3">
+								<label class="form-label">[[#{txt.ratiograde}]]</label> <input
+									class="form-control" id="ratiograde" name="ratiograde"
+									type="text" th:placeholder="#{txt.ratiograde.ph}" />
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</form>
 
 	<script type="text/javascript">
 		var $infoForm = $("#info-form");
@@ -201,53 +239,57 @@
 			})
 			$("#fixedLayoutYN").change(function(data) {
 				if ($(this).val() == "Y") {
-					$("#fixedLayoutYN").parent().parent().removeClass("col-sm-5");
-					$("#fixedLayoutYN").parent().parent().addClass("col-sm-7");
+					$("#fixedLayoutYN").parent().removeClass("col-sm-4");
+					$("#fixedLayoutYN").parent().addClass("col-sm-6");
 					$("#delimiter").val("");
-					$("#delimiter").parent().parent().hide();
+					$("#delimiter").parent().hide();
 					$("#delimiter").removeAttr("required");
-					$("#columnLength").parent().parent().show();
+					$("#columnLength").parent().show();
 					$("#columnLength").attr("required", '');
 					formatGbData = "fixed";
 				} else {
-					$("#fixedLayoutYN").parent().parent().removeClass("col-sm-7");
-					$("#fixedLayoutYN").parent().parent().addClass("col-sm-5");
+					$("#fixedLayoutYN").parent().removeClass("col-sm-6");
+					$("#fixedLayoutYN").parent().addClass("col-sm-4");
 					$("#columnLength").val("");
-					$("#columnLength").parent().parent().hide();
+					$("#columnLength").parent().hide();
 					$("#columnLength").removeAttr("required");
-					$("#delimiter").parent().parent().show();
+					$("#delimiter").parent().show();
 					$("#delimiter").attr("required", '');
 					formatGbData = "csv";
 				}
 			});
-			$infoForm.on("submit", function(e) {
-				e.preventDefault();
-				var data = $infoForm.serializeObject();
-				var columnLength = data.columnLength;
-				var header = data.header;
-				
-				if ($infoForm[0].checkValidity() === true) {
-					console.log(data);
-					if(data.fixedLayoutYN == "Y" && (commaCount(columnLength) != commaCount(header)) ){
-						alertModal('[[#{txt.layout.headercomma}]]');
-					}else{
-						confirmModal('[[#{web.confirm.save}]]', function() {
-							data.formatGb = formatGbData;
-							var param = {
-								target : "SAVE",
-								dataType : "text",
-								data : data
-							}
-							param.method = "PUT";
-							param.url = "/anomaly/makeproperty";
+			$infoForm
+					.on(
+							"submit",
+							function(e) {
+								e.preventDefault();
+								var data = $infoForm.serializeObject();
+								var columnLength = data.columnLength;
+								var header = data.header;
 
-							ajaxCall(param);
-						});	
-					}
-				}
-				
-				
-			})
+								if ($infoForm[0].checkValidity() === true) {
+									if (data.fixedLayoutYN == "Y"
+											&& (commaCount(columnLength) != commaCount(header))) {
+										alertModal('[[#{txt.layout.headercomma}]]');
+									} else {
+										confirmModal(
+												'[[#{web.confirm.save}]]',
+												function() {
+													data.formatGb = formatGbData;
+													var param = {
+														target : "SAVE",
+														dataType : "text",
+														data : data
+													}
+													param.method = "PUT";
+													param.url = "/anomaly/makeproperty";
+
+													ajaxCall(param);
+												});
+									}
+								}
+
+							})
 		}
 
 		function fn_changeForm(type) {
@@ -283,7 +325,6 @@
 				});
 
 				$('.picker').select2({
-					width : '70%',
 					selectionCssClass : "input-group-select2"
 				});
 				break;
@@ -314,36 +355,44 @@
 				break;
 			}
 		}
-		
-		function setView(type){
+
+		function setView(type) {
+			$("#fixedLayoutYN").val("Y").change();
 			switch (type) {
 			case "batchNew":
 				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).attr('required', '');
-					$(this).parent().parent().removeClass("d-none");
+					$(this).parent().removeClass("d-none");
 				});
-				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
-				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				$("#threshold").parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().addClass("col-sm-4 mb-3");
+				$("#projectName").parent().removeClass(" col-sm-12 mb-3");
+				$("#projectName").parent().addClass(" col-sm-6 mb-3");
 				formatGbData = "fixed";
 				break;
 			case "onlineNew":
 				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).removeAttr('required');
-					$(this).parent().parent().addClass("d-none");
+					$(this).parent().addClass("d-none");
 				});
-				$("#threshold").parent().parent().removeClass("col-sm-4 mb-3");
-				$("#threshold").parent().parent().addClass("col-sm-7 mb-3");
+				$("#threshold").parent().removeClass("col-sm-4 mb-3");
+				$("#threshold").parent().addClass("col-sm-7 mb-3");
+				$("#projectName").parent().removeClass(" col-sm-6 mb-3");
+				$("#projectName").parent().addClass(" col-sm-12 mb-3");
 				formatGbData = "json";
 				break;
 			case "edit":
 				fn_fileList();
+				
 				$("#projectName").removeAttr('required');
 				$("#projectNameDropBox").attr('required', '');
-				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
-				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				$("#threshold").parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().addClass("col-sm-4 mb-3");
+				$("#projectName").parent().removeClass(" col-sm-12 mb-3");
+				$("#projectName").parent().addClass(" col-sm-6 mb-3");
 				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).attr('required', '');
-					$(this).parent().parent().removeClass("d-none");
+					$(this).parent().removeClass("d-none");
 				});
 				$("#projectNameDropdown").show();
 				$("#projectName").hide();
