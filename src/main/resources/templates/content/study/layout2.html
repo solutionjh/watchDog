@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+
+<head>
+<title>[[#{left.014}]]</title>
+<style>
+ /* .input-group-text{
+ min-width : 170px;
+ } */
+</style>
+</head>
+<div layout:fragment="content">
+
+	<div class="card mb-1 mb-lg-0 mb-xl-1 mb-xxl-0 h-100 detail">
+
+		<div class="card-header bg-light">
+			<div class="row flex-between-center">
+				<div class="col-auto">
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.014}]]</h4>
+				</div>
+				<div class="col-auto d-flex">
+					<div class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0">
+						<button id="topNewBatchBtn" data-id="batchNew"
+							class="btn btn-falcon-primary btn-sm " type="button">
+							<span class="far fa-plus-square"></span> <span
+								class="d-none d-sm-inline-block ml-1">[[#{button.new.batch}]]</span>
+						</button>
+						<button id="topNewOnlineBtn" data-id="onlineNew"
+							class="btn btn-falcon-default btn-sm" type="button">
+							<span class="far fa-plus-square"></span> <span
+								class="d-none d-sm-inline-block ml-1">[[#{button.new.online}]]</span>
+						</button>
+						<button id="topEditBtn" data-id="edit"
+							class="btn btn-falcon-default btn-sm" type="button">
+							<span class="far fa-edit"></span> <span
+								class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<form id="info-form" class="needs-validation" novalidate>
+			<div class="card-body ">
+				<div class="row gx-2">
+					<div class="form-floating col-sm-6 mb-3">
+						<input
+								class="form-control" id="projectName" name="projectName"
+								type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
+							<label for="">[[#{txt.layoutFile.name}]]</label>
+					</div>
+					<div class="form-floating col-sm-6 mb-3">
+						<select
+								class="offOnline form-select" id="fixedLayoutYN"
+								name="fixedLayoutYN">
+								<option value="Y">[[#{select.fixedLayoutYN.001}]]</option>
+								<option value="N">[[#{select.fixedLayoutYN.002}]]</option>
+							</select>
+							<label for="">[[#{txt.fixedLayoutYN}]]</label>
+					</div>
+					<div class="form-floating col-sm-2 mb-3" style="display: none;">
+						<input
+								class="offOnline form-control" id="delimiter" name="delimiter"
+								type="text"
+								th:placeholder="#{txt.delimiter.ph}"
+								/>
+								<label for="">[[#{txt.delimiter}]]</label>
+					</div>
+					<div class="form-floating col-12">
+						<div class="border-dashed-bottom my-3"></div>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="offOnline form-control" id="header" name="header"
+								type="text"
+								th:placeholder="#{txt.headerInfo.ph}"
+								required />
+								<label for="">[[#{txt.headerInfo}]]</label>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="offOnline form-control" id="columnLength"
+								name="columnLength" type="text"
+								th:placeholder="#{txt.columnLength.ph}"
+								required />
+								<label for="">[[#{txt.columnLength}]]</label>
+					</div>
+					<div class="form-floating col-sm-6 mb-3">
+						<input
+								class="offOnline form-control" id="headerToSkip"
+								name="headerToSkip" type="number"
+								th:placeholder="#{txt.headerToSkip.ph}"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
+						<label for="">[[#{txt.headerToSkip}]]</label>
+					</div>
+					<div class="form-floating col-sm-6 mb-3">
+						<input
+								class="offOnline form-control" id="footerToSkip"
+								name="footerToSkip" type="number"
+								th:placeholder="#{txt.footerToSkip.ph}"
+								pattern="/^-?\d+\.?\d*$/"
+								onKeyPress="if(this.value.length==1) return false;" required />
+						<label for="">[[#{txt.footerToSkip}]]</label>
+					</div>
+					<div class="form-floating col-12">
+						<div class="border-dashed-bottom my-3"></div>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="form-control" id="threshold" name="threshold" type="text"
+								th:placeholder="#{txt.threshold.ph}" />
+						<label for="">[[#{txt.threshold}]]</label>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="form-control" id="keyColumn" name="keyColumn" type="text"
+								th:placeholder="#{txt.keyColumn.ph}" />
+						<label for="">[[#{txt.keyColumn}]]</label>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="form-control" id="requiredColumn" name="requiredColumn"
+								type="text"
+								th:placeholder="#{txt.requiredColumn.ph}" />
+						<label for="">[[#{txt.requiredColumn}]]</label>
+					</div>
+					<div class="form-floating col-sm-12 mb-3">
+						<input
+								class="form-control" id="ratiograde" name="ratiograde"
+								type="text"
+								th:placeholder="#{txt.ratiograde.ph}" />
+						<label for="">[[#{txt.ratiograde}]]</label>
+					</div>
+				</div>
+			</div>
+
+			<div class="card-footer bg-light">
+				<div class="row flex-between-end">
+					<div class="col-auto ms-auto">
+						<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+	<script type="text/javascript">
+		var $infoForm = $("#info-form");
+		var $projectNameDropdown = $("#projectNameDropdown");
+		var formatGbData = "fixed";
+		$(function() {
+			fn_Event();
+		});
+
+		function fn_fileList() {
+			const formData = {
+				"dirname" : "properties",
+				"pattern" : ".*\\.properties"
+			}
+			var param = {
+				target : "FILE_LIST",
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+
+		function fn_loadProperty(propertyName) {
+			var param = {
+				target : "LOAD_PROPERTY",
+				url : "/anomaly/loadproperty/" + propertyName
+			}
+			ajaxCall(param);
+		}
+		function fn_Event() {
+			initFormTooltip($infoForm);
+			$(".topBtnDiv button").on("click", function() {
+				$(".topBtnDiv button").removeClass("btn-falcon-primary");
+				$(".topBtnDiv button").addClass("btn-falcon-default");
+				$(this).removeClass("btn-falcon-default");
+				$(this).addClass("btn-falcon-primary");
+				fn_changeForm($(this).data("id"));
+			})
+			$("#fixedLayoutYN").change(function(data) {
+				if ($(this).val() == "Y") {
+					$("#fixedLayoutYN").parent().removeClass("col-sm-4");
+					$("#fixedLayoutYN").parent().addClass("col-sm-6");
+					$("#delimiter").val("");
+					$("#delimiter").parent().hide();
+					$("#delimiter").removeAttr("required");
+					$("#columnLength").parent().show();
+					$("#columnLength").attr("required", '');
+					formatGbData = "fixed";
+				} else {
+					$("#fixedLayoutYN").parent().removeClass("col-sm-6");
+					$("#fixedLayoutYN").parent().addClass("col-sm-4");
+					$("#columnLength").val("");
+					$("#columnLength").parent().hide();
+					$("#columnLength").removeAttr("required");
+					$("#delimiter").parent().show();
+					$("#delimiter").attr("required", '');
+					formatGbData = "csv";
+				}
+			});
+			$infoForm.on("submit", function(e) {
+				e.preventDefault();
+				var data = $infoForm.serializeObject();
+				var columnLength = data.columnLength;
+				var header = data.header;
+				
+				if ($infoForm[0].checkValidity() === true) {
+					console.log(data);
+					if(data.fixedLayoutYN == "Y" && (commaCount(columnLength) != commaCount(header)) ){
+						alertModal('[[#{txt.layout.headercomma}]]');
+					}else{
+						confirmModal('[[#{web.confirm.save}]]', function() {
+							data.formatGb = formatGbData;
+							var param = {
+								target : "SAVE",
+								dataType : "text",
+								data : data
+							}
+							param.method = "PUT";
+							param.url = "/anomaly/makeproperty";
+
+							ajaxCall(param);
+						});	
+					}
+				}
+				
+				
+			})
+		}
+
+		function fn_changeForm(type) {
+			formReset($infoForm);
+			$infoForm.removeClass('was-validated');
+
+			$("#projectNameDropdown").hide();
+			$("#projectName").show();
+			$("#projectName").attr('required', '');
+			$(".select2").hide();
+			setView(type);
+		}
+		function callback(target, data) {
+
+			switch (target) {
+			case "FILE_LIST":
+				$projectNameDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value=''>*.property</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$projectNameDropdown.append(html);
+				$projectNameDropdown.off();
+				$projectNameDropdown.change(function() {
+					var propertyName = $(this).val();
+					if (propertyName)
+						fn_loadProperty(propertyName);
+				});
+
+				$('.picker').select2({
+					width : '70%',
+					selectionCssClass : "input-group-select2"
+				});
+				break;
+			case "LOAD_PROPERTY":
+				initForm();
+				formatGbData = data.formatGb;
+				settingForm(data, $infoForm);
+				formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
+				switch (formatGbData) {
+				case "json":
+					setView("onlineNew");
+					break;
+				case "fixed":
+					$("#fixedLayoutYN").val("Y").change()
+					setView("batchNew");
+					break;
+				case "csv":
+					$("#fixedLayoutYN").val("N").change()
+					setView("batchNew");
+					break;
+				}
+				break;
+			case "SAVE":
+				alertModal('[[#{web.success.insert}]]');
+				initForm();
+				break;
+			default:
+				break;
+			}
+		}
+		
+		function setView(type){
+			switch (type) {
+			case "batchNew":
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).attr('required', '');
+					$(this).parent().parent().removeClass("d-none");
+				});
+				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				formatGbData = "fixed";
+				break;
+			case "onlineNew":
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).removeAttr('required');
+					$(this).parent().parent().addClass("d-none");
+				});
+				$("#threshold").parent().parent().removeClass("col-sm-4 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-7 mb-3");
+				formatGbData = "json";
+				break;
+			case "edit":
+				fn_fileList();
+				$("#projectName").removeAttr('required');
+				$("#projectNameDropBox").attr('required', '');
+				$("#threshold").parent().parent().removeClass("col-sm-7 mb-3");
+				$("#threshold").parent().parent().addClass("col-sm-4 mb-3");
+				$.each($("#info-form .offOnline"), function(idx, data) {
+					$(this).attr('required', '');
+					$(this).parent().parent().removeClass("d-none");
+				});
+				$("#projectNameDropdown").show();
+				$("#projectName").hide();
+				$(".select2").show();
+				break;
+			}
+		}
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			formReset($infoForm);
+		}
+	</script>
+
+</div>
+</html>
