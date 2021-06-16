@@ -128,12 +128,6 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '#',
-					field : 'index',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
 					title : '',
 					field : 'alertIcon',
 					align : 'center',
@@ -153,18 +147,21 @@
 				}, {
 					title : '[[#{txt.dev.distribution}]]',
 					field : 'devProbability',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.select.distribution}]]',
 					field : 'nowProbability',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.distribution.diff}]]',
 					field : 'diff',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
