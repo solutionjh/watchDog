@@ -221,3 +221,14 @@ iput {font-weight:300;}
 .this-month {
 	color : #2c7be5;
 }
+
+.calendar-btn{
+    padding: 0.125rem .75rem !important;
+    font-size: 0.74rem !important;
+    border-radius: .2rem !important;
+    height: 23px !important; 
+}
+
+.page-item{
+	width:35px !important;
+}

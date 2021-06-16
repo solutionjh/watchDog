@@ -140,7 +140,7 @@ function bootstrapTableRefresh(target, url ,isPage){
 		locale: "",
 		sortable:true,
 		queryParams:true,
-		detailView:true,
+		/*detailView:true,*/
 		pagination:pagination,	
 		url : url,
 		formatRecordsPerPage: function(pageNumber){
