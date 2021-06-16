@@ -124,15 +124,10 @@
 				pageSize : "10",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '#',
-					field : 'index',
-					align : 'right',
-					valign : 'middle',
-					sortable : true
-				},{
 					title : '[[#{txt.project}]]',
 					field : 'a',
-					align : 'center',
+					halign: 'center',
+					align : 'left',
 					sortable : true,
 					valign : 'middle'
 				}, {
@@ -144,30 +139,35 @@
 				}, {
 					title : '[[#{txt.average}]]',
 					field : 'c',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.standard.deviation}]]',
 					field : 'c',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.bottom}]]',
 					field : 'bottom',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q1}]]',
 					field : 'q1',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.median}]]',
 					field : 'median',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
@@ -175,10 +175,12 @@
 					title : '[[#{txt.boxplot.q3}]]',
 					field : 'q3',
 					sortable : true,
+					halign: 'center',
 					align : 'right'
 				}, {
 					title : '[[#{txt.boxplot.top}]]',
 					field : 'top',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'

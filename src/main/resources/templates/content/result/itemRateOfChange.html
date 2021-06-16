@@ -138,12 +138,6 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
-					title : '#',
-					field : 'index',
-					align : 'center',
-					valign : 'middle',
-					sortable : true
-				}, {
 					title : '',
 					field : 'alertIcon',
 					align : 'center',
@@ -157,12 +151,14 @@
 				}, {
 					title : '[[#{txt.dev.mse}]]',
 					field : 'devMse',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.select.mse}]]',
 					field : 'nowMse',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
@@ -170,6 +166,7 @@
 					title : '[[#{txt.change.rate}]]',
 					field : 'changeRate',
 					sortable : true,
+					halign: 'center',
 					align : 'right'
 				} ],
 				onClickRow : function(row, $element, field) {
