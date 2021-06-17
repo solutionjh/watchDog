@@ -142,6 +142,8 @@ function bootstrapTableRefresh(target, url ,isPage){
 		queryParams:true,
 		/*detailView:true,*/
 		pagination:pagination,	
+		paginationPreText:"◀",
+  		paginationNextText:"▶",
 		url : url,
 		formatRecordsPerPage: function(pageNumber){
             return pageNumber ;

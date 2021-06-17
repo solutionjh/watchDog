@@ -230,5 +230,16 @@ iput {font-weight:300;}
 }
 
 .page-item{
-	width:35px !important;
+	width:42px !important;
+	font-size: 14px !important;
+    font-weight: bold !important;    
+}
+
+.page-link{
+	color: #7d7a7a;  
+	text-align: center;
+}
+
+.page-item.active .page-link{
+	color: #ffffff;  
 }
