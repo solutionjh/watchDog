@@ -9,22 +9,38 @@
 
 </head>
 <div layout:fragment="content">
-
-	<div class="row g-0">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-header pb-1"></div>
+		<div class="card-body pt-0">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.016}]]</h4>
+				</div>
+				<div class="col-sm-auto"></div>
+			</div>
+		</div>
+	</div>
+	<div class="row g-3 mb-3">
 		<div class="col-lg-12 pe-lg-2">
 			<div class="card mb-3">
 				<form id="info-form" class="needs-validation" novalidate>
-				<div class="card-header ">
+				<div class="card-header">
 						<div class="row flex-between-end">
 							<div class="col-auto col-lg align-self-center">
-								<h4 class="mb-0 title-area" data-anchor="data-anchor"
-									id="tooltips">[[#{left.016}]]</h4>
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart"
+										style="padding-left: 0.375em;">[[#{txt.fileFormatEdit.title}]]</a>
+								</h5>
 							</div>
 						</div>
 					</div>
 					<div class="card-body pt-0 bg-200">
 						<div class="row gx-2">
-							<div class="col-12 mb-3">
+							<div class="col-12 mb-3 mt-3">
 								<label class="form-label">
 									[[#{txt.makeModelYN}]]</label>
 								<div class="custom-control custom-radio">

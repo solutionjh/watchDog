@@ -417,3 +417,12 @@ iput {
 	right: 7px;
 }
 
+.btn-group>.btn.btn-group {
+	font-size: 0.75rem;
+	height: 24px !important;
+	line-height: 1.2;
+}
+
+.btn-falcon-default.btn-group {
+	margin-right: 0px !important;
+}
