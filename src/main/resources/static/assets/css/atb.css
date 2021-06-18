@@ -362,8 +362,13 @@ iput {
 .member-table .bootstrap-table .fixed-table-container .fixed-table-body
 	{
 	overflow-x: hidden !important;
-	overflow-y: hidden !important;
+	overflow-y: hidden !important;	
+	   
 }
+
+/* .no-records-found{	
+	margin-right:17px !important;
+} */
 
 .fc .fc-col-header {
 	background-color: #edf2f9 !important;
@@ -406,8 +411,8 @@ iput {
 }
 
 .delete-btn {
-	/* position: relative;
-	right: 16px; */
+	position: relative;
+	    left: 8px;
 }
 
 .index-area {
@@ -449,4 +454,8 @@ button.btn-circle {
 }
 .navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:hover, .navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:focus{
 		color:#3883e7 !important;
+}
+
+table {
+	width: 100% !important
 }

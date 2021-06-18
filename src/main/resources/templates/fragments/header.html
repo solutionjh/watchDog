@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<header th:fragment="headerFragment">
-	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" style="z-index:1010">
+
+	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" th:fragment="headerFragment">
 		<form method="post" id="paramForm" name="paramForm" th:action="@{/}">
 				<input type="hidden" id="paramData" name="paramData"/>
 				<input type="hidden" id="csrfToken" th:value="${_csrf.token}" /> 
@@ -58,8 +58,7 @@
 				</div>
 			</li>
 		</ul>
-	</nav>
-	
+		
 	<script type="text/javascript">	
 		$(function() {			
 			setInterval(fn_Alarm, 60000);
@@ -124,4 +123,5 @@
 				}
 			}
 	</script>
-</header>
+	</nav>
+	
