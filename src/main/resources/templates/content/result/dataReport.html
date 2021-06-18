@@ -11,18 +11,14 @@
 		<div class="bg-holder d-none d-lg-block bg-card"
 			style="background-image: url(/assets/img/illustrations/corner-4.png);">
 		</div>
-		<div class="card-header pb-1">
-			<div class="row flex-between-end">
-				<div class="col-auto col-lg align-self-center">
-                  <h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.012}]]</h4>
-                </div>
-			</div>
+		<div class="card-header pb-1">			
 		</div>
 		<div class="card-body pt-0">
 			<div class="row flex-between-center">
-				<div class="col-sm-auto mb-2 mb-sm-0">
-					<h6 class="mb-0">[[#{txt.recent.time}]]<span class="text-500 recentDtim" ></span></h6>
+                <div class="col-sm-auto mb-2 mb-sm-0">
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.012}]]</h4>					
 				</div>
+			
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
 						<div class="col-auto">
@@ -37,11 +33,12 @@
 								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
-						<div class="col-auto pe-0">
-							<div class="input-group">
-								<div class="input-group-append">
-									<button type="button" id="pdfDownLoad" class="btn btn-primary">[[#{button.pdf.save}]]</button>
-								</div>
+						<div class="col-auto pe-0">							
+							<div
+								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
+								<button id="pdfDownLoad" data-id="onlineNew"
+									class="btn btn-falcon-default btn-sm"  type="button">[[#{button.pdf.save}]]
+								</button>
 							</div>
 						</div>
 					</div>
@@ -93,16 +90,13 @@
 									<div class="card-body bg-200 indicator">
 										<div class="tab-content">
 											<div style="min-height: 250px;">
-												<div class="indicator-title">분포 안정 지표</div>
-												<div class="row d-flex justify-content-between">
-													<div class="col-lg-6">
-														<img src="/assets/img/nice/on.png" class="indicator-img left" >	
-														<span class="indicator-span left">항목별</span>
-													</div>
-													<div class="col-lg-6">
-														<img src="/assets/img/nice/off.png" class="indicator-img right" >	
-														<span class="indicator-span right">안전성</span>
-													</div>
+												<div class="indicator-title">[[#{txt.item.safety.res }]]</div>
+												<div class="d-flex justify-content-center bg-200 mb-2 ">
+													<img src="/assets/img/nice/on.png" class="indicator-img left" >	
+													<span class="indicator-span left">[[#{txt.item}]]</span>
+												
+													<img src="/assets/img/nice/off.png" class="indicator-img right" >	
+													<span class="indicator-span right">[[#{txt.safety}]]</span>
 												</div>
 											</div>
 										</div>
@@ -349,14 +343,13 @@
 	            		name : '[[#{txt.normal.file}]]'
 	            	}];	
 	              
-	              var  radius = ['100%', '60%'];
+	              var  radius = ['80%', '60%'];
 	              
 	              param.target = "fileStateChart";
 	              param.data = data;
 	              param.radius = radius;
 	              param.title = '[[#{txt.file.anormal.detection}]]';
 	              param.name = ['[[#{txt.normal.file}]]', '[[#{txt.anormal.file}]]'];
-	              param.color = [utils.getColors().danger, utils.getColors().primary];
 	              fn_PieChart(param);				
 	              
 	              
@@ -408,15 +401,13 @@
 				});
 				
 				statData.title ='[[#{txt.distribution.stability.indicator}]]';
-				statData.formatterTxt ='[[#{txt.number}]]';	
-				statData.isTitle = true
+				statData.formatterTxt ='[[#{txt.number}]]';					
 				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
 				var param = {
 					target : "dataCntChart",
-					title : '[[#{txt.data.count}]]',
-					isTitle : true,
+					title : '[[#{txt.data.count}]]',					
 					xData : statData.dtims,
 					yData : statData.datacnts,
 					name : '[[#{txt.number.count}]]',
@@ -428,11 +419,9 @@
 				// 일별 이상항목수 
 				param.target = "dashItemBar";
 				param.title = '[[#{txt.anomaly.count}]]';
-				isTitle : true,
 				param.xData = statData.dtims;
 				param.yData = statData.cars;
 				param.name = '[[#{txt.item.count}]]';
-				param.barColor = utils.getColors().danger
 				fn_BarChart(param)
 
 				// 분포 이상 항목수				

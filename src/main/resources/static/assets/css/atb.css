@@ -321,25 +321,22 @@ iput {
 
 .indicator-img {
 	position: relative;
-	width: 80%;
+	width: 63%;
 	min-width: 181px;
-}
-
-.indicator-img.left {
-	left: 55px;
+	max-width: 181px;
 }
 
 .indicator-span {
 	position: relative;
-	top: 116px;
+	top: 192px;
 }
 
 .indicator-span.left {
-	right: 76px;
+	right: 119px;
 }
 
 .indicator-span.right {
-	right: 127px;
+	right: 112px;
 }
 
 .bg-upper-changeRate {
@@ -389,14 +386,15 @@ iput {
 }
 
 .page-item {
-	width: 42px !important;
-	font-size: 14px !important;
-	font-weight: bold !important;
+	width: 38px !important;
+    font-size: 1px !important;
+    font-weight: bold !important;
 }
 
 .page-link {
 	color: #7d7a7a;
 	text-align: center;
+	padding: 0.4rem .15rem !important;
 }
 
 .page-item.active .page-link {
@@ -408,8 +406,8 @@ iput {
 }
 
 .delete-btn {
-	position: relative;
-	right: 16px;
+	/* position: relative;
+	right: 16px; */
 }
 
 .index-area {
@@ -417,3 +415,22 @@ iput {
 	right: 7px;
 }
 
+.chrome .btn-close {
+    background-clip: unset;
+}
+
+button.btn-circle {
+    height: 2.8rem !important;
+}
+
+.bootstrap-table .fixed-table-container .table thead th .both {
+	background-image : none !important;
+}
+
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination {
+    margin: 5px !important;
+}
+
+.calendar-today-btn{
+	padding-right: 13px !important;
+}

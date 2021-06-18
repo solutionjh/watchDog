@@ -12,17 +12,11 @@
 		<div class="bg-holder d-none d-lg-block bg-card"
 			style="background-image: url(/assets/img/illustrations/corner-4.png);">
 		</div>
-		<div class="card-header pb-1">
-			<div class="row flex-between-end">
-				<div class="col-auto col-lg align-self-center">
-                  <h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.006}]]</h4>
-                </div>
-			</div>
-		</div>
+		<div class="card-header pb-1"></div>
 		<div class="card-body pt-0">
 			<div class="row flex-between-center">
 				<div class="col-sm-auto mb-2 mb-sm-0">
-					<h6 class="mb-0">[[#{txt.recent.time}]] <span class="text-500" id="recentDtim"></span></h6>
+					<h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.006}]]</h4>
 				</div>
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
@@ -50,10 +44,11 @@
 							</select>
 						</div>
 						<div class="col-auto pe-0">
-							<div class="input-group">
-								<div class="input-group-append">
-									<button type="button" id="goReport" class="btn btn-primary" disabled>[[#{button.report}]]</button>
-								</div>
+							<div
+								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
+								<button id="goReport" data-id="onlineNew"
+									class="btn btn-falcon-default btn-sm" disabled type="button">[[#{button.report}]]
+								</button>
 							</div>
 						</div>
 					</div>
@@ -63,84 +58,61 @@
 	</div>
 
 	<div class="row g-3 mb-3">
-		<div class="col-lg-6">
+		<div class="col-lg-12">
 			<div class="card">
 				<div class="card-header">
 					<div class="row flex-between-end">
 						<div class="col-auto col-lg align-self-center">
 							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">[[#{txt.distribution.stability.indicator}]]</a>
+								[[#{txt.recent.time}]] <a class="anchorjs-link "
+									aria-label="Anchor" data-anchorjs-icon="#" href="#bar-chart"
+									style="padding-left: 0.375em;" id="recentDtim"></a>
 							</h5>
 						</div>
 					</div>
+
 				</div>
 				<div class="card-body bg-200">
-					<div class="tab-content">
-						<div id="psiChart" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">[[#{txt.data.count}]]</a>
-							</h5>
+
+					<div class="row g-3 mb-3">
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body bg-200">
+									<div class="tab-content">
+										<div id="psiChart" style="min-height: 250px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body bg-200">
+									<div class="tab-content">
+										<div id="dataCntChart" style="min-height: 250px;"></div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="card-body bg-200">
-					<div class="tab-content">
-						<div id="dataCntChart" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row g-3 mb-3">
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">[[#{txt.anomaly.count}]]</a>
-							</h5>
+					<div class="row g-3 mb-3">
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body bg-200">
+									<div class="tab-content">
+										<div id="dashItemBar" style="min-height: 250px;"></div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="card-body bg-200">
-					<div class="tab-content">
-						<div id="dashItemBar" style="min-height: 250px;"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-6">
-			<div class="card">
-				<div class="card-header">
-					<div class="row flex-between-end">
-						<div class="col-auto col-lg align-self-center">
-							<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
-								<a class="anchorjs-link " aria-label="Anchor"
-									data-anchorjs-icon="#" href="#bar-chart"
-									style="padding-left: 0.375em;">[[#{txt.distribution.anomaly.count}]]</a>
-							</h5>
+						<div class="col-lg-6">
+							<div class="card">
+								<div class="card-body bg-200">
+									<div class="tab-content">
+										<div id="dashChisqBar" style="min-height: 250px;"></div>
+									</div>
+								</div>
+							</div>
 						</div>
-					</div>
-				</div>
-				<div class="card-body bg-200">
-					<div class="tab-content">
-						<div id="dashChisqBar" style="min-height: 250px;"></div>
 					</div>
 				</div>
 			</div>
@@ -240,6 +212,8 @@
 					statData.chisqcnts.push(parseInt(this.chisqcnt));
 					statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
+				statData.title ='[[#{txt.distribution.stability.indicator}]]';
+				statData.formatterTxt ='[[#{txt.number}]]';					
 				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
@@ -260,7 +234,6 @@
 				param.xData = statData.dtims;
 				param.yData = statData.cars;
 				param.name = '[[#{txt.item.count}]]';
-				param.barColor = utils.getColors().danger
 				fn_BarChart(param)
 
 				// 분포 이상 항목수				
@@ -268,7 +241,6 @@
 				param.title = '[[#{txt.distribution.anomaly.count}]]';
 				param.xData = statData.dtims;
 				param.yData = statData.chisqcnts;
-				param.barColor = utils.getColors().primary;
 				fn_BarChart(param);
 
 				break;
@@ -277,5 +249,5 @@
 			}
 		}
 	</script>
-</div>
-</html>
+	</div>
+	</html>

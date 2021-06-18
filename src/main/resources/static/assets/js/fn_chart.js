@@ -9,10 +9,9 @@
 	
 		option = {
 			title : {
-				text : param.title,
-				show : true
+				text : param.title
 			},
-			color: param.color,
+			color: ['#e63756', '#49b857'],
 			tooltip: {
 		          trigger: 'item',
 		          padding: [7, 10],
@@ -33,8 +32,8 @@
 	
 			legend : {
 				data : param.name,
-				bottom: 0,
-			    left: 'right',
+				bottom: 115,
+			    left: 'center',
 				itemWidth : 10,
 				itemHeight : 10,
 				borderRadius : 0,
@@ -44,17 +43,11 @@
 					color : utils.getGrays()['700']
 				}
 			},
-			 grid: {
-			        left: '3%',
-			        right: '4%',
-			        bottom: '3%',
-			        containLabel: true
-			    },
 	
 			toolbox : {
 				feature : {
 					saveAsImage : {
-						title : 'Save As'
+						title : 'Save'
 					}
 				}
 			},
@@ -105,10 +98,10 @@
 			var dataObj ={}				
 			if (this > 80){
 				dataObj.value = param.data[i];
-				dataObj.itemStyle = {color: utils.getColors().danger};
+				dataObj.itemStyle = {color: '#e63756'};
 			}else{
 				dataObj.value = param.data[i];
-				dataObj.itemStyle = {color: utils.getColors().primary};
+				dataObj.itemStyle = {color: '#49b857'};
 			}
 			
 			dataArray.push(dataObj);
@@ -158,7 +151,7 @@
 				toolbox : {
 					feature : {
 						saveAsImage : {
-							title : 'Save As'
+							title : 'Save'
 						}
 					}
 				},
@@ -212,8 +205,6 @@
 	
 	
 	function fn_PsiChart(data) {	
-		var isTitle  = (data.isTitle == true) ? true : false;
-		
 		if (psiLineChart != null) {
 			psiLineChart.destroy();
 		}
@@ -231,10 +222,9 @@
 	
 		option = {
 			title : {
-				text : data.title,
-				show : isTitle
+				text : data.title
 			},
-			color : [ utils.getColors().primary, utils.getColors().danger ],
+			color : [ '#49b857', utils.getColors().warning ],
 			tooltip : {
 				trigger : 'axis',
 				padding : [ 7, 10 ],
@@ -272,7 +262,7 @@
 			toolbox : {
 				feature : {
 					saveAsImage : {
-						title : 'Save As'
+						title : 'Save'
 					}
 				}
 			},
@@ -340,10 +330,10 @@
 						type : 'line',
 						data : data.psis,
 						lineStyle : {
-							color :  utils.getColors().primary
+							color :  '#49b857'
 						},
 						itemStyle : {
-							borderColor : utils.getColors().primary,
+							borderColor : '#49b857',
 							borderWidth : 2
 						},
 						showSymbol : false,
@@ -359,17 +349,11 @@
 								colorStops : [
 										{
 											offset : 0,
-											color : utils.rgbaColor(utils
-													.getColors().primary,
-													0.2)
+											color : '#9cd2a2'
 										},
 										{
 											offset : 1,
-											color : utils
-													.rgbaColor(
-															utils
-																	.getColors().primary,
-															0)
+											color : '#d2ecd7'
 										} ]
 							}
 						}
@@ -378,10 +362,10 @@
 						type : 'line',
 						data : thresholdArray,
 						lineStyle : {
-							color : utils.getColors().danger
+							color : utils.getColors().warning
 						},
 						itemStyle : {
-							borderColor : utils.getColors().danger,
+							borderColor : utils.getColors().warning,
 							borderWidth : 2
 						},
 						showSymbol : false,
@@ -395,9 +379,7 @@
 		option && myChart.setOption(option);
 	}
 	
-	function fn_LineChart(data) {
-		var isTitle  = (data.isTitle == true) ? true : false;
-	
+	function fn_LineChart(data) {	
 		if (dataCntLineChart != null) {
 			dataCntLineChart.destroy();
 		}
@@ -408,8 +390,7 @@
 	
 		option = {
 			title : {
-				text : data.title,
-				show : isTitle
+				text : data.title
 			},
 			color : [ utils.getColors().primary],
 			tooltip : {
@@ -427,7 +408,7 @@
 				}
 			},
 	
-			legend : {
+			/*legend : {
 				data : [data.name],
 				left : 'center',
 				itemWidth : 10,
@@ -438,7 +419,7 @@
 				textStyle : {
 					color : utils.getGrays()['700']
 				}
-			},
+			},*/
 			 grid: {
 			        left: '3%',
 			        right: '4%',
@@ -449,7 +430,7 @@
 			toolbox : {
 				feature : {
 					saveAsImage : {
-						title : 'Save As'
+						title : 'Save'
 					}
 				}
 			},
@@ -558,8 +539,6 @@
 	
 	function fn_BarChart(param) {
 	
-		var isTitle  = (param.isTitle == true) ? true : false;
-	
 		if (itemBarChart != null) {
 			itemBarChart.destroy();
 		}
@@ -570,8 +549,7 @@
 	
 		option = {
 			title : {
-				text : param.title,
-				show : isTitle
+				text : param.title
 			},
 			color : [ utils.getColors().primary ],
 			tooltip : {
@@ -589,7 +567,7 @@
 				}
 			},
 	
-			legend : {
+			/*legend : {
 				data : [ param.name ],
 				left : 'center',
 				itemWidth : 10,
@@ -600,7 +578,7 @@
 				textStyle : {
 					color : utils.getGrays()['700']
 				}
-			},
+			},*/
 			 grid: {
 			        left: '3%',
 			        right: '4%',
@@ -610,7 +588,7 @@
 			toolbox : {
 				feature : {
 					saveAsImage : {
-						title : 'Save As'
+						title : 'Save'
 					}
 				}
 			},

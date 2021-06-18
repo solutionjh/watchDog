@@ -8,77 +8,85 @@
 <title>[[#{left.004}]]</title>
 </head>
 <div layout:fragment="content">
-
 	<div class="row g-0">
 		<div class="col-lg-12 pe-lg-2">
 			<div class="card mb-3">
-			<div class="card-header pb-0">
-			<div class="row flex-between-end">
-				<div class="col-auto col-lg align-self-center">
-                  <h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.004}]]</h4>
-                </div>
-			</div>
-		</div>
+				<div class="bg-holder d-none d-lg-block bg-card"
+					style="background-image: url(/assets/img/illustrations/corner-4.png);">
+				</div>
+				<div class="card-header pb-1"></div>
 				<div class="card-body pt-0">
-					<div class="row gx-2">
-						<div class="card-header">
-							<div class="row gx-0 align-items-center">
-								<div class="col-auto d-flex justify-content-end order-md-1">
+					<div class="row flex-between-center">
+						<div class="col-sm-auto mb-2 mb-sm-0">
+							<h4 class="mb-0 title-area" data-anchor="data-anchor"
+								id="tooltips">[[#{left.004}]]</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="card mb-3">
+				<div class="card-header pb-2">
+					<div class="row flex-between-end">
+						<div class="row gx-0 align-items-center">
+							<div class="col-auto d-flex justify-content-end order-md-1">
+								<button
+									class="btn icon-item icon-item-sm shadow-none p-0 me-1 ms-md-2"
+									type="button" data-event="prev" data-bs-toggle="tooltip"
+									title="" data-bs-original-title="Previous"
+									aria-label="Previous">
+									<span class="fas fa-arrow-left"></span>
+								</button>
+								<button
+									class="btn icon-item icon-item-sm shadow-none p-0 me-1 me-lg-2"
+									type="button" data-event="next" data-bs-toggle="tooltip"
+									title="" data-bs-original-title="Next" aria-label="Next">
+									<span class="fas fa-arrow-right"></span>
+								</button>
+							</div>
+							<div class="col-auto col-md-auto order-md-2 mb-1">
+								<h4 class="mb-0 fs-0 fs-sm-1 fs-lg-2 calendar-title"></h4>
+							</div>
+							<div class="col-md-auto d-md-none">
+								<hr>
+							</div>
+							<div class="col-auto d-flex order-md-0"></div>
+							<div
+								class="col col-md-auto d-flex justify-content-end order-md-3 mb-2 calendar-today-btn">
+								<button class="btn btn-falcon-primary btn-sm calendar-btn"
+									type="button" data-event="today">Today</button>
+							</div>
+							<div class="col d-flex justify-content-end order-md-2 mb-2">
+								<div class="dropdown font-sans-serif ">
 									<button
-										class="btn icon-item icon-item-sm shadow-none p-0 me-1 ms-md-2"
-										type="button" data-event="prev" data-bs-toggle="tooltip"
-										title="" data-bs-original-title="Previous"
-										aria-label="Previous">
-										<span class="fas fa-arrow-left"></span>
+										class="btn btn-falcon-default text-600 btn-sm dropdown-toggle dropdown-caret-none calendar-btn"
+										type="button" id="email-filter" data-bs-toggle="dropdown"
+										data-boundary="viewport" aria-haspopup="true"
+										aria-expanded="false">
+										<span data-view-title="data-view-title">Month View</span> <span
+											class="fas fa-sort ms-2 fs--1"></span>
 									</button>
-									<button
-										class="btn icon-item icon-item-sm shadow-none p-0 me-1 me-lg-2"
-										type="button" data-event="next" data-bs-toggle="tooltip"
-										title="" data-bs-original-title="Next" aria-label="Next">
-										<span class="fas fa-arrow-right"></span>
-									</button>
-								</div>
-								<div class="col-auto col-md-auto order-md-2 mb-1">
-									<h4 class="mb-0 fs-0 fs-sm-1 fs-lg-2 calendar-title"></h4>
-								</div>
-								<div class="col-md-auto d-md-none">
-									<hr>
-								</div>
-								<div class="col-auto d-flex order-md-0">
-								</div>
-								<div
-									class="col col-md-auto d-flex justify-content-end order-md-3 mb-2">
-									<button class="btn btn-falcon-primary btn-sm calendar-btn" type="button"
-										data-event="today">Today</button>
-								</div>
-								<div class="col d-flex justify-content-end order-md-2 mb-2">
-									<div class="dropdown font-sans-serif ">
-										<button
-											class="btn btn-falcon-default text-600 btn-sm dropdown-toggle dropdown-caret-none calendar-btn"
-											type="button" id="email-filter" data-bs-toggle="dropdown"
-											data-boundary="viewport" aria-haspopup="true"
-											aria-expanded="false">
-											<span data-view-title="data-view-title">Month View</span> <span
-												class="fas fa-sort ms-2 fs--1"></span>
-										</button>
-										<div class="dropdown-menu dropdown-menu-end border py-2"
-											aria-labelledby="email-filter">
-											<a
-												class="active dropdown-item d-flex justify-content-between"
-												href="#!" data-fc-view="dayGridMonth">Month View </a> <a
-												class="dropdown-item d-flex justify-content-between"
-												href="#!" data-fc-view="timeGridWeek">Week View </a> <a
-												class="dropdown-item d-flex justify-content-between"
-												href="#!" data-fc-view="timeGridDay">Day View </a> <a
-												class="dropdown-item d-flex justify-content-between"
-												href="#!" data-fc-view="listWeek">List View</a> <a
-												class="dropdown-item d-flex justify-content-between"
-												href="#!" data-fc-view="listYear">Year View </a>
-										</div>
+									<div class="dropdown-menu dropdown-menu-end border py-2"
+										aria-labelledby="email-filter">
+										<a class="active dropdown-item d-flex justify-content-between"
+											href="#!" data-fc-view="dayGridMonth">Month View </a> <a
+											class="dropdown-item d-flex justify-content-between"
+											href="#!" data-fc-view="timeGridWeek">Week View </a> <a
+											class="dropdown-item d-flex justify-content-between"
+											href="#!" data-fc-view="timeGridDay">Day View </a> <a
+											class="dropdown-item d-flex justify-content-between"
+											href="#!" data-fc-view="listWeek">List View</a> <a
+											class="dropdown-item d-flex justify-content-between"
+											href="#!" data-fc-view="listYear">Year View </a>
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
+				</div>
+				<div class="card-body pt-0">
+					<div class="row gx-2">
 						<div class="card-body p-0">
 							<div id="calendarDiv"
 								class="fc fc-media-screen fc-direction-ltr fc-theme-standard"
