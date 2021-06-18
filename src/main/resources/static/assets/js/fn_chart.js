@@ -710,7 +710,8 @@
 		    title: [
 		        {
 		            text: param.title,
-		            left: 'center'
+		            left: 'center',
+		            show:false
 		        }
 		    ],
 		    tooltip: {
@@ -720,9 +721,10 @@
 		        }
 		    },
 		    grid: {
-		        left: '5%',
-		        right: '5%',
-		        bottom: '15%'
+		        top: '2%',
+		        left: '2%',
+		        right: '2%',
+		        bottom: '10%'
 		    },
 		    xAxis: {
 		    	type : 'category',	

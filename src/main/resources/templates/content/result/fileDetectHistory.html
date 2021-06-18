@@ -61,9 +61,9 @@
 	</div>
 
 	<div class="card mb-3">
-		<div class="card-body bg-200">
+		<div class="card-body bg-200" style="height:248px">
 			<div class="tab-content">
-				<div id="boxplot" style="min-height: 220px;"></div>
+				<div id="boxplot"></div>
 			</div>
 		</div>
 	</div>
@@ -119,11 +119,18 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
-				height : 390,			
+				height : 387,			
 				locale:'[[${#locale}]]',
 				pageSize : "10",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
+					title : '',
+					field : 'index',
+					halign : 'center',
+					align : 'center',
+					width: '50',
+					valign : 'middle'
+				}, {
 					title : '[[#{txt.project}]]',
 					field : 'a',
 					halign: 'center',
@@ -269,7 +276,7 @@
 
 		function responseHandler(res) {
 			$.each(res, function(i) {
-				this.index = i + 1;
+				this.index = '<span class="index-area">'+(i + 1)+'</span>';
 			});
 			return res;
 		}

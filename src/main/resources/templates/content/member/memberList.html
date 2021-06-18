@@ -9,17 +9,34 @@
 
 </head>
 <div layout:fragment="content">
+	<div class="card mb-3">
+		<div class="bg-holder d-none d-lg-block bg-card"
+			style="background-image: url(/assets/img/illustrations/corner-4.png);">
+		</div>
+		<div class="card-header pb-1">
+		</div>
+		<div class="card-body pt-0">
+			<div class="row flex-between-center">
+				<div class="col-sm-auto mb-2 mb-sm-0">
+					 <h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.002}]]</h4>
+				</div>
+				<div class="col-sm-auto">
+					<div class="row gx-2 align-items-center">						
+						<div class="col-auto pe-0">
+							<div class="input-group">
+								<div class="input-group-append">
+									<button class="btn btn-sm btn-primary" type="button" id="insert">[[#{button.insert}]]</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="card mb-3">
 		<div class="card-header">
-			<div class="row flex-between-end">
-				<div class="col-auto col-lg align-self-center">
-                  <h4 class="mb-0 title-area" data-anchor="data-anchor" id="tooltips">[[#{left.002}]]</h4>
-                </div>
-				<div class="col-auto ms-auto">
-					<button class="btn btn-sm btn-primary" type="button" id="insert">[[#{button.insert}]]</button>
-				</div>
-			</div>
 		</div>
 		<div class="card-body pt-0">
 			<div class="tab-content member-table">
@@ -208,14 +225,15 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable(
 					{
-						height : 270,
+						height : 237,
 						locale:'[[${#locale}]]',
 						columns : [ {
-							title : '#',
+							title : '',
 							field : 'index',
+							halign : 'center',
 							align : 'center',
-							valign : 'middle',
-							sortable : true
+							width: '50',
+							valign : 'middle'
 						}, {
 							title : '[[#{txt.id}]]',
 							field : 'memberId',
@@ -249,7 +267,8 @@
 						}, {
 							title : '[[#{txt.delete}]]',
 							field : 'deleteBtn',
-							align : 'center',
+							halign : 'center',
+							align : 'right',
 							valign : 'middle'
 						} ],
 						
@@ -288,8 +307,8 @@
 		
 		function responseHandler(res) {
 			$.each(res, function(i) {
-				this.index = i + 1;
-                this.deleteBtn = '<button class="btn p-0 ms-1" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
+				this.index = '<span class="index-area">'+(i + 1)+'</span>';
+                this.deleteBtn = '<button class="btn p-0 ms-1 delete-btn" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 				delete this.password;
 				delete this.regdtim;
 				delete this.lastAccess;

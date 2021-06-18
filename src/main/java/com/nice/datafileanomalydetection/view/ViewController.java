@@ -22,11 +22,11 @@ public class ViewController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	@RequestMapping(value="/study/{html}" , method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/learning/{html}" , method = {RequestMethod.GET, RequestMethod.POST})
 	public String studyView(@PathVariable("html") String html, HttpServletRequest request, Model model) {
 		model.addAttribute("menu", html);
 		model.addAttribute("paramData", request.getParameter("paramData"));
-		return "content/study/" + html;
+		return "content/learning/" + html;
 	}
 
 	@RequestMapping(value="/result/{html}" , method = {RequestMethod.GET, RequestMethod.POST})
@@ -43,11 +43,11 @@ public class ViewController {
 		return "content/member/" + html;
 	}
 
-	@RequestMapping(value="/execute/{html}" , method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value="/predict/{html}" , method = {RequestMethod.GET, RequestMethod.POST})
 	public String executeView(@PathVariable("html") String html, HttpServletRequest request, Model model) {
 		model.addAttribute("menu", html);
 		model.addAttribute("paramData", request.getParameter("paramData"));
-		return "content/execute/" + html;
+		return "content/predict/" + html;
 	}
 
 	@RequestMapping(value={ "/", "/calendar" } , method = {RequestMethod.GET, RequestMethod.POST})

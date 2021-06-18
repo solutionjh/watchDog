@@ -1,0 +1,202 @@
+\<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/default}">
+
+<head>
+<title>[[#{left.015}]]</title>
+
+</head>
+<div layout:fragment="content">
+
+			<form id="info-form" class="needs-validation" novalidate>
+	<div class="row g-0">
+		<div class="col-lg-12 pe-lg-2">
+			<div class="card ">
+					<div class="card-header ">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h4 class="mb-0 title-area" data-anchor="data-anchor"
+									id="tooltips">[[#{left.015}]]</h4>
+							</div>
+						</div>
+					</div>
+					<div class="card-body pt-3 bg-200">
+						<div class="row gx-2">
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFilePathDropdown" th:data-bs-original-title="#{txt.layout.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.orgin.file}]]</label> <select class="form-select picker directInput" id="inputDataFilePathDropdown"
+									name="inputDataFilePathDropdown">
+									<option value="direct">[[#{select.direct.insert}]]</option>
+									<option value="A">A</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputDataFilePath">
+									&nbsp; </label> <input class="form-control" id="inputDataFilePath"
+									name="inputDataFilePath" type="text"
+									th:placeholder="#{txt.layout.file.ph}"
+									required />
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFilePathDropdown" th:data-bs-original-title="#{txt.orgin.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.layout.file}]]</label> <select class="form-select picker directInput" id="inputLayoutFilePathDropdown"
+									name="inputLayoutFilePathDropdown">
+									<option value="direct">[[#{select.direct.insert}]]</option>
+									<option value="B">B</option>
+								</select>
+							</div>
+							<div class="col-6 mb-3">
+								<label class="form-label" for="inputLayoutFilePath">
+									&nbsp; </label> <input class="form-control" id="inputLayoutFilePath"
+									name="inputLayoutFilePath" type="text"
+									th:placeholder="#{txt.orgin.file.ph}"
+									required />
+							</div>
+							<div class="col-12 mb-3">
+								<label class="form-label" for="outputDataFilePathDropdown" th:data-bs-original-title="#{txt.convert.file.ph}" data-bs-toggle="tooltip" data-bs-placement="top">
+								[[#{txt.convert.file}]]</label> 
+								
+								<label class="form-label" for="outputDataFilePath">
+									&nbsp; </label> <input class="form-control" id="outputDataFilePath"
+									name="outputDataFilePath" type="text"
+									th:placeholder="#{txt.convert.file.ph}"
+									required />
+							</div>
+						</div>
+					
+
+				</div>
+				<div class="card-footer bg-200">
+						<div class="row flex-between-end">
+							<div class="col-auto ms-auto">
+								<button class="btn btn-sm btn-primary" type="submit">[[#{button.excute}]]</button>
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+					</form>
+	<script type="text/javascript">
+		var $infoForm = $("#info-form");
+		var $inputDataFilePathDropdown = $("#inputDataFilePathDropdown");
+		var $inputLayoutFilePathDropdown = $("#inputLayoutFilePathDropdown");
+
+		$(function() {
+			fn_Event();
+		});
+		
+		function fn_fileList(dirname, pattern, target) {
+			const formData = {
+				"dirname" : dirname,
+				"pattern" : pattern
+			}
+			var param = {
+				target : target,
+				url : "/anomaly/getfiles?dirname="
+						+ encodeURIComponent(formData.dirname) + "&pattern="
+						+ encodeURIComponent(formData.pattern),
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
+		function fn_makeCsv() {
+			var data = $infoForm.serializeObject();
+			delete data.inputLayoutFilePathDropdown;
+			delete data.inputDataFilePathDropdown;
+			delete data.outputDataFilePathDropdown;
+			
+			data.inputDataFilePath = data.inputDataFilePath.replace(/\\/g, "/"); 
+			data.inputLayoutFilePath = data.inputLayoutFilePath.replace(/\\/g, "/"); 
+			data.outputDataFilePath = data.outputDataFilePath.replace(/\\/g, "/"); 
+			
+			
+			var param = {
+				method : "PUT",
+				target : "EXCUTE",
+				url : "/anomaly/makecsvfile",
+				data : data,
+				dataType : "text"
+			}
+			ajaxCall(param);
+		}
+
+		function fn_Event() {
+			fn_fileList("model", ".*.adnn", "DATA_FILE");
+			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
+			
+			$infoForm.on("submit", function(e) {
+				e.preventDefault();
+				if ($infoForm[0].checkValidity() === true) {
+					confirmModal('[[#{web.confirm.excute}]]', function() {
+						fn_makeCsv();
+					});
+				}
+			})
+		}
+
+		function callback(target, data) {
+			switch (target) {
+			case "EXCUTE":
+				alertModal('[[#{web.success.excute}]]');
+				initForm();
+				break;
+			case "LAYOUT_FILE":
+				$inputLayoutFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputLayoutFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			case "DATA_FILE":
+				$inputDataFilePathDropdown.find("option").remove();
+
+				var listName = data;
+				var html = "<option value='direct'>직접입력</option>";
+
+				$.each(listName, function(index, data) {
+					var simpleData = data.replace(/^.*[\\\/]/, "");
+					html += "<option value="+simpleData+">" + simpleData
+							+ "</option>";
+				});
+				$inputDataFilePathDropdown.append(html);
+				setDropDownEvent();
+				break;
+			default:
+				break;
+			}
+		}
+		
+		function setDropDownEvent(){
+			$(".directInput").off().change(function(){
+				const value = $(this).val();
+				const $target = $(this).parent().next().find("input");
+				console.log($(this).val());
+				if(value == "direct"){
+					$target.val("");
+					$target.prop('readonly', false);
+				}else{
+					$target.val(value);	
+					$target.prop('readonly', true);
+				}
+			});
+		}
+		function initForm() {
+			$infoForm.removeClass('was-validated');
+			$infoForm.find('input').prop("readonly", "");
+			formReset($infoForm);
+		}
+	</script>
+
+</div>
+</html>

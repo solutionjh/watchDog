@@ -120,27 +120,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                   </a>
                   <!-- study inner pages-->
                   <ul class="nav collapse show" id="study">
-                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == layout ? active" th:href="@{/study/layout}" >
+                    <li class="nav-item"><a class="nav-link" th:classappend="${menu} == layout ? active" th:href="@{/learning/layout}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.014}]]</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == fileFormatEdit ? active" th:href="@{/study/fileFormatEdit}" >
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == fileFormatEdit ? active" th:href="@{/learning/fileFormatEdit}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.015}]]</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoCreate ? active" th:href="@{/study/baseInfoCreate}" >
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoCreate ? active" th:href="@{/learning/baseInfoCreate}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.016}]]</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoResult ? active" th:href="@{/study/baseInfoResult}" >
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == baseInfoResult ? active" th:href="@{/learning/baseInfoResult}" >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.017}]]</span>
                         </div>
                       </a>
                     </li>
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == detectResultDelete ? active" th:href="@{/study/detectResultDelete}"  >
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == detectResultDelete ? active" th:href="@{/learning/detectResultDelete}"  >
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.018}]]</span>
                         </div>
                       </a>
@@ -157,13 +157,13 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                   </a>
                   <!-- execute inner pages-->
                   <ul class="nav collapse show" id="execute">
-                    <!-- <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetect ? active" th:href="@{/execute/dataDetect}">
+                    <!-- <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetect ? active" th:href="@{/predict/dataDetect}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.020}]]</span>
                         </div>
                       </a>
                       more inner pages
                     </li> -->
-                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetectMany ? active" th:href="@{/execute/dataDetectMany}">
+                    <li class="nav-item"><a class="nav-link"  th:classappend="${menu} == dataDetectMany ? active" th:href="@{/predict/dataDetectMany}">
                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">[[#{left.020}]]</span>
                         </div>
                       </a>

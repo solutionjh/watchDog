@@ -139,6 +139,13 @@
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
 					title : '',
+					field : 'index',
+					halign : 'center',
+					align : 'center',
+					width: '50',
+					valign : 'middle'
+				}, {
+					title : '',
 					field : 'alertIcon',
 					align : 'center',
 					valign : 'middle'
@@ -196,7 +203,7 @@
 					.each(
 							res,
 							function(i) {
-								this.index = i + 1;
+								this.index = '<span class="index-area">'+(i + 1)+'</span>';
 								if (i == 0)
 									this.alertIcon = '<span class="fs-2 fas fa-exclamation-triangle" style="color:#2d7be5;"></span>';
 								this.fieldName = '<a href="javascript:;">'

@@ -102,6 +102,13 @@
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
+					title : '',
+					field : 'index',
+					halign : 'center',
+					align : 'center',
+					width: '50',
+					valign : 'middle'
+				}, {
 					title : '[[#{txt.project}]]',
 					field : 'a',
 					halign: 'center',
@@ -232,7 +239,7 @@
 
 		function responseHandler(res) {
 			$.each(res, function(i) {
-				this.index = i + 1;
+				this.index = '<span class="index-area">'+(i + 1)+'</span>';
 			});
 			return res;
 		}

@@ -100,6 +100,14 @@
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [
 					[{
+						title : '',
+						field : 'index',
+						rowspan: 2,
+						halign : 'center',
+						align : 'center',
+						width: '50',
+						valign : 'middle'
+					}, {
 						title : '[[#{txt.project}]]',
 						field : 'a',
 						rowspan: 2,
@@ -154,71 +162,86 @@
 			          field: 'c',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
+			          
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'bottom',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'bottomDev',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q1',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q1Dev',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'median',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'medianDev',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q3',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q3Dev',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'top',
 			          title: '[[#{txt.development}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'topDev',
 			          title: '[[#{txt.calculation}]]',
 			          sortable: true,
+			          halign: 'center',
 			          align: 'right'
 			        }]
 				],
@@ -292,7 +315,7 @@
 
 		function responseHandler(res) {
 			$.each(res, function(i) {
-				this.index = i + 1;
+				this.index = '<span class="index-area">'+(i + 1)+'</span>';
 			});
 			return res;
 		}
