@@ -443,3 +443,10 @@ button.btn-circle {
 .btn-falcon-default.btn-group {
 	margin-right: 0px !important;
 }
+
+.fc .fc-cell-shaded, .fc .fc-day-disabled{
+	background:none !important;
+}
+.navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:hover, .navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:focus{
+		color:#3883e7 !important;
+}
