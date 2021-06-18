@@ -34,8 +34,14 @@
 						</div>
 						<div class="col-auto">
 							<div class="input-group">
-								<input type="number" id="rateInput"
-									class="form-control form-control-sm" placeholder="~% 이상">
+								<div class="input-group-append">
+									<input type="number" id="rateInput"
+										class="form-control form-control-sm" placeholder="~% 이상">
+								</div>
+							</div>
+						</div>
+						<div class="col-auto">
+							<div class="input-group">
 								<div class="input-group-append">
 									<button type="button" id="rateBtn"
 										class="btn btn-outline-secondary">[[#{button.search}]]</button>
@@ -46,7 +52,7 @@
 							<div class="input-group">
 								<div class="input-group-append">
 									<button type="button" id="goFileMonitoring"
-										class="btn btn-primary">[[#{button.file.monitor}]]</button>
+										class="btn btn-outline-secondary">[[#{button.file.monitor}]]</button>
 								</div>
 							</div>
 						</div>
@@ -134,7 +140,7 @@
 				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
 				height : 720,
-				locale:'[[${#locale}]]',
+				locale : '[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
@@ -142,7 +148,7 @@
 					field : 'index',
 					halign : 'center',
 					align : 'center',
-					width: '50',
+					width : '50',
 					valign : 'middle'
 				}, {
 					title : '',
@@ -158,14 +164,14 @@
 				}, {
 					title : '[[#{txt.dev.mse}]]',
 					field : 'devMse',
-					halign: 'center',
+					halign : 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.select.mse}]]',
 					field : 'nowMse',
-					halign: 'center',
+					halign : 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
@@ -173,7 +179,7 @@
 					title : '[[#{txt.change.rate}]]',
 					field : 'changeRate',
 					sortable : true,
-					halign: 'center',
+					halign : 'center',
 					align : 'right'
 				} ],
 				onClickRow : function(row, $element, field) {
@@ -203,7 +209,8 @@
 					.each(
 							res,
 							function(i) {
-								this.index = '<span class="index-area">'+(i + 1)+'</span>';
+								this.index = '<span class="index-area">'
+										+ (i + 1) + '</span>';
 								if (i == 0)
 									this.alertIcon = '<span class="fs-2 fas fa-exclamation-triangle" style="color:#2d7be5;"></span>';
 								this.fieldName = '<a href="javascript:;">'
