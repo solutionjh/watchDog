@@ -7,9 +7,9 @@
 <head>
 <title>[[#{left.014}]]</title>
 <style>
-.select2-container{
- display : block;
- } 
+.select2-container {
+	display: block;
+}
 </style>
 </head>
 <div layout:fragment="content">
@@ -26,7 +26,24 @@
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
 						<div class="col-auto pe-0">
-							<div
+							<div class="btn-group topBtnDiv" role="group" aria-label="Basic example">
+								<button id="topNewBatchBtn" data-id="batchNew"
+									class="btn btn-falcon-primary btn-group" type="button">
+									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
+									[[#{button.new.batch}]]
+								</button>
+								<button id="topNewOnlineBtn" data-id="onlineNew"
+									class="btn btn-falcon-default btn-group" type="button">
+									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
+									[[#{button.new.batch}]]
+								</button>
+								<button id="topEditBtn" data-id="edit"
+									class="btn btn-falcon-default btn-group" type="button">
+									<span class="far fa-edit" style="margin-right: 5px;"></span>
+									[[#{button.edit}]]
+								</button>
+							</div>
+							<!-- <div
 								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
 								<button id="topNewBatchBtn" data-id="batchNew"
 									class="btn btn-falcon-primary btn-sm " type="button">
@@ -43,7 +60,7 @@
 									<span class="far fa-edit"></span> <span
 										class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
 								</button>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</div>
@@ -128,17 +145,21 @@
 								<label class="form-label">[[#{txt.headerToSkip}]]</label> <input
 									class="offOnline form-control" id="headerToSkip"
 									name="headerToSkip" type="number"
+									max=1
+									min=0
 									th:placeholder="#{txt.headerToSkip.ph}"
 									pattern="/^-?\d+\.?\d*$/"
-									onKeyPress="if(this.value.length==1) return false;" required />
+									onkeyup="inputNumberOneOrZero(this)" required />
 							</div>
 							<div class=" col-sm-6 mb-3">
 								<label class="form-label">[[#{txt.footerToSkip}]]</label> <input
 									class="offOnline form-control" id="footerToSkip"
 									name="footerToSkip" type="number"
+									max=1
+									min=0
 									th:placeholder="#{txt.footerToSkip.ph}"
 									pattern="/^-?\d+\.?\d*$/"
-									onKeyPress="if(this.value.length==1) return false;" required />
+									onkeyup="inputNumberOneOrZero(this)" required />
 							</div>
 						</div>
 					</div>
@@ -227,6 +248,13 @@
 				url : "/anomaly/loadproperty/" + propertyName
 			}
 			ajaxCall(param);
+		}
+		function inputNumberOneOrZero(input){
+			if(input.value==0){
+				input.value=0;
+			}else{
+				input.value=1;	
+			};
 		}
 		function fn_Event() {
 			initFormTooltip($infoForm);
@@ -332,7 +360,8 @@
 				initForm();
 				formatGbData = data.formatGb;
 				settingForm(data, $infoForm);
-				if(!formatGbData) formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
+				if (!formatGbData)
+					formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
 				switch (formatGbData) {
 				case "json":
 					setView("onlineNew");
@@ -383,7 +412,7 @@
 				break;
 			case "edit":
 				fn_fileList();
-				
+
 				$("#projectName").removeAttr('required');
 				$("#projectNameDropBox").attr('required', '');
 				$("#threshold").parent().removeClass("col-sm-7 mb-3");

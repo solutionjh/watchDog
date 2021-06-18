@@ -124,6 +124,8 @@
 	<script type="text/javascript">
 		var $calendar = $("#calendarDiv");
 		var $table = $("#detailTable");
+		var calendar;
+		var currentYear;
 		let formatData = [];
 		const PSI_BASE = 10;
 		
@@ -234,19 +236,28 @@
 
 				if(calDayShort == todayShort) titleHtml = "<div class='this-month'>"+title+"</div>";
 				$(".calendar-title").html(titleHtml);
-				//document.querySelector(Selectors.CALENDAR_TITLE).textContent = "<div style='background-color:#2c7be5'>title</div>";
+				
+				
+				if(!currentYear){
+					currentYear = calDayShort.substr(0,4);	
+				}else if(currentYear != calDayShort.substr(0,4)){
+					alert("연도 변경 ");
+					currentYear = calDayShort.substr(0,4);
+				}
+				console.log(currentYear);
 			};
 
 			var appCalendar = document.querySelector(Selectors.CALENDAR);
 			var addEventForm = document.querySelector(Selectors.ADD_EVENT_FORM);
 			if (appCalendar) {
-				var calendar = renderCalendar(appCalendar, {
+				calendar = renderCalendar(appCalendar, {
 					locale : '[[${#locale}]]'.split('_')[0],
 					eventStartEditable: false,
 					headerToolbar : false,
 					dayMaxEvents : 4,
 					height : 800,
 					stickyHeaderDates : false,
+					showNonCurrentDates: false,
 					views : {
 						week : {
 							eventLimit : 3
