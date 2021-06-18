@@ -28,7 +28,7 @@
 						<div class="col-auto pe-0">
 							<div class="btn-group topBtnDiv" role="group" aria-label="Basic example">
 								<button id="topNewBatchBtn" data-id="batchNew"
-									class="btn btn-falcon-primary btn-group" type="button">
+									class="btn btn-primary btn-group" type="button">
 									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
 									[[#{button.new.batch}]]
 								</button>
@@ -262,7 +262,7 @@
 				$(".topBtnDiv button").removeClass("btn-falcon-primary");
 				$(".topBtnDiv button").addClass("btn-falcon-default");
 				$(this).removeClass("btn-falcon-default");
-				$(this).addClass("btn-falcon-primary");
+				$(this).addClass("btn-primary");
 				fn_changeForm($(this).data("id"));
 			})
 			$("#fixedLayoutYN").change(function(data) {
