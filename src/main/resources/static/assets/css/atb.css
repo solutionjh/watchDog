@@ -102,7 +102,7 @@ h5 {
 	height: 30px !important;
 }
 
-.btn-primary{
+.btn-primary, .btn-secondary{
 	height: 30px !important;
 }
 
@@ -201,7 +201,7 @@ h5.mb-0.d-flex.align-items-center.mt-2.px-3 a.text-600 {
 	padding: 0.5rem 1.25rem;
 }
 
-.btn-primary, .navbar-vertical .btn-purchase {
+.btn-primary, .navbar-vertical .btn-purchase , .btn-secondary {
 	font-size: 0.8rem;
 	font-weight: 600;
 }
