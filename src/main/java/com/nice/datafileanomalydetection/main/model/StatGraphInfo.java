@@ -5,21 +5,42 @@ import org.springframework.stereotype.Component;
 @Component("statGraphInfo")
 public class StatGraphInfo {
 
+    private String projectName;
     private String dtim;
     private String psi;
     private String car;
     private String chisqcnt;
     private String inputDataCnt;
 
-    public String getDtim () {
+    public StatGraphInfo() {
+    }
+
+    public StatGraphInfo(String projectName, String dtim, String psi, String car, String chisqcnt, String inputDataCnt) {
+        this.projectName = projectName;
+        this.dtim = dtim;
+        this.psi = psi;
+        this.car = car;
+        this.chisqcnt = chisqcnt;
+        this.inputDataCnt = inputDataCnt;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getDtim() {
         return dtim;
     }
 
-    public void setDtim (String dtim) {
+    public void setDtim(String dtim) {
         this.dtim = dtim;
     }
 
-    public String getPsi () {
+    public String getPsi() {
         return psi;
     }
 
