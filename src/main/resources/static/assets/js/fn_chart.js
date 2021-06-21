@@ -32,9 +32,9 @@
 	
 			legend : {
 				data : param.name,
-				bottom: 115,
+				bottom: 98,
 			    left: 'center',
-				itemWidth : 10,
+				itemWidth : 8,
 				itemHeight : 10,
 				borderRadius : 0,
 				icon : 'circle',
@@ -55,6 +55,10 @@
 			series: [{
 		          type: 'pie',
 		          radius: param.radius,
+		          left: 0,
+			      right: 0,
+			      top: 30,
+			      bottom: 0,
 		          avoidLabelOverlap: false,
 		          hoverAnimation: false,
 		          itemStyle: {
@@ -81,6 +85,7 @@
 		            }
 		          },
 		          data: param.data
+			        
 		        }]
 		};
 	
