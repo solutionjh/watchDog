@@ -18,6 +18,11 @@ public class LoginConstant {
 	public static String LOGIN_SUCCESS = "/";
 	public static String LOGIN_FAIL = "/loginFail";
 	
+	//login Success
+	public static String SYSADMIN = "SYSADMIN";
+	public static String SYSADMIN_MAIN = "/member/memberList";
+	
+	
 	// etc
 	public static String SEPARATE = ",";
 	public static char URL_SEPARATE ='/';

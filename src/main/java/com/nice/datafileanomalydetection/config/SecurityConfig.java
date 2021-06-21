@@ -144,6 +144,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    	});       	
     	
     	http.authorizeRequests().antMatchers("/member/**","/api/member/**").hasAnyAuthority("ADMIN","SYSADMIN");
+    	http.authorizeRequests().antMatchers("/learning/**","/learning/**","/result/**","/predict/**","/calendar/**").hasAnyAuthority("ADMIN","USER");
     	
     	 http.authorizeRequests()  
          .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  
