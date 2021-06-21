@@ -313,3 +313,9 @@ function getToday(){
     //console.log(""+year + month + date);
     return today = ""+year + month + date; 
 }
+
+function movePageWithParam(param, url){
+	$("#paramForm").prop('action', url);
+	$("#paramData").val(JSON.stringify(param));
+	$("#paramForm").submit();
+}

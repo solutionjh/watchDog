@@ -116,7 +116,12 @@
 		}
 
 		function fn_Event() {
-
+			$("#goFileMonitoring").on("click", function() {
+				movePageWithParam({
+					projectName : $projectNameItemDropdown.val(),
+					regdtim : $regdtItemDropdown.val()
+				}, '/result/fileMonitoring');
+			})
 		}
 
 		function fn_Table() {
@@ -197,8 +202,9 @@
 					.each(
 							res,
 							function(i) {
-								this.index = '<span class="index-area">'+(i + 1)+'</span>';
-								if (i == 0)
+								this.index = '<span class="index-area">'
+										+ (i + 1) + '</span>';
+								if (this.alertMark == 1)
 									this.alertIcon = '<span class="fs-2 fas fa-exclamation-triangle" style="color:#2d7be5;"></span>';
 							});
 			return res;
@@ -261,7 +267,7 @@
 			}
 		}
 		function rowStyle(row, index) {
-			if (row.changeRate > 5) {
+			if (row.isAnomaly == 1) {
 				return {
 					'classes' : 'bg-upper-changeRate'
 				}
