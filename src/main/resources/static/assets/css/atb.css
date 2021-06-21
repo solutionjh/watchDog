@@ -102,7 +102,7 @@ h5 {
 	height: 30px !important;
 }
 
-.btn-primary, .btn-secondary{
+.btn-primary, .btn-secondary {
 	height: 30px !important;
 }
 
@@ -201,7 +201,7 @@ h5.mb-0.d-flex.align-items-center.mt-2.px-3 a.text-600 {
 	padding: 0.5rem 1.25rem;
 }
 
-.btn-primary, .navbar-vertical .btn-purchase , .btn-secondary {
+.btn-primary, .navbar-vertical .btn-purchase, .btn-secondary {
 	font-size: 0.8rem;
 	font-weight: 600;
 }
@@ -362,14 +362,12 @@ iput {
 .member-table .bootstrap-table .fixed-table-container .fixed-table-body
 	{
 	overflow-x: hidden !important;
-	overflow-y: hidden !important;	
-	   
+	overflow-y: hidden !important;
 }
 
 /* .no-records-found{	
 	margin-right:17px !important;
 } */
-
 .fc .fc-col-header {
 	background-color: #edf2f9 !important;
 }
@@ -392,8 +390,8 @@ iput {
 
 .page-item {
 	width: 38px !important;
-    font-size: 1px !important;
-    font-weight: bold !important;
+	font-size: 1px !important;
+	font-weight: bold !important;
 }
 
 .page-link {
@@ -412,7 +410,7 @@ iput {
 
 .delete-btn {
 	position: relative;
-	    left: 8px;
+	left: 8px;
 }
 
 .index-area {
@@ -421,24 +419,25 @@ iput {
 }
 
 .chrome .btn-close {
-    background-clip: unset;
+	background-clip: unset;
 }
 
 button.btn-circle {
-    height: 2.8rem !important;
+	height: 2.8rem !important;
 }
 
 .bootstrap-table .fixed-table-container .table thead th .both {
-	background-image : none !important;
+	background-image: none !important;
 }
 
 .bootstrap-table .fixed-table-pagination>.pagination ul.pagination {
-    margin: 5px !important;
+	margin: 5px !important;
 }
 
-.calendar-today-btn{
+.calendar-today-btn {
 	padding-right: 13px !important;
 }
+
 .btn-group>.btn.btn-group {
 	font-size: 0.75rem;
 	height: 24px !important;
@@ -449,13 +448,27 @@ button.btn-circle {
 	margin-right: 0px !important;
 }
 
-.fc .fc-cell-shaded, .fc .fc-day-disabled{
-	background:none !important;
+.fc .fc-cell-shaded, .fc .fc-day-disabled {
+	background: none !important;
 }
-.navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:hover, .navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:focus{
-		color:#3883e7 !important;
+
+.navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:hover,
+	.navbar-vertical.navbar-card .navbar-nav .nav-item .nav-link:focus {
+	color: #3883e7 !important;
 }
 
 table {
 	width: 100% !important
+}
+
+.login-btn {
+	font-size: 1rem;
+	height: 35px !important;
+}
+
+.login-alert-danger {
+	font-weight: 400;
+	width: 250px;
+	display: inline-block;
+	padding: 0.5rem 0.5rem;
 }
