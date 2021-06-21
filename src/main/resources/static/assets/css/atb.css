@@ -27,7 +27,7 @@
 	src: local(※), url(/assets/font/NotoSansKR-Bold.woff) format("woff");
 }
 
-body {
+body{
 	position: relative;
 	font-family: "Noto Sans KR", system-ui, -apple-system,
 		BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo",
@@ -45,6 +45,12 @@ h1, h2, h3, h4, h5, h6 {
 		BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo",
 		sans-serif;
 	line-height: 1.5;
+}
+
+button {
+	font-family: "Noto Sans KR", system-ui, -apple-system,
+		BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo",
+		sans-serif !important;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -11,12 +11,6 @@
 	<main class="main" id="top">
 		<div class="container-fluid">
 			<script>
-				var isFluid = JSON.parse(localStorage.getItem('isFluid'));
-				if (isFluid) {
-					var container = document.querySelector('[data-layout]');
-					container.classList.remove('container');
-					container.classList.add('container-fluid');
-				}
 			</script>
 			<div class="row min-vh-100 bg-100">
 				<div class="col-6 d-none d-lg-block position-relative">
@@ -62,7 +56,7 @@
 												type="submit" name="submit">[[#{button.login}]]</button>
 										</div>
 										<div style="text-align: center;">
-											<div class="alert alert-danger login-alert-danger text-center align-middle"
+											<div class="alert-danger login-alert-danger text-center align-middle"
 												role="alert" th:if="${error}">
 												<span class="fas fa-exclamation-circle"
 													style="margin-right: 8px;"></span>[[${error}]]
