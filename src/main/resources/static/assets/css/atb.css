@@ -327,22 +327,24 @@ iput {
 
 .indicator-img {
 	position: relative;
-	width: 63%;
-	min-width: 181px;
-	max-width: 181px;
+	width: 31%;
+	min-width: 133px;
+	max-width: 133px;
+	top: 32px;
+	left: 25px;
 }
 
 .indicator-span {
 	position: relative;
-	top: 192px;
+	top: 180px;
 }
 
 .indicator-span.left {
-	right: 119px;
+	right: 61px;
 }
 
 .indicator-span.right {
-	right: 112px;
+	right: 60px;
 }
 
 .bg-upper-changeRate {

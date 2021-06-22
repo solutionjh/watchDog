@@ -343,13 +343,14 @@
 	            		name : '[[#{txt.normal.file}]]'
 	            	}];	
 	              
-	              var  radius = ['80%', '60%'];
+	              var  radius = ['85%', '60%'];
 	              
 	              param.target = "fileStateChart";
 	              param.data = data;
 	              param.radius = radius;
 	              param.title = '[[#{txt.file.anormal.detection}]]';
 	              param.name = ['[[#{txt.normal.file}]]', '[[#{txt.anormal.file}]]'];
+	              param.formatterTxt ='[[#{txt.number}]]';	
 	              fn_PieChart(param);				
 	              
 	              
@@ -400,8 +401,7 @@
 					statData.datacnts.push(parseInt(this.inputDataCnt));
 				});
 				
-				statData.title ='[[#{txt.distribution.stability.indicator}]]';
-				statData.formatterTxt ='[[#{txt.number}]]';					
+				statData.title ='[[#{txt.distribution.stability.indicator}]]';								
 				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
