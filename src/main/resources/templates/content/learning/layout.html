@@ -43,24 +43,6 @@
 									[[#{button.edit}]]
 								</button>
 							</div>
-							<!-- <div
-								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
-								<button id="topNewBatchBtn" data-id="batchNew"
-									class="btn btn-falcon-primary btn-sm " type="button">
-									<span class="far fa-plus-square"></span> <span
-										class="d-none d-sm-inline-block ml-1">[[#{button.new.batch}]]</span>
-								</button>
-								<button id="topNewOnlineBtn" data-id="onlineNew"
-									class="btn btn-falcon-default btn-sm" type="button">
-									<span class="far fa-plus-square"></span> <span
-										class="d-none d-sm-inline-block ml-1">[[#{button.new.online}]]</span>
-								</button>
-								<button id="topEditBtn" data-id="edit"
-									class="btn btn-falcon-default btn-sm" type="button">
-									<span class="far fa-edit"></span> <span
-										class="d-none d-sm-inline-block ml-1">[[#{button.edit}]]</span>
-								</button>
-							</div> -->
 						</div>
 					</div>
 				</div>
@@ -105,7 +87,7 @@
 							</div>
 							<div class=" col-sm-2 mb-3" style="display: none;">
 								<label class="form-label">[[#{txt.delimiter}]]</label> <input
-									class="offOnline form-control" id="delimiter" name="delimiter"
+									class="form-control" id="delimiter" name="delimiter"
 									type="text" th:placeholder="#{txt.delimiter.ph}" />
 							</div>
 						</div>
@@ -292,6 +274,7 @@
 							function(e) {
 								e.preventDefault();
 								var data = $infoForm.serializeObject();
+								data.fileName = data.projectName;
 								var columnLength = data.columnLength;
 								var header = data.header;
 
@@ -359,6 +342,7 @@
 			case "LOAD_PROPERTY":
 				initForm();
 				formatGbData = data.formatGb;
+				data.fileName = data.projectName;
 				settingForm(data, $infoForm);
 				if (!formatGbData)
 					formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
