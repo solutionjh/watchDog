@@ -5,19 +5,30 @@ import org.springframework.stereotype.Component;
 @Component("mainGraphInfo")
 public class MainGraphInfo {
 
+    private String projectName;
     private String dtim;
     private String anomalyCnt;
     private String normalCnt;
 
-    public String getAnomalyCnt () {
+    public MainGraphInfo() {
+    }
+
+    public MainGraphInfo(String projectName, String dtim, String anomalyCnt, String normalCnt) {
+        this.projectName = projectName;
+        this.dtim = dtim;
+        this.anomalyCnt = anomalyCnt;
+        this.normalCnt = normalCnt;
+    }
+
+    public String getAnomalyCnt() {
         return anomalyCnt;
     }
 
-    public void setAnomalyCnt (String anomalyCnt) {
+    public void setAnomalyCnt(String anomalyCnt) {
         this.anomalyCnt = anomalyCnt;
     }
 
-    public String getNormalCnt () {
+    public String getNormalCnt() {
         return normalCnt;
     }
 

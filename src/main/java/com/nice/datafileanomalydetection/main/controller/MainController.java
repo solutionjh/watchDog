@@ -1,5 +1,9 @@
 package com.nice.datafileanomalydetection.main.controller;
 
+import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.nice.datafileanomalydetection.main.model.MainGraphInfo;
 import com.nice.datafileanomalydetection.main.model.MainItemInfo;
 import com.nice.datafileanomalydetection.main.model.StatGraphInfo;
@@ -11,11 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.lang.invoke.MethodHandles;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
 
 
 @RestController
@@ -72,86 +71,105 @@ public class MainController {
     }
 
     @GetMapping(value = "/main/regdtim")
-    public List<String> getRegDtim () {
+    public List<String> getRegDtim() {
         return mainService.getRegDtim();
     }
 
     @GetMapping(value = "/main/regdtim/{projectName}")
-    public List<String> getProjectRegDtim (@PathVariable String projectName) {
+    public List<String> getProjectRegDtim(@PathVariable String projectName) {
         return mainService.getProjectRegDtim(projectName);
     }
 
-    @GetMapping(value = "/main/anomalycnt/{period}")
-    public List<MainGraphInfo> getAnomalyCount (@PathVariable String period) {
-        String fromDtim = getFromDtim(period);
+    @GetMapping(value = "/main/anomalycnt/{period}/{baseDtim}")
+    public List<MainGraphInfo> getAnomalyCount(@PathVariable String period, @PathVariable String baseDtim) {
 
-        return mainService.getAnomalyCount(fromDtim);
+        List<MainGraphInfo> listResult = new ArrayList<MainGraphInfo>();
+        listResult.add(new MainGraphInfo("Project1", "2021-06-01 01:01:01", "0", "1"));
+        listResult.add(new MainGraphInfo("Project1", "2021-06-02 01:01:01", "0", "3"));
+        listResult.add(new MainGraphInfo("Project2", "2021-06-01 01:01:01", "1", "1"));
+        listResult.add(new MainGraphInfo("Project2", "2021-06-02 01:01:01", "2", "1"));
+        return listResult;
     }
 
-    @GetMapping(value = "/main/anomalycnt/{projectName}/{period}")
-    public List<MainGraphInfo> getProjectAnomalyCount (@PathVariable String projectName, @PathVariable String period) {
-        String fromDtim = getFromDtim(period);
-
-        return mainService.getProjectAnomalyCount(projectName, fromDtim);
+    @GetMapping(value = "/main/anomalycnt/{period}/{baseDtim}/{projectName}")
+    public List<MainGraphInfo> getProjectAnomalyCount(@PathVariable String period, @PathVariable String baseDtim, @PathVariable String projectName) {
+        List<MainGraphInfo> listResult = new ArrayList<MainGraphInfo>();
+        listResult.add(new MainGraphInfo(projectName, "2021-06-01 01:01:01", "0", "1"));
+        listResult.add(new MainGraphInfo(projectName, "2021-06-02 01:01:01", "0", "3"));
+        listResult.add(new MainGraphInfo(projectName, "2021-06-03 01:01:01", "1", "1"));
+        return listResult;
     }
 
-    @GetMapping(value = "/main/stat/{period}")
-    public List<StatGraphInfo> getStats (@PathVariable String period) {
-        String fromDtim = getFromDtim(period);
+    @GetMapping(value = "/main/stat/{period}/{baseDtim}")
+    public List<StatGraphInfo> getStats(@PathVariable String period, @PathVariable String baseDtim) {
+        List<StatGraphInfo> listResult = new ArrayList<StatGraphInfo>();
+        listResult.add(new StatGraphInfo("project1", "2021-06-01 01:01:01", "2.01", "1.11", "3", "12345"));
+        listResult.add(new StatGraphInfo("project1", "2021-06-02 01:01:01", "3.01", "0.91", "1", "12335"));
+        listResult.add(new StatGraphInfo("project1", "2021-06-01 01:01:01", "5.01", "7.11", "5", "13445"));
+        listResult.add(new StatGraphInfo("project2", "2021-06-02 01:01:01", "6.01", "9.11", "2", "21345"));
 
-        return mainService.getStats(fromDtim);
+        return listResult;
     }
 
-    @GetMapping(value = "/main/stat/{projectName}/{period}")
-    public List<StatGraphInfo> getProjectStats (@PathVariable String projectName, @PathVariable String period) {
-        String fromDtim = getFromDtim(period);
-
-        return mainService.getProjectStats(projectName, fromDtim);
+    @GetMapping(value = "/main/stat/{period}/{baseDtim}/{projectName}")
+    public List<StatGraphInfo> getProjectStats(@PathVariable String period, @PathVariable String baseDtim, @PathVariable String projectName) {
+        List<StatGraphInfo> listResult = new ArrayList<StatGraphInfo>();
+        listResult.add(new StatGraphInfo(projectName, "2021-06-01 01:01:01", "2.01", "1.11", "3", "12345"));
+        listResult.add(new StatGraphInfo(projectName, "2021-06-02 01:01:01", "3.01", "0.91", "1", "12335"));
+        listResult.add(new StatGraphInfo(projectName, "2021-06-03 01:01:01", "4.01", "2.11", "5", "13445"));
+        return listResult;
     }
 
-    @GetMapping(value = "/main/changerate/{projectName}/{period}")
-    public List<MainItemInfo> getAnomalyItemChangeRate (@PathVariable String projectName, @PathVariable String period) {
-        String fromDtim = getFromDtim(period);
+    @GetMapping(value = "/main/changerate/{period}/{baseDtim}")
+    public List<MainItemInfo> getAllAnomalyItemChangeRate(@PathVariable String period, @PathVariable String baseDtim) {
+        List<MainItemInfo> listResult = new ArrayList<MainItemInfo>();
+        listResult.add(new MainItemInfo("Project1", "2021-06-01 01:01:01", "field1", "12.01", "0"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-01 01:01:01", "field2", "31.01", "1"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-01 01:01:01", "field3", "17.01", "0"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-01 01:01:01", "field4", "10.01", "0"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-02 01:01:01", "field1", "120.01", "1"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-02 01:01:01", "field2", "11.01", "0"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-02 01:01:01", "field3", "92.01", "1"));
+        listResult.add(new MainItemInfo("Project1", "2021-06-02 01:01:01", "field4", "117.01", "1"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-01 01:01:01", "field1", "12.01", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-01 01:01:01", "field2", "1.01", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-01 01:01:01", "field3", "2.01", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-01 01:01:01", "field4", "152.01", "1"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-01 01:01:01", "field5", "12.01", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-02 01:01:01", "field1", "312.01", "1"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-02 01:01:01", "field2", "812.01", "1"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-02 01:01:01", "field3", "12.01", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-02 01:01:01", "field4", "2.51", "0"));
+        listResult.add(new MainItemInfo("Project2", "2021-06-02 01:01:01", "field5", "217.01", "1"));
 
-        return mainService.getAnomalyItemChangeRate(projectName, fromDtim);
+        listResult.sort(MainItemInfo::compareTo);
+        return listResult;
     }
 
-    @GetMapping(value = "/main/detectcount/{projectName}/{period}")
-    public List<MainItemInfo> getAnomalyItemDetectCount (@PathVariable String projectName, @PathVariable String period) {
-        String fromDtim = getFromDtim(period);
+    @GetMapping(value = "/main/changerate/{period}/{baseDtim}/{projectName}")
+    public List<MainItemInfo> getProjectAnomalyItemChangeRate(@PathVariable String period, @PathVariable String baseDtim, @PathVariable String projectName) {
+        List<MainItemInfo> listResult = new ArrayList<MainItemInfo>();
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "field1", "12.01", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "field2", "1.01", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "field3", "2.01", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "field4", "152.01", "1"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "field5", "12.01", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "field1", "312.01", "1"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "field2", "812.01", "1"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "field3", "12.01", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "field4", "2.51", "0"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "field5", "217.01", "1"));
 
-        return mainService.getAnomalyItemDetectCount(projectName, fromDtim);
+        listResult.sort(MainItemInfo::compareTo);
+        return listResult;
     }
 
-    private String getFromDtim (String period) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar cal = Calendar.getInstance();
-        String nowDtim = sdf.format(cal.getTime());
-        String fromDtim = "9999";
+    @GetMapping(value = "/main/detectcount/{period}/{baseDtim}/{projectName}")
+    public List<MainItemInfo> getAnomalyItemDetectCount(@PathVariable String period, @PathVariable String baseDtim, @PathVariable String projectName) {
+        List<MainItemInfo> listResult = new ArrayList<MainItemInfo>();
+        listResult.add(new MainItemInfo(projectName, "2021-06-01 01:01:01", "", "", "3"));
+        listResult.add(new MainItemInfo(projectName, "2021-06-02 01:01:01", "", "", "1"));
 
-        if ("oneday".equals(period)) {
-            cal.add(Calendar.DATE, - 1);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("oneweek".equals(period)) {
-            cal.add(Calendar.DATE, - 7);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("onemonth".equals(period)) {
-            cal.add(Calendar.MONTH, - 1);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("onequarter".equals(period)) {
-            cal.add(Calendar.MONTH, - 3);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("onehalf".equals(period)) {
-            cal.add(Calendar.MONTH, - 6);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("oneyear".equals(period)) {
-            cal.add(Calendar.YEAR, - 1);
-            fromDtim = sdf.format(cal.getTime());
-        } else if ("all".equals(period)) {
-            fromDtim = "0";
-        }
-
-        return fromDtim;
+        return listResult;
     }
-
 }
