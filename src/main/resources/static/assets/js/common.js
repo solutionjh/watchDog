@@ -64,7 +64,7 @@ function noDataAjax(ajaxParamObj)
 			callbacks.fire(ajaxParamObj.target, data);
 		},
 		error: function (xhr, textStatus, errorThrown) {
-				
+			/*	
 			if (xhr.status == 403 || textStatus == 'parsererror') {
 		       location.href = "/login";
 		    } else if (xhr.status == 404){
@@ -74,6 +74,7 @@ function noDataAjax(ajaxParamObj)
 		    }else{
 		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
 		    }
+		    */
 				
 		},
 		async : ajaxParamObj.async
@@ -101,7 +102,7 @@ function dataAjax(ajaxParamObj)
 			callbacks.fire(ajaxParamObj.target, data);
 		},
 		error: function (xhr, textStatus, errorThrown) {
-			if (xhr.status == 403 || textStatus == 'parsererror') {
+			/*if (xhr.status == 403 || textStatus == 'parsererror') {
 		       location.href = "/login";
 		    } else if (xhr.status == 404){
 		    	location.href = "/noPage";
@@ -109,7 +110,7 @@ function dataAjax(ajaxParamObj)
 		    	location.href = "/serverError";
 		    }else{
 		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
-		    }
+		    }*/
 		 },
 		async : ajaxParamObj.async
 	});
@@ -319,3 +320,28 @@ function movePageWithParam(param, url){
 	$("#paramData").val(JSON.stringify(param));
 	$("#paramForm").submit();
 }
+
+
+function getCurrentDate()
+    {
+        var date = new Date();
+        var year = date.getFullYear().toString();
+
+        var month = date.getMonth() + 1;
+        month = month < 10 ? '0' + month.toString() : month.toString();
+
+        var day = date.getDate();
+        day = day < 10 ? '0' + day.toString() : day.toString();
+
+        var hour = date.getHours();
+        hour = hour < 10 ? '0' + hour.toString() : hour.toString();
+
+        var minites = date.getMinutes();
+        minites = minites < 10 ? '0' + minites.toString() : minites.toString();
+
+        var seconds = date.getSeconds();
+        seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+        return year + '-'+ month + '-'+ day+" "+ hour +":" + minites+":"+ seconds;
+        
+    }
+

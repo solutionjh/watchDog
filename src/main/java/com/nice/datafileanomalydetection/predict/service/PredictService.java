@@ -371,7 +371,7 @@ public class PredictService {
 
     public String makePropertyFile (PropertyInfo propertyInfo) {
 
-        String projectName = propertyInfo.getProjectName();
+        String projectName = propertyInfo.getFileName();
 
         Properties properties = new Properties();
         String prop = propertyInfo.getFixedLayoutYN();
@@ -404,7 +404,7 @@ public class PredictService {
             properties.setProperty("footertoskip", prop);
         }
 
-        prop = propertyInfo.getRatiograde();
+        prop = propertyInfo.getRatioGrade();
         if (prop != null && ! prop.isEmpty()) {
             properties.setProperty("ratiograde", prop);
         }

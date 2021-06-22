@@ -27,20 +27,12 @@
 							</select>
 						</div>
 						<div class="col-auto">
-							<select id="countDropdown" class="form-select picker"
+							<select id="periodDropdown" class="form-select picker"
 								data-live-search="true">
-								<!-- <option value="">[[#{select.perform.select}]]</option>
-								<option value="7">[[#{select.perform.select.001}]]</option>
-								<option value="15">[[#{select.perform.select.001}]]</option>
-								<option value="30">[[#{select.perform.select.001}]]</option> -->
-
-								<option value="all">[[#{select.perform.select}]]</option>
-								<option value="oneday">[[#{select.perform.select.001}]]</option>
-								<option value="oneweek">[[#{select.perform.select.002}]]</option>
-								<option value="onemonth">[[#{select.perform.select.003}]]</option>
-								<option value="onequarter">[[#{select.perform.select.004}]]</option>
-								<option value="onehalf">[[#{select.perform.select.005}]]</option>
-								<option value="oneyear">[[#{select.perform.select.006}]]</option>
+								<option value="all">[[#{select.perform.all}]]</option>
+								<option value="7">[[#{select.perform.select.007}]]</option>
+								<option value="15">[[#{select.perform.select.008}]]</option>
+								<option value="30">[[#{select.perform.select.009}]]</option> 
 							</select>
 						</div>
 						<div class="col-auto pe-0">
@@ -77,7 +69,7 @@
 					<div class="row g-3 mb-3">
 						<div class="col-lg-6">
 							<div class="card">
-								<div class="card-body bg-200">
+								<div class="card-body ">
 									<div class="tab-content">
 										<div id="psiChart" style="min-height: 250px;"></div>
 									</div>
@@ -86,7 +78,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="card">
-								<div class="card-body bg-200">
+								<div class="card-body ">
 									<div class="tab-content">
 										<div id="dataCntChart" style="min-height: 250px;"></div>
 									</div>
@@ -97,7 +89,7 @@
 					<div class="row g-3 mb-3">
 						<div class="col-lg-6">
 							<div class="card">
-								<div class="card-body bg-200">
+								<div class="card-body ">
 									<div class="tab-content">
 										<div id="dashItemBar" style="min-height: 250px;"></div>
 									</div>
@@ -106,7 +98,7 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="card">
-								<div class="card-body bg-200">
+								<div class="card-body ">
 									<div class="tab-content">
 										<div id="dashChisqBar" style="min-height: 250px;"></div>
 									</div>
@@ -121,10 +113,9 @@
 
 	<script type="text/javascript">
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
-		var $countDropdown = $("#countDropdown");
+		var $periodDropdown = $("#periodDropdown");
 		var $report = $("#goReport");
 		var projectName = "";
-		var recentPeriod = "all";
 
 		$(function() {
 			fn_projectNames();
@@ -132,10 +123,10 @@
 		});
 
 		function fn_Event() {
-			$countDropdown.off().on('change', function() {
-				recentPeriod = $(this).val();
+			$periodDropdown.off().on('change',function() {
 				fn_data();
 			});
+			
 			$report.off().on('click', function() {
 				var param = {
 						projectName : projectName,
@@ -191,10 +182,14 @@
 				break;
 			case "RECENTDTIM":
 				$("#recentDtim").html(data[0]);
-
+				
+				var period = $periodDropdown.val()				
+				var dtim = getCurrentDate(); // 기준시간은 현재 시간을 기준으로 클라이언트 정보를 넘김. 클라이언트 화면 시간설정이 중요함...
+				var projectNameParam = projectName == "" ? "": "/" + projectName
+						
 				ajaxCall({
 					target : "STAT",
-					url : "/main/stat/" + projectName + "/" + recentPeriod
+					url : "/main/stat/" + period + "/" + dtim + projectNameParam
 				});
 				break;
 			case "STAT":
@@ -222,8 +217,7 @@
 					title : '[[#{txt.data.count}]]',
 					xData : statData.dtims,
 					yData : statData.datacnts,
-					name : '[[#{txt.number.count}]]',
-					color : utils.getColors().primary,
+					name : '[[#{txt.number.count}]]'
 
 				}
 				fn_LineChart(param)

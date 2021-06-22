@@ -50,7 +50,7 @@
 		<div class="card mb-3">
 			<div class="card-body text-center py-2">
 				<p class="h3 mt-3 fw-normal fs-2 mt-md-4 fs-md-3 initialism">
-				<u>데이터 파일 NICE_ASS_20210511.dat 검증 결과</u></p>
+				<u id="title"></u></p>
 			</div>
 			<div class="row g-0 justify-content-end">
 				<div class="col-auto">
@@ -87,11 +87,11 @@
 						<div class="row g-3 mb-3">
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200 indicator">
-										<div class="tab-content">
-											<div style="min-height: 250px;">
+									<div class="card-body  indicator">
+										<div class="tab-content" style="height: 250px;">
+											<div style="min-height: 250px; display:none;"  id="item-safe-area">
 												<div class="indicator-title">[[#{txt.item.safety.res }]]</div>
-												<div class="d-flex justify-content-center bg-200 mb-2 ">
+												<div class="d-flex justify-content-center  mb-2 ">
 													<img src="/assets/img/nice/on.png" class="indicator-img left" >	
 													<span class="indicator-span left">[[#{txt.item}]]</span>
 												
@@ -105,8 +105,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200">
-										<div class="tab-content">
+									<div class="card-body ">
+										<div class="tab-content" style="height: 250px;">
 											<div id="fileStateChart" style="min-height: 250px;"></div>
 										</div>
 									</div>
@@ -135,8 +135,8 @@
 						<div class="row g-3 mb-3">
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200">
-										<div class="tab-content">
+									<div class="card-body ">
+										<div class="tab-content" style="height: 250px;">
 											<div id="dashItemBar" style="min-height: 250px;"></div>
 										</div>
 									</div>
@@ -144,8 +144,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200">
-										<div class="tab-content">
+									<div class="card-body ">
+										<div class="tab-content" style="height: 250px;">
 											<div id="itemMatchChart" style="min-height: 250px;"></div>
 										</div>
 									</div>
@@ -174,8 +174,8 @@
 						<div class="row g-3 mb-3">
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200">
-										<div class="tab-content">
+									<div class="card-body ">
+										<div class="tab-content" style="height: 250px;">
 											<div id="psiChart" style="min-height: 250px;"></div>
 										</div>
 									</div>
@@ -183,8 +183,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="card">
-									<div class="card-body bg-200">
-										<div class="tab-content">
+									<div class="card-body ">
+										<div class="tab-content" style="height: 250px;">
 											<div id="dataCntChart" style="min-height: 250px;"></div>
 										</div>
 									</div>
@@ -202,8 +202,10 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $pdfDownLoad = $("#pdfDownLoad");
 		var projectName = "";
-
-		$(function() {
+		var paramData = {};
+		$(function() {			
+			paramData = jsonParse('[[${paramData}]]');	
+			
 			fn_projectNames();
 			fn_Event();
 		});
@@ -258,12 +260,15 @@
 		}
 		
 
-		function fn_data() {
-			ajaxCall({
-				target : "RECENTDTIM",
-				url : "/main/regdtim/" + projectName,
-				isLoading : false
-			});
+		function fn_data() {			
+			if(projectName && $regdtItemDropdown.val()){				
+				ajaxCall({
+					target : "RECENTDTIM",
+					url : "/main/regdtim/" + projectName,
+					isLoading : false
+				});
+			}
+			
 		}
 		
 		function fn_regdtItems(projectName) {		
@@ -273,16 +278,17 @@
 					url : "/resultitemdist/" + projectName + "/regdtim/",
 					isLoading : false
 				});
+				
 			} else {
 				$regdtItemDropdown.find("option").remove();
 				$regdtItemDropdown
 						.append("<option value=''>[[#{select.perform.select}]]</option>");
 				
-				fn_data();
+				$("#title, .recentDtim").html("");
+				$("#item-safe-area , #fileStateChart ,#dataCntChart ,#psiChart , #itemMatchChart , #dashItemBar").hide();	
 			}
 		}
 		
-
 		function callback(target, data) {
 			switch (target) {
 			case "PROJECT_NAMES":
@@ -302,7 +308,6 @@
 						});
 				$('.picker').select2();
 				
-				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
 					$projectNameItemDropdown.val(paramData.projectName).trigger('change');	
 					$("#project-name").html(paramData.projectName);
@@ -314,15 +319,23 @@
 				
 			case "RECENTDTIM":
 				$(".recentDtim").html(data[0]);
+								
+				var dtim = $regdtItemDropdown.val(); 
+				var projectNameParam = projectName == "" ? "": "/" + projectName
+				
+				
 				ajaxCall({
 					target : "ANOMALYCNT",
-					url : "/main/anomalycnt/" + projectName + "/all"
+					url : "/main/anomalycnt/7/" + dtim + projectNameParam
 				});
 				
 				ajaxCall({
 					target : "STAT",
-					url : "/main/stat/" + projectName + "/all"
+					url : "/main/stat/7/" + dtim + projectNameParam
 				});				
+				
+				
+				$("#item-safe-area , #fileStateChart ,#dataCntChart ,#psiChart , #itemMatchChart , #dashItemBar").show();	
 				break;
 				
 				
@@ -370,7 +383,6 @@
 	              param.radius = radius;
 	              param.title = '[[#{txt.distribution.stability.indicator}]]';
 	              param.name = [ '[[#{txt.item}]]','[[#{txt.safety}]]'];
-	              param.color = [utils.getColors().success,utils.getColors().danger];
 	              fn_PieChart(param);  */
 	              
 	              
@@ -410,8 +422,7 @@
 					title : '[[#{txt.data.count}]]',					
 					xData : statData.dtims,
 					yData : statData.datacnts,
-					name : '[[#{txt.number.count}]]',
-					barColor : utils.getColors().primary,
+					name : '[[#{txt.number.count}]]'
 
 				}
 				fn_LineChart(param)
@@ -429,7 +440,6 @@
 				param.title = "분포 이상 항목수";
 				param.xData = statData.dtims;
 				param.yData = statData.chisqcnts;
-				param.barColor = utils.getColors().primary;
 				fn_BarChart(param); */
 				break;
 				
