@@ -164,7 +164,9 @@ function bootstrapTableRefresh(target, url ,isPage){
 function cellStyle(value, row, index, field) {			
 	    return {			    	
 	      css: {
-	        color: 'blue'
+	        color: '#6666ca',
+	        cursor: 'pointer',
+	        'text-decoration': 'underline'
 	      }
 	} 
   }

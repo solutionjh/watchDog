@@ -252,20 +252,9 @@
 			
 		}
 		
-		function cellStyle(value, row, index, field) {
-			    return {			    	
-			      css: {
-			        color: 'blue'
-			      }
-			}
-		 
-		  }
-		
-
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = '<span class="index-area">'+(i + 1)+'</span>';
-				/* this.regDtim = '<a href="javascript:;" onclick="moveHistory(this)">'+ this.regDtim + '</a>' */
 			});
 			return res;
 		}
