@@ -92,10 +92,10 @@
 											<div style="min-height: 250px; display:none;"  id="item-safe-area">
 												<div class="indicator-title">[[#{txt.item.safety.res }]]</div>
 												<div class="d-flex justify-content-center  mb-2 ">
-													<img src="/assets/img/nice/on.png" class="indicator-img left" >	
+													<img src="" class="indicator-img left" id="indicator-img-left" >	
 													<span class="indicator-span left">[[#{txt.item}]]</span>
 												
-													<img src="/assets/img/nice/off.png" class="indicator-img right" >	
+													<img src="" class="indicator-img right" id="indicator-img-right" >	
 													<span class="indicator-span right">[[#{txt.safety}]]</span>
 												</div>
 											</div>
@@ -318,6 +318,7 @@
 				
 				
 			case "RECENTDTIM":
+				console.log(data)
 				$(".recentDtim").html(data[0]);
 								
 				var dtim = $regdtItemDropdown.val(); 
@@ -332,6 +333,23 @@
 				ajaxCall({
 					target : "STAT",
 					url : "/main/stat/7/" + dtim + projectNameParam
+				});		
+				//파일명 응답
+				ajaxCall({
+					target : "FILENAME",
+					url : "/result/filename/" + projectName +"/"+ dtim
+				});			
+				
+				//보고서 안정성지표 응답
+				ajaxCall({
+					target : "ANOMALYINDEX",
+					url : "/result/anomalyindex/" + projectName +"/"+ dtim
+				});				
+				
+				//보고서 항목별일치성 응답
+				ajaxCall({
+					target : "ITEMANOMALY",
+					url : "/result/itemanomaly/" + projectName +"/"+ dtim
 				});				
 				
 				
@@ -364,36 +382,7 @@
 	              param.title = '[[#{txt.file.anormal.detection}]]';
 	              param.name = ['[[#{txt.normal.file}]]', '[[#{txt.anormal.file}]]'];
 	              param.formatterTxt ='[[#{txt.number}]]';	
-	              fn_PieChart(param);				
-	              
-	              
-	              ///////////////////////////    임시	    /////////////////////////         
-	           /*   var data2 = [{
-	            		value : 1,
-	            		name : '[[#{txt.safety}]]'
-	            	},{
-	            		value : 1,
-	            		name : '[[#{txt.item}]]'
-	            	}
-	            	];	
-	              
-	              var  radius = ['100%', '0%'];
-	              param.target = "verificationChart";
-	              param.data = data2;
-	              param.radius = radius;
-	              param.title = '[[#{txt.distribution.stability.indicator}]]';
-	              param.name = [ '[[#{txt.item}]]','[[#{txt.safety}]]'];
-	              fn_PieChart(param);  */
-	              
-	              
-	              
-	              
-	              param = {};
-	              param.title = '[[#{txt.item.same}]]';
-	              param.data = [10, 20, 30, 40, 50, 90];
-	              fn_HorizontalBarChart(param)
-				  ///////////////////////////    임시	    ///////////////////////// 
-				  
+	              fn_PieChart(param);								  
 				break;
 				
 				
@@ -442,7 +431,41 @@
 				param.yData = statData.chisqcnts;
 				fn_BarChart(param); */
 				break;
+			case "FILENAME":	
+				$("#title").html(data[0]);
+				break;
+			case "ANOMALYINDEX":	
+				if(data.ITEMINDEX == 0){
+					$("#indicator-img-left").attr('src', '/assets/img/nice/off.png')
+				}else{
+					$("#indicator-img-left").attr('src', '/assets/img/nice/on.png')
+				}
+				if(data.ITEMINDEX == 0){
+					$("#indicator-img-right").attr('src', '/assets/img/nice/off.png')
+				}else{
+					$("#indicator-img-right").attr('src', '/assets/img/nice/on.png')
+				}
+					
 				
+				break;
+			case "ITEMANOMALY":	
+				var dataArray = [];
+				var nameArray = [];
+				var stateArray = [];
+				$.each(data,function(){
+					nameArray.push(this.fieldName)
+					dataArray.push(this.itemAnomalyLevel)
+					stateArray.push(this.isAnomaly)
+				});
+				 var param = {};
+	              param.title = '[[#{txt.item.same}]]';
+	              param.data = dataArray;
+	              param.name = nameArray;
+	              param.state = stateArray;
+	              
+	              fn_HorizontalBarChart(param);
+		
+				break;				
 			case "REGDT_ITEMS":
 				$regdtItemDropdown.find("option").remove();
 				var html = "<option value=''>[[#{select.perform.select}]]</option>";

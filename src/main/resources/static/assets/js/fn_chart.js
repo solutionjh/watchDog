@@ -95,13 +95,11 @@
 	
 	//항목별 일치성 예제
 	function fn_HorizontalBarChart(param) {
-		
-		//var data = [10, 20, 30, 40, 50, 90];
 		var dataArray = []
 		
-		$.each(param.data, function(i) {				
+		$.each(param.state, function(i) {				
 			var dataObj ={}				
-			if (this > 80){
+			if (this  == 0){
 				dataObj.value = param.data[i];
 				dataObj.itemStyle = {color: '#e63756'};
 			}else{
@@ -185,7 +183,7 @@
 							fontSize : 10
 						}
 					},
-			        data: ['A00001', 'A00002', 'A00003', 'A00004', 'A00005', 'A00006']
+			        data: param.name
 			    },
 			    series: [
 			       
