@@ -54,6 +54,9 @@
 
 
 	<div class="card mb-3">
+		<div class="card-header file-name-area-div">
+		  파일명 : <span class="file-name-area"></span>
+		</div>
 		<div class="card-body">
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
 				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
@@ -88,6 +91,7 @@
 		}
 
 		function fn_regdtItems(projectName) {
+			$(".file-name-area").html("");
 			$table.bootstrapTable('removeAll');
 			$fieldNameDropdown.find("option").remove();
 			$fieldNameDropdown
@@ -128,7 +132,7 @@
 			$table.bootstrapTable('destroy').bootstrapTable({
 				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
-				height : 720,
+				height : 695,
 				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
@@ -179,6 +183,12 @@
 					valign : 'middle'
 				} ],
 				onClickRow : function(row, $element, field) {
+				},
+				onLoadSuccess : function(data) {
+					$(".file-name-area").html("");
+					if(data.length > 0){
+						$(".file-name-area").html(data[0].fileName);
+					}
 				}
 			});
 			tableRefresh();
@@ -193,6 +203,7 @@
 						+ '/' + regdtim + '/' + fieldNameDropdown,
 						);
 			} else {
+				$(".file-name-area").html("");
 				$table.bootstrapTable('removeAll');
 			}
 		}

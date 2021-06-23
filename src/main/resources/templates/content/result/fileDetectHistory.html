@@ -209,19 +209,19 @@
 				onClickCell : function(field, value, row, $element) {
 					if(field == "regDtim") moveHistory()
 				},
-				onLoadSuccess : function() {
+				onLoadSuccess : function(data) {					
 					var boxData = [];
 					var outliers = [];
-					var tableData = $table.bootstrapTable('getData');
+					var tableData = data;// $table.bootstrapTable('getData');
 					var dataIndex = []
 						$.each(tableData,function(i){
-							var data = [];					
-							data.push(this.max);
-							data.push(this.thirdQuantile);
-							data.push(this.median);
-							data.push(this.firstQuantile);
-							data.push(this.min);
-							boxData.push(data);
+							var dataAarray = [];					
+							dataAarray.push(this.max);
+							dataAarray.push(this.thirdQuantile);
+							dataAarray.push(this.median);
+							dataAarray.push(this.firstQuantile);
+							dataAarray.push(this.min);
+							boxData.push(dataAarray);
 							
 							dataIndex.push(this.regDtim)
 						})
@@ -262,8 +262,8 @@
 		function moveHistory() {
 			movePageWithParam({
 				projectName : $projectNameItemDropdown.val(),
-				recentDtim : $regdtItemDropdown.val()
-			}, '/result/dataReport');
+				regdtim : $regdtItemDropdown.val()
+			}, '/result/fileMonitoring');
 		}
 		
 		function callback(target, data) {

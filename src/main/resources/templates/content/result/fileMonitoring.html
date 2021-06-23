@@ -39,8 +39,8 @@
 	</div>
 
 	<div class="card mb-3">
-		<div class="card-header pb-1">
-		파일명
+		<div class="card-header file-name-area-div">
+		  파일명 : <span class="file-name-area"></span>
 		</div>
 		<div class="card-body">
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
@@ -77,13 +77,14 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
+			$(".file-name-area").html("");
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
 					url : "/resultitemdist/" + projectName + "/regdtim/",
 					isLoading : false
 				});
-			} else {
+			} else {				
 				$regdtItemDropdown.find("option").remove();
 				$regdtItemDropdown.append("<option value=''>[[#{select.perform.select}]]</option>");											
 			}
@@ -96,7 +97,7 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
-				height : 720,
+				height : 695,
 				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
@@ -260,14 +261,20 @@
 					multiBoxplotModal(boxplotParam)		 
 					
 				},				
-				onLoadSuccess : function() {
+				onLoadSuccess : function(data) {
 					
 					// 임시
 					var data = [
-						{index: 1,a:"NICE_CSSNICE_CSSNIC", b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,topDev:320 , q3Dev:100, medianDev:85 , q1Dev:40 , bottomDev:20 }	
+						{index: 1,a:"NICE_CSSNICE_CSSNIC",fileName:"fileName", b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,topDev:320 , q3Dev:100, medianDev:85 , q1Dev:40 , bottomDev:20 }	
 					] 
 					$table.bootstrapTable('load', data)
 					// 임시
+					
+					
+					$(".file-name-area").html("");
+					if(data.length > 0){
+						$(".file-name-area").html(data[0].fileName);
+					}
 				
 				}
 			});
@@ -280,7 +287,8 @@
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/api/member/getList',
 						);
-			} else {
+			} else {			
+				$(".file-name-area").html("");
 				$table.bootstrapTable('removeAll');
 			}
 		}

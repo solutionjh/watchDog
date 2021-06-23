@@ -494,3 +494,14 @@ table {
 .navbar-vertical.navbar-expand-xl .navbar-vertical-content {
     height: calc(95.5vh - 4.3125rem) !important;
 }
+
+.file-name-area-div{
+	font-size: 13px;
+    padding: 4px 0px 0px 45px;
+    position: relative;
+    top: 11px;
+}
+.file-name-area{
+    color: #2c7be5;
+}
+
