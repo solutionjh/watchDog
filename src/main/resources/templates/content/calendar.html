@@ -170,6 +170,12 @@
 			document.body.scrollIntoView(false);
 		}
 		
+		function moveHistory(projectName) {
+			movePageWithParam({
+				projectName : projectName
+			}, '/result/dashboard');
+		}
+		
 		function callback(target, data) {
 
 			switch (target) {
@@ -271,7 +277,9 @@
 					},
 					events : formatData,
 					eventClick : function eventClick(info) {
-						alert("ProjectName:" + info.event.title +"\n\n 수행일자:" + info.event.extendedProps.regDtim);
+						//alert("ProjectName:" + info.event.title +"\n\n 수행일자:" + info.event.extendedProps.regDtim);
+						moveHistory(info.event.title);
+						
 					},
 					dateClick : function dateClick(info) {
 						fn_showTable(formatData.filter((v)=>(v.start==info.dateStr)));

@@ -116,8 +116,9 @@
 		var $periodDropdown = $("#periodDropdown");
 		var $report = $("#goReport");
 		var projectName = "";
-
+		var paramData = {};
 		$(function() {
+			paramData = jsonParse('[[${paramData}]]');
 			fn_projectNames();
 			fn_Event();
 		});
@@ -176,7 +177,11 @@
 							fn_data();
 						});
 				$('.picker').select2();
-
+				
+				if(!gf_IsNull(paramData)){					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+					paramData = {};
+				}
 				fn_data();
 
 				break;
