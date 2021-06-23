@@ -39,6 +39,9 @@
 	</div>
 
 	<div class="card mb-3">
+		<div class="card-header pb-1">
+		파일명
+		</div>
 		<div class="card-body">
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
 				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
@@ -105,28 +108,12 @@
 						halign : 'center',
 						align : 'center',
 						width: '50',
-						valign : 'middle'
-					}, {
-						title : '[[#{txt.project}]]',
-						field : 'a',
-						rowspan: 2,
-						halign: 'center',
-						align : 'left',
-						sortable : true,
-						valign : 'middle'
-					}, {
-						title : '[[#{txt.date}]]',
-						field : 'b',
-						rowspan: 2,
-						align : 'center',
-						sortable : true,
-						valign : 'middle'
+						valign : 'middle'					
 					}, {
 						title : '[[#{txt.item.code}]]',
 						field : 'fieldName',
 						rowspan: 2,
 						align : 'center',
-						sortable : true,
 						valign : 'middle'
 					}, {
 						title : '[[#{txt.average}]]',
@@ -160,86 +147,72 @@
 					[{
 			          field: 'c',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			          
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'c',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'bottom',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'bottomDev',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q1',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q1Dev',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'median',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'medianDev',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q3',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'q3Dev',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'top',
 			          title: '[[#{txt.development}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'topDev',
 			          title: '[[#{txt.calculation}]]',
-			          sortable: true,
 			          halign: 'center',
 			          align: 'right'
 			        }]
@@ -291,7 +264,7 @@
 					
 					// 임시
 					var data = [
-						{index: 1,a:"NICE_CSSNICE_CSSNICE_CSSNICE_CSSNICE_CSS", b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,topDev:320 , q3Dev:100, medianDev:85 , q1Dev:40 , bottomDev:20 }	
+						{index: 1,a:"NICE_CSSNICE_CSSNIC", b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,topDev:320 , q3Dev:100, medianDev:85 , q1Dev:40 , bottomDev:20 }	
 					] 
 					$table.bootstrapTable('load', data)
 					// 임시

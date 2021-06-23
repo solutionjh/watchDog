@@ -415,6 +415,9 @@ iput {
 .bootstrap-table .fixed-table-container .table.table-sm .th-inner {
 	padding-right: 0px !important;
 }
+.bootstrap-table .fixed-table-container .table thead th .sortable{
+	padding-right: 12px !important;
+}
 
 .delete-btn {
 	position: relative;
@@ -486,4 +489,8 @@ table {
 }
 .menu-nav{
 	    margin: 0px 0px 0px 0px !important;
+}
+
+.navbar-vertical.navbar-expand-xl .navbar-vertical-content {
+    height: calc(95.5vh - 4.3125rem) !important;
 }

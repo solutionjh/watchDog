@@ -101,10 +101,10 @@
 			var dataObj ={}				
 			if (this  == 0){
 				dataObj.value = param.data[i];
-				dataObj.itemStyle = {color: '#e63756'};
+				dataObj.itemStyle = {color: '#49b857'};
 			}else{
 				dataObj.value = param.data[i];
-				dataObj.itemStyle = {color: '#49b857'};
+				dataObj.itemStyle = {color: '#e63756'};
 			}
 			
 			dataArray.push(dataObj);
