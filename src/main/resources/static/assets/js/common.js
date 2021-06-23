@@ -161,6 +161,14 @@ function bootstrapTableRefresh(target, url ,isPage){
 	})
 }
 
+function cellStyle(value, row, index, field) {			
+	    return {			    	
+	      css: {
+	        color: 'blue'
+	      }
+	} 
+  }
+
 function detailFormatter(index, row) {
 	var html = []
 	$.each(row, function(key, value) {

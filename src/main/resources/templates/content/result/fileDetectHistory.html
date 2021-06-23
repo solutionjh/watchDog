@@ -131,7 +131,7 @@
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
 				height : 387,			
-				locale:'[[${#locale}]]',
+				locale:'[[${#locale}]]',				
 				pageSize : "10",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
@@ -151,6 +151,7 @@
 				}, {
 					title : '[[#{txt.date}]]',
 					field : 'regDtim',
+					cellStyle: cellStyle,
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
@@ -205,6 +206,9 @@
 				} ],
 				onClickRow : function(row, $element, field) {
 				},
+				onClickCell : function(field, value, row, $element) {
+					if(field == "regDtim") moveHistory()
+				},
 				onLoadSuccess : function() {
 					var boxData = [];
 					var outliers = [];
@@ -247,11 +251,21 @@
 			}
 			
 		}
+		
+		function cellStyle(value, row, index, field) {
+			    return {			    	
+			      css: {
+			        color: 'blue'
+			      }
+			}
+		 
+		  }
+		
 
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = '<span class="index-area">'+(i + 1)+'</span>';
-				this.regDtim = '<a href="javascript:;" onclick="moveHistory(this)">'+ this.regDtim + '</a>'
+				/* this.regDtim = '<a href="javascript:;" onclick="moveHistory(this)">'+ this.regDtim + '</a>' */
 			});
 			return res;
 		}
