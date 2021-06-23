@@ -33,6 +33,12 @@
 							</select>
 						</div>
 						<div class="col-auto">
+							<select id="fieldNameDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.item.select}]]</option>
+							</select>
+						</div>
+						<div class="col-auto">
 							<select id="countDropdown" class="form-select picker"
 								data-live-search="true">
 								<option value="7">[[#{select.perform.select.007}]]</option>
@@ -74,6 +80,8 @@
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $countDropdown = $("#countDropdown");
+		var $fieldNameDropdown = $("#fieldNameDropdown");
+		
 		var paramData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
@@ -93,6 +101,10 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
+			$fieldNameDropdown.find("option").remove();
+			$fieldNameDropdown
+					.append("<option value=''>[[#{select.item.select}]]</option>");
+			
 			$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
 			if (projectName) {
 				ajaxCall(param = {
@@ -106,7 +118,17 @@
 				$countDropdown.val("7").trigger('change');	
 			}
 		}
-
+	
+		function fn_fieldItems(projectName, regdtim) {
+			var param = {
+				target : "FIELDNAME_ITEMS",
+				url : "/resultitemdist/fieldname/" + projectName + "/"
+						+ regdtim,
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 		function fn_Event() {
 			
 			$countDropdown.off().on('change',function(){
@@ -263,6 +285,7 @@
 		function tableRefresh() {
 			const projectName = $projectNameItemDropdown.val();
 			const regdtim = $regdtItemDropdown.val();
+			const fieldNameDropdown = $fieldNameDropdown.val();
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/api/member/getList',
 						);
@@ -316,6 +339,9 @@
 				$regdtItemDropdown.off().change(function() {					
 					if(gf_IsNull($(this).val())) $countDropdown.val("7").trigger('change');	
 					
+					fn_fieldItems($projectNameItemDropdown.val(),
+							$regdtItemDropdown.val());
+					
 					tableRefresh();
 				});
 				$('.picker').select2();
@@ -325,7 +351,22 @@
 					paramData = {};
 				}
 				break;
+			case "FIELDNAME_ITEMS":
+				$fieldNameDropdown.find("option").remove();
+				var html = "<option value=''>[[#{select.item.select}]]</option>";
 
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$fieldNameDropdown.append(html);
+
+				$fieldNameDropdown.off();
+				$fieldNameDropdown.change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
+				break;
+				
 			default:
 				break;
 			}
