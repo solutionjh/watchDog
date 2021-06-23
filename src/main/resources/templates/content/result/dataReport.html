@@ -205,7 +205,7 @@
 		var paramData = {};
 		$(function() {			
 			paramData = jsonParse('[[${paramData}]]');	
-			
+
 			fn_projectNames();
 			fn_Event();
 		});
@@ -309,7 +309,7 @@
 				$('.picker').select2();
 				
 				if(!gf_IsNull(paramData)){					
-					$projectNameItemDropdown.val(paramData.projectName).trigger('change');	
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					$("#project-name").html(paramData.projectName);
 				}
 				
@@ -456,11 +456,9 @@
 					fn_data();
 				});
 				$('.picker').select2();
-								
-				var paramData = jsonParse('[[${paramData}]]');	
+									
 				if(!gf_IsNull(paramData)){			
 					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
-					fn_data();
 				}
 				break;	
 				

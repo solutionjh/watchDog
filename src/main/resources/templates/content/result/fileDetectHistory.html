@@ -82,11 +82,22 @@
 			fn_Table();
 			fn_Event();
 		});
-
+	
+		function fn_getFileMseDistInfo() {
+			const projectName = $projectNameItemDropdown.val();
+			const regdtim = $regdtItemDropdown.val();
+			var param = {
+				target : "MSE",
+				url : "/resultgraph/"+projectName+"/"+regdtim,
+				isLoading : false
+			}
+			ajaxCall(param);
+		}
+		
 		function fn_projectNames() {
 			var param = {
 				target : "PROJECT_NAMES",
-				url : "/result/projectnames/",
+				url : "/resultgraph/projectnames/",
 				isLoading : false
 			}
 			ajaxCall(param);
@@ -98,7 +109,7 @@
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
-					url : "/resultitemdist/" + projectName + "/regdtim/",
+					url : "/resultgraph/" + projectName + "/regdtim/",
 					isLoading : false
 				});
 			} else {
@@ -132,41 +143,41 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.project}]]',
-					field : 'a',
+					field : 'projectName',
 					halign: 'center',
 					align : 'left',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.date}]]',
-					field : 'b',
+					field : 'regDtim',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average}]]',
-					field : 'c',
+					field : 'average',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.standard.deviation}]]',
-					field : 'c',
+					field : 'standardDeviation',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.bottom}]]',
-					field : 'bottom',
+					field : 'min',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q1}]]',
-					field : 'q1',
+					field : 'firstQuantile',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -180,13 +191,13 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q3}]]',
-					field : 'q3',
+					field : 'thirdQuantile',
 					sortable : true,
 					halign: 'center',
 					align : 'right'
 				}, {
 					title : '[[#{txt.boxplot.top}]]',
-					field : 'top',
+					field : 'max',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -195,57 +206,20 @@
 				onClickRow : function(row, $element, field) {
 				},
 				onLoadSuccess : function() {
-					
-					// 임시
-					var data = [
-						{index: 1,a:10, b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10 },
-						{index: 2,a:10, b:"2020.11.12", fieldName :'test',  c:30, top:100 , q3:90, median:80 , q1:44 , bottom:13 },
-						{index: 3,a:10, b:"2020.11.13", fieldName :'test',  c:30, top:110 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 4,a:10, b:"2020.11.14", fieldName :'test',  c:30, top:150 , q3:98, median:90 , q1:80 , bottom:14 },
-						{index: 5,a:10, b:"2020.11.15", fieldName :'test',  c:30, top:110 , q3:90, median:70 , q1:50 , bottom:-33 },
-						{index: 6,a:10, b:"2020.11.16", fieldName :'test',  c:30, top:170 , q3:40, median:39 , q1:32 , bottom:10 },
-						{index: 7,a:10, b:"2020.11.17", fieldName :'test',  c:30, top:100 , q3:90, median:65 , q1:35 , bottom:28 },
-						{index: 8,a:10, b:"2020.11.18", fieldName :'test',  c:30, top:120 , q3:88, median:77 , q1:55 , bottom:30 },
-						{index: 9,a:10, b:"2020.11.19", fieldName :'test',  c:30, top:110 , q3:90, median:65 , q1:59 , bottom:20 },
-						{index: 10,a:10, b:"2020.11.20", fieldName :'test', c:30, top:130 , q3:90, median:75 , q1:55 , bottom:30 },				
-						{index: 11,a:10, b:"2020.11.21", fieldName :'test', c:30, top:150 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 12,a:10, b:"2020.11.22", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:55 , bottom:30 },
-						{index: 13,a:10, b:"2020.11.23", fieldName :'test', c:30, top:120 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 14,a:10, b:"2020.11.24", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:55 , bottom:30 },
-						{index: 15,a:10, b:"2020.11.25", fieldName :'test', c:30, top:120 , q3:90, median:45 , q1:55 , bottom:30 },
-						{index: 16,a:10, b:"2020.11.26", fieldName :'test', c:30, top:120 , q3:90, median:65 , q1:55 , bottom:30 },
-						{index: 17,a:10, b:"2020.11.27", fieldName :'test', c:30, top:130 , q3:70, median:65 , q1:35 , bottom:20 },
-						{index: 18,a:10, b:"2020.11.28", fieldName :'test', c:30, top:140 , q3:80, median:75 , q1:55 , bottom:30 },
-						{index: 19,a:10, b:"2020.11.29", fieldName :'test', c:30, top:150 , q3:80, median:45 , q1:35 , bottom:10 },
-						{index: 20,a:10, b:"2020.11.30", fieldName :'test', c:30, top:160 , q3:70, median:55 , q1:35 , bottom:20 },				
-						{index: 21,a:10, b:"2020.12.01", fieldName :'test', c:30, top:140 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 22,a:10, b:"2020.12.02", fieldName :'test', c:30, top:120 , q3:80, median:75 , q1:45 , bottom:32 },
-						{index: 23,a:10, b:"2020.12.03", fieldName :'test', c:30, top:120 , q3:90, median:65 , q1:55 , bottom:30 },
-						{index: 24,a:10, b:"2020.12.04", fieldName :'test', c:30, top:130 , q3:80, median:55 , q1:35 , bottom:20 },
-						{index: 25,a:10, b:"2020.12.05", fieldName :'test', c:30, top:140 , q3:70, median:45 , q1:35 , bottom:10 },
-						{index: 26,a:10, b:"2020.12.06", fieldName :'test', c:30, top:150 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 27,a:10, b:"2020.12.07", fieldName :'test', c:30, top:160 , q3:80, median:75 , q1:65 , bottom:30 },
-						{index: 28,a:10, b:"2020.12.08", fieldName :'test', c:30, top:170 , q3:70, median:65 , q1:55 , bottom:30 },
-						{index: 29,a:10, b:"2020.12.09", fieldName :'test', c:30, top:130 , q3:80, median:45 , q1:35 , bottom:20 },
-						{index: 30,a:10, b:"2020.12.10", fieldName :'test', c:30, top:120 , q3:90, median:55 , q1:45 , bottom:40 }		
-					] 
-					$table.bootstrapTable('load', data)
-					// 임시
-					
 					var boxData = [];
 					var outliers = [];
 					var tableData = $table.bootstrapTable('getData');
 					var dataIndex = []
 						$.each(tableData,function(i){
 							var data = [];					
-							data.push(this.top);
-							data.push(this.q3);
+							data.push(this.max);
+							data.push(this.thirdQuantile);
 							data.push(this.median);
-							data.push(this.q1);
-							data.push(this.bottom);
+							data.push(this.firstQuantile);
+							data.push(this.min);
 							boxData.push(data);
 							
-							dataIndex.push(this.b)
+							dataIndex.push(this.regDtim)
 						})
 						
 					var boxplotParam = {};
@@ -264,9 +238,9 @@
 		function tableRefresh() {
 			const projectName = $projectNameItemDropdown.val();
 			const regdtim = $regdtItemDropdown.val();
-			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/api/member/getList',
-						);
+			const count = $countDropdown.val();
+			if (projectName && regdtim && count) {
+				bootstrapTableRefresh($table, '/fileresult/'+ projectName + "/" + regdtim + "/" + count);
 			} else {
 				$table.bootstrapTable('removeAll');
 				$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
@@ -277,10 +251,18 @@
 		function responseHandler(res) {
 			$.each(res, function(i) {
 				this.index = '<span class="index-area">'+(i + 1)+'</span>';
+				this.regDtim = '<a href="javascript:;" onclick="moveHistory(this)">'+ this.regDtim + '</a>'
 			});
 			return res;
 		}
-
+	
+		function moveHistory() {
+			movePageWithParam({
+				projectName : $projectNameItemDropdown.val(),
+				recentDtim : $regdtItemDropdown.val()
+			}, '/result/dataReport');
+		}
+		
 		function callback(target, data) {
 
 			switch (target) {
@@ -324,10 +306,11 @@
 				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
 					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
-					tableRefresh();
 				}
 				break;
-
+			case "MES":
+				console.log(data);
+				break;
 			default:
 				break;
 			}
