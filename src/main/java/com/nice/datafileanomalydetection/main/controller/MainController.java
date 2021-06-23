@@ -105,7 +105,7 @@ public class MainController {
         List<StatGraphInfo> listResult = new ArrayList<StatGraphInfo>();
         listResult.add(new StatGraphInfo("project1", "2021-06-01 01:01:01", "2.01", "1.11", "3", "12345"));
         listResult.add(new StatGraphInfo("project1", "2021-06-02 01:01:01", "3.01", "0.91", "1", "12335"));
-        listResult.add(new StatGraphInfo("project1", "2021-06-01 01:01:01", "5.01", "7.11", "5", "13445"));
+        listResult.add(new StatGraphInfo("project2", "2021-06-01 01:01:01", "5.01", "7.11", "5", "13445"));
         listResult.add(new StatGraphInfo("project2", "2021-06-02 01:01:01", "6.01", "9.11", "2", "21345"));
 
         return listResult;
