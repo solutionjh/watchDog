@@ -229,7 +229,7 @@
 			title : {
 				text : data.title
 			},
-			color : [ '#49b857', utils.getColors().warning ],
+			color : [ '#49b857', '#7753b5' ],
 			tooltip : {
 				trigger : 'axis',
 				padding : [ 7, 10 ],
@@ -367,10 +367,10 @@
 						type : 'line',
 						data : thresholdArray,
 						lineStyle : {
-							color : utils.getColors().warning
+							color : '#7753b5'
 						},
 						itemStyle : {
-							borderColor : utils.getColors().warning,
+							borderColor : '#7753b5',
 							borderWidth : 2
 						},
 						showSymbol : false,
