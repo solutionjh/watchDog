@@ -237,11 +237,11 @@
 						
 				 	var boxData = [];
 					var boxDataArray = [];	 			 	
-				 	boxData.push(row.top);				 	
-				 	boxData.push(row.q3);
+				 	boxData.push(row.max);				 	
+				 	boxData.push(row.thirdQuantile);
 				 	boxData.push(row.median);
-				 	boxData.push(row.q1);
-				 	boxData.push(row.bottom);
+				 	boxData.push(row.firstQuantile);
+				 	boxData.push(row.min);
 				 	boxDataArray.push(boxData)				 	
 				 	var dataObj = {}
 				 	dataObj.axisData = [row.b];
@@ -252,11 +252,11 @@
 				 					 					 	
 				 	var boxDataDev = [];
 				 	var boxDataDevArray = [];
-				 	boxDataDev.push(row.topDev);				 	
-				 	boxDataDev.push(row.q3Dev);
+				 	boxDataDev.push(row.maxDev);				 	
+				 	boxDataDev.push(row.thirdQuantileDev);
 				 	boxDataDev.push(row.medianDev);
-				 	boxDataDev.push(row.q1Dev);
-				 	boxDataDev.push(row.bottomDev);
+				 	boxDataDev.push(row.firstQuantileDev);
+				 	boxDataDev.push(row.minDev);
 				 	boxDataDevArray.push(boxDataDev)				 	
 				 	var dataObjDev = {}
 				 	dataObjDev.axisData = [row.b];
