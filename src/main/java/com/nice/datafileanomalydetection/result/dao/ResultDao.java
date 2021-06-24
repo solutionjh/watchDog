@@ -117,7 +117,7 @@ public class ResultDao {
                     .append("WHERE PROJECTNAME=:projectName \n")
                     .append("AND REGDTIM=:regDtim");
         } else {
-            selectSql.append("SELECT A.FIELDNAME, CASEWHEN(A.MEANSQUAREDERROR = '0.0', CASEWHEN(B.MEANSQUAREDERROR = '0.0', '0.0', '1000.0'), ABS(ROUND((B>MEANSQUAREDERROR - A.MEANSQUAREDERROR) / A.MEANSQUAREDERROR * 100, 4))) AS ITEMANOMALYLEVEL \n")
+            selectSql.append("SELECT A.FIELDNAME, CASEWHEN(A.MEANSQUAREDERROR = '0.0', CASEWHEN(B.MEANSQUAREDERROR = '0.0', '0.0', '1000.0'), ABS(ROUND((B.MEANSQUAREDERROR - A.MEANSQUAREDERROR) / A.MEANSQUAREDERROR * 100, 4))) AS ITEMANOMALYLEVEL \n")
                     .append("FROM DEV_COL_MEANSQUAREDERROR A \n")
                     .append("LEFT OUTER JOIN TOT_COL_MEANSQUAREDERROR B \n")
                     .append("ON A.PROJECTNAME = B.PROJECTNAME \n")
