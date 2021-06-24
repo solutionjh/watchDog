@@ -140,7 +140,7 @@
 				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
 				height : 695,
-				locale : '[[${#locale}]]',
+				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
 				columns : [ {
@@ -207,8 +207,7 @@
 
 			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, '/resultitem/' + projectName
-						+ '/' + regdtim + '/' + rateInput, '[[${#locale}]]',
-						'[[#{table.data.faile}]]');
+						+ '/' + regdtim + '/' + rateInput,);
 			} else {
 				$(".file-name-area").html("");
 				$table.bootstrapTable('removeAll');

@@ -60,14 +60,14 @@
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">[[#{txt.id}]]</span> <input
-								class="form-control" id="memberId" name="memberId" type="text" />
+								class="form-control" id="memberId" name="memberId" maxlength="20" type="text" />
 						</div>
 
 					</div>
 					<div class="col-sm-3 mb-3 ">
 						<div class="input-group">
 							<span class="input-group-text">[[#{txt.password}]]</span> 
-							<input class="form-control d-none" id="password" name="password" type="password" />
+							<input class="form-control d-none" id="password" name="password" maxlength="30" type="password" />
 							<div class="flex-1 newPassword d-none">
                           		<h5 class="mb-0 d-flex align-items-center mt-2 px-3"><a class="text-600 stretched-link" href="#password-form">[[#{txt.password.reset}]]</a></h5>
                         	</div>
@@ -76,12 +76,12 @@
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
 							<span class="input-group-text">[[#{txt.name}]]</span> <input
-								class="form-control" id="name" name="name" type="text" required />
+								class="form-control" id="name" name="name" type="text" maxlength="30" required />
 						</div>
 					</div>
 					<div class="col-sm-3 mb-3">
 						<div class="input-group">
-							<span class="input-group-text">[[#{txt.name}]]</span> <select
+							<span class="input-group-text">[[#{txt.role}]]</span> <select
 								class="form-select" id="memberType" name="memberType">
 							</select>
 						</div>
@@ -178,6 +178,7 @@
 			});
 			$(".newPassword").off().on('click', function() {
 				$(".password").removeClass('d-none');
+				goBottom();
 			});
 			
 			$passwordForm.on('submit', function(e) {

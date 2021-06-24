@@ -232,7 +232,7 @@
 							data.push(this.min);
 							boxData.push(data);
 							
-							dataIndex.push(this.b)
+							dataIndex.push(this.regDtim)
 						})
 						
 					var boxplotParam = {};
@@ -241,7 +241,7 @@
 					boxplotParam.outliers = outliers
 					boxplotParam.title = "파일감지 이력"
 					boxplotParam.name = dataIndex;		
-					boxplotParam.yAxisNm = "";			
+					boxplotParam.yAxisNm = "a";			
 					fn_boxplot(boxplotParam) 
 				}
 			});
@@ -253,7 +253,7 @@
 			const regdtim = $regdtItemDropdown.val();
 			const fieldNameDropdown = $fieldNameDropdown.val();
 			const countDropdown = $countDropdown.val();
-			if (projectName && regdtim) {
+			if (projectName && regdtim && fieldNameDropdown) {
 				bootstrapTableRefresh($table, "/resultitemhist/"+projectName+"/"+regdtim+"/"+countDropdown+"/"+fieldNameDropdown,
 						);
 			} else {
