@@ -67,7 +67,7 @@
 	</div>
 
 	<div class="card mb-3">
-		<div class="card-body bg-200" style="height:318px">
+		<div class="card-body bg-200" style="height: 318px">
 			<div class="tab-content">
 				<div id="boxplot"></div>
 			</div>
@@ -161,6 +161,13 @@
 					align : 'center',
 					width: '50',
 					valign : 'middle'
+				},{
+					title : '[[#{txt.file.name}]]',
+					field : 'projectName',
+					halign: 'center',
+					align : 'left',
+					sortable : true,
+					valign : 'middle'
 				}, {					
 					title : '[[#{txt.date}]]',
 					field : 'regDtim',
@@ -253,7 +260,7 @@
 			const regdtim = $regdtItemDropdown.val();
 			const fieldNameDropdown = $fieldNameDropdown.val();
 			const countDropdown = $countDropdown.val();
-			if (projectName && regdtim && fieldNameDropdown) {
+			if (projectName && regdtim) {
 				bootstrapTableRefresh($table, "/resultitemhist/"+projectName+"/"+regdtim+"/"+countDropdown+"/"+fieldNameDropdown,
 						);
 			} else {
@@ -303,11 +310,12 @@
 				});
 				$regdtItemDropdown.append(html);
 
-				$regdtItemDropdown.off().change(function() {					
+				$regdtItemDropdown.off().change(function() {				
 					if(gf_IsNull($(this).val())) $countDropdown.val("7").trigger('change');	
 					
 					fn_fieldItems($projectNameItemDropdown.val(),
 							$regdtItemDropdown.val());
+					tableRefresh();
 				});
 				$('.picker').select2();
 					

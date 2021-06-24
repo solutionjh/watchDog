@@ -84,7 +84,7 @@ function noDataAjax(ajaxParamObj)
 function dataAjax(ajaxParamObj)
 {	
 	$.each(ajaxParamObj.data, function(idx,data){
-		ajaxParamObj.data[idx] = escapeHtml(data);
+		if(jQuery.type(data) === "string") ajaxParamObj.data[idx] = escapeHtml(data);
 	})
 	$.ajax({
 		type: ajaxParamObj.method,
@@ -355,3 +355,6 @@ function getCurrentDate()
         
     }
 
+function goBottom(){
+	document.body.scrollIntoView(false);
+}
