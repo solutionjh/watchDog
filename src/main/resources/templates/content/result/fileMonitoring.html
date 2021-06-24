@@ -108,111 +108,125 @@
 						rowspan: 2,
 						halign : 'center',
 						align : 'center',
-						width: '50',
 						valign : 'middle'					
 					}, {
 						title : '[[#{txt.item.code}]]',
 						field : 'fieldName',
 						rowspan: 2,
+						halign: 'center',
 						align : 'center',
 						valign : 'middle'
 					}, {
 						title : '[[#{txt.average}]]',
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {		
 						title : '[[#{txt.standard.deviation}]]',
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {
 						title : '[[#{txt.boxplot.bottom}]]',
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {
 						title : '[[#{txt.boxplot.q1}]]',
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {
 						title : '[[#{txt.boxplot.median}]]',					
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {
 						title : '[[#{txt.boxplot.q3}]]',					
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}, {
 						title : '[[#{txt.boxplot.top}]]',
 						colspan: 2,
-						align : 'center'
+						halign: 'center',
+						align : 'center',
+						valign : 'middle'
 					}],
 					[{
-			          field: 'c',
+			          field: 'averageDev',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			          
 			        }, {
-			          field: 'c',
+			          field: 'average',
 			          title: '[[#{txt.calculation}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'c',
+			          field: 'standardDeviationDev',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'c',
+			          field: 'standardDeviation',
 			          title: '[[#{txt.calculation}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'bottom',
+			          field: 'minDev',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'bottomDev',
+			          field: 'min',
 			          title: '[[#{txt.calculation}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'q1',
+			          field: 'firstQuantileDev',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'q1Dev',
+			          field: 'firstQuantile',
 			          title: '[[#{txt.calculation}]]',
-			          halign: 'center',
-			          align: 'right'
-			        }, {
-			          field: 'median',
-			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
 			          field: 'medianDev',
-			          title: '[[#{txt.calculation}]]',
-			          halign: 'center',
-			          align: 'right'
-			        }, {
-			          field: 'q3',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'q3Dev',
+			          field: 'median',
 			          title: '[[#{txt.calculation}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'top',
+			          field: 'thirdQuantileDev',
 			          title: '[[#{txt.development}]]',
 			          halign: 'center',
 			          align: 'right'
 			        }, {
-			          field: 'topDev',
+			          field: 'thirdQuantile',
+			          title: '[[#{txt.calculation}]]',
+			          halign: 'center',
+			          align: 'right'
+			        }, {
+			          field: 'maxDev',
+			          title: '[[#{txt.development}]]',
+			          halign: 'center',
+			          align: 'right'
+			        }, {
+			          field: 'max',
 			          title: '[[#{txt.calculation}]]',
 			          halign: 'center',
 			          align: 'right'
@@ -261,16 +275,7 @@
 					multiBoxplotModal(boxplotParam)		 
 					
 				},				
-				onLoadSuccess : function(data) {
-					
-					// 임시
-					var data = [
-						{index: 1,a:"NICE_CSSNICE_CSSNIC",fileName:"fileName", b:"2020.11.11", fieldName :'test',  c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10,topDev:320 , q3Dev:100, medianDev:85 , q1Dev:40 , bottomDev:20 }	
-					] 
-					$table.bootstrapTable('load', data)
-					// 임시
-					
-					
+				onLoadSuccess : function(data) {					
 					$(".file-name-area").html("");
 					if(data.length > 0){
 						$(".file-name-area").html(data[0].fileName);
@@ -285,7 +290,7 @@
 			const projectName = $projectNameItemDropdown.val();
 			const regdtim = $regdtItemDropdown.val();
 			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/api/member/getList',
+				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim,
 						);
 			} else {			
 				$(".file-name-area").html("");
