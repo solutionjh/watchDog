@@ -64,8 +64,8 @@ public class ResultGraphController {
         return listResult;
     }
 
-    @GetMapping(value = "/fileresultmon/{projectName}/{baseDtim}")
-    public List<BasicDevStatInfo> getFileMonInfo(@PathVariable String projectName, @PathVariable String baseDtim) throws ParseException {
+    @GetMapping(value = "/fileresultmon/{projectName}/{baseDtim}/{peirod}")
+    public List<BasicDevStatInfo> getFileMonInfo(@PathVariable String projectName, @PathVariable String baseDtim, @PathVariable String peirod) throws ParseException {
         // 동일 일자에 fieldName 별로 나옴
         List<BasicDevStatInfo> listResult = new ArrayList<BasicDevStatInfo>();
         listResult.add(new BasicDevStatInfo(projectName, "2021-06-21 01:01:01", "File1", "Field1", "1.23", "2"

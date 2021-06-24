@@ -244,7 +244,7 @@
 				 	boxData.push(row.min);
 				 	boxDataArray.push(boxData)				 	
 				 	var dataObj = {}
-				 	dataObj.axisData = [row.b];
+				 	dataObj.axisData = [row.regDtim];
 				 	dataObj.boxData = boxDataArray;
 				 	dataObj.outliers = [];
 				 	
@@ -259,7 +259,7 @@
 				 	boxDataDev.push(row.minDev);
 				 	boxDataDevArray.push(boxDataDev)				 	
 				 	var dataObjDev = {}
-				 	dataObjDev.axisData = [row.b];
+				 	dataObjDev.axisData = [row.regDtim];
 				 	dataObjDev.boxData = boxDataDevArray;
 				 	dataObjDev.outliers = [];
 				 	
@@ -290,7 +290,7 @@
 			const projectName = $projectNameItemDropdown.val();
 			const regdtim = $regdtItemDropdown.val();
 			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim,
+				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim+"/1",
 						);
 			} else {			
 				$(".file-name-area").html("");
