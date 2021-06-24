@@ -38,7 +38,7 @@ public class PropertyInfo {
         this.delimiter = properties.getProperty("delimeter");
         this.headerToSkip = properties.getProperty("headertoskip");
         this.footerToSkip = properties.getProperty("footertoskip");
-        this.ratioGrade = properties.getProperty("ratiograde");
+        this.ratioGrade = properties.getProperty("ratioGrade");
         this.threshold = properties.getProperty("threshold");
         this.keyColumn = properties.getProperty("keycolumn");
         this.requiredColumn = properties.getProperty("requiredcolumn");
