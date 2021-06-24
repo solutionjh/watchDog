@@ -406,7 +406,7 @@ public class PredictService {
 
         prop = propertyInfo.getRatioGrade();
         if (prop != null && ! prop.isEmpty()) {
-            properties.setProperty("ratiograde", prop);
+            properties.setProperty("ratioGrade", prop);
         }
 
         prop = propertyInfo.getThreshold();

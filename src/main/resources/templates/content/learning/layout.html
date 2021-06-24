@@ -35,7 +35,7 @@
 								<button id="topNewOnlineBtn" data-id="onlineNew"
 									class="btn btn-falcon-default btn-group" type="button">
 									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
-									[[#{button.new.batch}]]
+									[[#{button.new.online}]]
 								</button>
 								<button id="topEditBtn" data-id="edit"
 									class="btn btn-falcon-default btn-group" type="button">
@@ -182,7 +182,7 @@
 							</div>
 							<div class=" col-sm-12 mb-3">
 								<label class="form-label">[[#{txt.ratiograde}]]</label> <input
-									class="form-control" id="ratiograde" name="ratiograde"
+									class="form-control" id="ratioGrade" name="ratioGrade"
 									type="text" th:placeholder="#{txt.ratiograde.ph}" />
 							</div>
 						</div>
@@ -275,6 +275,7 @@
 								e.preventDefault();
 								var data = $infoForm.serializeObject();
 								data.fileName = data.projectName;
+								if(!data.projectName) data.fileName = data.projectNameDropdown.replace(".properties" , "");
 								var columnLength = data.columnLength;
 								var header = data.header;
 
@@ -340,29 +341,32 @@
 				});
 				break;
 			case "LOAD_PROPERTY":
+				var tmpFileName = $projectNameDropdown.val();
 				initForm();
 				formatGbData = data.formatGb;
 				data.fileName = data.projectName;
-				settingForm(data, $infoForm);
-				if (!formatGbData)
-					formatGbData = "fixed"; //TODO 데이터 받아오면 그걸로 수정
+				//formatGbData = "fixed";
+				
 				switch (formatGbData) {
 				case "json":
 					setView("onlineNew");
 					break;
 				case "fixed":
-					$("#fixedLayoutYN").val("Y").change()
 					setView("batchNew");
+					$("#fixedLayoutYN").val("Y").change()					
 					break;
 				case "csv":
-					$("#fixedLayoutYN").val("N").change()
 					setView("batchNew");
+					$("#fixedLayoutYN").val("N").change();
 					break;
 				}
+				settingForm(data, $infoForm);
+				$projectNameDropdown.val(tmpFileName);
 				break;
 			case "SAVE":
 				alertModal('[[#{web.success.insert}]]');
 				initForm();
+				setView("edit");
 				break;
 			default:
 				break;
