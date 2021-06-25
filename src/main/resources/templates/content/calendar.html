@@ -131,16 +131,19 @@
 		
 		$(function() {
 			fn_Event();
+			appCalendarInit();
 		});
 
 		function fn_Event() {
-			fn_getResults();
+			var now = new Date();
+			var year = now.getFullYear();
+			fn_getResults(year);
 		}
 
-		function fn_getResults() {
+		function fn_getResults(year) {
 			var param = {
 				target : "RESULT_LIST",
-				url : "/result/results",
+				url : "/result/results/"+year,
 				isLoading : false
 			}
 			ajaxCall(param);
@@ -200,14 +203,19 @@
 					}
 					formatData.push(pushItem);
 				});
-				appCalendarInit(formatData);
+								
+				 calendar.batchRendering(() => {
+				    calendar.getEvents().forEach(event => event.remove());
+				    calendar.addEventSource(formatData);
+				  });
+				 
 				break;
 			default:
 				break;
 			}
 		}
 
-		function appCalendarInit(formatData) {
+		function appCalendarInit() {
 			var Selectors = {
 				ACTIVE : '.active',
 				ADD_EVENT_FORM : '#addEventForm',
@@ -246,9 +254,9 @@
 				
 				if(!currentYear){
 					currentYear = calDayShort.substr(0,4);	
-				}else if(currentYear != calDayShort.substr(0,4)){
-					alert("연도 변경 ");
+				}else if(currentYear != calDayShort.substr(0,4)){					
 					currentYear = calDayShort.substr(0,4);
+					fn_getResults(currentYear)
 				}
 				console.log(currentYear);
 			};
@@ -308,21 +316,25 @@
 														case 'prev':
 															calendar.prev();
 															updateTitle(calendar.currentData.viewTitle);
+															$table.html("");
 															break;
 
 														case 'next':
 															calendar.next();
 															updateTitle(calendar.currentData.viewTitle);
+															$table.html("");
 															break;
 
 														case 'today':
 															calendar.today();
 															updateTitle(calendar.currentData.viewTitle);
+															$table.html("");
 															break;
 
 														default:
 															calendar.today();
 															updateTitle(calendar.currentData.viewTitle);
+															$table.html("");
 															break;
 														}
 													});
@@ -348,9 +360,10 @@
 			      e.target.reset();
 			      window.bootstrap.Modal.getInstance(addEventModal).hide();
 			    });
-			document.querySelectorAll(Selectors.DATA_CALENDAR_VIEW).forEach(function (link) {
+			document.querySelectorAll(Selectors.DATA_CALENDAR_VIEW).forEach(function (link) {				
 			      link.addEventListener(Events.CLICK, function (e) {
 			        e.preventDefault();
+			        $table.html("");
 			        var el = e.currentTarget;
 			        var text = el.textContent;
 			        el.parentElement.querySelector(Selectors.ACTIVE).classList.remove(ClassNames.ACTIVE);
@@ -365,3 +378,5 @@
 	</script>
 </div>
 </html>
+
+

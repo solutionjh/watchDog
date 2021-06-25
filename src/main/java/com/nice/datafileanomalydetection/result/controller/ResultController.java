@@ -52,10 +52,11 @@ public class ResultController {
         return gson.toJson(ruleList);
     }
 
-    @GetMapping(value = "/result/results/{projectName}")
-    public List<Result> getProjectResult(@PathVariable String projectName) {
-        return resultService.getProjectResult(projectName);
-    }
+	/*
+	 * @GetMapping(value = "/result/results/{projectName}") public List<Result>
+	 * getProjectResult(@PathVariable String projectName) { return
+	 * resultService.getProjectResult(projectName); }
+	 */
 
     @GetMapping(value = "/result/filename/{projectName}/{regDtim}")
     public List<String> getFileName(@PathVariable String projectName, @PathVariable String regDtim) {
