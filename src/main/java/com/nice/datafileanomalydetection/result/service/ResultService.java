@@ -1,5 +1,17 @@
 package com.nice.datafileanomalydetection.result.service;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.stream.Collectors;
+
 import com.nice.datafileanomalydetection.result.dao.ResultDao;
 import com.nice.datafileanomalydetection.result.model.ItemAnomalyLevel;
 import com.nice.datafileanomalydetection.result.model.Result;
@@ -9,17 +21,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.util.*;
-import java.util.stream.Collectors;
-
 @Service
 public class ResultService {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final Boolean isDebugEnabled = logger.isDebugEnabled();
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     ResultDao resultDao;
@@ -75,11 +82,29 @@ public class ResultService {
             Properties properties = new Properties();
             properties.load(new FileReader(propertiesFilePath));
             formatGb = properties.getProperty("formatGb", "batch");
-        } catch(IOException e) {
+        } catch (IOException e) {
             logger.error("Properties File {} does not exist", propertiesFilePath);
         }
 
         return formatGb;
     }
 
+    public List<Result> getResultsByYear(String year) {
+        List<Result> results = getResults();
+        String startDtim = getStartDtim(year);
+        String endDtim = getEndDtim(year);
+        results = results.stream().filter(e -> e.getRegDtim().compareTo(startDtim) == 1 && e.getEndDtim().compareTo(endDtim) == -1)
+                .collect(Collectors.toList());
+        return results;
+    }
+
+    private String getStartDtim(String year) {
+        String lastYear = String.valueOf(Integer.parseInt(year) - 1);
+        return lastYear + "1201";
+    }
+
+    private String getEndDtim(String year) {
+        String nextYear = String.valueOf(Integer.parseInt(year) + 1);
+        return nextYear + "0131";
+    }
 }

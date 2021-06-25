@@ -1,5 +1,9 @@
 package com.nice.datafileanomalydetection.result.controller;
 
+import java.lang.invoke.MethodHandles;
+import java.util.List;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nice.datafileanomalydetection.result.model.ItemAnomalyLevel;
@@ -12,10 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.lang.invoke.MethodHandles;
-import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -39,14 +39,21 @@ public class ResultController {
     }
 
     @GetMapping(value = "/result/results")
-    public String getResults () {
+    public String getResults() {
         List<Result> ruleList = resultService.getResults();
         Gson gson = new GsonBuilder().create();
         return gson.toJson(ruleList);
     }
 
+    @GetMapping(value = "/result/results/{year}")
+    public String getResultsByYear(@PathVariable String year) {
+        List<Result> ruleList = resultService.getResultsByYear(year);
+        Gson gson = new GsonBuilder().create();
+        return gson.toJson(ruleList);
+    }
+
     @GetMapping(value = "/result/results/{projectName}")
-    public List<Result> getProjectResult (@PathVariable String projectName) {
+    public List<Result> getProjectResult(@PathVariable String projectName) {
         return resultService.getProjectResult(projectName);
     }
 

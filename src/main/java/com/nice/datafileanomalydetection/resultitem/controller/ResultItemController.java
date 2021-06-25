@@ -41,14 +41,30 @@ public class ResultItemController {
         return resultItemService.getProjectItemResult(projectName, regdtim, changeRate);
     }
 
+    @GetMapping(value = "/resultitemhist/{projectName}/{baseDtim}/{period}")
+    public List<BasicStatInfo> getAllProjectItemHistResult(@PathVariable String projectName, @PathVariable String baseDtim, @PathVariable String period) {
+        List<BasicStatInfo> listResult = new ArrayList<>();
+        listResult.add(new BasicStatInfo(projectName, "2021-06-21 01:01:01", "File1", "Field1", "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-22 01:01:01", "File2", "Field1", "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-23 01:01:01", "File3", "Field1", "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-24 01:01:01", "File4", "Field1", "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-25 01:01:01", "File5", "Field1", "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-21 01:01:01", "File1", "Field2", "1000", "2", "1", "10000", "999", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-22 01:01:01", "File2", "Field2", "1005", "3", "1", "100000", "1005", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-23 01:01:01", "File3", "Field2", "1010", "1.5", "1", "10070", "1000", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-24 01:01:01", "File4", "Field2", "910", "2", "1", "10100", "890", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-25 01:01:01", "File5", "Field2", "998", "2.8", "1", "12300", "900", "6", "17"));
+        return listResult;
+    }
+
     @GetMapping(value = "/resultitemhist/{projectName}/{baseDtim}/{period}/{fieldName}")
     public List<BasicStatInfo> getProjectItemHistResult(@PathVariable String projectName, @PathVariable String baseDtim, @PathVariable String period, @PathVariable String fieldName) {
         List<BasicStatInfo> listResult = new ArrayList<>();
-        listResult.add(new BasicStatInfo(projectName, "2021-06-21 01:01:01", "", fieldName, "10", "2", "1", "100", "12", "6", "17"));
-        listResult.add(new BasicStatInfo(projectName, "2021-06-22 01:01:01", "", fieldName, "10", "2", "1", "100", "12", "6", "17"));
-        listResult.add(new BasicStatInfo(projectName, "2021-06-23 01:01:01", "", fieldName, "10", "2", "1", "100", "12", "6", "17"));
-        listResult.add(new BasicStatInfo(projectName, "2021-06-24 01:01:01", "", fieldName, "10", "2", "1", "100", "12", "6", "17"));
-        listResult.add(new BasicStatInfo(projectName, "2021-06-25 01:01:01", "", fieldName, "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-21 01:01:01", "File1", fieldName, "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-22 01:01:01", "File2", fieldName, "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-23 01:01:01", "File3", fieldName, "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-24 01:01:01", "File4", fieldName, "10", "2", "1", "100", "12", "6", "17"));
+        listResult.add(new BasicStatInfo(projectName, "2021-06-25 01:01:01", "File5", fieldName, "10", "2", "1", "100", "12", "6", "17"));
 
         return listResult;
     }
