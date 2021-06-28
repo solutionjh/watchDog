@@ -102,13 +102,13 @@
 						<table class="table">
 							<thead>
 								<tr>
-									<th scope="col">[[#{txt.projectName}]]</th>
-									<th scope="col">[[#{txt.excute.startday}]]</th>
-									<th scope="col">[[#{txt.file.name}]]</th>
-									<th scope="col">[[#{txt.data.count}]]</th>
-									<th scope="col">[[#{txt.psi}]]</th>
-									<th scope="col">[[#{txt.car}]]</th>
-									<th scope="col">[[#{txt.chisqCnt}]]</th>
+									<th scope="col" class="text-center">[[#{txt.projectName}]]</th>
+									<th scope="col" class="text-center">[[#{txt.excute.startday}]]</th>
+									<th scope="col" class="text-center">[[#{txt.file.name}]]</th>
+									<th scope="col" class="text-center">[[#{txt.data.count}]]</th>
+									<th scope="col" class="text-center">[[#{txt.psi}]]</th>
+									<th scope="col" class="text-center">[[#{txt.car}]]</th>
+									<th scope="col" class="text-center">[[#{txt.chisqCnt}]]</th>
 								</tr>
 							</thead>
 							<tbody id="detailTable">
@@ -160,17 +160,27 @@
 				
 				html += '<tr>';
 				html += '<td class="'+titleClass+'"><div class="fc-event-main">'+data.title+'</div></td>';
-				html += '<td>'+data.start+'</td>';
+				html += '<td>'+data.regDtim+'</td>';
 				html += '<td>'+data.inputFilename+'</td>';
-				html += '<td class="text-end">'+data.inputDatacnt+'</td>';
-				html += '<td class="text-end">'+data.psi+'</td>';
-				html += '<td class="text-end">'+data.car+'</td>';
-				html += '<td class="text-end">'+data.chisqCnt+'</td>';
+				html += '<td class="text-end">'+data.inputDatacnt+'</td></a>';
+				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'fileDetectHistory\')">'+data.psi+'</td>';
+				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'itemRateOfChange\')">'+data.car+'</td>';
+				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'compositionRate\')">'+data.chisqCnt+'</td>';
 				html += '</tr>';	
 			})
 			
+			
+			
 			$table.append(html);
 			document.body.scrollIntoView(false);
+		}
+		
+		function movePage(projectName, regDtim, target) {			
+			movePageWithParam({
+				projectName : projectName,
+				regdtim : regDtim
+			}, '/result/'+target); 
+		
 		}
 		
 		function moveHistory(projectName) {
@@ -189,7 +199,7 @@
 					const pushItem = {
 						className : "bg-soft-primary",
 						start : item.regDtim.substring(0, 10),
-						regDtim : item.regDtim.substring(0, 10),
+						regDtim : item.regDtim,
 						title : item.projectName,
 						//end : item.endDtim?item.endDtim:null,
 						car : item.car,
