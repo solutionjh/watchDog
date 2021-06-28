@@ -82,10 +82,12 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $rateInput = $("#rateInput");
 		var $rateBtn = $("#rateBtn");
+		var paramData = {};
 
 		var target_memberId = null;
 
 		$(function() {
+			paramData = jsonParse('[[${paramData}]]');
 
 			fn_projectNames();
 			fn_Table();
@@ -249,6 +251,10 @@
 				});
 
 				$('.picker').select2();
+				if(!gf_IsNull(paramData)){					
+					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+				}
+				
 				break;
 
 			case "REGDT_ITEMS":
@@ -264,6 +270,9 @@
 					tableRefresh();
 				});
 				$('.picker').select2();
+				if(!gf_IsNull(paramData)){					
+					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+				}
 				break;
 
 			default:

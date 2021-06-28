@@ -163,9 +163,9 @@
 				html += '<td>'+data.regDtim+'</td>';
 				html += '<td>'+data.inputFilename+'</td>';
 				html += '<td class="text-end">'+data.inputDatacnt+'</td></a>';
-				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'fileDetectHistory\')">'+data.psi+'</td>';
-				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'itemRateOfChange\')">'+data.car+'</td>';
-				html += '<td class="text-end" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'compositionRate\')">'+data.chisqCnt+'</td>';
+				html += '<td class="text-end link-class" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'fileDetectHistory\')">'+data.psi+'</td>';
+				html += '<td class="text-end link-class" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'itemRateOfChange\')">'+data.car+'</td>';
+				html += '<td class="text-end link-class" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'compositionRate\')">'+data.chisqCnt+'</td>';
 				html += '</tr>';	
 			})
 			
@@ -175,10 +175,10 @@
 			document.body.scrollIntoView(false);
 		}
 		
-		function movePage(projectName, regDtim, target) {			
+		function movePage(projectName, regDtim, target) {	
 			movePageWithParam({
 				projectName : projectName,
-				regdtim : regDtim
+				recentDtim : regDtim
 			}, '/result/'+target); 
 		
 		}

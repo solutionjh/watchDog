@@ -505,3 +505,7 @@ table {
     color: #2c7be5;
 }
 
+.link-class{
+	color: #6666ca; cursor: pointer; text-decoration: underline; 
+}
+

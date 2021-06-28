@@ -77,9 +77,6 @@
 		var paramData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
-			
-			console.log("paramData:::",paramData)
-			
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
@@ -308,7 +305,6 @@
 				});
 				$('.picker').select2();
 				
-				var paramData = jsonParse('[[${paramData}]]');	
 				if(!gf_IsNull(paramData)){					
 					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
 				}
