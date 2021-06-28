@@ -73,8 +73,10 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $fieldNameDropdown = $("#fieldNameDropdown");
 		var target_memberId = null;
-
+		var paramData = {};
+		
 		$(function() {
+			paramData = jsonParse('[[${paramData}]]');	
 
 			fn_projectNames();
 			fn_Table();
@@ -238,6 +240,17 @@
 				});
 
 				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					if(paramValidation(data , paramData.projectName)){
+						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+						$("#project-name").html(paramData.projectName);
+					}else{						
+						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+					} 
+				}
+				
+				
 				break;
 
 			case "REGDT_ITEMS":
@@ -256,6 +269,17 @@
 							tableRefresh();
 						});
 				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){					
+					if(paramValidation(data , paramData.recentDtim)){
+						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+						paramData={};
+					}else{						
+						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+					} 
+				}
+				
+				
 				break;
 			case "FIELDNAME_ITEMS":
 				$fieldNameDropdown.find("option").remove();
