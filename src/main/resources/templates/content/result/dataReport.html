@@ -476,6 +476,8 @@
 				$regdtItemDropdown.append(html);
 
 				$regdtItemDropdown.off().change(function() {
+					$("#title, .recentDtim").html("");
+					$("#item-safe-area , #fileStateChart ,#dataCntChart ,#psiChart , #itemMatchChart , #dashItemBar").hide();
 					fn_data();
 				});
 				$('.picker').select2();
