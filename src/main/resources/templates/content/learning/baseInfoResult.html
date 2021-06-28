@@ -263,7 +263,12 @@
 				$('.picker').select2();
 				
 				if(!gf_IsNull(paramData)){					
-					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+					if(paramValidation(data , paramData.projectName)){
+						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+					}else{						
+						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+					} 
+					paramData = {};
 				}
 				
 				break;

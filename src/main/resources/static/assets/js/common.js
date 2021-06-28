@@ -358,3 +358,13 @@ function getCurrentDate()
 function goBottom(){
 	document.body.scrollIntoView(false);
 }
+
+function paramValidation(data ,target){
+	var cnt = 0;
+	$.each(data, function() {
+		console.log(this)
+		console.log("target::",target)
+		if(this == target) cnt ++; 
+	});	
+	return cnt  ==  0 ? false : true;
+}

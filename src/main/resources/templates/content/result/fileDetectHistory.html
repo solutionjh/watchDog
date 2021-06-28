@@ -284,7 +284,11 @@
 				$('.picker').select2();
 				
 				if(!gf_IsNull(paramData)){					
-					$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+					if(paramValidation(data , paramData.projectName)){
+						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
+					}else{						
+						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+					} 
 				}
 				
 				break;
@@ -306,7 +310,12 @@
 				$('.picker').select2();
 				
 				if(!gf_IsNull(paramData)){					
-					$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+					if(paramValidation(data , paramData.recentDtim)){
+						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
+						paramData={};
+					}else{						
+						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+					} 
 				}
 				break;
 			case "MES":
