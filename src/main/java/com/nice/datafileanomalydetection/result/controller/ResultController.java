@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nice.datafileanomalydetection.result.model.ItemAnomalyLevel;
+import com.nice.datafileanomalydetection.result.model.LearningDataInfo;
 import com.nice.datafileanomalydetection.result.model.Result;
 import com.nice.datafileanomalydetection.result.service.ResultService;
 import org.slf4j.Logger;
@@ -71,6 +72,21 @@ public class ResultController {
     @GetMapping(value = "/result/itemanomaly/{projectName}/{regDtim}")
     public List<ItemAnomalyLevel> getItemAnomalyLevel(@PathVariable String projectName, @PathVariable String regDtim) {
         return resultService.getItemAnomalyLevels(projectName, regDtim);
+    }
+
+    @GetMapping(value = "/learning/projectname")
+    public List<String> getLearnedProjectNames() {
+        return resultService.getLearnedProjectNames();
+    }
+
+    @GetMapping(value = "/learning/datainfo/{projectName}")
+    public List<LearningDataInfo> getLearingDataInfo(@PathVariable String projectName) {
+        return resultService.getLearningDataInfo(projectName);
+    }
+
+    @GetMapping(value = "/learning/datainfo/{projectName}/{fieldName}")
+    public List<LearningDataInfo> getLearingDataInfo(@PathVariable String projectName, @PathVariable String fieldName) {
+        return resultService.getLearningDataFieldInfo(projectName, fieldName);
     }
 
 }
