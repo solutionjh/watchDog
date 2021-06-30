@@ -47,6 +47,7 @@
 							</div>
 							<div class="col-auto col-md-auto order-md-2 mb-1">
 								<h4 class="mb-0 fs-0 fs-sm-1 fs-lg-2 calendar-title"></h4>
+								<input type="text" id="datepicker">
 							</div>
 							<div class="col-md-auto d-md-none">
 								<hr>
@@ -127,7 +128,6 @@
 		var calendar;
 		var currentYear;
 		let formatData = [];
-		const PSI_BASE = 10;
 		
 		$(function() {
 			fn_Event();
@@ -138,6 +138,36 @@
 			var now = new Date();
 			var year = now.getFullYear();
 			fn_getResults(year);
+			
+			switch ('[[${#locale}]]') {
+			case "ko_KR":
+				$.datepicker.setDefaults({
+			        dateFormat: 'yymmdd',
+			        prevText: '이전 달',
+			        nextText: '다음 달',
+			        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+			        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+			        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+			        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+			        showMonthAfterYear: true,
+			        yearSuffix: '년'
+			    });	
+				break;
+
+			default:
+				break;
+			}
+			
+			$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+			$( "#datepicker" ).hide();
+			$( "#datepicker" ).change(function(){
+				if(calendar){
+					const setDate = $(this).val();
+					calendar.gotoDate(setDate);
+					updateTitle(calendar.currentData.viewTitle);
+				}
+			});
 		}
 
 		function fn_getResults(year) {
@@ -155,7 +185,7 @@
 			
 			$.each(dataList, function(idx, data){
 				var titleClass = "bg-soft-primary";
-				if(data.psi > PSI_BASE) titleClass = "bg-soft-danger";
+				if(data.isAnomaly == 1) titleClass = "bg-soft-danger";
 				if(!data.chisqCnt) data.chisqCnt = 0;
 				
 				html += '<tr>';
@@ -209,13 +239,11 @@
 						psi : item.psi,
 						chisqCnt : item.chisqCnt
 					};
-					if (item.psi > PSI_BASE) {
-						console.log(item.psi);
+					if (item.isAnomaly == 1) {
 						pushItem.className = "bg-soft-danger";
 						pushItem.start = item.regDtim.substring(0, 10);
 					}else{
 						pushItem.start = item.regDtim;
-						/* pushItem.end = item.endDtim?item.endDtim+10:null; */
 					}
 					formatData.push(pushItem);
 				});
@@ -230,7 +258,33 @@
 				break;
 			}
 		}
+		
+		var updateTitle = function updateTitle(title) {
+			$("#datepicker").val(formatDate(calendar.getDate()));
+			var titleHtml = title;
+			var calDayShort = title.replace("년", "").replace("월","").replace(" ","");
+			var todayShort = getToday().substr(0, calDayShort.length);
 
+			if(calDayShort == todayShort){
+				titleHtml = "<div class='datepicker this-month'>"+title+"</div>";
+			}else{
+				titleHtml = "<div class='datepicker'>"+title+"</div>";
+			}
+			$(".calendar-title").html(titleHtml);
+			
+			
+			if(!currentYear){
+				currentYear = calDayShort.substr(0,4);	
+			}else if(currentYear != calDayShort.substr(0,4)){					
+				currentYear = calDayShort.substr(0,4);
+				fn_getResults(currentYear)
+			}
+			
+			$(".calendar-title").off().on('click', function() {
+				$('#datepicker').show().focus().hide();
+			});
+		};
+		
 		function appCalendarInit() {
 			var Selectors = {
 				ACTIVE : '.active',
@@ -257,24 +311,6 @@
 			};
 			var ClassNames = {
 				ACTIVE : 'active'
-			};
-
-			var updateTitle = function updateTitle(title) {
-				var titleHtml = title;
-				var calDayShort = title.replace("년", "").replace("월","").replace(" ","");
-				var todayShort = getToday().substr(0, calDayShort.length);
-
-				if(calDayShort == todayShort) titleHtml = "<div class='this-month'>"+title+"</div>";
-				$(".calendar-title").html(titleHtml);
-				
-				
-				if(!currentYear){
-					currentYear = calDayShort.substr(0,4);	
-				}else if(currentYear != calDayShort.substr(0,4)){					
-					currentYear = calDayShort.substr(0,4);
-					fn_getResults(currentYear)
-				}
-				console.log(currentYear);
 			};
 
 			var appCalendar = document.querySelector(Selectors.CALENDAR);
@@ -306,7 +342,6 @@
 						
 					},
 					dateClick : function dateClick(info) {
-						console.log(formatData);
 						fn_showTable(formatData.filter((v)=>(v.start.startsWith(info.dateStr))));
 					},
 					dayCellContent(a, max_date, date, cell){

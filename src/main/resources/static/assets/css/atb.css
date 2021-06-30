@@ -515,3 +515,7 @@ table {
 .fc .fc-daygrid-event .fc-event-title.fc-sticky{
 	color: #d01a3b !important;
 }
+
+#ui-datepicker-div {
+	z-index: 9 !important; 
+}
