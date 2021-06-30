@@ -366,7 +366,6 @@
 			case "SAVE":
 				alertModal('[[#{web.success.insert}]]');
 				initForm();
-				setView("edit");
 				break;
 			default:
 				break;
@@ -374,7 +373,8 @@
 		}
 
 		function setView(type) {
-			$("#fixedLayoutYN").val("Y").change();
+			$("#fixedLayoutYN").val("Y").change();			
+			
 			switch (type) {
 			case "batchNew":
 				$.each($("#info-form .offOnline"), function(idx, data) {
