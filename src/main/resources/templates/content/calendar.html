@@ -159,7 +159,7 @@
 				if(!data.chisqCnt) data.chisqCnt = 0;
 				
 				html += '<tr>';
-				html += '<td class="'+titleClass+'"><div class="fc-event-main">'+data.title+'</div></td>';
+				html += '<td class="link-class '+titleClass+'" onclick="moveHistory(\'' + data.title+ '\',\'' + data.regDtim+ '\')"><div class="fc-event-main">'+data.title+'</div></td>';
 				html += '<td>'+data.regDtim+'</td>';
 				html += '<td>'+data.inputFilename+'</td>';
 				html += '<td class="text-end">'+data.inputDatacnt+'</td></a>';
@@ -183,10 +183,11 @@
 		
 		}
 		
-		function moveHistory(projectName) {
+		function moveHistory(projectName, recentDtim) {
 			movePageWithParam({
-				projectName : projectName
-			}, '/result/dashboard');
+				projectName : projectName,
+				recentDtim : recentDtim
+			}, '/result/dataReport');
 		}
 		
 		function callback(target, data) {
@@ -198,10 +199,10 @@
 				$.each(data, function(idx, item) {
 					const pushItem = {
 						className : "bg-soft-primary",
-						start : item.regDtim.substring(0, 10),
+						
 						regDtim : item.regDtim,
 						title : item.projectName,
-						//end : item.endDtim?item.endDtim:null,
+						
 						car : item.car,
 						inputDatacnt : item.inputDatacnt,
 						inputFilename : item.inputFilename,
@@ -209,7 +210,12 @@
 						chisqCnt : item.chisqCnt
 					};
 					if (item.psi > PSI_BASE) {
+						console.log(item.psi);
 						pushItem.className = "bg-soft-danger";
+						pushItem.start = item.regDtim.substring(0, 10);
+					}else{
+						pushItem.start = item.regDtim;
+						/* pushItem.end = item.endDtim?item.endDtim+10:null; */
 					}
 					formatData.push(pushItem);
 				});
@@ -296,11 +302,12 @@
 					events : formatData,
 					eventClick : function eventClick(info) {
 						//alert("ProjectName:" + info.event.title +"\n\n 수행일자:" + info.event.extendedProps.regDtim);
-						moveHistory(info.event.title);
+						moveHistory(info.event.title, info.event.extendedProps.regDtim);
 						
 					},
 					dateClick : function dateClick(info) {
-						fn_showTable(formatData.filter((v)=>(v.start==info.dateStr)));
+						console.log(formatData);
+						fn_showTable(formatData.filter((v)=>(v.start.startsWith(info.dateStr))));
 					},
 					dayCellContent(a, max_date, date, cell){
 						return a.dayNumberText.replace("일", "");

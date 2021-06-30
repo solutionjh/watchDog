@@ -508,4 +508,10 @@ table {
 .link-class{
 	color: #6666ca; cursor: pointer; text-decoration: underline; 
 }
-
+.fc .fc-daygrid-event .fc-event-time , .fc .fc-daygrid-event .fc-event-title{
+	color: #1862c6;
+    font-weight: 600;
+}
+.fc .fc-daygrid-event .fc-event-title.fc-sticky{
+	color: #d01a3b !important;
+}
