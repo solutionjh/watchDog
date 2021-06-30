@@ -244,7 +244,7 @@
 			},
 	
 			legend : {
-				data : [ 'PSI', 'Threshold' ],
+				data : data.itemName,
 				left : 'center',
 				itemWidth : 10,
 				itemHeight : 10,
@@ -329,7 +329,7 @@
 			},
 			series : [
 					{
-						name : 'PSI',
+						name : data.itemName[0],
 						type : 'line',
 						data : data.psis,
 						lineStyle : {
@@ -361,7 +361,7 @@
 							}
 						}
 					}, {
-						name : 'Threshold',
+						name : data.itemName[1],
 						type : 'line',
 						data : thresholdArray,
 						lineStyle : {

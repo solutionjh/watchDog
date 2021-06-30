@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import com.nice.datafileanomalydetection.result.dao.ResultDao;
 import com.nice.datafileanomalydetection.result.model.ItemAnomalyLevel;
+import com.nice.datafileanomalydetection.result.model.LearningDataInfo;
 import com.nice.datafileanomalydetection.result.model.Result;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -106,5 +107,25 @@ public class ResultService {
     private String getEndDtim(String year) {
         String nextYear = String.valueOf(Integer.parseInt(year) + 1);
         return nextYear + "0131";
+    }
+
+    public List<String> getLearnedProjectNames() {
+        return resultDao.getLearnedProjectNames();
+    }
+
+    public List<LearningDataInfo> getLearningDataInfo(String projectName) {
+        List<LearningDataInfo> learningDataInfos = resultDao.getLearningDataInfo(projectName);
+
+        Collections.sort(learningDataInfos);
+
+        return learningDataInfos;
+    }
+
+    public List<LearningDataInfo> getLearningDataFieldInfo(String projectName, String fieldName) {
+        List<LearningDataInfo> learningDataInfos = resultDao.getLearningDataFieldInfo(projectName, fieldName);
+
+        Collections.sort(learningDataInfos);
+
+        return learningDataInfos;
     }
 }

@@ -161,13 +161,13 @@
 					align : 'center',
 					width: '50',
 					valign : 'middle'
-				},{
+				}, {					
 					title : '[[#{txt.item.code}]]',
 					field : 'fieldName',
-					halign: 'center',
 					align : 'center',
+					sortable : true,
 					valign : 'middle'
-				},{					
+				}, {					
 					title : '[[#{txt.date}]]',
 					field : 'regDtim',
 					align : 'center',
@@ -231,11 +231,11 @@
 				} ],
 				onClickRow : function(row, $element, field) {
 				},
-				onLoadSuccess : function() {	
-					const projectName = $projectNameItemDropdown.val();
-					const regdtim = $regdtItemDropdown.val();
-					const fieldNameDropdown = $fieldNameDropdown.val();
-					if (projectName && regdtim && fieldNameDropdown) {
+				onLoadSuccess : function() {							
+					
+					if($fieldNameDropdown.val() == ""){
+						$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
+					}else{
 						var boxData = [];
 						var outliers = [];
 						var tableData = $table.bootstrapTable('getData');
@@ -256,13 +256,12 @@
 						boxplotParam.target = "boxplot"
 						boxplotParam.boxData = boxData
 						boxplotParam.outliers = outliers
-						boxplotParam.title = "파일감지 이력"
+						boxplotParam.title = '[[#{left.010}]]'
 						boxplotParam.name = dataIndex;		
-						boxplotParam.yAxisNm = "a";			
-						fn_boxplot(boxplotParam) 	
-					}else{
-						$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
+						boxplotParam.yAxisNm = "";			
+						fn_boxplot(boxplotParam) 
 					}
+					
 				}
 			});
 			tableRefresh();

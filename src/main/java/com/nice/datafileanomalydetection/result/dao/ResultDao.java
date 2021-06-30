@@ -1,6 +1,7 @@
 package com.nice.datafileanomalydetection.result.dao;
 
 import com.nice.datafileanomalydetection.result.model.ItemAnomalyLevel;
+import com.nice.datafileanomalydetection.result.model.LearningDataInfo;
 import com.nice.datafileanomalydetection.result.model.Result;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import java.lang.invoke.MethodHandles;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -146,6 +148,59 @@ public class ResultDao {
         }
     }
 
+    public List<String> getLearnedProjectNames() {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append("SELECT PROJECTNAME \n")
+                .append("FROM MODEL_DATA_SUMMARY \n")
+                .append("GROUP BY PROJECTNAME \n")
+                .append("ORDER BY PROJECTNAME ASC");
+
+        return this.jdbcTemplate.queryForList(selectSql.toString(), String.class);
+    }
+
+    public List<LearningDataInfo> getLearningDataInfo(String projectName) {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append("SELECT PROJECTNAME, FIELDNAME, MODELUSE, MODELUSE_REASON, MEAN, STANDARD_DEVIATION, MINIMUM, LOWER_QUANTILE, MEDIAN, UPPER_QUANTILE, MAXIMUM \n")
+                .append("FROM MODEL_DATA_SUMMARY \n")
+                .append("WHERE PROJECTNAME = :projectName \n")
+                .append("ORDER BY FIELDNAME ASC");
+        SqlParameterSource namedParameters = new MapSqlParameterSource("projectName", projectName);
+
+        return this.namedParameterJdbcTemplate.query(selectSql.toString(), namedParameters, new LearningDataInfoMapper());
+    }
+
+    public List<LearningDataInfo> getLearningDataFieldInfo(String projectName, String fieldName) {
+        StringBuilder selectSql = new StringBuilder();
+        selectSql.append("SELECT PROJECTNAME, FIELDNAME, MODELUSE, MODELUSE_REASON, MEAN, STANDARD_DEVIATION, MINIMUM, LOWER_QUANTILE, MEDIAN, UPPER_QUANTILE, MAXIMUM \n")
+                .append("FROM MODEL_DATA_SUMMARY \n")
+                .append("WHERE PROJECTNAME = :projectName \n")
+                .append("AND FIELDNAME = :fieldName \n")
+                .append("ORDER BY FIELDNAME ASC");
+        SqlParameterSource namedParameters = new MapSqlParameterSource("projectName", projectName).addValue("fieldName", fieldName);
+
+        return this.namedParameterJdbcTemplate.query(selectSql.toString(), namedParameters, new LearningDataInfoMapper());
+    }
+
+    private static final class LearningDataInfoMapper implements RowMapper<LearningDataInfo> {
+        @Override
+        public LearningDataInfo mapRow (ResultSet rs, int rowNum) throws SQLException {
+            LearningDataInfo learningDataInfo = new LearningDataInfo();
+
+            learningDataInfo.setProjectName(rs.getString("PROJECTNAME"));
+            learningDataInfo.setFieldName(rs.getString("FIELDNAME"));
+            learningDataInfo.setModelUse(rs.getString("MODELUSE"));
+            learningDataInfo.setModelUseRsn(rs.getString("MODELUSE_REASON"));
+            learningDataInfo.setMean(rs.getDouble("MEAN"));
+            learningDataInfo.setStddev(rs.getDouble("STANDARD_DEVIATION"));
+            learningDataInfo.setMin(rs.getDouble("MINIMUM"));
+            learningDataInfo.setLq(rs.getDouble("LOWER_QUANTILE"));
+            learningDataInfo.setMedian(rs.getDouble("MEDIAN"));
+            learningDataInfo.setUq(rs.getDouble("UPPER_QUANTILE"));
+            learningDataInfo.setMax(rs.getDouble("MAXIMUM"));
+
+            return learningDataInfo;
+        }
+    }
 }
 
 

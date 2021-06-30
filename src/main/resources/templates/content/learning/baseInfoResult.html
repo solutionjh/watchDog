@@ -67,7 +67,7 @@
 		function fn_projectNames() {
 			var param = {
 				target : "PROJECT_NAMES",
-				url : "/result/projectnames/",
+				url : "/learning/projectname",
 				isLoading : false
 			}
 			ajaxCall(param);
@@ -75,14 +75,12 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
-			if (projectName) {
-				
-				// 프로젝트명으로 항목코드 가져오는 api가 지금 없다.....				
-				/* ajaxCall(param = {
+			if (projectName) {			
+				 ajaxCall(param = {
 					target : "FIELDNAME_ITEMS",
-					url : "/resultitemdist/" + projectName ,
+					url : "/learning/datainfo/" + projectName ,
 					isLoading : false
-				}); */
+				}); 
 			} else {
 				$fieldNameDropdown.find("option").remove();
 				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");											
@@ -110,45 +108,46 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.item.code}]]',
-					field : '항목코드',
+					field : 'fieldName',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.model.useYn}]]',
-					field : 'b',
+					field : 'modelUse',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.except.reason}]]',
-					field : 'b',
+					field : 'modelUseRsn',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average}]]',
-					field : 'c',
+					field : 'mean',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.standard.deviation}]]',
-					field : 'c',
+					field : 'stddev',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.bottom}]]',
-					field : 'bottom',
+					field : 'min',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q1}]]',
-					field : 'q1',
+					field : 'lq',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -156,18 +155,19 @@
 				}, {
 					title : '[[#{txt.boxplot.median}]]',
 					field : 'median',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q3}]]',
-					field : 'q3',
+					field : 'uq',
 					sortable : true,
 					halign: 'center',
 					align : 'right'
 				}, {
 					title : '[[#{txt.boxplot.top}]]',
-					field : 'top',
+					field : 'max',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -179,14 +179,14 @@
 					
 				 	var boxData = [];
 					var boxDataArray = [];	 			 	
-				 	boxData.push(row.top);				 	
-				 	boxData.push(row.q3);
+				 	boxData.push(row.max);				 	
+				 	boxData.push(row.uq);
 				 	boxData.push(row.median);
-				 	boxData.push(row.q1);
-				 	boxData.push(row.bottom);
+				 	boxData.push(row.lq);
+				 	boxData.push(row.min);
 				 	boxDataArray.push(boxData)				 	
 				 	var dataObj = {}
-				 	dataObj.axisData = [row.b];
+				 	dataObj.axisData = [row.fieldName];
 				 	dataObj.boxData = boxDataArray;
 				 	dataObj.outliers = [];
 				 	
@@ -194,39 +194,31 @@
 				 	
 				 	var boxplotParam = {};
 					boxplotParam.data = data
-					boxplotParam.title = "모형개발 결과"
+					boxplotParam.title = '[[#{left.017}]]'
 					boxplotParam.yAxisNm = ""	
-					boxplotParam.name = [row.항목코드]					
+					boxplotParam.name = [row.fieldName]					
+					boxplotParam.legend = false;				
 					multiBoxplotModal(boxplotParam)	
 					
 					
 				},
 				onLoadSuccess : function() {
-					
-					// 임시
-					var data = [
-						{index: 1,a:10, b:"2020.11.11", fieldName :'test', '항목코드': 'A001', c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10 }	
-					] 
-					$table.bootstrapTable('load', data)
-					// 임시
 				}
 			});
 			tableRefresh();
 		}
 
-		function tableRefresh() {
-			bootstrapTableRefresh($table, '/api/member/getList',
-					);
-			
-			
-			/* const projectName = $projectNameItemDropdown.val();
-			const fieldName = $fieldNameDropdown.val();
-			if (projectName && fieldName) {
-				bootstrapTableRefresh($table, '/api/member/getList',
-						);
+		function tableRefresh() {			
+			$table.bootstrapTable('removeAll');
+			var projectName = $projectNameItemDropdown.val();
+			var fieldName = $fieldNameDropdown.val();
+			 if (projectName && fieldName) {
+				bootstrapTableRefresh($table, '/learning/datainfo/'+projectName+"/"+fieldName);
+			}else if (projectName) {
+					bootstrapTableRefresh($table, '/learning/datainfo/'+projectName);
 			} else {
 				$table.bootstrapTable('removeAll');
-			} */
+			} 
 			
 		}
 
@@ -249,14 +241,8 @@
 				});
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
-				$projectNameItemDropdown.change(function() {	
-					
-					/* 프로젝트명으로 항목코드 가져오는게 없어서 임시로 tablerefresh */
-					
-					tableRefresh();
-					/* 프로젝트명으로 항목코드 가져오는게 없어서 임시로 처리 tablerefresh*/
-					
-					
+				$projectNameItemDropdown.change(function() {						
+						tableRefresh();
 						fn_regdtItems($(this).val());
 				});
 				
@@ -277,13 +263,13 @@
 				$fieldNameDropdown.find("option").remove();
 				var html = "<option value=''>[[#{select.item.select}]]</option>";
 
-				$.each(data, function(index, data) {
-					html += '<option value="'+data+'">' + data + '</option>';
+				$.each(data, function() {
+					html += '<option value="'+this.fieldName+'">' + this.fieldName + '</option>';
 				});
 				$fieldNameDropdown.append(html);
 
 				$fieldNameDropdown.off();
-				$fieldNameDropdown.change(function() {
+				$fieldNameDropdown.change(function() {					
 					tableRefresh();
 				});
 				$('.picker').select2();

@@ -46,13 +46,14 @@
 
 	<div class="card mb-3">
 		<div class="card-header file-name-area-div">
-			파일명 : <span class="file-name-area"></span>
+		  파일명 : <span class="file-name-area"></span>
 		</div>
 		<div class="card-body">
 			<div class="tab-pane preview-tab-pane active" role="tabpanel"
 				aria-labelledby="tab-dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c"
 				id="dom-28a0c0e7-4d81-45ea-b108-f94c2e55ef9c">
-				<table class="table  table-striped fs--1 mb-0 overflow-hidden"
+				<table
+					class="table  table-striped fs--1 mb-0 overflow-hidden"
 					id="table">
 				</table>
 			</div>
@@ -65,7 +66,6 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $fieldNameDropdown = $("#fieldNameDropdown");
 		var paramData = {};
-		
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
 			fn_projectNames();
@@ -84,12 +84,11 @@
 
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
-			
+			$(".file-name-area").html("");
 			$fieldNameDropdown.find("option").remove();
 			$fieldNameDropdown
 					.append("<option value=''>[[#{select.item.select}]]</option>");
 			
-			$(".file-name-area").html("");
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
@@ -102,16 +101,23 @@
 			}
 		}
 		
-		function fn_fieldItems(projectName, regdtim) {
-			var param = {
-				target : "FIELDNAME_ITEMS",
-				url : "/resultitemdist/fieldname/" + projectName + "/"
-						+ regdtim,
-				isLoading : false
+		function fn_fieldItems(projectName, regdtim) {			
+			$table.bootstrapTable('removeAll');			
+			
+			if(projectName && regdtim){				
+				var param = {
+					target : "FIELDNAME_ITEMS",
+					url : "/resultitemdist/fieldname/" + projectName + "/"
+							+ regdtim,
+					isLoading : false
+				}
+				ajaxCall(param);
+			}else{
+				$fieldNameDropdown.find("option").remove();
+				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");		
 			}
-			ajaxCall(param);
 		}
-		
+
 		function fn_Event() {
 
 		}
@@ -291,9 +297,10 @@
 				 	
 				 	var boxplotParam = {};
 					boxplotParam.data = data
-					boxplotParam.title = "파일 모니터링"
+					boxplotParam.title = '[[#{left.008}]]'
 					boxplotParam.yAxisNm = ""	
-					boxplotParam.name = ["일반", "개발"]					
+					boxplotParam.name = ['[[#{txt.normal}]]', '[[#{txt.development}]]']		
+					boxplotParam.legend = true;
 					multiBoxplotModal(boxplotParam)		 
 					
 				},				
@@ -313,7 +320,7 @@
 			const regdtim = $regdtItemDropdown.val();
 			const fieldNameDropdown = $fieldNameDropdown.val();
 			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim+"/1/" + fieldNameDropdown,
+				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim+"/1/"+fieldNameDropdown,
 						);
 			} else {			
 				$(".file-name-area").html("");
@@ -346,7 +353,7 @@
 				
 				$('.picker').select2();
 				
-				if(!gf_IsNull(paramData)){			
+				if(!gf_IsNull(paramData)){					
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					}else{						
@@ -373,15 +380,14 @@
 				$('.picker').select2();
 				
 				if(!gf_IsNull(paramData)){					
-					if(paramValidation(data , paramData.regdtim)){
-						$regdtItemDropdown.val(paramData.regdtim).trigger('change');
+					if(paramValidation(data , paramData.recentDtim)){
+						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
 						paramData={};
 					}else{						
-						alertModal("["+paramData.regdtim+"] "+ '[[#{web.param.valid}]]');						
-					}
+						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+					} 
 				}
 				break;
-				
 			case "FIELDNAME_ITEMS":
 				$fieldNameDropdown.find("option").remove();
 				var html = "<option value=''>[[#{select.item.select}]]</option>";
@@ -396,8 +402,8 @@
 					tableRefresh();
 				});
 				$('.picker').select2();
-				break;
-				
+				break;	
+
 			default:
 				break;
 			}
