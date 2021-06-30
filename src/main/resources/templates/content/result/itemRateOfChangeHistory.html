@@ -161,17 +161,23 @@
 					align : 'center',
 					width: '50',
 					valign : 'middle'
-				},{
-					title : '[[#{txt.file.name}]]',
-					field : 'fileName',
-					halign: 'center',
-					align : 'left',
+				}, {					
+					title : '[[#{txt.item.code}]]',
+					field : 'fieldName',
+					align : 'center',
 					sortable : true,
 					valign : 'middle'
 				}, {					
 					title : '[[#{txt.date}]]',
 					field : 'regDtim',
 					align : 'center',
+					sortable : true,
+					valign : 'middle'
+				},{
+					title : '[[#{txt.file.name}]]',
+					field : 'fileName',
+					halign: 'center',
+					align : 'left',
 					sortable : true,
 					valign : 'middle'
 				}, {
@@ -225,31 +231,37 @@
 				} ],
 				onClickRow : function(row, $element, field) {
 				},
-				onLoadSuccess : function() {					
-					var boxData = [];
-					var outliers = [];
-					var tableData = $table.bootstrapTable('getData');
-					var dataIndex = []
-						$.each(tableData,function(i){
-							var data = [];					
-							data.push(this.max);
-							data.push(this.thirdQuantile);
-							data.push(this.median);
-							data.push(this.firstQuantile);
-							data.push(this.min);
-							boxData.push(data);
+				onLoadSuccess : function() {							
+					
+					if($fieldNameDropdown.val() == ""){
+						$(".tab-content").html('<div id="boxplot" style="min-height: 220px;"></div>')
+					}else{
+						var boxData = [];
+						var outliers = [];
+						var tableData = $table.bootstrapTable('getData');
+						var dataIndex = []
+							$.each(tableData,function(i){
+								var data = [];					
+								data.push(this.max);
+								data.push(this.thirdQuantile);
+								data.push(this.median);
+								data.push(this.firstQuantile);
+								data.push(this.min);
+								boxData.push(data);
+								
+								dataIndex.push(this.regDtim)
+							})
 							
-							dataIndex.push(this.regDtim)
-						})
-						
-					var boxplotParam = {};
-					boxplotParam.target = "boxplot"
-					boxplotParam.boxData = boxData
-					boxplotParam.outliers = outliers
-					boxplotParam.title = "파일감지 이력"
-					boxplotParam.name = dataIndex;		
-					boxplotParam.yAxisNm = "a";			
-					fn_boxplot(boxplotParam) 
+						var boxplotParam = {};
+						boxplotParam.target = "boxplot"
+						boxplotParam.boxData = boxData
+						boxplotParam.outliers = outliers
+						boxplotParam.title = "파일감지 이력"
+						boxplotParam.name = dataIndex;		
+						boxplotParam.yAxisNm = "a";			
+						fn_boxplot(boxplotParam) 
+					}
+					
 				}
 			});
 			tableRefresh();

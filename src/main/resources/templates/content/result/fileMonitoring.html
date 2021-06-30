@@ -32,6 +32,12 @@
 								<option value="">[[#{select.perform.select}]]</option>
 							</select>
 						</div>
+						<div class="col-auto">
+							<select id="fieldNameDropdown" class="form-select picker"
+								data-live-search="true">
+								<option value="">[[#{select.item.select}]]</option>
+							</select>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -58,6 +64,7 @@
 		var $table = $('#table');
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $regdtItemDropdown = $("#regdtimDropdown");
+		var $fieldNameDropdown = $("#fieldNameDropdown");
 		var paramData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
@@ -78,6 +85,10 @@
 		function fn_regdtItems(projectName) {
 			$table.bootstrapTable('removeAll');
 			$(".file-name-area").html("");
+			$fieldNameDropdown.find("option").remove();
+			$fieldNameDropdown
+					.append("<option value=''>[[#{select.item.select}]]</option>");
+			
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
@@ -87,6 +98,23 @@
 			} else {				
 				$regdtItemDropdown.find("option").remove();
 				$regdtItemDropdown.append("<option value=''>[[#{select.perform.select}]]</option>");											
+			}
+		}
+		
+		function fn_fieldItems(projectName, regdtim) {			
+			$table.bootstrapTable('removeAll');			
+			
+			if(projectName && regdtim){				
+				var param = {
+					target : "FIELDNAME_ITEMS",
+					url : "/resultitemdist/fieldname/" + projectName + "/"
+							+ regdtim,
+					isLoading : false
+				}
+				ajaxCall(param);
+			}else{
+				$fieldNameDropdown.find("option").remove();
+				$fieldNameDropdown.append("<option value=''>[[#{select.item.select}]]</option>");		
 			}
 		}
 
@@ -244,7 +272,7 @@
 				 	boxData.push(row.min);
 				 	boxDataArray.push(boxData)				 	
 				 	var dataObj = {}
-				 	dataObj.axisData = [row.regDtim];
+				 	dataObj.axisData = [row.fieldName];
 				 	dataObj.boxData = boxDataArray;
 				 	dataObj.outliers = [];
 				 	
@@ -259,7 +287,7 @@
 				 	boxDataDev.push(row.minDev);
 				 	boxDataDevArray.push(boxDataDev)				 	
 				 	var dataObjDev = {}
-				 	dataObjDev.axisData = [row.regDtim];
+				 	dataObjDev.axisData = [row.fieldName];
 				 	dataObjDev.boxData = boxDataDevArray;
 				 	dataObjDev.outliers = [];
 				 	
@@ -269,9 +297,10 @@
 				 	
 				 	var boxplotParam = {};
 					boxplotParam.data = data
-					boxplotParam.title = "파일 모니터링"
+					boxplotParam.title = '[[#{left.008}]]'
 					boxplotParam.yAxisNm = ""	
-					boxplotParam.name = ["일반", "개발"]					
+					boxplotParam.name = ['[[#{txt.normal}]]', '[[#{txt.development}]]']		
+					boxplotParam.legend = true;
 					multiBoxplotModal(boxplotParam)		 
 					
 				},				
@@ -289,8 +318,9 @@
 		function tableRefresh() {
 			const projectName = $projectNameItemDropdown.val();
 			const regdtim = $regdtItemDropdown.val();
+			const fieldNameDropdown = $fieldNameDropdown.val();
 			if (projectName && regdtim) {
-				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim+"/1",
+				bootstrapTableRefresh($table, '/fileresultmon/'+projectName+"/"+regdtim+"/1/"+fieldNameDropdown,
 						);
 			} else {			
 				$(".file-name-area").html("");
@@ -343,6 +373,8 @@
 				$regdtItemDropdown.append(html);
 
 				$regdtItemDropdown.off().change(function() {
+					fn_fieldItems($projectNameItemDropdown.val(),
+							$regdtItemDropdown.val());
 					tableRefresh();
 				});
 				$('.picker').select2();
@@ -356,6 +388,21 @@
 					} 
 				}
 				break;
+			case "FIELDNAME_ITEMS":
+				$fieldNameDropdown.find("option").remove();
+				var html = "<option value=''>[[#{select.item.select}]]</option>";
+
+				$.each(data, function(index, data) {
+					html += '<option value="'+data+'">' + data + '</option>';
+				});
+				$fieldNameDropdown.append(html);
+
+				$fieldNameDropdown.off();
+				$fieldNameDropdown.change(function() {
+					tableRefresh();
+				});
+				$('.picker').select2();
+				break;	
 
 			default:
 				break;

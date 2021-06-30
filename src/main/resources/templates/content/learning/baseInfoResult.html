@@ -110,7 +110,7 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.item.code}]]',
-					field : '항목코드',
+					field : 'fieldName',
 					align : 'center',
 					sortable : true,
 					valign : 'middle'
@@ -128,27 +128,28 @@
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.average}]]',
-					field : 'c',
+					field : 'average',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.standard.deviation}]]',
-					field : 'c',
+					field : 'standardDeviation',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.bottom}]]',
-					field : 'bottom',
+					field : 'min',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q1}]]',
-					field : 'q1',
+					field : 'firstQuantile',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -156,18 +157,19 @@
 				}, {
 					title : '[[#{txt.boxplot.median}]]',
 					field : 'median',
+					halign: 'center',
 					align : 'right',
 					sortable : true,
 					valign : 'middle'
 				}, {
 					title : '[[#{txt.boxplot.q3}]]',
-					field : 'q3',
+					field : 'thirdQuantile',
 					sortable : true,
 					halign: 'center',
 					align : 'right'
 				}, {
 					title : '[[#{txt.boxplot.top}]]',
-					field : 'top',
+					field : 'max',
 					halign: 'center',
 					align : 'right',
 					sortable : true,
@@ -179,14 +181,14 @@
 					
 				 	var boxData = [];
 					var boxDataArray = [];	 			 	
-				 	boxData.push(row.top);				 	
-				 	boxData.push(row.q3);
+				 	boxData.push(row.max);				 	
+				 	boxData.push(row.thirdQuantile);
 				 	boxData.push(row.median);
-				 	boxData.push(row.q1);
-				 	boxData.push(row.bottom);
+				 	boxData.push(row.firstQuantile);
+				 	boxData.push(row.min);
 				 	boxDataArray.push(boxData)				 	
 				 	var dataObj = {}
-				 	dataObj.axisData = [row.b];
+				 	dataObj.axisData = [row.fieldName];
 				 	dataObj.boxData = boxDataArray;
 				 	dataObj.outliers = [];
 				 	
@@ -194,9 +196,10 @@
 				 	
 				 	var boxplotParam = {};
 					boxplotParam.data = data
-					boxplotParam.title = "모형개발 결과"
+					boxplotParam.title = '[[#{left.017}]]'
 					boxplotParam.yAxisNm = ""	
-					boxplotParam.name = [row.항목코드]					
+					boxplotParam.name = [row.fieldName]					
+					boxplotParam.legend = false;				
 					multiBoxplotModal(boxplotParam)	
 					
 					
@@ -205,7 +208,7 @@
 					
 					// 임시
 					var data = [
-						{index: 1,a:10, b:"2020.11.11", fieldName :'test', '항목코드': 'A001', c:30, top:220 , q3:90, median:75 , q1:30 , bottom:10 }	
+						{index: 1,a:10, b:"2020.11.11", fieldName :'A001', average :30 ,standardDeviation :34 , max:220 , thirdQuantile:90, median:75 , firstQuantile:30 , min:10 }	
 					] 
 					$table.bootstrapTable('load', data)
 					// 임시
