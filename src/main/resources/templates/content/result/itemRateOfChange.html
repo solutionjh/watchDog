@@ -126,7 +126,7 @@
 			$("#goFileMonitoring").on("click", function() {
 				movePageWithParam({
 					projectName : $projectNameItemDropdown.val(),
-					regdtim : $regdtItemDropdown.val()
+					recentDtim : $regdtItemDropdown.val()
 				}, '/result/fileMonitoring');
 			})
 
@@ -232,7 +232,7 @@
 		function moveHistory() {
 			movePageWithParam({
 				projectName : $projectNameItemDropdown.val(),
-				regdtim : $regdtItemDropdown.val()
+				recentDtim : $regdtItemDropdown.val()
 			}, '/result/itemRateOfChangeHistory');
 		}
 		function callback(target, data) {
