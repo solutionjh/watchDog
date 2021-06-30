@@ -37,7 +37,7 @@
 							<div
 								class="topBtnDiv col-6 col-sm-auto ml-auto text-right pl-0 input-group">
 								<button id="pdfDownLoad" data-id="onlineNew"
-									class="btn btn-falcon-default btn-sm"  type="button">[[#{button.pdf.save}]]
+									class="btn btn-falcon-default btn-sm" disabled  type="button">[[#{button.pdf.save}]]
 								</button>
 							</div>
 						</div>
@@ -304,7 +304,10 @@
 						function() {
 							projectName = $(this).val();		
 							$("#project-name").html($(this).val());
-							fn_regdtItems($(this).val());							
+							
+							if(!projectName) $pdfDownLoad.prop('disabled',true)
+							fn_regdtItems($(this).val());			
+							
 						});
 				$('.picker').select2();
 				
@@ -407,6 +410,7 @@
 				});
 				
 				statData.title ='[[#{txt.distribution.stability.indicator}]]';								
+				statData.itemName = ['[[#{txt.psi}]]', '[[#{txt.threshold}]]'];	
 				fn_PsiChart(statData); // 분포 안정 지표
 
 				// 데이터 수 
@@ -482,6 +486,12 @@
 				$regdtItemDropdown.off().change(function() {
 					$("#title, .recentDtim").html("");
 					$("#item-safe-area , #fileStateChart ,#dataCntChart ,#psiChart , #itemMatchChart , #dashItemBar").hide();
+					
+					
+					gf_IsNull($regdtItemDropdown.val())							
+					? $pdfDownLoad.prop('disabled',true)
+					: $pdfDownLoad.prop('disabled', false);
+					
 					fn_data();
 				});
 				$('.picker').select2();
