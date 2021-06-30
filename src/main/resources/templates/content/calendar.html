@@ -159,7 +159,9 @@
 				break;
 			}
 			
-			$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+			$( "#datepicker" ).datepicker({ dateFormat: 'yy-mm-dd',
+											changeMonth: true,
+								      		changeYear: true});
 			$( "#datepicker" ).hide();
 			$( "#datepicker" ).change(function(){
 				if(calendar){
@@ -182,14 +184,25 @@
 		function fn_showTable(dataList) {
 			$table.find('tr').remove();
 			var html = "";
+			dataList.sort(function(a, b){
+				var aVal = a.isAnomaly?a.isAnomaly:0;
+				var bVal = b.isAnomaly?a.isAnomaly:0;
+				
+				if (aVal > bVal) {
+					return -1;
+				}
+				if (aVal < bVal) {
+					return 1;
+				}
+				
+				return 0;
+			});
 			
 			$.each(dataList, function(idx, data){
-				var titleClass = "bg-soft-primary";
-				if(data.isAnomaly == 1) titleClass = "bg-soft-danger";
 				if(!data.chisqCnt) data.chisqCnt = 0;
 				
 				html += '<tr>';
-				html += '<td class="link-class '+titleClass+'" onclick="moveHistory(\'' + data.title+ '\',\'' + data.regDtim+ '\')"><div class="fc-event-main">'+data.title+'</div></td>';
+				html += '<td class="link-class '+data.className+'" onclick="moveHistory(\'' + data.title+ '\',\'' + data.regDtim+ '\')"><div class="fc-event-main">'+data.title+'</div></td>';
 				html += '<td>'+data.regDtim+'</td>';
 				html += '<td>'+data.inputFilename+'</td>';
 				html += '<td class="text-end">'+data.inputDatacnt+'</td></a>';
@@ -226,18 +239,49 @@
 			case "RESULT_LIST":
 
 				formatData = [];
+				
+				/* isAnomaly Test */
+				/* data.push({
+						endDtim: "2021-01-04 22:51:06"
+						,inputDatacnt: "0"
+						,inputFilename: "PKG_0840110_200.2020-12-02"
+						,projectName: "PKG_0840110_200.adnn"
+						,regDtim: "2021-01-04 22:51:06"
+						,isAnomaly: 1
+				});
+				data.push({
+						car: "0"
+						,chisqCnt: "8"
+						,endDtim: "2021-01-19 21:04:00"
+						,inputDatacnt: "9499618"
+						,inputFilename: "NICE_CSALINF5_E09.210119"
+						,projectName: "NHCARD.adnn"
+						,psi: "0.027865428"
+						,regDtim: "2021-01-19 20:38:16"
+						,isAnomaly: 1
+				});
+				
+				data.push({
+						car: "0"
+						,endDtim: "2021-01-11 15:56:01"
+						,inputDatacnt: "442"
+						,inputFilename: "PKG_3300400_6.2021-01-08"
+						,projectName: "PKG_3300400_6.adnn"
+						,psi: "100.000000000"
+						,regDtim: "2021-01-11 15:55:59"
+						,isAnomaly: 1
+				}); */
 				$.each(data, function(idx, item) {
 					const pushItem = {
 						className : "bg-soft-primary",
-						
 						regDtim : item.regDtim,
 						title : item.projectName,
-						
 						car : item.car,
 						inputDatacnt : item.inputDatacnt,
 						inputFilename : item.inputFilename,
 						psi : item.psi,
-						chisqCnt : item.chisqCnt
+						chisqCnt : item.chisqCnt,
+						isAnomaly : item.isAnomaly
 					};
 					if (item.isAnomaly == 1) {
 						pushItem.className = "bg-soft-danger";
@@ -342,6 +386,7 @@
 						
 					},
 					dateClick : function dateClick(info) {
+						calendar.gotoDate(info.dateStr);
 						fn_showTable(formatData.filter((v)=>(v.start.startsWith(info.dateStr))));
 					},
 					dayCellContent(a, max_date, date, cell){
