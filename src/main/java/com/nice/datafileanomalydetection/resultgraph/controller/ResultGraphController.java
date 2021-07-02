@@ -44,7 +44,7 @@ public class ResultGraphController {
         return resultGraphService.getProjectNames();
     }
 
-    @GetMapping(value = "/resultgraph/{projectName}/regdtim")
+    @GetMapping(value = "/resultgraph/times/{projectName}/regdtim")
     public List<String> getResultRegdtim(@PathVariable String projectName) {
         return resultGraphService.getResultRegdtim(projectName);
     }

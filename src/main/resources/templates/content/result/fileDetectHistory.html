@@ -87,7 +87,7 @@
 			const regdtim = $regdtItemDropdown.val();
 			var param = {
 				target : "MSE",
-				url : "/resultgraph/"+projectName+"/"+regdtim,
+				url : "/resultgraph/times/"+projectName+"/"+regdtim,
 				isLoading : false
 			}
 			ajaxCall(param);
@@ -108,7 +108,7 @@
 			if (projectName) {
 				ajaxCall(param = {
 					target : "REGDT_ITEMS",
-					url : "/resultgraph/" + projectName + "/regdtim/",
+					url : "/resultgraph/times/" + projectName + "/regdtim/",
 					isLoading : false
 				});
 			} else {
