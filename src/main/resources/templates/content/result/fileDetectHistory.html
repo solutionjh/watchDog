@@ -81,18 +81,7 @@
 			fn_Table();
 			fn_Event();
 		});
-	
-		function fn_getFileMseDistInfo() {
-			const projectName = $projectNameItemDropdown.val();
-			const regdtim = $regdtItemDropdown.val();
-			var param = {
-				target : "MSE",
-				url : "/resultgraph/times/"+projectName+"/"+regdtim,
-				isLoading : false
-			}
-			ajaxCall(param);
-		}
-		
+			
 		function fn_projectNames() {
 			var param = {
 				target : "PROJECT_NAMES",
