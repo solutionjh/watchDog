@@ -26,21 +26,22 @@
 				<div class="col-sm-auto">
 					<div class="row gx-2 align-items-center">
 						<div class="col-auto pe-0">
-							<div class="btn-group topBtnDiv" role="group" aria-label="Basic example">
+							<div class="btn-group topBtnDiv" role="group"
+								aria-label="Basic example">
 								<button id="topNewBatchBtn" data-id="batchNew"
 									class="btn btn-primary btn-group" type="button">
 									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
-									[[#{button.new.batch}]]
+									<span class="layout-btn-text">[[#{button.new.batch}]]</span>
 								</button>
 								<button id="topNewOnlineBtn" data-id="onlineNew"
 									class="btn btn-falcon-default btn-group" type="button">
 									<span class="far fa-plus-square" style="margin-right: 5px;"></span>
-									[[#{button.new.online}]]
+									<span class="layout-btn-text">[[#{button.new.online}]]</span>
 								</button>
 								<button id="topEditBtn" data-id="edit"
 									class="btn btn-falcon-default btn-group" type="button">
-									<span class="far fa-edit" style="margin-right: 5px;"></span>
-									[[#{button.edit}]]
+									<span class="far fa-edit" style="margin-right: 5px;"></span> <span
+										class="layout-editbtn-text">[[#{button.edit}]]</span>
 								</button>
 							</div>
 						</div>
@@ -59,8 +60,7 @@
 							<div class="col-auto col-lg align-self-center">
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
-										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;">[[#{txt.layout.title1}]]</a>
+										data-anchorjs-icon="#" href="#bar-chart">[[#{txt.layout.title1}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -68,10 +68,12 @@
 					<div class="card-body bg-200">
 						<div class="row g-3 mb-3">
 							<div class=" col-sm-6 mb-3">
-								<label class="form-label">[[#{txt.layoutFile.name}]]</label> <input
-									class="form-control" id="projectName" name="projectName"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.layoutFile.name.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.layoutFile.name}]]</label>
+								<input class="form-control" id="projectName" name="projectName"
 									type="text" th:placeholder="#{txt.layoutFile.name.ph}" required />
-								<select class="form-select picker" id="projectNameDropdown"
+								<select class="form-select layoutSelect" id="projectNameDropdown"
 									name="projectNameDropdown" style="display: none;">
 									<option value="">*.properties</option>
 								</select>
@@ -79,15 +81,17 @@
 							</div>
 							<div class=" col-sm-6 mb-3">
 								<label class="form-label">[[#{txt.fixedLayoutYN}]]</label> <select
-									class="offOnline form-select" id="fixedLayoutYN"
+									class="offOnline form-select layoutYnSelect" id="fixedLayoutYN"
 									name="fixedLayoutYN">
 									<option value="Y">[[#{select.fixedLayoutYN.001}]]</option>
 									<option value="N">[[#{select.fixedLayoutYN.002}]]</option>
 								</select>
 							</div>
 							<div class=" col-sm-2 mb-3" style="display: none;">
-								<label class="form-label">[[#{txt.delimiter}]]</label> <input
-									class="form-control" id="delimiter" name="delimiter"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.delimiter.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.delimiter}]]</label>
+								<input class="form-control" id="delimiter" name="delimiter"
 									type="text" th:placeholder="#{txt.delimiter.ph}" />
 							</div>
 						</div>
@@ -104,8 +108,7 @@
 							<div class="col-auto col-lg align-self-center">
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
-										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;">[[#{txt.layout.title2}]]</a>
+										data-anchorjs-icon="#" href="#bar-chart">[[#{txt.layout.title2}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -113,35 +116,39 @@
 					<div class="card-body bg-200">
 						<div class="row g-3 mb-3">
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.headerInfo}]]</label> <input
-									class="offOnline form-control" id="header" name="header"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.headerInfo.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerInfo}]]</label>
+								<input class="offOnline form-control" id="header" name="header"
 									type="text" th:placeholder="#{txt.headerInfo.ph}" required />
 							</div>
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.columnLength}]]</label> <input
-									class="offOnline form-control" id="columnLength"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.columnLength.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.columnLength}]]</label>
+								<input class="offOnline form-control" id="columnLength"
 									name="columnLength" type="text"
 									th:placeholder="#{txt.columnLength.ph}" required />
 							</div>
 							<div class=" col-sm-6 mb-3">
-								<label class="form-label">[[#{txt.headerToSkip}]]</label> <input
-									class="offOnline form-control" id="headerToSkip"
-									name="headerToSkip" type="number"
-									max=1
-									min=0
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.headerToSkip.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.headerToSkip}]]</label>
+								<input class="offOnline form-control" id="headerToSkip"
+									name="headerToSkip" type="number" max=1 min=0
 									th:placeholder="#{txt.headerToSkip.ph}"
-									pattern="/^-?\d+\.?\d*$/"
-									onkeyup="inputNumberOneOrZero(this)" required />
+									pattern="/^-?\d+\.?\d*$/" onkeyup="inputNumberOneOrZero(this)"
+									required />
 							</div>
 							<div class=" col-sm-6 mb-3">
-								<label class="form-label">[[#{txt.footerToSkip}]]</label> <input
-									class="offOnline form-control" id="footerToSkip"
-									name="footerToSkip" type="number"
-									max=1
-									min=0
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.footerToSkip.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.footerToSkip}]]</label>
+								<input class="offOnline form-control" id="footerToSkip"
+									name="footerToSkip" type="number" max=1 min=0
 									th:placeholder="#{txt.footerToSkip.ph}"
-									pattern="/^-?\d+\.?\d*$/"
-									onkeyup="inputNumberOneOrZero(this)" required />
+									pattern="/^-?\d+\.?\d*$/" onkeyup="inputNumberOneOrZero(this)"
+									required />
 							</div>
 						</div>
 					</div>
@@ -157,8 +164,7 @@
 							<div class="col-auto col-lg align-self-center">
 								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
 									<a class="anchorjs-link " aria-label="Anchor"
-										data-anchorjs-icon="#" href="#bar-chart"
-										style="padding-left: 0.375em;">[[#{txt.layout.title3}]]</a>
+										data-anchorjs-icon="#" href="#bar-chart">[[#{txt.layout.title3}]]</a>
 								</h5>
 							</div>
 						</div>
@@ -166,23 +172,32 @@
 					<div class="card-body bg-200">
 						<div class="row g-3 mb-3">
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.threshold}]]</label> <input
-									class="form-control" id="threshold" name="threshold"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.threshold.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.threshold}]]</label>
+								<input class="form-control" id="threshold" name="threshold"
 									type="text" th:placeholder="#{txt.threshold.ph}" />
 							</div>
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.keyColumn}]]</label> <input
-									class="form-control" id="keyColumn" name="keyColumn"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.keyColumn.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.keyColumn}]]</label>
+								<input class="form-control" id="keyColumn" name="keyColumn"
 									type="text" th:placeholder="#{txt.keyColumn.ph}" />
 							</div>
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.requiredColumn}]]</label> <input
-									class="form-control" id="requiredColumn" name="requiredColumn"
-									type="text" th:placeholder="#{txt.requiredColumn.ph}" />
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.requiredColumn.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.requiredColumn}]]</label>
+								<input class="form-control" id="requiredColumn"
+									name="requiredColumn" type="text"
+									th:placeholder="#{txt.requiredColumn.ph}" />
 							</div>
 							<div class=" col-sm-12 mb-3">
-								<label class="form-label">[[#{txt.ratiograde}]]</label> <input
-									class="form-control" id="ratioGrade" name="ratioGrade"
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.ratiograde.ph}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.ratiograde}]]</label>
+								<input class="form-control" id="ratioGrade" name="ratioGrade"
 									type="text" th:placeholder="#{txt.ratiograde.ph}" />
 							</div>
 						</div>
@@ -231,14 +246,19 @@
 			}
 			ajaxCall(param);
 		}
-		function inputNumberOneOrZero(input){
-			if(input.value==0){
-				input.value=0;
-			}else{
-				input.value=1;	
-			};
+		function inputNumberOneOrZero(input) {
+			if (input.value == 0) {
+				input.value = 0;
+			} else {
+				input.value = 1;
+			}
+			;
 		}
 		function fn_Event() {
+			$('.layoutYnSelect').select2({
+				selectionCssClass : "input-group-select2 layoutYnSelect"
+			});
+			
 			initFormTooltip($infoForm);
 			$(".topBtnDiv button").on("click", function() {
 				$(".topBtnDiv button").removeClass("btn-falcon-primary");
@@ -275,7 +295,9 @@
 								e.preventDefault();
 								var data = $infoForm.serializeObject();
 								data.fileName = data.projectName;
-								if(!data.projectName) data.fileName = data.projectNameDropdown.replace(".properties" , "");
+								if (!data.projectName)
+									data.fileName = data.projectNameDropdown
+											.replace(".properties", "");
 								var columnLength = data.columnLength;
 								var header = data.header;
 
@@ -336,8 +358,8 @@
 						fn_loadProperty(propertyName);
 				});
 
-				$('.picker').select2({
-					selectionCssClass : "input-group-select2"
+				$('.layoutSelect').select2({
+					selectionCssClass : "input-group-select2 layoutSelect"
 				});
 				break;
 			case "LOAD_PROPERTY":
@@ -346,14 +368,14 @@
 				formatGbData = data.formatGb;
 				data.fileName = data.projectName;
 				//formatGbData = "fixed";
-				
+
 				switch (formatGbData) {
 				case "json":
 					setView("onlineNew");
 					break;
 				case "fixed":
 					setView("batchNew");
-					$("#fixedLayoutYN").val("Y").change()					
+					$("#fixedLayoutYN").val("Y").change()
 					break;
 				case "csv":
 					setView("batchNew");
@@ -373,8 +395,8 @@
 		}
 
 		function setView(type) {
-			$("#fixedLayoutYN").val("Y").change();			
-			
+			$("#fixedLayoutYN").val("Y").change();
+
 			switch (type) {
 			case "batchNew":
 				$.each($("#info-form .offOnline"), function(idx, data) {
@@ -413,7 +435,8 @@
 				});
 				$("#projectNameDropdown").show();
 				$("#projectName").hide();
-				$(".select2").show();
+				console.log($(".layoutYnSelect"));
+				$(".layoutYnSelect").closest(".select2-container").show();
 				break;
 			}
 		}

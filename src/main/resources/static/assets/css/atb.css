@@ -27,7 +27,7 @@
 	src: local(※), url(/assets/font/NotoSansKR-Bold.woff) format("woff");
 }
 
-body{
+body {
 	position: relative;
 	font-family: "Noto Sans KR", system-ui, -apple-system,
 		BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo",
@@ -91,7 +91,7 @@ h5 {
 	.navbar-vertical.navbar-expand-xl.navbar-vibrant .toggle-icon-wrapper,
 	.navbar-vertical.navbar-expand-xl.navbar-inverted .toggle-icon-wrapper
 	{
-	margin-right: 0.5rem !important;
+	margin-right: 1.3rem !important;
 }
 
 .navbar-nav .nav-item .nav-link {
@@ -299,13 +299,6 @@ iput {
 	text-decoration: none;
 }
 
-/* 레아이웃 및 이상감지쪽에 input-group에 select2 적용된 부분*/
-.input-group-select2 {
-	border: 1px solid var(- -falcon-input-border-color) !important;
-	border-top-left-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-}
-
 .input-group-select2 .select2-selection__rendered {
 	padding-left: 13px !important;
 }
@@ -384,7 +377,6 @@ iput {
 /* .fc .fc-daygrid-day-number {
 	font-size: .6rem;
 } */
-
 .this-month {
 	color: #2c7be5;
 }
@@ -398,7 +390,7 @@ iput {
 
 .page-item {
 	width: 38px !important;
-	font-size: 1px !important;
+	font-size: 12px !important;
 	font-weight: bold !important;
 }
 
@@ -415,7 +407,8 @@ iput {
 .bootstrap-table .fixed-table-container .table.table-sm .th-inner {
 	padding-right: 0px !important;
 }
-.bootstrap-table .fixed-table-container .table thead th .sortable{
+
+.bootstrap-table .fixed-table-container .table thead th .sortable {
 	padding-right: 12px !important;
 }
 
@@ -433,7 +426,7 @@ iput {
 	background-clip: unset;
 }
 
-button.btn-circle {
+button.btn-circle:not(.btn-close) {
 	height: 2.8rem !important;
 }
 
@@ -474,7 +467,7 @@ table {
 
 .login-btn {
 	font-size: 1.2rem;
-    height: 56px !important;
+	height: 56px !important;
 }
 
 .login-alert-danger {
@@ -484,53 +477,123 @@ table {
 	padding: 0.5rem 0.5rem;
 }
 
-.left-logo{
+.left-logo {
 	margin: 9px 0px 10px 0px;
 }
-.menu-nav{
-	    margin: 0px 0px 0px 0px !important;
+
+.menu-nav {
+	margin: 0px 0px 0px 0px !important;
 }
 
 .navbar-vertical.navbar-expand-xl .navbar-vertical-content {
-    height: calc(95.5vh - 4.3125rem) !important;
+	height: calc(95.5vh - 4.3125rem) !important;
 }
 
-.file-name-area-div{
-	font-size: 13px;
-    padding: 4px 0px 0px 45px;
-    position: relative;
-    top: 11px;
-}
-.file-name-area{
-    color: #2c7be5;
+.file-name-area-div {
+	font-size: 16px;
+	padding: 4px 0px 0px 45px;
+	position: relative;
+	top: 11px;
 }
 
-.link-class{
-	color: #6666ca; cursor: pointer; text-decoration: underline; 
+.file-name-area {
+	color: #2c7be5;
 }
-.fc .fc-daygrid-event .fc-event-time , .fc .fc-daygrid-event .fc-event-title{
+
+.link-class {
+	color: #6666ca;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.fc .fc-daygrid-event .fc-event-time, .fc .fc-daygrid-event .fc-event-title
+	{
 	color: #1862c6;
-    font-weight: 600;
+	font-weight: 600;
 }
-.fc .fc-daygrid-event .fc-event-title.fc-sticky{
+
+.fc .fc-daygrid-event .fc-event-title.fc-sticky {
 	color: #d01a3b !important;
 }
 
 #ui-datepicker-div {
-	z-index: 9 !important; 
+	z-index: 9 !important;
 }
 
-.fc-direction-ltr .fc-timegrid-slot-label-frame{
-	text-align : center;
+.fc-direction-ltr .fc-timegrid-slot-label-frame {
+	text-align: center;
 }
 
-.fc .fc-daygrid-day-top{
+.fc .fc-daygrid-day-top {
 	margin-bottom: .6rem;
 }
-.fc-daygrid-day-number{
-	background-color : #edf2f8 !important;	
+
+.fc-daygrid-day-number {
+	background-color: #edf2f8 !important;
 }
 
 .dropdown-item:hover:not(.active) {
 	background-color: #edf2f8;
+}
+
+.fc .fc-daygrid-more-link {
+	margin-left: 0;
+}
+
+.fc-scrollgrid-sync-inner {
+	text-align: center !important;
+}
+
+.fc-scrollgrid-section:not(.fc-scrollgrid-section-body) {
+	background: #edf2f8;
+}
+
+.fc-list-event {
+	border-color: #c6d8f1 !important;
+	border-style: solid !important;
+	border-width: 2px !important;
+}
+
+.fc-list-day-text {
+	font-size: 1.1rem;
+}
+
+.svg-inline--fa.fa-w-16 {
+	width: 0.75em;
+}
+
+.svg-inline--fa.fa-w-14 {
+	width: 0.75em;
+}
+
+.modal .btn-close {
+	box-shadow: none;
+	background-color: #0000;
+}
+
+.dropdown-menu {
+	min-width: 3.8rem;
+}
+
+.table tfoot>tr>th, .table thead>tr>th, .table tr th, .table tr td {
+	padding: .25rem 1.3rem;
+}
+
+.page-size {
+	position: relative;
+	bottom: 1px;
+}
+
+#rateInput {
+	padding-top: 0px;
+}
+
+.layout-btn-text {
+	position: relative;
+	bottom: 2px;
+}
+
+.layout-editbtn-text{
+	position: relative;
+	bottom: 1px;
 }
