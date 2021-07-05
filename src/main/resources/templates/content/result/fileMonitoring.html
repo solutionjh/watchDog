@@ -107,7 +107,7 @@
 			if(projectName && regdtim){				
 				var param = {
 					target : "FIELDNAME_ITEMS",
-					url : "/resultitemdist/fieldname/" + projectName + "/"
+					url : "/fileresultmon/fieldnames/" + projectName + "/"
 							+ regdtim,
 					isLoading : false
 				}
@@ -125,7 +125,7 @@
 		function fn_Table() {
 			$table.bootstrapTable('destroy').bootstrapTable({
 				theadClasses : 'bg-200 text-900',
-				height : 695,
+				//height : 695,
 				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
