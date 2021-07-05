@@ -380,10 +380,10 @@ iput {
 	background-color: #edf2f9 !important;
 }
 
-/*  calendar */
-.fc .fc-daygrid-day-number {
+/*  calendar 월달력 일자 크기 줄였다가 다시 키움*/
+/* .fc .fc-daygrid-day-number {
 	font-size: .6rem;
-}
+} */
 
 .this-month {
 	color: #2c7be5;
@@ -518,4 +518,19 @@ table {
 
 #ui-datepicker-div {
 	z-index: 9 !important; 
+}
+
+.fc-direction-ltr .fc-timegrid-slot-label-frame{
+	text-align : center;
+}
+
+.fc .fc-daygrid-day-top{
+	margin-bottom: .6rem;
+}
+.fc-daygrid-day-number{
+	background-color : #edf2f8 !important;	
+}
+
+.dropdown-item:hover:not(.active) {
+	background-color: #edf2f8;
 }
