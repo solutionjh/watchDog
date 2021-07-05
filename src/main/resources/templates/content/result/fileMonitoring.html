@@ -262,22 +262,7 @@
 				],
 				onDblClickRow : function(row, $element, field) {	
 				 	var data = [];	
-						
-				 	var boxData = [];
-					var boxDataArray = [];	 			 	
-				 	boxData.push(row.max);				 	
-				 	boxData.push(row.thirdQuantile);
-				 	boxData.push(row.median);
-				 	boxData.push(row.firstQuantile);
-				 	boxData.push(row.min);
-				 	boxDataArray.push(boxData)				 	
-				 	var dataObj = {}
-				 	dataObj.axisData = [row.fieldName];
-				 	dataObj.boxData = boxDataArray;
-				 	dataObj.outliers = [];
 				 	
-				 	data.push(dataObj)
-				 					 					 	
 				 	var boxDataDev = [];
 				 	var boxDataDevArray = [];
 				 	boxDataDev.push(row.maxDev);				 	
@@ -293,13 +278,28 @@
 				 	
 				 	
 				 	data.push(dataObjDev)
+						
+				 	var boxData = [];
+					var boxDataArray = [];	 			 	
+				 	boxData.push(row.max);				 	
+				 	boxData.push(row.thirdQuantile);
+				 	boxData.push(row.median);
+				 	boxData.push(row.firstQuantile);
+				 	boxData.push(row.min);
+				 	boxDataArray.push(boxData)				 	
+				 	var dataObj = {}
+				 	dataObj.axisData = [row.fieldName];
+				 	dataObj.boxData = boxDataArray;
+				 	dataObj.outliers = [];
 				 	
+				 	data.push(dataObj)
+				 					 		
 				 	
 				 	var boxplotParam = {};
 					boxplotParam.data = data
 					boxplotParam.title = '[[#{left.008}]]'
 					boxplotParam.yAxisNm = ""	
-					boxplotParam.name = ['[[#{txt.normal}]]', '[[#{txt.development}]]']		
+					boxplotParam.name =  ['[[#{txt.development}]]', '[[#{txt.calculation}]]']		
 					boxplotParam.legend = true;
 					multiBoxplotModal(boxplotParam)		 
 					

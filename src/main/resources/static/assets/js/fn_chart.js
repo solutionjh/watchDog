@@ -32,10 +32,11 @@
 	
 			legend : {
 				data : param.name,
-				bottom: 98,
+				orient: 'vertical',
+				bottom: 86,
 			    left: 'center',
 				itemWidth : 8,
-				itemHeight : 10,
+				itemHeight : 20,
 				borderRadius : 0,
 				icon : 'circle',
 				inactiveColor : utils.getGrays()['400'],
@@ -192,12 +193,10 @@
 						data: dataArray,
 						barWidth : '60%',
 						barGap : '30%',
-						label : {
-							normal : {
-								show : true
-							}
-						},
-						z : 10
+						label: {
+			                show: true,
+			                color : 'white',
+			            },
 			        }
 			    ],
 		};
@@ -702,7 +701,7 @@
 		        }
 		    },
 		    grid: {
-		        top: '2%',
+		        top: '3%',
 		        left: '2%',
 		        right: '2%',
 		        bottom: '10%'
