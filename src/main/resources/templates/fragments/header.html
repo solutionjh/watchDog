@@ -63,7 +63,11 @@
 		$(function() {			
 			setInterval(fn_Alarm, 60000);
 			fn_Alarm();
-			fn_AlarmEvent();			
+			fn_AlarmEvent();		
+			
+			$(".navbar-vertical-toggle").off().on('click',function(e){
+				location.reload(true);
+			})
 		});
 		function fn_AlarmEvent(){
 			$("#alarmDelete").off().on('click',function(e){
