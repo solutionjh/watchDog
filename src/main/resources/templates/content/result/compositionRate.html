@@ -134,7 +134,7 @@
 			$table.bootstrapTable('destroy').bootstrapTable({
 				rowStyle : rowStyle,
 				theadClasses : 'bg-200 text-900',
-				height : 695,
+			//	height : 695,
 				locale:'[[${#locale}]]',
 				pageSize : "20",
 				pageList : "[5, 10, 20, 50, all]",
@@ -185,6 +185,9 @@
 					valign : 'middle'
 				} ],
 				onClickRow : function(row, $element, field) {
+				},
+				onPageChange : function(number, size) {
+					$table.bootstrapTable('resetView')
 				},
 				onLoadSuccess : function(data) {
 					$(".file-name-area").html("");

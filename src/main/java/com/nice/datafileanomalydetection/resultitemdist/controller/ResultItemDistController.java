@@ -44,9 +44,13 @@ public class ResultItemDistController {
         return resultItemDistService.getProjectItemDistResult(projectName, regdtim);
     }
 
+    @GetMapping(value = "/fileresultmon/fieldnames/{projectName}/{regdtim}")
+    public List<String> getProjectRegdtimFieldNames1 (@PathVariable String projectName, @PathVariable String regdtim) {
+        return resultItemDistService.getProjectRegdtimFieldNames(projectName, regdtim);
+    }
     @GetMapping(value = "/resultitemdist/fieldname/{projectName}/{regdtim}")
     public List<String> getProjectRegdtimFieldNames (@PathVariable String projectName, @PathVariable String regdtim) {
-        return resultItemDistService.getProjectRegdtimFieldNames(projectName, regdtim);
+    	return resultItemDistService.getProjectRegdtimFieldNames(projectName, regdtim);
     }
 
     @GetMapping(value = "/resultitemdist/{projectName}/{regdtim}/{fieldName}")
