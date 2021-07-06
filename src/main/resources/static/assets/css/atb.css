@@ -597,3 +597,16 @@ table {
 	position: relative;
 	bottom: 1px;
 }
+
+.modal-body {
+	border-bottom: 1px solid var(--falcon-border-color);
+}
+
+.modal-footer{
+	border-top: 0px solid var(--falcon-border-color);
+    margin: 0 auto;
+}
+
+/*  .was-validated .form-control:invalid, .form-control.is-invalid{
+	background-position: right calc(2.375em + 0.15625rem) center;	
+}  */

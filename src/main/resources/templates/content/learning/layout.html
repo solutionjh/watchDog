@@ -201,8 +201,6 @@
 									type="text" th:placeholder="#{txt.ratiograde.ph}" />
 							</div>
 						</div>
-					</div>
-					<div class="card-footer bg-200">
 						<div class="row flex-between-end">
 							<div class="col-auto ms-auto">
 								<button class="btn btn-sm btn-primary" type="submit">[[#{button.save}]]</button>
@@ -256,7 +254,8 @@
 		}
 		function fn_Event() {
 			$('.layoutYnSelect').select2({
-				selectionCssClass : "input-group-select2 layoutYnSelect"
+				selectionCssClass : "input-group-select2 layoutYnSelect",
+			     width: 'auto' 
 			});
 			
 			initFormTooltip($infoForm);
@@ -407,6 +406,7 @@
 				$("#threshold").parent().addClass("col-sm-4 mb-3");
 				$("#projectName").parent().removeClass(" col-sm-12 mb-3");
 				$("#projectName").parent().addClass(" col-sm-6 mb-3");
+				$(".layoutYnSelect").closest(".select2-container").show();
 				formatGbData = "fixed";
 				break;
 			case "onlineNew":
