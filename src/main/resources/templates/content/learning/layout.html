@@ -353,8 +353,12 @@
 				$projectNameDropdown.off();
 				$projectNameDropdown.change(function() {
 					var propertyName = $(this).val();
-					if (propertyName)
+					if (propertyName){
 						fn_loadProperty(propertyName);
+					}else{
+						initForm();
+					}
+						
 				});
 
 				$('.layoutSelect').select2({
@@ -435,7 +439,6 @@
 				});
 				$("#projectNameDropdown").show();
 				$("#projectName").hide();
-				console.log($(".layoutYnSelect"));
 				$(".layoutYnSelect").closest(".select2-container").show();
 				break;
 			}
