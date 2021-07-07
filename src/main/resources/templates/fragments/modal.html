@@ -139,6 +139,10 @@
 			})
 		}
 		
+		
+/* -------------------------------------------------------------------------- */
+/*                    파일 모니터링 ,모형 개발결과 boxplot            				  */
+/* -------------------------------------------------------------------------- */
 		function multiBoxplotModal(param){
 			$('#boxplot-modal').modal('toggle'); 
 			
@@ -149,16 +153,6 @@
 			var boxplotChart = document.getElementById('boxplotChart');
 			var myChart = echarts.init(boxplotChart);
 			var option;
-			//var data = [];
-			
-			/* $.each(param.data,function(){
-				data.push(echarts.dataTool.prepareBoxplotData(this));
-			});
-			
-			
-			console.log("data:::",data) */
-			
-			console.log(param.data);
 						
             var seriesJsonArray = new Array();            
             $.each(param.data,function(i){

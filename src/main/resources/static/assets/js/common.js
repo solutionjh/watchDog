@@ -1,23 +1,21 @@
 /* -------------------------------------------------------------------------- */
-
-/*                           ajax call config                           */
-
+/*                           ajax call config                          		  */
 /* -------------------------------------------------------------------------- */
 
 function ajaxCall(param) {  
 
-	var callbackFunc = "callback";
+	var callbackFunc = "callback";  // default callback function 
 
  	 var ajaxParamObj = {
-	     token : $('#csrfToken').val(),
-	     header : $('#csrfHeader').val(),
-	     callFunction : null,
-		 target : null,
+	     token : $('#csrfToken').val(),   // spring csrf
+	     header : $('#csrfHeader').val(), // spring csrf
+	     callFunction : null,  // ajax 호출후 callback
+		 target : null,        // ajax 호출후 callback function target 
 		 method : "GET",
 		 url : null,
-		 dataType : "json",
+		 dataType : "json",    // json, text 
 		 async : true,
-		 isLoading : true,
+		 isLoading : true,     // loading 
 		 data : {}
 	 }
   	
@@ -30,7 +28,9 @@ function ajaxCall(param) {
   	if(param.url != null){  		
 		param.url = param.url.replace(/\/\//gi, "/")
   	}  
-  	  
+  	
+  	
+  	// 각화면에서 callback function 설정시 해당 callback 호출,  미 설정시 default    
 	ajaxParamObj.callFunction =  gf_IsNull(param.callbackFunc) 
 								 ? eval(callbackFunc)
 								 : eval(param.callbackFunc)
@@ -40,13 +40,15 @@ function ajaxCall(param) {
 	});
 		
 	if(gf_IsNull(param.data)){
-		noDataAjax(ajaxParamObj)
+		noDataAjax(ajaxParamObj)  // get
 	}else{
-		dataAjax(ajaxParamObj)	
+		dataAjax(ajaxParamObj)	  
 	} 
  }  
 
-
+/* -------------------------------------------------------------------------- */
+/*                          NoData Ajax Call config                           */
+/* -------------------------------------------------------------------------- */
 function noDataAjax(ajaxParamObj)
 {
 	$.ajax({
@@ -56,16 +58,15 @@ function noDataAjax(ajaxParamObj)
 		beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Accept", "application/json");
 	        xhr.setRequestHeader("Content-Type", "application/json");
-	        xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token);
+	        xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token); //csrf
 	    },
 		success: function(data){
 			var callbacks = $.Callbacks();
-			callbacks.add(ajaxParamObj.callFunction);
-			callbacks.fire(ajaxParamObj.target, data);
+			callbacks.add(ajaxParamObj.callFunction);  //호출시 설정한 callback function
+			callbacks.fire(ajaxParamObj.target, data); // success data
 		},
-		error: function (xhr, textStatus, errorThrown) {
-			/*	
-			if (xhr.status == 403 || textStatus == 'parsererror') {
+		error: function (xhr, textStatus, errorThrown) {			
+			if (xhr.status == 403 || textStatus == 'parsererror') {  
 		       location.href = "/login";
 		    } else if (xhr.status == 404){
 		    	location.href = "/noPage";
@@ -74,13 +75,14 @@ function noDataAjax(ajaxParamObj)
 		    }else{
 		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
 		    }
-		    */
-				
 		},
 		async : ajaxParamObj.async
 	});
 }
 
+/* -------------------------------------------------------------------------- */
+/*                         Data Ajax Call config                          	  */
+/* -------------------------------------------------------------------------- */
 function dataAjax(ajaxParamObj)
 {	
 	$.each(ajaxParamObj.data, function(idx,data){
@@ -102,7 +104,7 @@ function dataAjax(ajaxParamObj)
 			callbacks.fire(ajaxParamObj.target, data);
 		},
 		error: function (xhr, textStatus, errorThrown) {
-			/*if (xhr.status == 403 || textStatus == 'parsererror') {
+			if (xhr.status == 403 || textStatus == 'parsererror') {
 		       location.href = "/login";
 		    } else if (xhr.status == 404){
 		    	location.href = "/noPage";
@@ -110,12 +112,13 @@ function dataAjax(ajaxParamObj)
 		    	location.href = "/serverError";
 		    }else{
 		    	if(!gf_IsNull(xhr.responseText)) alertModal(xhr.responseText);
-		    }*/
+		    }
 		 },
 		async : ajaxParamObj.async
 	});
 }
 
+// null check
 function gf_IsNull(sValue) {
 	  if (new String(sValue).valueOf() == "undefined") return true;
 	  if (sValue == null) return true;
@@ -125,13 +128,17 @@ function gf_IsNull(sValue) {
 	  return false;
 }
 
+/* -------------------------------------------------------------------------- */
+/*                         특수문자 제거                          				  */
+/* -------------------------------------------------------------------------- */
+function escapeHtml(text){
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\"/g, "&quot;");
+};
+
 
 /* -------------------------------------------------------------------------- */
-
 /*                           bootstrap table options                          */
-
 /* -------------------------------------------------------------------------- */
-
 function bootstrapTableRefresh(target, url ,isPage){
 
 	var pagination = isPage == null ? true : false
@@ -161,6 +168,7 @@ function bootstrapTableRefresh(target, url ,isPage){
 	})
 }
 
+// grid cell style 
 function cellStyle(value, row, index, field) {			
 	    return {			    	
 	      css: {
@@ -180,11 +188,8 @@ function detailFormatter(index, row) {
 }
 
 /* -------------------------------------------------------------------------- */
-
 /*                         form                          					  */
-
 /* -------------------------------------------------------------------------- */
-
 function settingForm(data, $form) {
   var obj = $('input, textarea, select', $form);
   var setting_val, fld_type, check_val, obj_name;
@@ -284,6 +289,7 @@ function formReset(form) {
   });
 };
 
+
 function initFormTooltip($infoForm){
 		var obj = $('input, textarea, select', $infoForm);
 		$.each(obj, function(idx, node){
@@ -298,18 +304,17 @@ function initFormTooltip($infoForm){
 		});
 }
 
+
 function jsonParse(data){
 	if(gf_IsNull(data)) return data
 	return JSON.parse(data.replace(/&quot;/g, '"'));
 }
 
+
 function commaCount(str){
 	return (str.match(/,/g) || []).length; 
 }
 
-function escapeHtml(text){
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\"/g, "&quot;");
-};
 
 function getToday(){
     var now = new Date();
@@ -325,10 +330,25 @@ function getToday(){
     return today = ""+year + month + date; 
 }
 
+
+/* -------------------------------------------------------------------------- */
+/*                   page 이동시 공통 form param setting                         */
+/*                   이동시 csrf값이 포함 되어야함.                                 */
+/*                   header.html                                              */
+/* -------------------------------------------------------------------------- */
 function movePageWithParam(param, url){
-	$("#paramForm").prop('action', url);
-	$("#paramData").val(JSON.stringify(param));
+	$("#paramForm").prop('action', url); //  url
+	$("#paramData").val(JSON.stringify(param)); // param
 	$("#paramForm").submit();
+}
+
+// page 이동시 param값이 select box 
+function paramValidation(data ,target){
+	var cnt = 0;
+	$.each(data, function() {
+		if(this == target) cnt ++; 
+	});	
+	return cnt  ==  0 ? false : true;
 }
 
 
@@ -355,19 +375,11 @@ function getCurrentDate()
         
     }
 
+// 화면 하단이동
 function goBottom(){
 	document.body.scrollIntoView(false);
 }
 
-function paramValidation(data ,target){
-	var cnt = 0;
-	$.each(data, function() {
-		console.log(this)
-		console.log("target::",target)
-		if(this == target) cnt ++; 
-	});	
-	return cnt  ==  0 ? false : true;
-}
 
 function formatDate(date) {
     var d = new Date(date),
