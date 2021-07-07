@@ -654,3 +654,29 @@ table {
     position: relative;
     bottom: 2px;
 }
+.directInput {
+	border-color: var(--falcon-input-border-color) !important;
+	background-image: none !important;
+}
+.ui-widget-header{
+	background: #edf2f9;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default, .ui-button, html .ui-button.ui-state-disabled:hover, html .ui-button.ui-state-disabled:active{
+	background: #edf2f9;
+}
+
+.ui-button:hover,
+.ui-button:focus {
+	background: #edf2f9;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+	border: 1px solid #2e7be5;
+}
+.ui-datepicker-title select {
+	border-color: #edf2f9;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
+	background: #2e7be58f;
+}
