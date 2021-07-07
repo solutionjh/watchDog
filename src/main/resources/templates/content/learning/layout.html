@@ -244,6 +244,7 @@
 			}
 			ajaxCall(param);
 		}
+		/* input 0,1 입력 제한 function */
 		function inputNumberOneOrZero(input) {
 			if (input.value == 0) {
 				input.value = 0;
@@ -259,6 +260,8 @@
 			});
 			
 			initFormTooltip($infoForm);
+			
+			/* 상단 탭 클릭 이벤트 */
 			$(".topBtnDiv button").on("click", function() {
 				$(".topBtnDiv button").removeClass("btn-falcon-primary");
 				$(".topBtnDiv button").addClass("btn-falcon-default");
@@ -266,8 +269,9 @@
 				$(this).addClass("btn-primary");
 				fn_changeForm($(this).data("id"));
 			})
+			/* 데이터파일 종류 선택 이벤트 */
 			$("#fixedLayoutYN").change(function(data) {
-				if ($(this).val() == "Y") {
+				if ($(this).val() == "Y") { /* 고정길이 인 경우 구분자영역이 필요 없음 */
 					$("#fixedLayoutYN").parent().removeClass("col-sm-4");
 					$("#fixedLayoutYN").parent().addClass("col-sm-6");
 					$("#delimiter").val("");
@@ -303,6 +307,7 @@
 								if ($infoForm[0].checkValidity() === true) {
 									if (data.fixedLayoutYN == "Y"
 											&& (commaCount(columnLength) != commaCount(header))) {
+										/* 고정길이인경우 항목정보 항목길이콤마의 갯수가 같아야 함  */
 										alertModal('[[#{txt.layout.headercomma}]]');
 									} else {
 										confirmModal(
@@ -372,6 +377,7 @@
 				data.fileName = data.projectName;
 				//formatGbData = "fixed";
 
+				/* 상세 조회 시 formatGbData에 따라서 상세화면의 보여질 항목이 달라짐 */
 				switch (formatGbData) {
 				case "json":
 					setView("onlineNew");
@@ -401,7 +407,7 @@
 			$("#fixedLayoutYN").val("Y").change();
 
 			switch (type) {
-			case "batchNew":
+			case "batchNew":/* 신규생성(배치) */
 				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).attr('required', '');
 					$(this).parent().removeClass("d-none");
@@ -413,7 +419,7 @@
 				$(".layoutYnSelect").closest(".select2-container").show();
 				formatGbData = "fixed";
 				break;
-			case "onlineNew":
+			case "onlineNew":/* 신규생성(온라인) */
 				$.each($("#info-form .offOnline"), function(idx, data) {
 					$(this).removeAttr('required');
 					$(this).parent().addClass("d-none");
@@ -424,7 +430,7 @@
 				$("#projectName").parent().addClass(" col-sm-12 mb-3");
 				formatGbData = "json";
 				break;
-			case "edit":
+			case "edit":/* 수정 */
 				fn_fileList();
 
 				$("#projectName").removeAttr('required');

@@ -167,6 +167,7 @@
 			ajaxCall(param);
 		}
 		
+		/* 하단 테이블 html 생성*/
 		function fn_addTable() {
 			var data = $infoForm.serializeObject();
 			var html = "";
@@ -175,7 +176,6 @@
 			html += '<td class="inputDataFile text-left" >'+data.inputDataFile+'</td>';
 			html += '<td class="inputLayoutFile text-left">'+data.inputLayoutFile+'</td>';
 			html += '<td class="projectName text-left">'+data.projectName+'</td>';
-			//html += '<td class="columnCalculateYN" data-yn="'+data.columnCalculateYN+'">'+columnCalculateEnum[data.columnCalculateYN]+'</td>';
 			html += '<td class="text-center">';
 			html += '<button class="btn p-0 ms-1 table-delete-btn" type="button" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 			html += '</td></tr>';
@@ -194,7 +194,7 @@
 			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
 			fn_fileList("model", ".*.adnn", "PROJECT_FILE");
 			
-			$("#excuteBtn").off().click(function(){
+			$("#excuteBtn").off().click(function(){/* 실행 버튼 이벤트 */
 				const trs = $table.find('tr');
 				const reqList = [];
 
