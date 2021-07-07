@@ -139,6 +139,7 @@
 			var year = now.getFullYear();
 			fn_getResults(year);
 			
+			/*  jqueyr-ui datepicker 언어별 초기화 설정 */
 			switch ('[[${#locale}]]') {
 			case "ko_KR":
 				$.datepicker.setDefaults({
@@ -163,7 +164,7 @@
 											changeMonth: true,
 								      		changeYear: true});
 			$( "#datepicker" ).hide();
-			$( "#datepicker" ).change(function(){
+			$( "#datepicker" ).change(function(){ /* datepicker-click event - fullcalendar 연결 */
 				if(calendar){
 					const setDate = $(this).val();
 					calendar.gotoDate(setDate);
@@ -181,10 +182,12 @@
 			ajaxCall(param);
 		}
 	
+		/*  하단 상세 테이블 html 생성 */
 		function fn_showTable(dataList) {
 			$table.find('tr').remove();
 			var html = "";
-			dataList.sort(function(a, b){
+			
+			dataList.sort(function(a, b){ /* isAnomaly여부인게 위로 정렬 되어야 함 */
 				var aVal = a.isAnomaly?a.isAnomaly:0;
 				var bVal = b.isAnomaly?a.isAnomaly:0;
 				
@@ -226,6 +229,7 @@
 		
 		}
 		
+		/*  보고서 화면으로 이동 */
 		function moveHistory(projectName, recentDtim) {
 			movePageWithParam({
 				projectName : projectName,
@@ -302,6 +306,10 @@
 						,isAnomaly: 1
 				});  */
 				
+				/* 데이터 가공
+					받아온 데이터 ->fullcalendar에 맞게 맞춤
+					isAnomaly 여부따라서 danger Class 주입
+				*/
 				$.each(data, function(idx, item) {
 					const pushItem = {
 						className : "bg-soft-primary",
@@ -334,6 +342,9 @@
 			}
 		}
 		
+		/* 달력에 상단 일자가 바뀌는 이벤트가 있을때 동작
+			년도가 바뀌는 경우에는 API를 다시 호출
+		*/
 		var updateTitle = function updateTitle(title) {
 			$("#datepicker").val(formatDate(calendar.getDate()));
 			var titleHtml = title;
@@ -356,6 +367,7 @@
 			});
 		};
 		
+		/* fullCalendar init */
 		function appCalendarInit() {
 			var Selectors = {
 				ACTIVE : '.active',
@@ -396,6 +408,9 @@
 					stickyHeaderDates : false,
 					showNonCurrentDates: false,
 					datesSet: function(info){
+						/* 보이는 date가 변경 될 때 호출
+							달력 기간에 포함 될 경우 상단 타이틀에 클래스를 줘서 색상 변경
+						*/
 						var today = new Date();
 						var start = info.start;
 						var end = info.end;
@@ -418,7 +433,6 @@
 					},
 					events : formatData,
 					eventClick : function eventClick(info) {
-						//alert("ProjectName:" + info.event.title +"\n\n 수행일자:" + info.event.extendedProps.regDtim);
 						moveHistory(info.event.title, info.event.extendedProps.regDtim);
 						
 					},
@@ -451,21 +465,12 @@
 															calendar.prev();
 															updateTitle(calendar.currentData.viewTitle);
 															$table.html("");
-															
-															
-															var cDate = calendar.getDate()
-															console.log("cDate:::",	dateFormat(cDate))
-															
 															break;
 
 														case 'next':
 															calendar.next();
 															updateTitle(calendar.currentData.viewTitle);
 															$table.html("");
-															
-															var nDate =calendar.getDate()
-															console.log("nDate:::",	dateFormat(nDate))
-															
 															break;
 
 														case 'today':
@@ -483,27 +488,7 @@
 													});
 								});
 			}
-			addEventForm && addEventForm.addEventListener(Events.SUBMIT, function (e) {
-			      e.preventDefault();
-			      var _e$target = e.target,
-			          title = _e$target.title,
-			          startDate = _e$target.startDate,
-			          endDate = _e$target.endDate,
-			          label = _e$target.label,
-			          description = _e$target.description,
-			          allDay = _e$target.allDay;
-			      calendar.addEvent({
-			        title: title.value,
-			        start: startDate.value,
-			        end: endDate.value ? endDate.value : null,
-			        allDay: allDay.checked,
-			        className: allDay.checked && label.value ? "bg-soft-".concat(label.value) : '',
-			        description: description.value
-			      });
-			      e.target.reset();
-			      window.bootstrap.Modal.getInstance(addEventModal).hide();
-			    });
-			document.querySelectorAll(Selectors.DATA_CALENDAR_VIEW).forEach(function (link) {				
+			document.querySelectorAll(Selectors.DATA_CALENDAR_VIEW).forEach(function (link) {/* view변경 selectbox 이벤트 바인딩 */				
 			      link.addEventListener(Events.CLICK, function (e) {
 			        e.preventDefault();
 			        $table.html("");
@@ -519,6 +504,7 @@
 
 		};
 		
+		/* date->YYYY-MM-DD 포맷 변경 */
 		function dateFormat(date) {
 	        let month = date.getMonth() + 1;
 	        let day = date.getDate();
@@ -533,7 +519,7 @@
 	        second = second >= 10 ? second : '0' + second;
 
 	        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
-	}
+		}
 	</script>
 </div>
 </html>

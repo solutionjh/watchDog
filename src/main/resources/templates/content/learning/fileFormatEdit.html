@@ -200,7 +200,6 @@
 			$(".directInput").off().change(function() {
 				const value = $(this).val();
 				const $target = $(this).parent().next().find("input");
-				console.log($(this).val());
 				if (value == "direct") {
 					$target.val("");
 					$target.prop('readonly', false);
