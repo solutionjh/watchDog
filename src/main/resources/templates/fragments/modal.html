@@ -166,7 +166,14 @@
 			            name: param.name[i],
 			            type: 'boxplot',
 			            data: param.data[i].boxData,
-			            tooltip: {formatter: boxplot_formatter}
+			            tooltip: {
+			            	backgroundColor : utils.getGrays()['50'],
+			            	borderColor : utils.getColors().primary,
+							textStyle : {
+								color : utils.getColors().dark
+							},
+			            	formatter: boxplot_formatter
+			            	}
                     }
                 seriesJsonArray.push(jsonObject);
             })
@@ -189,8 +196,8 @@
 				    },
 				    grid: {
 				    	top: '25%',
-				    	left: '5%',
-				        right: '5%',
+				    	left: '8%',
+				        right: '8%',
 				        bottom: '5%'
 				    },
 				    xAxis: {
@@ -238,8 +245,9 @@
 						axisLabel : {
 							show : true,
 							color : utils.getGrays()['500'],
+							rotate : 30,
 							textStyle : {
-								fontSize : 15,
+								fontSize : 13,
 								fontStyle:'bold'
 							}
 						},

@@ -607,6 +607,35 @@ table {
     margin: 0 auto;
 }
 
-/*  .was-validated .form-control:invalid, .form-control.is-invalid{
-	background-position: right calc(2.375em + 0.15625rem) center;	
-}  */
+.tooltip-area tbody tr td{	
+	color:#56585a;
+	font-weight: 600;
+}
+.tooltip-area tbody tr th{	
+	color:var(--falcon-headings-color);
+	font-weight: bold;
+}
+
+#topNewBatchBtn .svg-inline--fa.fa-w-14 
+,#topNewOnlineBtn .svg-inline--fa.fa-w-14 
+,#topEditBtn .svg-inline--fa.fa-w-18{
+    width: 1.025em;
+}
+
+#reqTable tr:nth-child(even), #detailTable tr:nth-child(even){	
+	background-color:  var(--falcon-table-striped-bg) !important;
+}
+ #detailTable tr:nth-child(odd){	
+	background-color:  white !important;
+}
+
+.fc .fc-popover .fc-daygrid-event {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: .25rem !important;
+}
+
+
+.fc-direction-ltr .fc-timegrid-col-events {
+    margin: 0 -0.5% 0 0.5% !important;
+}

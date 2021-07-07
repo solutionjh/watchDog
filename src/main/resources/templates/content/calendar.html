@@ -100,7 +100,7 @@
 			<div class="card mb-3">
 				<div class="card-body">
 					<div class="table-responsive">
-						<table class="table table-bordered">
+						<table class="table table-bordered bg-200">
 							<thead>
 								<tr>
 									<th scope="col" class="text-center">[[#{txt.projectName}]]</th>
@@ -201,10 +201,10 @@
 			$.each(dataList, function(idx, data){
 				if(!data.chisqCnt) data.chisqCnt = 0;
 				
-				html += '<tr class="text-center">';
-				html += '<td class="link-class '+data.className+'" onclick="moveHistory(\'' + data.title+ '\',\'' + data.regDtim+ '\')"><div class="fc-event-main">'+data.title+'</div></td>';
-				html += '<td>'+data.regDtim+'</td>';
-				html += '<td>'+data.inputFilename+'</td>';
+				html += '<tr>';
+				html += '<td class="text-left link-class" onclick="moveHistory(\'' + data.title+ '\',\'' + data.regDtim+ '\')"><div class="fc-event-main">'+data.title+'</div></td>';
+				html += '<td class="text-center">'+data.regDtim+'</td>';
+				html += '<td class="text-left">'+data.inputFilename+'</td>';
 				html += '<td class="text-end">'+data.inputDatacnt+'</td></a>';
 				html += '<td class="text-end link-class" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'fileDetectHistory\')">'+data.psi+'</td>';
 				html += '<td class="text-end link-class" onclick="movePage(\'' + data.title+ '\',\'' + data.regDtim+ '\',\'itemRateOfChange\')">'+data.car+'</td>';
@@ -241,36 +241,67 @@
 				formatData = [];
 				
 				/* isAnomaly Test */
-				/* data.push({
-						endDtim: "2021-01-04 22:51:06"
+				/*  data.push({
+						endDtim: "2021-07-07"
 						,inputDatacnt: "0"
 						,inputFilename: "PKG_0840110_200.2020-12-02"
 						,projectName: "PKG_0840110_200.adnn"
-						,regDtim: "2021-01-04 22:51:06"
+						,regDtim: "2021-07-07"
 						,isAnomaly: 1
 				});
 				data.push({
 						car: "0"
 						,chisqCnt: "8"
-						,endDtim: "2021-01-19 21:04:00"
+						,endDtim: "2021-07-07"
 						,inputDatacnt: "9499618"
 						,inputFilename: "NICE_CSALINF5_E09.210119"
 						,projectName: "NHCARD.adnn"
 						,psi: "0.027865428"
-						,regDtim: "2021-01-19 20:38:16"
+						,regDtim: "2021-07-07"
 						,isAnomaly: 1
 				});
 				
 				data.push({
 						car: "0"
-						,endDtim: "2021-01-11 15:56:01"
+						,endDtim: "2021-07-07"
 						,inputDatacnt: "442"
 						,inputFilename: "PKG_3300400_6.2021-01-08"
 						,projectName: "PKG_3300400_6.adnn"
 						,psi: "100.000000000"
-						,regDtim: "2021-01-11 15:55:59"
+						,regDtim: "2021-07-07"
 						,isAnomaly: 1
-				}); */
+				}); 
+				data.push({
+						car: "0"
+						,endDtim: "2021-07-07"
+						,inputDatacnt: "442"
+						,inputFilename: "PKG_3300400_6.2021-01-08"
+						,projectName: "PKG_3300400_6.adnn"
+						,psi: "100.000000000"
+						,regDtim: "2021-07-07"
+						,isAnomaly: 1
+				}); 
+				data.push({
+						car: "0"
+						,endDtim: "2021-07-07"
+						,inputDatacnt: "442"
+						,inputFilename: "PKG_3300400_6.2021-01-08"
+						,projectName: "PKG_3300400_6.adnn"
+						,psi: "100.000000000"
+						,regDtim: "2021-07-07"
+						,isAnomaly: 1
+				}); 
+				data.push({
+						car: "0"
+						,endDtim: "2021-07-07"
+						,inputDatacnt: "442"
+						,inputFilename: "PKG_3300400_6.2021-01-08"
+						,projectName: "PKG_3300400_6.adnn"
+						,psi: "100.000000000"
+						,regDtim: "2021-07-07"
+						,isAnomaly: 1
+				});  */
+				
 				$.each(data, function(idx, item) {
 					const pushItem = {
 						className : "bg-soft-primary",
@@ -414,12 +445,21 @@
 															calendar.prev();
 															updateTitle(calendar.currentData.viewTitle);
 															$table.html("");
+															
+															
+															var cDate = calendar.getDate()
+															console.log("cDate:::",	dateFormat(cDate))
+															
 															break;
 
 														case 'next':
 															calendar.next();
 															updateTitle(calendar.currentData.viewTitle);
 															$table.html("");
+															
+															var nDate =calendar.getDate()
+															console.log("nDate:::",	dateFormat(nDate))
+															
 															break;
 
 														case 'today':
@@ -472,6 +512,22 @@
 			    });
 
 		};
+		
+		function dateFormat(date) {
+	        let month = date.getMonth() + 1;
+	        let day = date.getDate();
+	        let hour = date.getHours();
+	        let minute = date.getMinutes();
+	        let second = date.getSeconds();
+
+	        month = month >= 10 ? month : '0' + month;
+	        day = day >= 10 ? day : '0' + day;
+	        hour = hour >= 10 ? hour : '0' + hour;
+	        minute = minute >= 10 ? minute : '0' + minute;
+	        second = second >= 10 ? second : '0' + second;
+
+	        return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+	}
 	</script>
 </div>
 </html>

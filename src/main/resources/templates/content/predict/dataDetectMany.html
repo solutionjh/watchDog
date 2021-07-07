@@ -171,12 +171,12 @@
 			var data = $infoForm.serializeObject();
 			var html = "";
 			
-			html += '<tr class="text-center">';
-			html += '<td class="inputDataFile" >'+data.inputDataFile+'</td>';
-			html += '<td class="inputLayoutFile">'+data.inputLayoutFile+'</td>';
-			html += '<td class="projectName">'+data.projectName+'</td>';
+			html += '<tr >';
+			html += '<td class="inputDataFile text-left" >'+data.inputDataFile+'</td>';
+			html += '<td class="inputLayoutFile text-left">'+data.inputLayoutFile+'</td>';
+			html += '<td class="projectName text-left">'+data.projectName+'</td>';
 			//html += '<td class="columnCalculateYN" data-yn="'+data.columnCalculateYN+'">'+columnCalculateEnum[data.columnCalculateYN]+'</td>';
-			html += '<td>';
+			html += '<td class="text-center">';
 			html += '<button class="btn p-0 ms-1 table-delete-btn" type="button" title="Delete"><span class="text-500 fas fa-trash-alt"></span></button>';
 			html += '</td></tr>';
 			
