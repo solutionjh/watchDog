@@ -644,3 +644,8 @@ table {
 .fc-direction-ltr .fc-timegrid-col-events {
     margin: 0 -0.5% 0 0.5% !important;
 }
+
+.directInput {
+	border-color: var(--falcon-input-border-color) !important;
+	background-image: none !important;
+}
