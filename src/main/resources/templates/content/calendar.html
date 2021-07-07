@@ -242,34 +242,20 @@
 				
 				/* isAnomaly Test */
 				/* data.push({
-						endDtim: "2021-01-04 22:51:06"
+						endDtim: "2021-07-07 10:51:06"
 						,inputDatacnt: "0"
 						,inputFilename: "PKG_0840110_200.2020-12-02"
 						,projectName: "PKG_0840110_200.adnn"
-						,regDtim: "2021-01-04 22:51:06"
-						,isAnomaly: 1
+						,regDtim: "2021-07-07 10:51:06"
+						,isAnomaly: 0
 				});
 				data.push({
-						car: "0"
-						,chisqCnt: "8"
-						,endDtim: "2021-01-19 21:04:00"
-						,inputDatacnt: "9499618"
-						,inputFilename: "NICE_CSALINF5_E09.210119"
-						,projectName: "NHCARD.adnn"
-						,psi: "0.027865428"
-						,regDtim: "2021-01-19 20:38:16"
-						,isAnomaly: 1
-				});
-				
-				data.push({
-						car: "0"
-						,endDtim: "2021-01-11 15:56:01"
-						,inputDatacnt: "442"
-						,inputFilename: "PKG_3300400_6.2021-01-08"
-						,projectName: "PKG_3300400_6.adnn"
-						,psi: "100.000000000"
-						,regDtim: "2021-01-11 15:55:59"
-						,isAnomaly: 1
+						endDtim: "2021-07-05 10:51:06"
+						,inputDatacnt: "0"
+						,inputFilename: "PKG_0840110_200.2020-12-02"
+						,projectName: "PKG_0840110_200.adnn"
+						,regDtim: "2021-07-05 10:51:06"
+						,isAnomaly: 0
 				}); */
 				$.each(data, function(idx, item) {
 					const pushItem = {
@@ -307,13 +293,9 @@
 			$("#datepicker").val(formatDate(calendar.getDate()));
 			var titleHtml = title;
 			var calDayShort = title.replace("년", "").replace("월","").replace(" ","");
-			var todayShort = getToday().substr(0, calDayShort.length);
 
-			if(calDayShort == todayShort){
-				titleHtml = "<div class='datepicker this-month'>"+title+"</div>";
-			}else{
-				titleHtml = "<div class='datepicker'>"+title+"</div>";
-			}
+			titleHtml = "<div class='datepicker'>"+title+"</div>";
+			
 			$(".calendar-title").html(titleHtml);
 			
 			
@@ -368,6 +350,16 @@
 					height : 800,
 					stickyHeaderDates : false,
 					showNonCurrentDates: false,
+					datesSet: function(info){
+						var today = new Date();
+						var start = info.start;
+						var end = info.end;
+						$(".calendar-title").removeClass("this-month");
+						
+						if(start <= today && today <= end){	
+							$(".calendar-title").addClass("this-month");
+						}
+						},
 					views : {
 						week : {
 							eventLimit : 3

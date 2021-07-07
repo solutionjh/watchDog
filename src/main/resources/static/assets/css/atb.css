@@ -378,9 +378,14 @@ iput {
 	font-size: .6rem;
 } */
 .this-month {
-	color: #2c7be5;
+	color: #2c7be5 !important;
 }
-
+.fc-col-header-cell.fc-day-today {
+	color: #2c7be5 !important;
+}
+.fc-list-day.fc-day-today .fc-list-day-text, .fc-list-day.fc-day-today .fc-list-day-side-text{
+	color: #2c7be5 !important;
+}
 .calendar-btn {
 	padding: 0.125rem .75rem !important;
 	font-size: 0.74rem !important;
