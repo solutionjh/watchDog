@@ -644,3 +644,13 @@ table {
 .fc-direction-ltr .fc-timegrid-col-events {
     margin: 0 -0.5% 0 0.5% !important;
 }
+.alarm-area{
+	    min-width: max-content !important;
+}
+.notification-unread {
+     background-color: white !important;
+}
+#alarmDelete{
+    position: relative;
+    bottom: 2px;
+}
