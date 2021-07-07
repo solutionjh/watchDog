@@ -181,7 +181,7 @@
 					axisLabel : {
 						color : utils.getGrays()['400'],
 						textStyle : {
-							fontSize : 10
+							fontSize : 12
 						}
 					},
 			        data: param.name
