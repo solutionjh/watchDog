@@ -4,9 +4,9 @@
 	<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" th:fragment="headerFragment">
 		<form method="post" id="paramForm" name="paramForm" th:action="@{/}">
 				<input type="hidden" id="paramData" name="paramData"/>
-			<!-- 	<input type="hidden" id="csrfToken" th:value="${_csrf.token}" />  -->
+				<input type="hidden" id="csrfToken" th:value="${_csrf.token}" /> 
 		</form>
-		<!-- <input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" /> -->
+		<input type="hidden" id="csrfHeader" th:value="${_csrf.headerName}" />
 		<button
 			class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3"
 			type="button" data-bs-toggle="collapse"

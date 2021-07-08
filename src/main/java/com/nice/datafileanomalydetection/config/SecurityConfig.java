@@ -57,18 +57,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(LoginConstant.SCHEMA,LoginConstant.ASSETS,LoginConstant.WEBJARS);
 	}
+	
+
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/extra/**",
+            LoginConstant.LOGIN,
+            LoginConstant.H2CONSOLE,
+            LoginConstant.LOGIN_PROCESS
+            // other public endpoints of your API may be appended to this array
+    };
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//임시
+		/*
+		 * 
+		 * http.authorizeRequests() .anyRequest().permitAll();
+		 */
 		
 		http.csrf().disable(); 
-		http.authorizeRequests().antMatchers("/except/**").permitAll();
-		 
 		
-		setAntMatchers(http);		 
-		
+		setAntMatchers(http);		
+				
 		http.sessionManagement()
 		    .maximumSessions(1) ////최대 허용 가능 세션 수, (-1: 무제한)
 		    .and()
@@ -151,9 +173,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	http.authorizeRequests().antMatchers("/learning/**","/learning/**","/result/**","/predict/**","/calendar/**").hasAnyAuthority("ADMIN","USER");
     	
     	 http.authorizeRequests()  
-         .antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  
-         .anyRequest().authenticated()
-         .and().csrf().ignoringAntMatchers(LoginConstant.H2CONSOLE)
+         //.antMatchers(LoginConstant.LOGIN,LoginConstant.H2CONSOLE,LoginConstant.LOGIN_PROCESS).permitAll()  
+    	.antMatchers(AUTH_WHITELIST).permitAll()
+    	 
+    	 .anyRequest().authenticated()
+         .and().csrf().ignoringAntMatchers(AUTH_WHITELIST)
          .and()
 			.exceptionHandling()
 			.accessDeniedPage(LoginConstant.ACCESS_DENIED)

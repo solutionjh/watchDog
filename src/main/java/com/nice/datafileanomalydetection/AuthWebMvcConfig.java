@@ -22,7 +22,7 @@ public class AuthWebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(sessionInterceptor).excludePathPatterns(
 				LoginConstant.SCHEMA,LoginConstant.ASSETS,LoginConstant.WEBJARS,
 				LoginConstant.LOGIN,LoginConstant.LOGIN_PROCESS,LoginConstant.ACCESS_DENIED,
-				LoginConstant.LOGOUT,LoginConstant.H2CONSOLE
+				LoginConstant.LOGOUT,LoginConstant.H2CONSOLE,"/extra/**"
 				);
 
     }
