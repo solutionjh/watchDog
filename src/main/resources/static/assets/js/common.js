@@ -7,8 +7,8 @@ function ajaxCall(param) {
 	var callbackFunc = "callback";  // default callback function 
 
  	 var ajaxParamObj = {
-	     token : $('#csrfToken').val(),   // spring csrf
-	     header : $('#csrfHeader').val(), // spring csrf
+	   //  token : $('#csrfToken').val(),   // spring csrf
+	   //  header : $('#csrfHeader').val(), // spring csrf
 	     callFunction : null,  // ajax 호출후 callback
 		 target : null,        // ajax 호출후 callback function target 
 		 method : "GET",
@@ -58,7 +58,7 @@ function noDataAjax(ajaxParamObj)
 		beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Accept", "application/json");
 	        xhr.setRequestHeader("Content-Type", "application/json");
-	        xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token); //csrf
+	    //    xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token); //csrf
 	    },
 		success: function(data){
 			var callbacks = $.Callbacks();
@@ -96,7 +96,7 @@ function dataAjax(ajaxParamObj)
 		beforeSend: function(xhr) {
 	        xhr.setRequestHeader("Accept", "application/json");
 	        xhr.setRequestHeader("Content-Type", "application/json");
-	        xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token);
+	    //    xhr.setRequestHeader(ajaxParamObj.header, ajaxParamObj.token);
 	    },
 		success: function(data){
 			var callbacks = $.Callbacks();
