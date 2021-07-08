@@ -35,7 +35,7 @@
 								<div class="card-body p-4 ">
 									<form class="needs-validation" novalidate method="POST" id="loginForm"
 										th:action="@{/loginProcess}">
-										 <input type="hidden" th:name="${_csrf.parameterName}"
+										<input type="hidden" th:name="${_csrf.parameterName}"
 											th:value="${_csrf.token}" /> 
 
 										<div class="mb-3">
