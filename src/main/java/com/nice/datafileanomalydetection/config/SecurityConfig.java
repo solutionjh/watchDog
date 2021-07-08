@@ -62,9 +62,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		//임시
-		/*
-		 * http.csrf().disable(); http.authorizeRequests() .anyRequest().permitAll();
-		 */
+		
+		http.csrf().disable(); 
+		http.authorizeRequests().antMatchers("/except/**").permitAll();
+		 
 		
 		setAntMatchers(http);		 
 		
