@@ -18585,3 +18585,73 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:C:/nice/Watc
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 62 more
+2021-07-08 16:50:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION_LOG" not found; SQL statement:
+SELECT * FROM JOB_EXECUTION_LOG 
+ WHERE MEMBER_ID = ? [42102-200]
+2021-07-08 16:51:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION_LOG" not found; SQL statement:
+SELECT * FROM JOB_EXECUTION_LOG 
+ WHERE MEMBER_ID = ? [42102-200]
+2021-07-08 16:51:41 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] AS
+
+SELECT * FROM JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG AS
+
+SELECT * FROM JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:52:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION_LOG" not found; SQL statement:
+SELECT * FROM JOB_EXECUTION_LOG 
+ WHERE MEMBER_ID = ? [42102-200]
+2021-07-08 16:52:08 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] AS
+SELECT * FROM JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG AS
+SELECT * FROM JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:52:42 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] AS
+SELECT * FROM JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG AS
+SELECT * FROM JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:53:02 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION_LOG" not found; SQL statement:
+SELECT * FROM JOB_EXECUTION_LOG 
+ WHERE MEMBER_ID = ? [42102-200]
+2021-07-08 16:53:45 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] 
+
+SELECT * FROM  JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG 
+
+SELECT * FROM  JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:54:24 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] 
+SELECT * FROM  JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG 
+SELECT * FROM  JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:54:46 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] 
+SELECT * FROM  JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG 
+SELECT * FROM  JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:55:11 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "CREATE TABLE JOB_EXECUTION _LOG[*] 
+SELECT * FROM  JOB_EXCUTION_LOG"; SQL statement:
+CREATE TABLE JOB_EXECUTION _LOG 
+SELECT * FROM  JOB_EXCUTION_LOG [42000-200]
+2021-07-08 16:56:05 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ALTER TABLE JOB_EXCUTION_LOG RENAME TO JOB_EXECUTION _LOG[*]"; SQL statement:
+ALTER TABLE JOB_EXCUTION_LOG RENAME TO JOB_EXECUTION _LOG [42000-200]
+2021-07-08 16:56:57 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION" not found; SQL statement:
+SELECT * FROM JOB_EXECUTION _LOG [42102-200]
+2021-07-08 16:57:02 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXCUTION" not found; SQL statement:
+SELECT * FROM JOB_EXCUTION _LOG [42102-200]
+2021-07-08 16:57:25 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXCUTION" not found; SQL statement:
+SELECT * FROM JOB_EXCUTION _LOG [42102-200]
+2021-07-08 16:58:01 jdbc[14]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "JOB_EXECUTION_LOG" not found; SQL statement:
+ALTER TABLE JOB_EXECUTION_LOG RENAME TO JOB_EXCUTION_LOG [42102-200]

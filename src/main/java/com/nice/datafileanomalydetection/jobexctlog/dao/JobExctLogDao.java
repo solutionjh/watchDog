@@ -31,7 +31,7 @@ public class JobExctLogDao {
     
     public List<JobExctLog> getJobExctLogList (String memberId) {
         StringBuilder selectSql = new StringBuilder();
-        selectSql.append("SELECT * FROM JOB_EXCUTION_LOG \n")
+        selectSql.append("SELECT * FROM JOB_EXECUTION_LOG \n")
                 .append(" WHERE MEMBER_ID = :memberId");
         SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);        
         return this.namedParameterJdbcTemplate.query(selectSql.toString(),namedParameters,  new JobExctLogMapper());
@@ -40,7 +40,7 @@ public class JobExctLogDao {
         
     public void deleteJobExctLog (String memberId) {    	    	
     	StringBuilder deleteSql = new StringBuilder();
-    	deleteSql.append("DELETE FROM JOB_EXCUTION_LOG  \n")
+    	deleteSql.append("DELETE FROM JOB_EXECUTION_LOG  \n")
     	.append("WHERE MEMBER_ID  = :memberId");    	
     	SqlParameterSource namedParameters = new MapSqlParameterSource("memberId", memberId);
         this.namedParameterJdbcTemplate.update(deleteSql.toString(), namedParameters);   	
