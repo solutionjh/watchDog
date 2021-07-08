@@ -127,10 +127,10 @@
 			delete data.inputDataFilePathDropdown;
 			delete data.outputDataFilePathDropdown;
 
-			data.inputDataFilePath = data.inputDataFilePath.replace(/\\/g, "/");
-			data.inputLayoutFilePath = data.inputLayoutFilePath.replace(/\\/g,
+			data.inputDataFile = data.inputDataFilePath.replace(/\\/g, "/");
+			data.inputLayoutFile = data.inputLayoutFilePath.replace(/\\/g,
 					"/");
-			data.outputDataFilePath = data.outputDataFilePath.replace(/\\/g,
+			data.outputDataFile = data.outputDataFilePath.replace(/\\/g,
 					"/");
 
 			var param = {
@@ -144,7 +144,7 @@
 		}
 
 		function fn_Event() {
-			fn_fileList("model", ".*.adnn", "DATA_FILE");
+			fn_fileList("data", "*.*", "DATA_FILE");
 			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
 
 			$infoForm.on("submit", function(e) {
