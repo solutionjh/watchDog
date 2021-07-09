@@ -139,20 +139,21 @@
 			var year = now.getFullYear();
 			fn_getResults(year);
 			
+			
 			/*  jqueyr-ui datepicker 언어별 초기화 설정 */
 			switch ('[[${#locale}]]') {
 			case "ko_KR":
 				$.datepicker.setDefaults({
-			        dateFormat: 'yymmdd',
-			        prevText: '이전 달',
-			        nextText: '다음 달',
-			        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-			        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-			        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-			        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+					dateFormat: 'yymmdd',
+			        prevText: '[[#{datepicker.prev}]]',
+			        nextText: '[[#{datepicker.next}]]',
+			        monthNames: ['1[[#{txt.month}]]', '2[[#{txt.month}]]', '3[[#{txt.month}]]', '4[[#{txt.month}]]', '5[[#{txt.month}]]', '6[[#{txt.month}]]', '7[[#{txt.month}]]', '8[[#{txt.month}]]', '9[[#{txt.month}]]', '10[[#{txt.month}]]', '11[[#{txt.month}]]', '12[[#{txt.month}]]'],
+			        monthNamesShort: ['1[[#{txt.month}]]', '2[[#{txt.month}]]', '3[[#{txt.month}]]', '4[[#{txt.month}]]', '5[[#{txt.month}]]', '6[[#{txt.month}]]', '7[[#{txt.month}]]', '8[[#{txt.month}]]', '9[[#{txt.month}]]', '10[[#{txt.month}]]', '11[[#{txt.month}]]', '12[[#{txt.month}]]'],
+			        dayNames: ['[[#{datepicker.Su}]]', '[[#{datepicker.Mo}]]', '[[#{datepicker.Tu}]]', '[[#{datepicker.We}]]', '[[#{datepicker.Th}]]', '[[#{datepicker.Fr}]]', '[[#{datepicker.Sa}]]'],
+			        dayNamesShort: ['[[#{datepicker.Su}]]', '[[#{datepicker.Mo}]]', '[[#{datepicker.Tu}]]', '[[#{datepicker.We}]]', '[[#{datepicker.Th}]]', '[[#{datepicker.Fr}]]', '[[#{datepicker.Sa}]]'],
+			        dayNamesMin: ['[[#{datepicker.Su}]]', '[[#{datepicker.Mo}]]', '[[#{datepicker.Tu}]]', '[[#{datepicker.We}]]', '[[#{datepicker.Th}]]', '[[#{datepicker.Fr}]]', '[[#{datepicker.Sa}]]'],
 			        showMonthAfterYear: true,
-			        yearSuffix: '년'
+			        yearSuffix: '[[#{txt.year}]]'
 			    });	
 				break;
 
@@ -348,7 +349,7 @@
 		var updateTitle = function updateTitle(title) {
 			$("#datepicker").val(formatDate(calendar.getDate()));
 			var titleHtml = title;
-			var calDayShort = title.replace("년", "").replace("월","").replace(" ","");
+			var calDayShort = title.replace("[[#{txt.year}]]", "").replace("[[#{txt.month}]]","").replace(" ","");
 
 			titleHtml = "<div class='datepicker'>"+title+"</div>";
 			
@@ -441,7 +442,7 @@
 						fn_showTable(formatData.filter((v)=>(v.start.startsWith(info.dateStr))));
 					},
 					dayCellContent(a, max_date, date, cell){
-						return a.dayNumberText.replace("일", "");
+						return a.dayNumberText.replace("[[#{txt.day}]]", "");
 					}
 					
 				});
