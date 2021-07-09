@@ -390,7 +390,7 @@ iput {
 	padding: 0.125rem .75rem !important;
 	font-size: 0.74rem !important;
 	border-radius: .2rem !important;
-	height: 23px !important;
+	height: 30px !important;
 }
 
 .page-item {
@@ -449,8 +449,8 @@ button.btn-circle:not(.btn-close) {
 
 .btn-group>.btn.btn-group {
 	font-size: 0.75rem;
-	height: 24px !important;
-	line-height: 1.2;
+    height: 30px !important;
+    line-height: 1.8;
 }
 
 .btn-falcon-default.btn-group {
@@ -625,6 +625,8 @@ table {
 ,#topNewOnlineBtn .svg-inline--fa.fa-w-14 
 ,#topEditBtn .svg-inline--fa.fa-w-18{
     width: 1.025em;
+    position: relative;
+    top: 3px;
 }
 
 #reqTable tr:nth-child(even), #detailTable tr:nth-child(even){	
