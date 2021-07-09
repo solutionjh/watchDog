@@ -144,7 +144,7 @@
 		}
 
 		function fn_Event() {
-			fn_fileList("data", "*.*", "DATA_FILE");
+			fn_fileList("data", ".*", "DATA_FILE");
 			fn_fileList("properties", ".*.properties", "LAYOUT_FILE");
 
 			$infoForm.on("submit", function(e) {
