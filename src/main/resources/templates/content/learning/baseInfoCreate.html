@@ -56,23 +56,24 @@
 										for="makeModelN" id="makeModelYLabel">[[#{txt.makeModelN}]]</label>
 								</div>
 							</div>
-							<div class="col-6 mb-3">
+							<div class="col-12 mb-3">
 								<label class="form-label" for="inputDataFileDropdown"
 									th:data-bs-original-title="#{txt.inputDataFile.ph}"
 									data-bs-toggle="tooltip" data-bs-placement="top"> 
-									[[#{txt.inputDataFile}]]</label> <select class="form-select picker directInput "
+									[[#{txt.inputDataFile}]]</label> <select class="form-select choice picker directInput " multiple="multiple" size="2" 
+									data-options='{"removeItemButton":true,"placeholder":true}'
 									id="inputDataFileDropdown" name="inputDataFileDropdown">
-									<option value="direct">[[#{select.direct.insert}]]</option>
-									<option value="A">A</option>
+									
+									<!-- <option value="direct">[[#{select.direct.insert}]]</option> -->
 								</select>
 							</div>
-							<div class="col-6 mb-3">
+							<!-- <div class="col-6 mb-3">
 								<label class="form-label" for="inputDataFile">
 									&nbsp; </label> <input class="form-control" id="inputDataFile"
 									name="inputDataFile" type="text"
 									th:placeholder="#{txt.inputDataFile.ph}"
 									required />
-							</div>
+							</div> -->
 							<div class="col-6 mb-3">
 								<label class="form-label" for="inputLayoutFileDropdown"
 									th:data-bs-original-title="#{txt.orgin.file.ph}"
@@ -123,7 +124,7 @@
 		var $inputDataFilePathDropdown = $("#inputDataFileDropdown");
 		var $inputLayoutFilePathDropdown = $("#inputLayoutFileDropdown");
 		var $projectNameDropdown = $("#projectNameDropdown");
-
+		var choices = null;
 		$(function() {
 			fn_Event();
 		});
@@ -149,6 +150,23 @@
 			delete data.inputLayoutFileDropdown;
 			delete data.projectNameDropdown;
 			
+			var inputDataFile = "";
+			var directText = $(".choices__input.choices__input--cloned").val();
+			$.each($("#inputDataFileDropdown").val(), function(idx, data){
+				if(idx == 0){
+					inputDataFile = data
+				}else{
+					inputDataFile = inputDataFile + "," + data	
+				}
+				
+			})
+			if(directText){
+				if(!directText.startsWith(",")){
+					directText.substr(1, directText.length)
+				}
+				inputDataFile += directText;
+			}
+			data.inputDataFile = inputDataFile;
 			var param = {
 				method : "PUT",
 				target : "EXCUTE",
@@ -166,6 +184,12 @@
 			
 			$infoForm.on("submit", function(e) {
 				e.preventDefault();
+				if(!$("#inputDataFileDropdown").val().length && ! $(".choices__input.choices__input--cloned").val().length){
+					alertModal('[[#{txt.inputDataFileConfirm}]]');
+					return false;
+				}
+				
+				
 				if ($infoForm[0].checkValidity() === true) {
 					confirmModal('[[#{web.confirm.excute}]]', function() {
 						fn_makeCsv();
@@ -178,13 +202,18 @@
 			switch (target) {
 			case "EXCUTE":
 				alertModal('[[#{web.success.excute}]]');
-				initForm();
+				initForm();				
+				choices.destroy();
+				choices = new Choices('.choice',{
+					placeholder: true,
+					removeItemButton: true
+				});
 				break;
 			case "LAYOUT_FILE":
 				$inputLayoutFilePathDropdown.find("option").remove();
 
 				var listName = data;
-				var html = "<option value='direct'>직접입력</option>";
+				var html = "<option value='direct'>[[#{select.direct.insert}]]</option>";
 
 				$.each(listName, function(index, data) {
 					var simpleData = data.replace(/^.*[\\\/]/, "");
@@ -198,7 +227,7 @@
 				$inputDataFilePathDropdown.find("option").remove();
 
 				var listName = data;
-				var html = "<option value='direct'>직접입력</option>";
+				var html = "<option value=''>Select Data..</option>";
 
 				$.each(listName, function(index, data) {
 					var simpleData = data.replace(/^.*[\\\/]/, "");
@@ -207,12 +236,18 @@
 				});
 				$inputDataFilePathDropdown.append(html);
 				setDropDownEvent();
+				choices = new Choices('.choice',{
+					placeholder: true,
+					removeItemButton: true
+				});
+				
+				$(".choices__input.choices__input--cloned").css("width","")
 				break;
 			case "PROJECT_FILE":
 				$projectNameDropdown.find("option").remove();
 
 				var listName = data;
-				var html = "<option value='direct'>직접입력</option>";
+				var html = "<option value='direct'>[[#{select.direct.insert}]]</option>";
 
 				$.each(listName, function(index, data) {
 					var simpleData = data.replace(/^.*[\\\/]/, "");
