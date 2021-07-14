@@ -682,3 +682,7 @@ table {
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
 	background: #2e7be58f;
 }
+/* 달력 상단 좌우이동 백그라운드 색상 */
+.icon-item:hover, .icon-item:focus{
+	/* background-color: white; */
+}
