@@ -99,6 +99,40 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="row g-3 mb-3 filtering-row" style="display: none;">
+			<div class="col-lg-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="row flex-between-end">
+							<div class="col-auto col-lg align-self-center">
+								<h5 class="mb-0" data-anchor="data-anchor" id="bar-chart">
+									<a class="anchorjs-link " aria-label="Anchor"
+										data-anchorjs-icon="#" href="#bar-chart">[[#{txt.filtering}]]</a>
+								</h5>
+							</div>
+						</div>
+					</div>
+					<div class="card-body bg-200">
+						<div class="row g-3 mb-3">
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label"
+									th:data-bs-original-title="#{txt.filtering.items}"
+									data-bs-toggle="tooltip" data-bs-placement="top">[[#{txt.filtering.items}]]</label>
+								<input class="form-control" id="keyItems" name="keyItems"
+									type="text" th:placeholder="#{txt.filtering.items}" />
+							</div>
+							<div class=" col-sm-6 mb-3">
+								<label class="form-label" 
+									th:data-bs-original-title="#{txt.filtering.keys}">[[#{txt.filtering.keys}]]</label>
+								<input class="form-control" id="targetKeys" name="targetKeys"
+									type="text" th:placeholder="#{txt.filtering.keys}" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="row g-3 mb-3">
 			<div class="col-lg-12 offOnline">
@@ -303,11 +337,16 @@
 											.replace(".properties", "");
 								var columnLength = data.columnLength;
 								var header = data.header;
-
+								var keyItems = data.keyItems;
+								var targetKeys = data.targetKeys;
+								
 								if ($infoForm[0].checkValidity() === true) {
+									if(formatGbData == "json" && (commaCount(keyItems) != commaCount(targetKeys))){
+										alertModal('[[#{txt.layout.filtercomma}]]');
+										return false;
+									}
 									if (data.fixedLayoutYN == "Y"
 											&& (commaCount(columnLength) != commaCount(header))) {
-										/* 고정길이인경우 항목정보 항목길이콤마의 갯수가 같아야 함  */
 										alertModal('[[#{txt.layout.headercomma}]]');
 									} else {
 										confirmModal(
@@ -405,7 +444,9 @@
 
 		function setView(type) {
 			$("#fixedLayoutYN").val("Y").change();
-
+			$(".filtering-row").hide();
+			$("#targetKeys").removeAttr('required');
+			$("#keyItems").removeAttr('required');
 			switch (type) {
 			case "batchNew":/* 신규생성(배치) */
 				$.each($("#info-form .offOnline"), function(idx, data) {
@@ -424,6 +465,11 @@
 					$(this).removeAttr('required');
 					$(this).parent().addClass("d-none");
 				});
+			
+				$(".filtering-row").show();
+				$("#targetKeys").attr('required', '');
+				$("#keyItems").attr('required', ''); //필터링
+				
 				$("#threshold").parent().removeClass("col-sm-4 mb-3");
 				$("#threshold").parent().addClass("col-sm-7 mb-3");
 				$("#projectName").parent().removeClass(" col-sm-6 mb-3");
