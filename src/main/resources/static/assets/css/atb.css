@@ -699,3 +699,7 @@ table {
     font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo", sans-serif;
     font-weight: 300 !important;
 }
+
+.bg-soft-primary{
+	cursor:pointer;
+}

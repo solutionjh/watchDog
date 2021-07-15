@@ -331,14 +331,15 @@
 					
 					fn_fieldItems($projectNameItemDropdown.val(),
 							$regdtItemDropdown.val());
-					tableRefresh();
+					if(gf_IsNull(paramData)){							
+						tableRefresh();
+					}
 				});
 				$('.picker').select2();
 					
 				if(!gf_IsNull(paramData)){					
 					if(paramValidation(data , paramData.recentDtim)){
-						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
-						paramData={};
+						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');						
 					}else{						
 						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
 					} 
@@ -358,6 +359,16 @@
 					tableRefresh();
 				});
 				$('.picker').select2();
+				
+				if(!gf_IsNull(paramData)){		
+					if(paramValidation(data , paramData.fieldName)){
+						$fieldNameDropdown.val(paramData.fieldName).trigger('change');			
+						paramData={};							
+					}else{		
+						alertModal("["+paramData.fieldName+"] "+ '[[#{web.param.valid}]]');						
+					} 
+									
+				}
 				break;
 				
 			default:

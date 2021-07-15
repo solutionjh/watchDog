@@ -118,6 +118,12 @@
 		function alertModal(msg){
 			$('#complete-modal').modal('toggle'); 
 			$("#complete-modal-text").html(msg);
+			
+			$('body').on("keyup", function(key) {
+				if (key.keyCode == 27) {
+					$('#complete-modal').modal('hide');
+				}
+			});
 		}
 		/* confirm modal */
 		function confirmModal(msg, callback){
@@ -130,13 +136,24 @@
 		          callback();
 		        }
 			})
+			$('body').on("keyup", function(key) {
+				if (key.keyCode == 27) {
+					$('#confirm-modal').modal('hide'); 
+				}
+			});
 		}
 		/* session time out modal */
 		function sessionTimeoutModal(){
-			$('#session-timeout-modal').modal('show'); 
+			$('#session-timeout-modal').modal('toggle'); 
 			$("#confirm-ok",$('#session-timeout-modal')).off().on('click',function(){	
 				location.href = "/logout";
 			})
+			
+			$('body').on("keyup", function(key) {
+				if (key.keyCode == 27) {
+					$('#session-timeout-modal').modal('hide'); 
+				}
+			});
 		}
 		
 		
@@ -145,6 +162,13 @@
 /* -------------------------------------------------------------------------- */
 		function multiBoxplotModal(param){
 			$('#boxplot-modal').modal('toggle'); 
+			
+			$('body').on("keyup", function(key) {
+				if (key.keyCode == 27) {
+					$('#boxplot-modal').modal('hide'); 
+				}
+			});
+			
 			
 			if (boxplotChart != null) {
 				boxplotChart.destroy();

@@ -33,8 +33,8 @@
 				</div>
 			</li>
 			<li class="nav-item dropdown">
-				<!-- icon-indicator 알림 처리--> <a
-				class="nav-link notification-indicator notification-indicator-primary px-0"
+				<!-- notification-indicator 알림 처리--> <a
+				class="nav-link  notification-indicator-primary px-0"
 				id="navbarDropdownNotification" href="#" role="button"
 				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="fas fa-bell" data-fa-transform="shrink-6"
@@ -113,13 +113,13 @@
 							html +='	</a>';
 							html +='</div>';
 						});
-						$("#navbarDropdownNotification").addClass('icon-indicator');
+						$("#navbarDropdownNotification").addClass('notification-indicator');
 					}
 					
 					$("#alarmList").html(html);
 					break;
 				case "DELETE":
-					$("#navbarDropdownNotification").removeClass('icon-indicator');
+					$("#navbarDropdownNotification").removeClass('notification-indicator');
 					$("#alarmList").empty();
 					break;
 				default:

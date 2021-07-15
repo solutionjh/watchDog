@@ -186,7 +186,7 @@
 					align : 'right'
 				} ],
 				onClickCell : function(field, value, row, $element) {
-					if(field == "fieldName") moveHistory()
+					if(field == "fieldName") moveHistory(value)
 				},
 				onClickRow : function(row, $element, field) {
 				},
@@ -229,10 +229,11 @@
 			return res;
 		}
 
-		function moveHistory() {
+		function moveHistory(value) {
 			movePageWithParam({
 				projectName : $projectNameItemDropdown.val(),
-				recentDtim : $regdtItemDropdown.val()
+				recentDtim : $regdtItemDropdown.val(),
+				fieldName : value
 			}, '/result/itemRateOfChangeHistory');
 		}
 		function callback(target, data) {
