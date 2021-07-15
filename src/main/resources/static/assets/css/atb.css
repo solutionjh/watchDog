@@ -682,6 +682,13 @@ table {
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover{
 	background: #2e7be58f;
 }
+
+.choices__inner , .choices__inner input , .choices .choices__list--multiple .choices__item, .choices .choices__list--dropdown{
+	font-size: 0.85rem !important;
+    font-family: "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, "Malgun Gothic", helvetica, "Apple SD Gothic Neo", sans-serif;
+    font-weight: 300 !important;
+}
+
 /* 달력 상단 좌우이동 백그라운드 색상 */
 .icon-item:hover, .icon-item:focus{
 	/* background-color: white; */
