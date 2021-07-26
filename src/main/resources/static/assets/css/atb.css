@@ -515,6 +515,7 @@ table {
 	{
 	color: #1862c6;
 	font-weight: 600;
+	cursor: pointer;
 }
 
 .fc .fc-daygrid-event .fc-event-title.fc-sticky {
