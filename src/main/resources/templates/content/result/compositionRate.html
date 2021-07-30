@@ -84,6 +84,8 @@
 				localData =jsonParse(localStorage.getItem("param"));				
 				paramData = localData
 			}
+			
+			if(localData == null) localData = {}	
 						
 			fn_projectNames();
 			fn_Table();
