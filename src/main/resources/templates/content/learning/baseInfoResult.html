@@ -56,8 +56,15 @@
 		var $projectNameItemDropdown = $("#projectNameItemDropdown");
 		var $fieldNameDropdown = $("#fieldNameDropdown");
 		var paramData = {};
+		var localData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
+			localData = jsonParse('[[${paramData}]]');	
+			
+			if(gf_IsNull(paramData)){				
+				localData =jsonParse(localStorage.getItem("param"));
+				paramData = localData
+			}
 			
 			fn_projectNames();
 			fn_Table();
@@ -242,6 +249,13 @@
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
 				$projectNameItemDropdown.change(function() {						
+						
+						if(gf_IsNull($(this).val())){
+							localStorage.clear();
+						}else{
+							localData.projectName = $(this).val();
+							localStorage.setItem("param", JSON.stringify(localData));
+						}
 						tableRefresh();
 						fn_regdtItems($(this).val());
 				});
@@ -252,9 +266,8 @@
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
-					paramData = {};
 				}
 				
 				break;
@@ -269,10 +282,24 @@
 				$fieldNameDropdown.append(html);
 
 				$fieldNameDropdown.off();
-				$fieldNameDropdown.change(function() {					
+				$fieldNameDropdown.change(function() {		
+					
+					localData.fieldName = $(this).val();
+					localStorage.setItem("param", JSON.stringify(localData));
 					tableRefresh();
 				});
 				$('.picker').select2();
+				
+
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.fieldName)){
+					if(paramValidation(data , paramData.fieldName)){
+						$fieldNameDropdown.val(paramData.fieldName).trigger('change');			
+						paramData={};							
+					}else{		
+						//alertModal("["+paramData.fieldName+"] "+ '[[#{web.param.valid}]]');						
+					} 
+									
+				}
 				break;
 
 			default:

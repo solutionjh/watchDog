@@ -117,8 +117,16 @@
 		var $report = $("#goReport");
 		var projectName = "";
 		var paramData = {};
+		var localData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
+			localData = jsonParse('[[${paramData}]]');		
+			
+			if(gf_IsNull(paramData)){				
+				localData =jsonParse(localStorage.getItem("param"));
+				paramData = localData
+			}
+			
 			fn_projectNames();
 			fn_Event();
 		});
@@ -168,8 +176,16 @@
 				$projectNameItemDropdown.off().on(
 						'change',
 						function() {
-							projectName = $(this).val();
 							
+							if(gf_IsNull($(this).val())){
+								localStorage.clear();
+							}else{
+								localData.projectName = $(this).val();
+								localStorage.setItem("param", JSON.stringify(localData));
+							}
+							
+							
+							projectName = $(this).val();
 							gf_IsNull(projectName)							
 								? $report.prop('disabled',true)
 								: $report.prop('disabled', false);
@@ -182,7 +198,7 @@
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
 					paramData = {};
 				}

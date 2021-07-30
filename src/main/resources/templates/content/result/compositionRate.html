@@ -74,10 +74,17 @@
 		var $fieldNameDropdown = $("#fieldNameDropdown");
 		var target_memberId = null;
 		var paramData = {};
+		var localData = {};
 		
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');	
-
+			localData = jsonParse('[[${paramData}]]');	
+				
+			if(gf_IsNull(paramData)){	
+				localData =jsonParse(localStorage.getItem("param"));				
+				paramData = localData
+			}
+						
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
@@ -239,6 +246,13 @@
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
 				$projectNameItemDropdown.change(function() {
+					
+					if(gf_IsNull($(this).val())){
+						localStorage.clear();
+					}else{
+						localData.projectName = $(this).val();
+						localStorage.setItem("param", JSON.stringify(localData));
+					}
 					fn_regdtItems($(this).val());
 				});
 
@@ -249,7 +263,7 @@
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 						$("#project-name").html(paramData.projectName);
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				
@@ -269,16 +283,19 @@
 						function() {
 							fn_fieldItems($projectNameItemDropdown.val(),
 									$regdtItemDropdown.val());
+							
+							localData.recentDtim = $(this).val();
+							localStorage.setItem("param", JSON.stringify(localData));
+							
 							tableRefresh();
 						});
 				$('.picker').select2();
 				
-				if(!gf_IsNull(paramData)){					
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.recentDtim)){			
 					if(paramValidation(data , paramData.recentDtim)){
 						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
-						paramData={};
 					}else{						
-						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				
@@ -295,9 +312,22 @@
 
 				$fieldNameDropdown.off();
 				$fieldNameDropdown.change(function() {
+					localData.fieldName = $(this).val();
+					localStorage.setItem("param", JSON.stringify(localData));
 					tableRefresh();
 				});
 				$('.picker').select2();
+				
+				
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.fieldName)){
+					if(paramValidation(data , paramData.fieldName)){
+						$fieldNameDropdown.val(paramData.fieldName).trigger('change');	
+						paramData={};							
+					}else{		
+						//alertModal("["+paramData.fieldName+"] "+ '[[#{web.param.valid}]]');						
+					} 
+									
+				}
 				break;
 
 			default:

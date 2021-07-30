@@ -83,12 +83,19 @@
 		var $rateInput = $("#rateInput");
 		var $rateBtn = $("#rateBtn");
 		var paramData = {};
+		var localData = {};
 
 		var target_memberId = null;
 
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
-
+			localData = jsonParse('[[${paramData}]]');				
+			
+			if(gf_IsNull(paramData)){				
+				localData =jsonParse(localStorage.getItem("param"));
+				paramData = localData
+			}
+			
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
@@ -256,7 +263,7 @@
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				
@@ -272,15 +279,18 @@
 				$regdtItemDropdown.append(html);
 
 				$regdtItemDropdown.off().change(function() {
+					
+					localData.recentDtim = $(this).val();
+					localStorage.setItem("param", JSON.stringify(localData));
 					tableRefresh();
 				});
 				$('.picker').select2();
-				if(!gf_IsNull(paramData)){					
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.recentDtim)){		
 					if(paramValidation(data , paramData.recentDtim)){
 						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
 						paramData={};
 					}else{						
-						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+						//alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				break;

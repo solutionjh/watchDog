@@ -163,7 +163,8 @@ function bootstrapTableRefresh(target, url ,isPage){
 		responseHandler: responseHandler,
 		detailFormatter:detailFormatter,
 		onLoadError : function(status) {
-			alertModal("[STATUS " + status + "]" )
+			
+			//alertModal("[STATUS " + status + "]" )
 		}
 	})
 }

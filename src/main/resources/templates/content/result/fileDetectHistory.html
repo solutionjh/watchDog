@@ -75,8 +75,15 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $countDropdown = $("#countDropdown");
 		var paramData = {};
+		var localData = {};
 		$(function() {
 			paramData = jsonParse('[[${paramData}]]');
+			localData = jsonParse('[[${paramData}]]');		
+			
+			if(gf_IsNull(paramData)){				
+				localData =jsonParse(localStorage.getItem("param"));
+				paramData = localData
+			}
 			fn_projectNames();
 			fn_Table();
 			fn_Event();
@@ -267,6 +274,13 @@
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off();
 				$projectNameItemDropdown.change(function() {					
+						
+						if(gf_IsNull($(this).val())){
+							localStorage.clear();
+						}else{
+							localData.projectName = $(this).val();
+							localStorage.setItem("param", JSON.stringify(localData));
+						}
 						fn_regdtItems($(this).val());
 				});
 				
@@ -276,7 +290,7 @@
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+					//	alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				
@@ -295,15 +309,18 @@
 					if(gf_IsNull($(this).val())) $countDropdown.val("7").trigger('change');	
 					
 					tableRefresh();
+					
+					localData.recentDtim = $(this).val();
+					localStorage.setItem("param", JSON.stringify(localData));
 				});
 				$('.picker').select2();
 				
-				if(!gf_IsNull(paramData)){					
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.recentDtim)){	
 					if(paramValidation(data , paramData.recentDtim)){
 						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
 						paramData={};
 					}else{						
-						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+					//	alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				break;

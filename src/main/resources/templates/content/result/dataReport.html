@@ -202,10 +202,16 @@
 		var $regdtItemDropdown = $("#regdtimDropdown");
 		var $pdfDownLoad = $("#pdfDownLoad");
 		var projectName = "";
-		var paramData = {};
+		var localData = "";
 		$(function() {			
 			paramData = jsonParse('[[${paramData}]]');	
-
+			localData = jsonParse('[[${paramData}]]');	
+				
+			if(gf_IsNull(paramData)){	
+				localData =jsonParse(localStorage.getItem("param"));
+				paramData = localData
+			}
+			
 			fn_projectNames();
 			fn_Event();
 		});
@@ -301,12 +307,23 @@
 				$projectNameItemDropdown.append(html);
 				$projectNameItemDropdown.off().on(
 						'change',
-						function() {
+						function() {								
+							
+							
+							if(gf_IsNull($(this).val())){
+								localStorage.clear();
+							}else{
+								localData.projectName = $(this).val();
+								localStorage.setItem("param", JSON.stringify(localData));
+								
+							}
+							
 							projectName = $(this).val();		
 							$("#project-name").html($(this).val());
 							
 							if(!projectName) $pdfDownLoad.prop('disabled',true)
-							fn_regdtItems($(this).val());			
+							fn_regdtItems($(this).val());		
+							
 							
 						});
 				$('.picker').select2();
@@ -315,9 +332,9 @@
 					if(paramValidation(data , paramData.projectName)){
 						$projectNameItemDropdown.val(paramData.projectName).trigger('change');
 						$("#project-name").html(paramData.projectName);
-						fn_data();
+						fn_data();						
 					}else{						
-						alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
+					//	alertModal("["+paramData.projectName+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				
@@ -325,7 +342,6 @@
 				
 				
 			case "RECENTDTIM":
-				console.log(data)
 				$(".recentDtim").html(data[0]);
 								
 				var dtim = $regdtItemDropdown.val(); 
@@ -486,16 +502,20 @@
 					? $pdfDownLoad.prop('disabled',true)
 					: $pdfDownLoad.prop('disabled', false);
 					
+					localData.recentDtim = $(this).val();
+					localStorage.setItem("param", JSON.stringify(localData));
+					
 					fn_data();
 				});
 				$('.picker').select2();
+				
 									
-				if(!gf_IsNull(paramData)){					
+				if(!gf_IsNull(paramData) && !gf_IsNull(paramData.recentDtim)){		
 					if(paramValidation(data , paramData.recentDtim)){
 						$regdtItemDropdown.val(paramData.recentDtim).trigger('change');
 						paramData={};
 					}else{						
-						alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
+					//	alertModal("["+paramData.recentDtim+"] "+ '[[#{web.param.valid}]]');						
 					} 
 				}
 				break;	
